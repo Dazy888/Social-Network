@@ -1,38 +1,35 @@
-import React from 'react'
-import {BrowserRouter} from "react-router-dom"
+import React, {useEffect} from 'react'
+import {BrowserRouter, Navigate, Route, Routes, useNavigate} from "react-router-dom"
 import {Provider, useSelector} from "react-redux"
-// Components
-import {Header} from "./Components/Header"
-import {SideBar} from "./Components/Side-Bar"
-import {Content} from "./Components/Content"
-import {LoginPage} from "./Pages/Login-Page"
+// Pages
+import {LoginPage} from "./Pages/Login/Login-Page"
+import {MainPage} from "./Pages/Main/Main-Page";
 
-export function App() {
+function App() {
     const authStatus = false
+    let navigate = useNavigate()
 
-    if (authStatus) {
-        return (
-            <div id={'app-wrapper'}>
-                <Header />
-                <SideBar />
-                <Content />
-            </div>
-        )
-    } else {
-        return (
-            <div id={'wrapper'}>
-                <LoginPage />
-            </div>
-        )
-    }
+    useEffect(() => {
+        if (!authStatus) {
+            navigate('/login')
+        }
+    }, [])
+
+
+    return(
+        <div>
+            <Routes>
+                <Route path={'/'} element={<MainPage />}></Route>
+                <Route path={'/login'} element={<LoginPage />}></Route>
+            </Routes>
+        </div>
+    )
 }
 
-// export function SocialNetwork() {
-//   return (
-//       <BrowserRouter>
-//         <Provider store={}>
-//           <App/>
-//         </Provider>
-//       </BrowserRouter>
-//   )
-// }
+export function SocialNetwork() {
+  return (
+      <BrowserRouter>
+          <App/>
+      </BrowserRouter>
+  )
+}
