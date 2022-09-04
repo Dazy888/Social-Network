@@ -1,7 +1,7 @@
 import UserService from "../service/user-service.js";
 import dotenv from "dotenv"
 import {validationResult} from "express-validator"
-import {ApiError} from "../exceptions/api-error.js";
+import {UserModel} from "../models/user-model.js";
 
 dotenv.config()
 
@@ -9,10 +9,14 @@ class UserController {
     async registration(req, res, next) {
         try {
             const errors = validationResult(req)
-            if (!errors.isEmpty()) return next(ApiError.BadRequest('Validation error', errors.array()))
+            if (!errors.isEmpty()) res.json(errors.array()[0].param)
+
             const {email, password} = req.body
+            if (await UserModel.findOne({email})) res.json(`User with email ${email} already exists`)
             const userData = await UserService.registration(email, password)
+
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+
             return res.json(userData)
         } catch (e) {
             next(e)
@@ -55,7 +59,7 @@ class UserController {
         try {
             const {refreshToken} = req.cookies
             const userData = await UserService.refresh(refreshToken)
-            res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+            res.cookie('refreshToken', refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
             return res.json(userData)
         } catch (e) {
             next(e)
@@ -64,7 +68,8 @@ class UserController {
 
     async getUsers(req, res, next) {
         try {
-            res.json(['123', '123', '123'])
+            const users = await UserService.getAllUsers()
+            return res.json(users)
         } catch (e) {
             next(e)
         }
@@ -72,3 +77,6 @@ class UserController {
 }
 
 export default new UserController()
+
+
+// if (errors) return next(ApiError.BadRequest('Validation error', errors.array()))

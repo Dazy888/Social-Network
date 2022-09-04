@@ -52,6 +52,10 @@
     justify-content: center;
     align-items: center;
 
+    .loader {
+      position: absolute;
+    }
+
     .login__register {
       text-align: center;
 
@@ -71,6 +75,19 @@
     .error-container {
       position: relative;
 
+      .error-text {
+        font-size: 16px;
+        font-weight: 500;
+        position: absolute;
+        left: 5px;
+        top: -25px;
+        color: red;
+      }
+
+      .red-border {
+        border: 2px solid red;
+      }
+
       .error {
         position: absolute;
         color: #f92552;
@@ -88,7 +105,7 @@
       padding: 1.5rem 1.1rem 0.5rem;
       line-height: 1.75;
       border-radius: 5px;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
 
       &:focus {
         color: #212529;
@@ -99,10 +116,10 @@
       }
     }
 
-    .content__remember {
+    .content__checkbox {
       display: flex;
 
-      .remember__input {
+      .checkbox__input {
         width: 20px;
         height: 20px;
         display: block;
