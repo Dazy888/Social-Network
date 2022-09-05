@@ -1,17 +1,23 @@
+// React items
 import React, {useEffect} from 'react'
+// Navigation
 import {BrowserRouter, Route, Routes, useNavigate} from "react-router-dom"
 // Pages
 import {LoginPage} from "./pages/login/Login-Page"
-import {MainPage} from "./pages/main/Main-Page";
-import {connect, Provider} from "react-redux";
-import store, {AppStateType} from "./store/store";
-import {compose} from "redux";
-import {checkAuth, login, registration} from "./store/reducers/auth-reducer";
+import {MainPage} from "./pages/main/Main-Page"
+// Redux
+import {connect, Provider} from "react-redux"
+import store from "./store/store"
+import {compose} from "redux"
+// Props
+import {checkAuth, login, registration} from "./store/reducers/auth-reducer"
+// Types
+import {Login, Registration} from "./pages/login/types/login-types"
 
 type PropsType = {
     checkAuth: () => void
-    login: (email: string, password: string, rememberMe: boolean) => void
-    registration: (email: string, password: string) => number
+    login: Login
+    registration: Registration
 }
 
 function App({checkAuth, login, registration}: PropsType) {
@@ -38,12 +44,7 @@ function App({checkAuth, login, registration}: PropsType) {
     )
 }
 
-let mapStateToProps = (state: AppStateType) => {
-    return ({
-        email: state.auth.user.email
-    })
-}
-
+let mapStateToProps
 const SocialNetworkApp = compose<React.ComponentType>(connect(mapStateToProps, {login, registration, checkAuth}))(App);
 
 export function SocialNetwork() {

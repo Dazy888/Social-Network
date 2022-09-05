@@ -1,20 +1,18 @@
 import {Field, Form, Formik} from "formik"
 import React, {useState} from "react"
-import {LoginLoader} from "./Loader"
+import {LoginLoader} from "./components/Loader"
+import {ErrorMessages} from "./components/ErrorMessages";
+import {ErrorIcons} from "./components/ErrorIcons";
+import {DefaultFunction} from "./Login-Page";
 
 type PropsType = {
     validate: (values: any) => Object
     registration: (email: string, password: string) => any
     navigate: (path: string) => void
+    inputController: (changeInputValue: DefaultFunction, changeFieldError: DefaultFunction,  value: string) => void
 }
 
-type ErrorTextsPropsType = {
-    error: string
-    serverError: string
-    touched: string
-}
-
-export function SignUp({registration, navigate, validate}: PropsType) {
+export function SignUp({registration, navigate, validate, inputController}: PropsType) {
     const [email, changeEmail] = useState<string>('')
     const [loading, changeLoadingStatus] = useState<boolean>(false)
     const [password, changePassword] = useState<string>('')
@@ -35,31 +33,6 @@ export function SignUp({registration, navigate, validate}: PropsType) {
         }
     }
 
-
-    function inputController(changeFunc: (value: string) => void, value: string, e: any): void {
-        changeEmailError('')
-        changePasswordError('')
-        changeFunc(value)
-    }
-
-    function ErrorTexts({serverError, error, touched}: ErrorTextsPropsType) {
-        return(
-            <div>
-                {error && touched ? <span className={'error-text'}>{error}</span> : null}
-                {serverError ? <span className={'error-text'}>{serverError}</span> : null}
-            </div>
-        )
-    }
-
-    function ErrorCircles({serverError, error, touched}: ErrorTextsPropsType) {
-        return(
-            <div>
-                {error && touched ? <i className="fa-solid fa-circle-exclamation error"></i> : null}
-                {serverError ? <i className="fa-solid fa-circle-exclamation error"></i> : null}
-            </div>
-        )
-    }
-
     function showPassword() {
         const input: any = document.querySelector('input[name=password]')
 
@@ -75,14 +48,14 @@ export function SignUp({registration, navigate, validate}: PropsType) {
             {({ errors, touched }: any) => (
                 <Form>
                     <div className={'error-container'}>
-                        <ErrorTexts error={errors.email} serverError={emailError} touched={touched.email}/>
-                        <Field className={`${errors.email && touched.email || emailError ? 'red-border' : ''}`} value={email} onChange={(e: any) => inputController(changeEmail, e.target.value, e)} name={'email'} type={'email'} placeholder={'Your Email'}/>
-                        <ErrorCircles error={errors.email} serverError={emailError} touched={touched.email}/>
+                        <ErrorMessages error={errors.email} serverError={emailError} touched={touched.email}/>
+                        <Field className={`${errors.email && touched.email || emailError ? 'red-border' : ''}`} value={email} onChange={(e: any) => inputController(changeEmail, changeEmailError, e.target.value)} name={'email'} type={'email'} placeholder={'Your Email'}/>
+                        <ErrorIcons error={errors.email} serverError={emailError} touched={touched.email}/>
                     </div>
                     <div className={'error-container'}>
-                        <ErrorTexts error={errors.password} serverError={passwordError} touched={touched.password}/>
-                        <Field value={password} minLength={8} maxLength={10} onChange={(e: any) => inputController(changePassword, e.target.value, e)} className={`${errors.password && touched.password || passwordError ? 'red-border' : ''}`} name={'password'} type={'password'} placeholder={'Your Password'}/>
-                        <ErrorCircles error={errors.password} serverError={passwordError} touched={touched.password}/>
+                        <ErrorMessages error={errors.password} serverError={passwordError} touched={touched.password}/>
+                        <Field value={password} minLength={8} maxLength={10} onChange={(e: any) => inputController(changePassword, changePasswordError, e.target.value)} className={`${errors.password && touched.password || passwordError ? 'red-border' : ''}`} name={'password'} type={'password'} placeholder={'Your Password'}/>
+                        <ErrorIcons error={errors.password} serverError={passwordError} touched={touched.password}/>
                     </div>
                     <div className={'content__checkbox'}>
                         <Field onClick={showPassword} className={'checkbox__input'} name={'rememberMe'} type={'checkbox'} />

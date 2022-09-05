@@ -1,11 +1,15 @@
+// React
 import React from "react"
+// Navigation
+import {Route, Routes} from "react-router-dom"
+// Components
+import {SignIn} from "./Sign-In"
+import {SignUp} from "./Sign-Up"
+// CSS
 import './Login.css'
-import {Route, Routes} from "react-router-dom";
-import {SignIn} from "./components/Sign-In";
-import {SignUp} from "./components/Sign-Up";
 
 type PropsType = {
-    login: (email: string, password: string, rememberMe: boolean) => void
+    login: (email: string, password: string) => void
     registration: (email: string, password: string) => any
     navigate: (path: string) => void
 }
@@ -15,6 +19,8 @@ export type FormValues = {
     password: string
     rememberMe?: boolean
 }
+
+export type DefaultFunction = (value: string) => void
 
 export function LoginPage({login, registration, navigate}: PropsType) {
     const actions: any = React.createRef()
@@ -37,6 +43,11 @@ export function LoginPage({login, registration, navigate}: PropsType) {
         return errors
     }
 
+    function inputController(changeInputValue: Function, changeFieldError: Function, value: string): void {
+        changeFieldError('')
+        changeInputValue(value)
+    }
+
     function choseAction(e: any) {
         if (actions.current.querySelector('.active-action')) actions.current.querySelector('.active-action').classList.remove('active-action')
         e.target.classList.add('active-action')
@@ -55,8 +66,8 @@ export function LoginPage({login, registration, navigate}: PropsType) {
                 </div>
                 <div className={'login__content'}>
                     <Routes>
-                        <Route path={'/sign-in'} element={<SignIn navigate={navigate} login={login} validate={validate}/>}/>
-                        <Route path={'/sign-up'} element={<SignUp navigate={navigate} registration={registration}validate={validate}/>}/>
+                        <Route path={'/sign-in'} element={<SignIn inputController={inputController} navigate={navigate} login={login} validate={validate}/>}/>
+                        <Route path={'/sign-up'} element={<SignUp inputController={inputController} navigate={navigate} registration={registration}validate={validate}/>}/>
                     </Routes>
                 </div>
             </div>

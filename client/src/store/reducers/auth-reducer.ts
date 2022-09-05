@@ -41,11 +41,19 @@ export const actions = {
     } as const)
 }
 
-export const login = (email: string, password: string, rememberMe: boolean): ThunkType => async (dispatch) => {
-    const response = await AuthService.login(email, password);
+export const login = (email: string, password: string) => async (dispatch: any) => {
+    const response: any = await AuthService.login(email, password)
+
+    if (response.data === 'Invalid password') {
+        return {field: 'password', message: response.data}
+    } else if (/User with this/.test(response.data)) {
+        return {field: 'email', message: response.data}
+    }
+
     localStorage.setItem('token', response.data.accessToken)
     dispatch(actions.setAuthStatus(true))
     dispatch(actions.setUserData(response.data.user.email, response.data.user.password, response.data.user.isActivated))
+    return response.status
 }
 
 export const registration = (email: string, password: string) => async (dispatch: any) => {
@@ -53,8 +61,8 @@ export const registration = (email: string, password: string) => async (dispatch
 
     if (response.data === 'email' || response.data === 'password') {
         return {fieldName: response.data, message: `You entered invalid ${response.data}`}
-    } else if (/User with email/.test(response.data)) {
-        return {message: `User with this email already exists`}
+    } else if (/User with this/.test(response.data)) {
+        return {message: response.data}
     }
 
     localStorage.setItem('token', response.data.accessToken)
