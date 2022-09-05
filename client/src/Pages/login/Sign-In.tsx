@@ -1,21 +1,19 @@
-import {Field, Form, Formik} from "formik";
-import React, {useState} from "react";
-import {ErrorMessages} from "./components/ErrorMessages";
-import {ErrorIcons} from "./components/ErrorIcons";
-import {DefaultFunction} from "./Login-Page";
-import {LoginLoader} from "./components/Loader";
+// React
+import React, {useState} from "react"
+// Formik
+import {Field, Form, Formik} from "formik"
+// Components
+import {ErrorMessages} from "./components/ErrorMessages"
+import {ErrorIcons} from "./components/ErrorIcons"
+import {LoginLoader} from "./components/Loader"
+// Types
+import {InputController, Login, Navigate, Response, Validate} from "./types/login-types"
 
 type PropsType = {
-    validate: (values: FormValues) => Object
-    login: (email: string, password: string) => any
-    navigate: (path: string) => void
-    inputController: (changeInputValue: DefaultFunction, changeFieldError: DefaultFunction,  value: string) => void
-}
-
-type FormValues = {
-    email: string
-    password: string
-    rememberMe?: boolean
+    validate: Validate
+    login: Login
+    navigate: Navigate
+    inputController: InputController
 }
 
 export function SignIn({login, navigate, inputController, validate}: PropsType) {
@@ -28,7 +26,7 @@ export function SignIn({login, navigate, inputController, validate}: PropsType) 
     async function submit(email: string, password: string) {
         // const checkBox: any = document.querySelector('input[name=rememberMe]')
         changeLoadingStatus(true)
-        const response: any = await login(email, password)
+        const response: Response = await login(email, password)
         changeLoadingStatus(false)
 
         if (response === 200) {

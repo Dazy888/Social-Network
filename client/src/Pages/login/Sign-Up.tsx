@@ -1,15 +1,19 @@
-import {Field, Form, Formik} from "formik"
+// React
 import React, {useState} from "react"
+// Formik
+import {Field, Form, Formik} from "formik"
+// Components
 import {LoginLoader} from "./components/Loader"
-import {ErrorMessages} from "./components/ErrorMessages";
-import {ErrorIcons} from "./components/ErrorIcons";
-import {DefaultFunction} from "./Login-Page";
+import {ErrorMessages} from "./components/ErrorMessages"
+import {ErrorIcons} from "./components/ErrorIcons"
+// Types
+import {InputController, Navigate, Registration, Response, Validate} from "./types/login-types"
 
 type PropsType = {
-    validate: (values: any) => Object
-    registration: (email: string, password: string) => any
-    navigate: (path: string) => void
-    inputController: (changeInputValue: DefaultFunction, changeFieldError: DefaultFunction,  value: string) => void
+    validate: Validate
+    registration: Registration
+    navigate: Navigate
+    inputController: InputController
 }
 
 export function SignUp({registration, navigate, validate, inputController}: PropsType) {
@@ -21,12 +25,12 @@ export function SignUp({registration, navigate, validate, inputController}: Prop
 
     async function submit(email: string, password: string) {
         changeLoadingStatus(true)
-        const response = await registration(email, password)
+        const response: Response = await registration(email, password)
         changeLoadingStatus(false)
 
         if (response === 200) {
             navigate('/')
-        } else if (response.fieldName === 'email' || /User with this/.test(response.message)) {
+        } else if (response.field === 'email' || /User with this/.test(response.message)) {
             changeEmailError(response.message)
         } else {
             changePasswordError(response.message)

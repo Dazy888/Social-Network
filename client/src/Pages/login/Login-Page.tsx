@@ -1,5 +1,5 @@
 // React
-import React from "react"
+import React, {SyntheticEvent} from "react"
 // Navigation
 import {Route, Routes} from "react-router-dom"
 // Components
@@ -7,20 +7,14 @@ import {SignIn} from "./Sign-In"
 import {SignUp} from "./Sign-Up"
 // CSS
 import './Login.css'
+// Types
+import {DefaultFunction, FormValues, Login, Navigate, Registration} from "./types/login-types"
 
 type PropsType = {
-    login: (email: string, password: string) => void
-    registration: (email: string, password: string) => any
-    navigate: (path: string) => void
+    login: Login
+    registration: Registration
+    navigate: Navigate
 }
-
-export type FormValues = {
-    email: string
-    password: string
-    rememberMe?: boolean
-}
-
-export type DefaultFunction = (value: string) => void
 
 export function LoginPage({login, registration, navigate}: PropsType) {
     const actions: any = React.createRef()
@@ -43,14 +37,14 @@ export function LoginPage({login, registration, navigate}: PropsType) {
         return errors
     }
 
-    function inputController(changeInputValue: Function, changeFieldError: Function, value: string): void {
+    function inputController(changeInputValue: DefaultFunction, changeFieldError: DefaultFunction, value: string): void {
         changeFieldError('')
         changeInputValue(value)
     }
 
-    function choseAction(e: any) {
+    function choseAction(event: any) {
         if (actions.current.querySelector('.active-action')) actions.current.querySelector('.active-action').classList.remove('active-action')
-        e.target.classList.add('active-action')
+        event.target.classList.add('active-action')
     }
 
     return (

@@ -8,9 +8,6 @@ import {ApiError} from "../exceptions/api-error.js"
 
 class UserService {
     async registration(email, password) {
-        const candidate = await UserModel.findOne({email})
-        if (candidate) throw ApiError.BadRequest(`User with email ${email} already exists`)
-
         const hashPassword = await bcrypt.hash(password, 3)
         const activationLink = uuidv4()
 
@@ -34,13 +31,8 @@ class UserService {
         await user.save()
     }
 
-    async login(email, password) {
+    async login(email) {
         const user = await UserModel.findOne({email})
-        if (!user) throw ApiError.BadRequest(`User with email ${email} doesn't exists`)
-
-        const isPassEquals = await bcrypt.compare(password, user.password)
-        if (!isPassEquals) throw ApiError.BadRequest(`Invalid password`)
-
         const userDto = new UserDto(user)
 
         const tokens = TokenService.generateTokens({...userDto})
