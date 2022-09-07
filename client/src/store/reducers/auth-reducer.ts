@@ -21,7 +21,6 @@ export const authReducer = (state = initialState, action: ActionsType): InitialS
                 isAuth: action.status
             }
         case 'SN/auth/SET_USER_DATA':
-            console.log(action)
             return {
                 ...state,
                 ...action.payload
@@ -47,8 +46,6 @@ export const login = (email: string, password: string): ThunkType => async (disp
     } else if (/User with this/.test(response.data)) {
         return {field: 'email', message: response.data}
     }
-
-    console.log(response)
 
     localStorage.setItem('token', response.data.accessToken)
     dispatch(actions.setAuthStatus(true))

@@ -1,9 +1,12 @@
-import {UserModel} from "../models/user-model.js"
+// Libraries
 import bcrypt from "bcrypt"
+import { v4 as uuidv4 } from 'uuid'
+// Models
+import {UserModel} from "../models/user-model.js"
+import {UserDto} from "../dtos/user-dto.js"
+// Services
 import MailService from "./mail-service.js"
 import TokenService from "./token-service.js"
-import UserDto from "../dtos/user-dto.js"
-import { v4 as uuidv4 } from 'uuid'
 import {ApiError} from "../exceptions/api-error.js"
 
 class UserService {
@@ -27,8 +30,9 @@ class UserService {
     async activate(activationLink) {
         const user = await UserModel.findOne({activationLink})
         if (!user) throw ApiError.BadRequest('Invalid activation link')
+
         user.isActivated = true
-        await user.save()
+        user.save()
     }
 
     async login(email) {
@@ -51,12 +55,15 @@ class UserService {
 
     async refresh(refreshToken) {
         if (!refreshToken) throw ApiError.UnauthorizedError()
+
         const userData = TokenService.validateRefreshToken(refreshToken)
         const tokenFromDb = await TokenService.findToken(refreshToken)
         if (!userData || !tokenFromDb) throw ApiError.UnauthorizedError()
+
         const user = await UserModel.findById(userData.id)
         const userDto = new UserDto(user)
         const tokens = TokenService.generateTokens({...userDto})
+
         return {
             ...tokens,
             user: userDto

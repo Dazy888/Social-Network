@@ -1,4 +1,5 @@
-import nodemailer from "nodemailer";
+// Libraries
+import nodemailer from "nodemailer"
 import dotenv from "dotenv"
 
 dotenv.config()
@@ -18,7 +19,6 @@ class MailService {
 
 
     async sendActivationMail(to, link) {
-        console.log(this.transporter)
         await this.transporter.sendMail({
             from: process.env.SMTP_USER,
             to,

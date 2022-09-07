@@ -1,8 +1,11 @@
-import UserService from "../service/user-service.js";
+// Libraries
 import dotenv from "dotenv"
 import {validationResult} from "express-validator"
-import {UserModel} from "../models/user-model.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcrypt"
+// Services
+import UserService from "../service/user-service.js"
+// Models
+import {UserModel} from "../models/user-model.js"
 
 dotenv.config()
 
@@ -26,7 +29,6 @@ class UserController {
     async login(req, res, next) {
         try {
             const {email, password} = req.body
-
             const user = await UserModel.findOne({email})
             if (!user) res.json(`User with this email doesn't exist`)
 
@@ -46,6 +48,7 @@ class UserController {
         try {
             const {refreshToken} = req.cookies
             const token = await UserService.logout(refreshToken)
+
             res.clearCookie('refreshToken')
             return res.json(token)
         } catch (e) {
@@ -55,8 +58,7 @@ class UserController {
 
     async activate(req, res, next) {
         try {
-            const activationLink = req.params.link
-            await UserService.activate(activationLink)
+            await UserService.activate(req.params.link)
             return res.redirect(process.env.CLIENT_URL)
         } catch (e) {
             next(e)
@@ -67,6 +69,7 @@ class UserController {
         try {
             const {refreshToken} = req.cookies
             const userData = await UserService.refresh(refreshToken)
+
             res.cookie('refreshToken', refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
             return res.json(userData)
         } catch (e) {
@@ -85,6 +88,3 @@ class UserController {
 }
 
 export default new UserController()
-
-
-// if (errors) return next(ApiError.BadRequest('Validation error', errors.array()))

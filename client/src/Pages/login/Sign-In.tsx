@@ -24,7 +24,6 @@ export function SignIn({login, navigate, inputController, validate}: PropsType) 
     const [passwordError, changePasswordError] = useState<string>('')
 
     async function submit(email: string, password: string) {
-        // const checkBox: any = document.querySelector('input[name=rememberMe]')
         changeLoadingStatus(true)
         const response: Response = await login(email, password)
         changeLoadingStatus(false)
@@ -49,13 +48,9 @@ export function SignIn({login, navigate, inputController, validate}: PropsType) 
                     </div>
                     <div className={'error-container'}>
                         <ErrorMessages error={errors.password} serverError={passwordError} touched={touched.password}/>
-                        <Field value={password} onChange={(e: any) => inputController(changePassword, changePasswordError, e.target.value)} minLength={8} maxLength={10} className={`${errors.password && touched.password || passwordError ? 'red-border' : ''}`} name={'password'} type={'password'} placeholder={'Your Password'} />
+                        <Field value={password} onChange={(e: any) => inputController(changePassword, changePasswordError, e.target.value)} className={`${errors.password && touched.password || passwordError ? 'red-border' : ''}`} name={'password'} type={'password'} placeholder={'Your Password'} minLength={8} maxLength={10}/>
                         <ErrorIcons error={errors.password} serverError={passwordError} touched={touched.password}/>
                     </div>
-                    {/*<div className={'content__checkbox'}>*/}
-                    {/*    <Field className={'checkbox__input'} name={'rememberMe'} type={'checkbox'} />*/}
-                    {/*    <label>Remember Me</label>*/}
-                    {/*</div>*/}
                     <Field className={'content__submit'} name={'submit'} type={'submit'} value={'Sign in'} />
                     <LoginLoader loading={loading}/>
                 </Form>

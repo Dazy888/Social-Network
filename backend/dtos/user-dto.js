@@ -1,4 +1,4 @@
-class UserDto {
+export class UserDto {
     email;
     id;
     isActivated;
@@ -9,5 +9,3 @@ class UserDto {
         this.isActivated = model.isActivated
     }
 }
-
-export default UserDto

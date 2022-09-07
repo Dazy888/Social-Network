@@ -1,23 +1,28 @@
 // React
-import React, {SyntheticEvent} from "react"
+import React, {useState} from "react"
 // Navigation
 import {Route, Routes} from "react-router-dom"
 // Components
 import {SignIn} from "./Sign-In"
 import {SignUp} from "./Sign-Up"
 // CSS
-import './Login.css'
+import './styles/Login.css'
 // Types
 import {DefaultFunction, FormValues, Login, Navigate, Registration} from "./types/login-types"
+import {Modal} from "./components/Modal";
 
 type PropsType = {
+    isActivated: boolean
     login: Login
     registration: Registration
     navigate: Navigate
 }
 
-export function LoginPage({login, registration, navigate}: PropsType) {
+export function LoginPage({login, registration, navigate, isActivated}: PropsType) {
     const actions: any = React.createRef()
+    const [modalStatus, setModalStatus] = useState(false)
+
+    if (isActivated) navigate('/')
 
     const validate = (values: FormValues) => {
         const errors: any = {}
@@ -49,6 +54,7 @@ export function LoginPage({login, registration, navigate}: PropsType) {
 
     return (
         <div id={'login-wrapper'}>
+            {modalStatus ? <Modal setModelStatus={setModalStatus}/> : null}
             <div className={'login'}>
                 <div onClick={choseAction} className={'login__actions'} ref={actions}>
                     <button className={'actions__login active-action'} onClick={() => navigate('/login/sign-in')}>
@@ -61,7 +67,7 @@ export function LoginPage({login, registration, navigate}: PropsType) {
                 <div className={'login__content'}>
                     <Routes>
                         <Route path={'/sign-in'} element={<SignIn inputController={inputController} navigate={navigate} login={login} validate={validate}/>}/>
-                        <Route path={'/sign-up'} element={<SignUp inputController={inputController} navigate={navigate} registration={registration}validate={validate}/>}/>
+                        <Route path={'/sign-up'} element={<SignUp setModalStatus={setModalStatus} inputController={inputController} registration={registration}validate={validate}/>}/>
                     </Routes>
                 </div>
             </div>

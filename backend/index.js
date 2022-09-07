@@ -1,11 +1,14 @@
+// Libraries
 import cors from "cors"
 import express from "express"
 import chalk from "chalk"
 import dotenv from "dotenv"
 import mongoose from "mongoose"
 import cookieParser from "cookie-parser"
+// Router
 import router from "./router/index.js"
-import {ErrorMiddleware} from "./middlewares/error-middleware.js";
+// Middleware
+import {ErrorMiddleware} from "./middlewares/error-middleware.js"
 
 dotenv.config()
 
@@ -26,12 +29,11 @@ app.use(ErrorMiddleware)
 
 const start = async () => {
     try {
-        await mongoose.connect(process.env.DB_URL, {useNewUrlParser: true, useUnifiedTopology: true})
-                .then(res => console.log(successMsg('Connected to DB')))
-                .catch(error => console.log(errorMsg(error.message)))
+        mongoose.connect(process.env.DB_URL,  {useNewUrlParser: true, useUnifiedTopology: true}, () => console.log(successMsg('Connected to DB')))
     } catch (e) {
         console.log(e)
     }
+
     app.listen(PORT, (error) => error ? console.log(errorMsg(error.message)) : console.log(successMsg(`Server started on ${PORT} PORT`)))
 }
 

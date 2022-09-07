@@ -7,13 +7,13 @@ import {LoginPage} from "./pages/login/Login-Page"
 import {MainPage} from "./pages/main/Main-Page"
 // Redux
 import {connect, Provider, useSelector} from "react-redux"
-import store, {AppStateType} from "./store/store"
+import store from "./store/store"
 import {compose} from "redux"
 // Props
 import {checkAuth, login, logout, registration} from "./store/reducers/auth-reducer"
 // Types
 import {Login, Registration} from "./pages/login/types/login-types"
-import {getEmail} from "./store/reducers/auth-selectors";
+import {getActivatedStatus, getEmail} from "./store/reducers/auth-selectors";
 
 type PropsType = {
     checkAuth: () => void
@@ -25,9 +25,9 @@ type PropsType = {
 function App({checkAuth, login, registration, logout}: PropsType) {
     let navigate = useNavigate()
     const email = useSelector(getEmail)
+    const isActivated = useSelector(getActivatedStatus)
 
     useEffect( () => {
-        // localStorage.removeItem('token')
         if (localStorage.getItem('token')) {
             checkAuth()
             navigate('/')
@@ -41,7 +41,7 @@ function App({checkAuth, login, registration, logout}: PropsType) {
         <div>
             <Routes>
                 <Route path={'/'} element={<MainPage userName={email} logout={logout}/>}></Route>
-                <Route path={'/login/*'} element={<LoginPage navigate={navigate} login={login} registration={registration}/>}></Route>
+                <Route path={'/login/*'} element={<LoginPage isActivated={isActivated} navigate={navigate} login={login} registration={registration}/>}></Route>
             </Routes>
         </div>
     )

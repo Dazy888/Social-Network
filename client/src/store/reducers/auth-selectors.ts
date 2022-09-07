@@ -7,3 +7,7 @@ export const getEmail = (state: AppStateType) => {
 export const getAuthStatus = (state: AppStateType) => {
     return state.auth.isAuth
 }
+
+export const getActivatedStatus = (state: AppStateType) => {
+    return state.auth.isActivated
+}
