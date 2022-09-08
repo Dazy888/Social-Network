@@ -8,14 +8,20 @@ import {UserDto} from "../dtos/user-dto.js"
 import MailService from "./mail-service.js"
 import TokenService from "./token-service.js"
 import {ApiError} from "../exceptions/api-error.js"
+import axios from "axios";
 
 class UserService {
-    async registration(email, password) {
-        const hashPassword = await bcrypt.hash(password, 3)
-        const activationLink = uuidv4()
+    async humanValidation(token) {
+        const response = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`)
+        if (!response.data.success) throw ApiError.BadRequest("Don't fool us bot")
+    }
 
-        const user = await UserModel.create({email, password: hashPassword, activationLink})
-        await MailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`)
+    async registration(login, password) {
+        const hashPassword = await bcrypt.hash(password, 3)
+        // const activationLink = uuidv4()
+        // await MailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`)
+
+        const user = await UserModel.create({login, password: hashPassword})
 
         const userDto = new UserDto(user)
         const tokens = TokenService.generateTokens({...userDto})
@@ -35,8 +41,8 @@ class UserService {
         user.save()
     }
 
-    async login(email) {
-        const user = await UserModel.findOne({email})
+    async login(login) {
+        const user = await UserModel.findOne({login})
         const userDto = new UserDto(user)
 
         const tokens = TokenService.generateTokens({...userDto})

@@ -35,10 +35,8 @@
       border: none;
       cursor: pointer;
       background: transparent;
-
       color: #c0c4d8;
       font-size: 21px;
-
 
       &:first-child {
         border-bottom: 1px solid #e6ecf5;
@@ -51,6 +49,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 
     .loader {
       position: absolute;

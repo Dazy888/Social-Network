@@ -4,6 +4,7 @@ import {AxiosResponse} from "axios"
 import {BaseThunkType, InferActionsTypes} from '../store'
 // Service
 import {AuthService} from "../../services/AuthService"
+import {ServerError} from "../../pages/login/types/login-types";
 
 let initialState = {
     email: '' as string,
@@ -38,33 +39,25 @@ export const actions = {
     setUserData: (email: string, isActivated: boolean) => ({type: 'SN/auth/SET_USER_DATA', payload: {email, isActivated}} as const)
 }
 
-export const login = (email: string, password: string): ThunkType => async (dispatch) => {
-    const response: any = await AuthService.login(email, password)
+export const login = (login: string, password: string, token: string) => async (dispatch: any) => {
+    const response: AxiosResponse & ServerError = await AuthService.login(login, password, token)
 
-    if (response.data === 'Invalid password') {
-        return {field: 'password', message: response.data}
-    } else if (/User with this/.test(response.data)) {
-        return {field: 'email', message: response.data}
-    }
+    if (response.field) return response
 
     localStorage.setItem('token', response.data.accessToken)
     dispatch(actions.setAuthStatus(true))
-    dispatch(actions.setUserData(response.data.user.email, response.data.user.isActivated))
+    dispatch(actions.setUserData(response.data.user.login, response.data.user.isActivated))
     return response.status
 }
 
-export const registration = (email: string, password: string) => async (dispatch: any) => {
-    const response: AxiosResponse = await AuthService.registration(email, password)
+export const registration = (login: string, password: string, token: string) => async (dispatch: any) => {
+    let response: AxiosResponse & ServerError = await AuthService.registration(login, password, token)
 
-    if (response.data === 'email' || response.data === 'password') {
-        return {fieldName: response.data, message: `You entered invalid ${response.data}`}
-    } else if (/User with this/.test(response.data)) {
-        return {message: response.data}
-    }
+    if (response.field) return response
 
     localStorage.setItem('token', response.data.accessToken)
     dispatch(actions.setAuthStatus(true))
-    dispatch(actions.setUserData(response.data.user.email, response.data.user.isActivated))
+    dispatch(actions.setUserData(response.data.user.login, response.data.user.isActivated))
     return response.status
 }
 

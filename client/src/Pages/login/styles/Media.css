@@ -1,0 +1,48 @@
+@media screen and (max-width: 735px) {
+  .login {
+    width: 450px;
+    height: 700px;
+  }
+  .login .login__actions {
+    width: 100px;
+  }
+  .login .login__actions button {
+    font-size: 21px;
+  }
+  .login .login__content .login__register .register__title {
+    font-size: 30px;
+    margin-bottom: 40px;
+  }
+  .login .login__content .login__register .register__link {
+    font-size: 25px;
+  }
+  .login .login__content .error-container .error-text {
+    font-size: 16px;
+    font-weight: 500;
+    left: 5px;
+    top: -25px;
+  }
+  .login .login__content .error-container .error {
+    font-size: 20px;
+    right: 10px;
+    top: 18px;
+  }
+  .login .login__content input {
+    width: 300px;
+    height: 20px;
+    padding: 1.5rem 1.1rem 0.5rem;
+    line-height: 1.75;
+    margin-bottom: 30px;
+  }
+  .login .login__content .content__checkbox .checkbox__input {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+  .login .login__content .content__submit {
+    width: 337px;
+    height: 50px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+}

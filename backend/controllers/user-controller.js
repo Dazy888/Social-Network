@@ -1,6 +1,5 @@
 // Libraries
 import dotenv from "dotenv"
-import {validationResult} from "express-validator"
 import bcrypt from "bcrypt"
 // Services
 import UserService from "../service/user-service.js"
@@ -12,13 +11,16 @@ dotenv.config()
 class UserController {
     async registration(req, res, next) {
         try {
-            const errors = validationResult(req)
-            if (!errors.isEmpty()) res.json(errors.array()[0].param)
+            const {login, password, token} = req.body
+            await UserService.humanValidation(token)
 
-            const {email, password} = req.body
-            if (await UserModel.findOne({email})) res.json(`User with this email already exists`)
-            const userData = await UserService.registration(email, password)
+            if (await UserModel.findOne({login})) {
+                res.status(400)
+                res.json(`User with this login already exists`)
+                return
+            }
 
+            const userData = await UserService.registration(login, password)
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
             return res.json(userData)
         } catch (e) {
@@ -28,15 +30,24 @@ class UserController {
 
     async login(req, res, next) {
         try {
-            const {email, password} = req.body
-            const user = await UserModel.findOne({email})
-            if (!user) res.json(`User with this email doesn't exist`)
+            const {login, password, token} = req.body
+            await UserService.humanValidation(token)
+
+            const user = await UserModel.findOne({login})
+            if (!user) {
+                res.status(400)
+                res.json(`User with this login doesn't exist`)
+                return
+            }
 
             const isPassEquals = await bcrypt.compare(password, user.password)
-            if (!isPassEquals) res.json('Invalid password')
+            if (!isPassEquals) {
+                res.status(400)
+                res.json('Wrong password')
+                return
+            }
 
-            const userData = await UserService.login(email)
-
+            const userData = await UserService.login(login)
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
             return res.json(userData)
         } catch (e) {

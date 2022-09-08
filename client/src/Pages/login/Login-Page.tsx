@@ -9,33 +9,26 @@ import {SignUp} from "./Sign-Up"
 import './styles/Login.css'
 // Types
 import {DefaultFunction, FormValues, Login, Navigate, Registration} from "./types/login-types"
-import {Modal} from "./components/Modal";
+import {Modal} from "./components/Modal"
 
 type PropsType = {
-    isActivated: boolean
     login: Login
     registration: Registration
     navigate: Navigate
 }
 
-export function LoginPage({login, registration, navigate, isActivated}: PropsType) {
+export function LoginPage({login, registration, navigate}: PropsType) {
     const actions: any = React.createRef()
     const [modalStatus, setModalStatus] = useState(false)
-
-    if (isActivated) navigate('/')
 
     const validate = (values: FormValues) => {
         const errors: any = {}
 
-        if (!values.email) {
-            errors.email = 'Email is required'
-        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-            errors.email = 'Invalid email address'
-        }
+        if (!values.userName) errors.userName = 'Login is required'
 
         if (!values.password) {
             errors.password = 'Password is required'
-        } else if (/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$/i.test(values.password)) {
+        } else if (!/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}/i.test(values.password)) {
             errors.password = 'Invalid password'
         }
 
@@ -67,7 +60,7 @@ export function LoginPage({login, registration, navigate, isActivated}: PropsTyp
                 <div className={'login__content'}>
                     <Routes>
                         <Route path={'/sign-in'} element={<SignIn inputController={inputController} navigate={navigate} login={login} validate={validate}/>}/>
-                        <Route path={'/sign-up'} element={<SignUp setModalStatus={setModalStatus} inputController={inputController} registration={registration}validate={validate}/>}/>
+                        <Route path={'/sign-up'} element={<SignUp navigate={navigate} inputController={inputController} registration={registration}validate={validate}/>}/>
                     </Routes>
                 </div>
             </div>

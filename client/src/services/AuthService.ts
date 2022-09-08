@@ -5,12 +5,34 @@ import {AxiosResponse} from "axios"
 import {AuthResponse} from "../models/response/AuthResponse"
 
 export class AuthService {
-    static async login(email: string, password: string): Promise<AxiosResponse<AuthResponse>> {
-        return $api.post<AuthResponse>('login', {email, password})
+    static async registration(login: string, password: string, token: string): Promise<any> {
+        let response: any
+        await $api.post<AuthResponse>('registration', {login, password, token})
+            .then(res => response = res)
+            .catch((e) => response = e.response.data)
+
+        if (/User with this/.test(response)) {
+            return {field: 'login', message: response}
+        } else if (/Please/.test(response)) {
+            return response
+        }
+
+        return response
     }
 
-    static async registration(email: string, password: string): Promise<AxiosResponse<AuthResponse>> {
-        return $api.post<AuthResponse>('registration', {email, password})
+    static async login(login: string, password: string, token: string): Promise<any> {
+        let response: any
+        await $api.post<AuthResponse>('login', {login, password, token})
+            .then(res => response = res)
+            .catch((e) => response = e.response.data)
+
+        if (response === 'Wrong password') {
+            return {field: 'password', message: response}
+        } else if (/User with this/.test(response)) {
+            return {field: 'login', message: response}
+        }
+
+        return response
     }
 
     static async logout(): Promise<void> {
