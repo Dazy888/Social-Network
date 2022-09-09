@@ -21,14 +21,31 @@ code {
 }
 
 #header {
+  height: 100px;
   grid-area: header;
+  background: rebeccapurple;
 }
 
-
 #content {
+  height: fit-content;
   grid-area: content;
+  background: green;
 }
 
 #side-bar {
+  height: fit-content;
   grid-area: side;
+  background: red;
+}
+
+.flex-property-set_center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-property-set_between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

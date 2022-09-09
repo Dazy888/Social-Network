@@ -19,17 +19,9 @@ export function MainPage({logout, userName}: PropsType) {
         if (!isAuth) navigate('/login/sign-in')
     }, [isAuth])
 
-
-
-    function escape() {
-        logout()
-    }
-
     return(
         <div id={'app-wrapper'}>
-            <h1>Hello {userName}</h1>
-            <button onClick={escape}>Logout</button>
-            <Header />
+            <Header logout={logout} />
             <SideBar />
             <Content />
         </div>
