@@ -67,7 +67,7 @@ export function SignUp({registration, validate, inputController, navigate}: Prop
                     </div>
                     <div className={'content__checkbox'}>
                         <Field className={'checkbox__input'} onClick={showPassword} name={'rememberMe'} type={'checkbox'} />
-                        <label>Show password</label>
+                        <label className={'checkbox__label'}>Show password</label>
                     </div>
                     <Field disabed={loading ? 'disabled' : null} className={'content__submit'} name={'submit'} type={'submit'} value={'Sign up'} />
                     <LoginLoader loading={loading}/>

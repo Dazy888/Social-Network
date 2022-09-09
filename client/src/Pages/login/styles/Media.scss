@@ -1,64 +1,136 @@
 @media screen and(max-width: 735px) {
   .login {
-    width: 450px;
+    width: 500px;
     height: 700px;
+  }
+}
+
+@media screen and(max-width: 560px) {
+  .login {
+    width: 450px;
 
     .login__actions {
-      width: 100px;
+      width: 80px;
 
       button {
-        font-size: 21px;
+        font-size: 20px;
       }
     }
 
     .login__content {
-      .login__register {
-        .register__title {
-          font-size: 30px;
-          margin-bottom: 40px;
-        }
-
-        .register__link {
-          font-size: 25px;
-        }
-      }
-
       .error-container {
         .error-text {
-          font-size: 16px;
-          font-weight: 500;
-          left: 5px;
-          top: -25px;
+          font-size: 15px;
+          left: 10px;
         }
 
         .error {
-          font-size: 20px;
-          right: 10px;
-          top: 18px;
+          right: 17px;
         }
       }
 
       input {
-        width: 300px;
-        height: 20px;
-        padding: 1.5rem 1.1rem 0.5rem;
-        line-height: 1.75;
-        margin-bottom: 30px;
+        width: 280px;
+        margin: auto auto 40px;
       }
 
       .content__checkbox {
         .checkbox__input {
-          width: 20px;
-          height: 20px;
-          margin-right: 10px;
+          width: 18px;
+          height: 18px;
+          margin: 0 10px 30px !important;
         }
       }
 
       .content__submit {
-        width: 337px;
-        height: 50px;
-        font-size: 16px;
-        font-weight: 600;
+        width: 319px;
+      }
+    }
+  }
+}
+
+@media screen and(max-width: 480px) {
+  .login {
+    width: 400px;
+    height: 650px;
+
+    .login__content {
+      .error-container {
+        .error-text {
+          font-size: 15px;
+          left: 10px;
+        }
+
+        .error {
+          right: 17px;
+        }
+      }
+
+      input {
+        width: 240px;
+      }
+
+      .content__checkbox {
+        .checkbox__input {
+          width: 17px;
+          height: 17px;
+        }
+
+        .checkbox__label {
+          font-size: 15px;
+        }
+      }
+
+      .content__submit {
+        width: 277px;
+      }
+    }
+  }
+}
+
+@media screen and(max-width: 420px) {
+  .login {
+    width: 350px;
+    height: 600px;
+
+    .login__actions {
+      width: 70px;
+
+      button {
+        font-size: 19px;
+      }
+    }
+
+    .login__content {
+      .error-container {
+        .error-text {
+          left: 7px;
+        }
+
+        .error {
+          top: 16px;
+        }
+      }
+
+      input {
+        width: 210px;
+        height: 15px;
+      }
+
+      .content__checkbox {
+        .checkbox__input {
+          width: 16px;
+          height: 16px;
+        }
+
+        .checkbox__label {
+          font-size: 14px;
+        }
+      }
+
+      .content__submit {
+        width: 247px;
+        height: 48px;
       }
     }
   }

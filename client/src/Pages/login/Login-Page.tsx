@@ -7,6 +7,7 @@ import {SignIn} from "./Sign-In"
 import {SignUp} from "./Sign-Up"
 // CSS
 import './styles/Login.css'
+import './styles/Media.css'
 // Types
 import {DefaultFunction, FormValues, Login, Navigate, Registration} from "./types/login-types"
 import {Modal} from "./components/Modal"
