@@ -15,9 +15,8 @@ code {
 #app-wrapper {
   display: grid;
   grid-template-areas:
-          'header header'
-          'side content'
-          'side content';
+          'header'
+          'content';
 }
 
 #header {
@@ -27,15 +26,9 @@ code {
 }
 
 #content {
-  height: fit-content;
+  height: 100vh;
   grid-area: content;
-  background: green;
-}
-
-#side-bar {
-  height: fit-content;
-  grid-area: side;
-  background: red;
+  background: #888da8;
 }
 
 .flex-property-set_center {

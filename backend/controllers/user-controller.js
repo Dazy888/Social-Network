@@ -11,16 +11,16 @@ dotenv.config()
 class UserController {
     async registration(req, res, next) {
         try {
-            const {login, password, token} = req.body
+            const {userLogin, password, token} = req.body
             await UserService.humanValidation(token)
 
-            if (await UserModel.findOne({login})) {
+            if (await UserModel.findOne({userLogin})) {
                 res.status(400)
                 res.json(`User with this login already exists`)
                 return
             }
 
-            const userData = await UserService.registration(login, password)
+            const userData = await UserService.registration(userLogin, password)
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
             return res.json(userData)
         } catch (e) {
@@ -30,10 +30,10 @@ class UserController {
 
     async login(req, res, next) {
         try {
-            const {login, password, token} = req.body
+            const {userLogin, password, token} = req.body
             await UserService.humanValidation(token)
 
-            const user = await UserModel.findOne({login})
+            const user = await UserModel.findOne({userLogin})
             if (!user) {
                 res.status(400)
                 res.json(`User with this login doesn't exist`)

@@ -1,9 +1,11 @@
 import {Action, applyMiddleware, combineReducers, createStore} from "redux"
-import thunkMiddleware, {ThunkAction} from "redux-thunk";
-import {authReducer} from "./reducers/auth-reducer";
+import thunkMiddleware, {ThunkAction} from "redux-thunk"
+import {authReducer} from "./reducers/auth/auth-reducer"
+import {profileReducer} from "./reducers/profile/profile-reducer"
 
 let rootReducer = combineReducers({
-    auth: authReducer
+    auth: authReducer,
+    profile: profileReducer
 })
 
 type RootReducerType = typeof rootReducer;

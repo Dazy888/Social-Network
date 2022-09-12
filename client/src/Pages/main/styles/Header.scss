@@ -7,6 +7,20 @@
       height: 50px;
     }
 
+    .header__navigation {
+      width: 300px;
+
+      .active {
+        color: #f92552;
+      }
+
+      a {
+        font-size: 20px;
+        color: white;
+        text-decoration: none;
+      }
+    }
+
     .header__logout {
       width: 50px;
       cursor: pointer;

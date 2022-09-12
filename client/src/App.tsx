@@ -6,30 +6,31 @@ import {BrowserRouter, Route, Routes, useNavigate} from "react-router-dom"
 import {LoginPage} from "./pages/login/Login-Page"
 import {MainPage} from "./pages/main/Main-Page"
 // Redux
-import {connect, Provider, useSelector} from "react-redux"
+import {connect, Provider} from "react-redux"
 import store from "./store/store"
 import {compose} from "redux"
-// Props
-import {checkAuth, login, logout, registration} from "./store/reducers/auth-reducer"
+// Reducers
+import {checkAuth, login, logout, registration} from "./store/reducers/auth/auth-reducer"
+import {auth} from "./store/reducers/profile/profile-reducer"
 // Types
 import {Login, Registration} from "./pages/login/types/login-types"
-import {getEmail} from "./store/reducers/auth-selectors"
+import {User} from "./pages/main/types/Types"
 
 type PropsType = {
     checkAuth: () => void
-    logout: () => any
+    logout: () => void
+    auth: () => User
     login: Login
     registration: Registration
 }
 
-function App({checkAuth, login, registration, logout}: PropsType) {
+function App({checkAuth, login, registration, logout, auth}: PropsType) {
     let navigate = useNavigate()
-    const email = useSelector(getEmail)
 
     useEffect( () => {
         if (localStorage.getItem('token')) {
             checkAuth()
-            navigate('/')
+            navigate('/profile')
         } else {
             navigate('/login/sign-in')
         }
@@ -39,7 +40,7 @@ function App({checkAuth, login, registration, logout}: PropsType) {
     return(
         <div>
             <Routes>
-                <Route path={'/'} element={<MainPage userName={email} logout={logout}/>}></Route>
+                <Route path={'/*'} element={<MainPage auth={auth} logout={logout}/>}></Route>
                 <Route path={'/login/*'} element={<LoginPage navigate={navigate} login={login} registration={registration}/>}></Route>
             </Routes>
         </div>
@@ -47,7 +48,7 @@ function App({checkAuth, login, registration, logout}: PropsType) {
 }
 
 let mapStateToProps
-const SocialNetworkApp = compose<React.ComponentType>(connect(mapStateToProps, {login, registration, checkAuth, logout}))(App);
+const SocialNetworkApp = compose<React.ComponentType>(connect(mapStateToProps, {login, registration, checkAuth, logout, auth}))(App);
 
 export const SocialNetwork: React.FC = () => {
     return (

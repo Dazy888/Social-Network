@@ -1,9 +1,9 @@
 import React from "react";
 
 export type ErrorItemsComponent = {
-    error: string
-    serverError: string
-    touched: string
+    error: string | undefined
+    serverError?: string
+    touched: boolean | undefined
 }
 
 export function ErrorMessages({serverError, error, touched}: ErrorItemsComponent) {

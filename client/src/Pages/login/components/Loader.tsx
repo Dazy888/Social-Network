@@ -6,7 +6,7 @@ const override: CSSProperties = {
     width: "fit-content",
     position: "relative",
     left: "150px",
-    margin: "0 auto",
+    margin: "30px auto",
     borderColor: "red",
 };
 

@@ -1,29 +1,32 @@
-import {Header} from "./components/Header";
-import {SideBar} from "./components/Side-Bar";
-import {Content} from "./components/Content";
-import React, {useEffect} from "react";
+// React
+import React, {useEffect} from "react"
+// Components
+import {Header} from "./components/Header"
+import {Content} from "./components/Content"
+// Navigation
+import {User} from "./types/Types"
 import {useSelector} from "react-redux";
-import {getAuthStatus} from "../../store/reducers/auth-selectors";
-import {useNavigate} from "react-router-dom";
+import {getAvatar, getBanner, getUserLocation, getUserName} from "../../store/reducers/profile/profile-selectors";
 
 type PropsType = {
-    logout: () => any
-    userName: string
+    logout: () => void
+    auth: () => User
 }
 
-export function MainPage({logout, userName}: PropsType) {
-    const isAuth = useSelector(getAuthStatus)
-    const navigate = useNavigate()
+export function MainPage({logout, auth}: PropsType) {
+    const banner = useSelector(getBanner)
+    const avatar = useSelector(getAvatar)
+    const name = useSelector(getUserName)
+    const location = useSelector(getUserLocation)
 
     useEffect(() => {
-        if (!isAuth) navigate('/login/sign-in')
-    }, [isAuth])
+        auth()
+    }, [])
 
     return(
         <div id={'app-wrapper'}>
-            <Header logout={logout} />
-            <SideBar />
-            <Content />
+            <Header avatar={avatar} logout={logout} />
+            <Content banner={banner} location={location} name={name} avatar={avatar}/>
         </div>
     )
 }

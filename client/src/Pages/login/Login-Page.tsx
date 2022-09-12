@@ -9,8 +9,8 @@ import {SignUp} from "./Sign-Up"
 import './styles/Login.css'
 import './styles/Media.css'
 // Types
-import {DefaultFunction, FormValues, Login, Navigate, Registration} from "./types/login-types"
-import {Modal} from "./components/Modal"
+import {Login, Navigate, Registration} from "./types/login-types"
+import {Modal} from "../../components/Modal"
 
 type PropsType = {
     login: Login
@@ -22,23 +22,24 @@ export function LoginPage({login, registration, navigate}: PropsType) {
     const actions: any = React.createRef()
     const [modalStatus, setModalStatus] = useState(false)
 
-    const validate = (values: FormValues) => {
+    const validate = (userLogin: string, password: string) => {
+        const pass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/
+        const login = /[а-яА-ЯЁё-і]/g
         const errors: any = {}
 
-        if (!values.userName) errors.userName = 'Login is required'
+        if (!userLogin) {
+            errors.userLogin = 'Login is required'
+        } else if (login.test(userLogin)) {
+            errors.userLogin = 'Invalid login'
+        }
 
-        if (!values.password) {
+        if (!password) {
             errors.password = 'Password is required'
-        } else if (!/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,10}/i.test(values.password)) {
+        } else if (!pass.test(password)) {
             errors.password = 'Invalid password'
         }
 
         return errors
-    }
-
-    function inputController(changeInputValue: DefaultFunction, changeFieldError: DefaultFunction, value: string): void {
-        changeFieldError('')
-        changeInputValue(value)
     }
 
     function choseAction(event: any) {
@@ -60,8 +61,8 @@ export function LoginPage({login, registration, navigate}: PropsType) {
                 </div>
                 <div className={'login__content'}>
                     <Routes>
-                        <Route path={'/sign-in'} element={<SignIn inputController={inputController} navigate={navigate} login={login} validate={validate}/>}/>
-                        <Route path={'/sign-up'} element={<SignUp navigate={navigate} inputController={inputController} registration={registration}validate={validate}/>}/>
+                        <Route path={'/sign-in'} element={<SignIn navigate={navigate} login={login} validate={validate}/>}/>
+                        <Route path={'/sign-up'} element={<SignUp navigate={navigate} registration={registration}validate={validate}/>}/>
                     </Routes>
                 </div>
             </div>

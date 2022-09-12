@@ -1,5 +1,5 @@
-import {ErrorItemsComponent} from "./ErrorMessages";
-import React from "react";
+import {ErrorItemsComponent} from "./ErrorMessages"
+import React from "react"
 
 export function ErrorIcons({error, serverError, touched}: ErrorItemsComponent) {
     return(

@@ -1,43 +1,48 @@
 // React
-import React, {useRef, useState} from "react"
+import React, {useEffect, useRef, useState} from "react"
 // Formik
-import {Field, Form, Formik} from "formik"
+import {Formik} from "formik"
 // Components
 import {LoginLoader} from "./components/Loader"
 import {ErrorMessages} from "./components/ErrorMessages"
 import {ErrorIcons} from "./components/ErrorIcons"
 // Types
-import {InputController, Navigate, Registration, Validate} from "./types/login-types"
+import {Navigate, Registration, Validate} from "./types/login-types"
 // Recaptcha
 import ReCAPTCHA from "react-google-recaptcha"
 
 type PropsType = {
     validate: Validate
     registration: Registration
-    inputController: InputController
     navigate: Navigate
 }
 
-export function SignUp({registration, validate, inputController, navigate}: PropsType) {
-    const [userName, changeUserName] = useState<string>('')
-    const [loading, changeLoadingStatus] = useState<boolean>(false)
-    const [password, changePassword] = useState<string>('')
+
+export function SignUp({registration, validate, navigate}: PropsType) {
     const [loginError, changeLoginError] = useState<string>('')
-    const [passwordError, changePasswordError] = useState<string>('')
     const reRef: any = useRef<ReCAPTCHA>()
 
-    async function submit(login: string, password: string) {
+    useEffect(() => {
+        const inputs = document.querySelectorAll('input')
+        for (let i = 0; i < 2; i++) {
+            inputs[i].onclick = () => {
+                changeLoginError('')
+            }
+        }
+    }, [])
+
+    async function submit(userLogin: string, password: string, setSubmitting: (status: boolean) => void) {
+        setSubmitting(true)
         const token = await reRef.current.executeAsync()
         reRef.current.reset()
 
-        changeLoadingStatus(true)
-        const response = await registration(login, password, token)
-        changeLoadingStatus(false)
+        const response = await registration(userLogin, password, token)
+        setSubmitting(false)
 
         if (response.field) {
             changeLoginError(response.message)
         } else {
-            navigate('/')
+            navigate('/profile')
         }
     }
 
@@ -52,27 +57,35 @@ export function SignUp({registration, validate, inputController, navigate}: Prop
     }
 
     return(
-        <Formik validate={() => validate({userName, password})} initialValues={{userName: '', password: ''}} onSubmit={() => submit(userName, password)}>
-            {({ errors, touched }: any) => (
-                <Form>
-                    <div className={'error-container'}>
-                        <ErrorMessages error={errors.userName} serverError={loginError} touched={touched.userName}/>
-                        <Field className={`${errors.userName && touched.userName || loginError ? 'red-border' : ''}`} value={userName} onChange={(e: any) => inputController(changeUserName, changeLoginError, e.target.value)} name={'userName'} type={'text'} placeholder={'Your login'} minLength={4} maxLength={10}/>
-                        <ErrorIcons error={errors.userName} serverError={loginError} touched={touched.userName}/>
-                    </div>
-                    <div className={'error-container'}>
-                        <ErrorMessages error={errors.password} serverError={passwordError} touched={touched.password}/>
-                        <Field className={`${errors.password && touched.password || passwordError ? 'red-border' : ''}`} value={password} onChange={(e: any) => inputController(changePassword, changePasswordError, e.target.value)} name={'password'} type={'password'} placeholder={'Your password'} minLength={8} maxLength={15}/>
-                        <ErrorIcons error={errors.password} serverError={passwordError} touched={touched.password}/>
-                    </div>
-                    <div className={'content__checkbox'}>
-                        <Field className={'checkbox__input'} onClick={showPassword} name={'rememberMe'} type={'checkbox'} />
-                        <label className={'checkbox__label'}>Show password</label>
-                    </div>
-                    <Field disabed={loading ? 'disabled' : null} className={'content__submit'} name={'submit'} type={'submit'} value={'Sign up'} />
-                    <LoginLoader loading={loading}/>
-                    <ReCAPTCHA className={'captcha'} sitekey={'6Leond0hAAAAAOCUq2naPPzgveoMehWQmYG4Vabt'} size={"invisible"} ref={reRef}/>
-                </Form>
+        <Formik validate={values => validate(values.userLogin, values.password)} initialValues={{userLogin: '', password: ''}} onSubmit={(values, {setSubmitting}) => submit(values.userLogin, values.password, setSubmitting)}>
+            {({
+                  values,
+                  handleChange,
+                  handleBlur,
+                  errors,
+                  touched,
+                  handleSubmit,
+                  isSubmitting,
+              }) => (
+                  <form onSubmit={handleSubmit}>
+                      <div className={'error-container'}>
+                          <ErrorMessages error={errors.userLogin} serverError={loginError} touched={touched.userLogin}/>
+                          <input className={`${errors.userLogin && touched.userLogin || loginError ? 'red-border' : ''}`} value={values.userLogin} onChange={handleChange} onBlur={handleBlur} name={'userLogin'} type={'text'} placeholder={'Your login'} minLength={4} maxLength={10}/>
+                          <ErrorIcons error={errors.userLogin} serverError={loginError} touched={touched.userLogin}/>
+                      </div>
+                      <div className={'error-container'}>
+                          <ErrorMessages error={errors.password} touched={touched.password}/>
+                          <input className={`${errors.password && touched.password ? 'red-border' : ''}`} value={values.password} onChange={handleChange} onBlur={handleBlur} name={'password'} type={'password'} placeholder={'Your password'} minLength={8} maxLength={15}/>
+                          <ErrorIcons error={errors.password} touched={touched.password}/>
+                      </div>
+                      <div className={'content__checkbox'}>
+                          <input className={'checkbox__input'} onClick={showPassword} name={'show-password'} type={'checkbox'} />
+                          <label className={'checkbox__label'}>Show password</label>
+                      </div>
+                      <button className={'content__submit'} type={'submit'} disabled={isSubmitting}>Sign up</button>
+                      <LoginLoader loading={isSubmitting}/>
+                      <ReCAPTCHA className={'captcha'} sitekey={'6Leond0hAAAAAOCUq2naPPzgveoMehWQmYG4Vabt'} size={"invisible"} ref={reRef}/>
+                  </form>
             )}
         </Formik>
     )

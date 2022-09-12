@@ -1,13 +1,13 @@
 // React
-import React, {useRef, useState} from "react"
+import React, {useEffect, useRef, useState} from "react"
 // Formik
-import {Field, Form, Formik} from "formik"
+import {Formik} from "formik"
 // Components
 import {ErrorMessages} from "./components/ErrorMessages"
 import {ErrorIcons} from "./components/ErrorIcons"
 import {LoginLoader} from "./components/Loader"
 // Types
-import {InputController, Login, Navigate, Validate} from "./types/login-types"
+import {Login, Navigate, Validate} from "./types/login-types"
 // Recaptcha
 import ReCAPTCHA from "react-google-recaptcha"
 
@@ -15,27 +15,35 @@ type PropsType = {
     validate: Validate
     login: Login
     navigate: Navigate
-    inputController: InputController
 }
 
-export function SignIn({login, navigate, inputController, validate}: PropsType) {
-    const [userName, changeUserName] = useState<string>('')
-    const [loading, changeLoadingStatus] = useState<boolean>(false)
-    const [password, changePassword] = useState<string>('')
+export function SignIn({login, navigate, validate}: PropsType) {
     const [loginError, changeLoginError] = useState<string>('')
     const [passwordError, changePasswordError] = useState<string>('')
     const reRef: any = useRef<ReCAPTCHA>()
 
-    async function submit(email: string, password: string) {
+    useEffect(() => {
+        const inputs = document.querySelectorAll('input')
+        for (let i = 0; i < 2; i++) {
+            inputs[i].onclick = () => {
+                changeLoginError('')
+                changePasswordError('')
+            }
+        }
+    }, [])
+
+
+
+    async function submit(userLogin: string, password: string, setSubmitting: (status: boolean) => void) {
+        setSubmitting(true)
         const token = await reRef.current.executeAsync()
         reRef.current.reset()
 
-        changeLoadingStatus(true)
-        const response = await login(email, password, token)
-        changeLoadingStatus(false)
+        const response = await login(userLogin, password, token)
+        setSubmitting(false)
 
         if (response === 200) {
-            navigate('/')
+            navigate('/profile')
         } else if (response.field === 'login') {
             changeLoginError(response.message)
         } else {
@@ -44,23 +52,31 @@ export function SignIn({login, navigate, inputController, validate}: PropsType) 
     }
 
     return(
-        <Formik validate={() => validate({userName, password})} initialValues={{userName: '', password: ''}} onSubmit={() => submit(userName, password)}>
-            {({ errors, touched }: any) => (
-                <Form>
-                    <div className={'error-container'}>
-                        <ErrorMessages error={errors.userName} serverError={loginError} touched={touched.userName}/>
-                        <Field value={userName} onChange={(e: any) => inputController(changeUserName, changeLoginError, e.target.value)} className={`${errors.userName && touched.userName || loginError ? 'red-border' : ''}`} name={'userName'} type={'text'} placeholder={'Your login'} minLength={4} maxLength={10}/>
-                        <ErrorIcons error={errors.userName} serverError={loginError} touched={touched.userName}/>
-                    </div>
-                    <div className={'error-container'}>
-                        <ErrorMessages error={errors.password} serverError={passwordError} touched={touched.password}/>
-                        <Field value={password} onChange={(e: any) => inputController(changePassword, changePasswordError, e.target.value)} className={`${errors.password && touched.password || passwordError ? 'red-border' : ''}`} name={'password'} type={'password'} placeholder={'Your password'} minLength={8} maxLength={15}/>
-                        <ErrorIcons error={errors.password} serverError={passwordError} touched={touched.password}/>
-                    </div>
-                    <Field className={'content__submit'} name={'submit'} type={'submit'} value={'Sign in'} />
-                    <LoginLoader loading={loading}/>
-                    <ReCAPTCHA className={'captcha'} sitekey={'6Leond0hAAAAAOCUq2naPPzgveoMehWQmYG4Vabt'} size={"invisible"} ref={reRef}/>
-                </Form>
+        <Formik validate={values => validate(values.userLogin, values.password)} initialValues={{userLogin: '', password: ''}} onSubmit={(values, {setSubmitting}) => submit(values.userLogin, values.password, setSubmitting)}>
+            {({
+                  errors,
+                  touched,
+                  handleSubmit,
+                  handleChange,
+                  handleBlur,
+                  isSubmitting,
+                  values
+              }) => (
+                  <form onSubmit={handleSubmit}>
+                      <div className={'error-container'}>
+                          <ErrorMessages error={errors.userLogin} serverError={loginError} touched={touched.userLogin}/>
+                          <input value={values.userLogin} onBlur={handleBlur} onChange={handleChange} className={`${errors.userLogin && touched.userLogin || loginError ? 'red-border' : ''}`} name={'userLogin'} type={'text'} placeholder={'Your login'} minLength={4} maxLength={10}/>
+                          <ErrorIcons error={errors.userLogin} serverError={loginError} touched={touched.userLogin}/>
+                      </div>
+                      <div className={'error-container'}>
+                          <ErrorMessages error={errors.password} serverError={passwordError} touched={touched.password}/>
+                          <input value={values.password} onBlur={handleBlur} onChange={handleChange} className={`${errors.password && touched.password || passwordError ? 'red-border' : ''}`} name={'password'} type={'password'} placeholder={'Your password'} minLength={8} maxLength={15}/>
+                          <ErrorIcons error={errors.password} serverError={passwordError} touched={touched.password}/>
+                      </div>
+                      <button className={'content__submit'} type={'submit'} disabled={isSubmitting}>Sign in</button>
+                      <LoginLoader loading={isSubmitting}/>
+                      <ReCAPTCHA className={'captcha'} sitekey={'6Leond0hAAAAAOCUq2naPPzgveoMehWQmYG4Vabt'} size={"invisible"} ref={reRef}/>
+                  </form>
             )}
         </Formik>
     )

@@ -5,9 +5,9 @@ import {AxiosResponse} from "axios"
 import {AuthResponse} from "../models/response/AuthResponse"
 
 export class AuthService {
-    static async registration(login: string, password: string, token: string): Promise<any> {
+    static async registration(userLogin: string, password: string, token: string): Promise<any> {
         let response: any
-        await $api.post<AuthResponse>('registration', {login, password, token})
+        await $api.post<AuthResponse>('registration', {userLogin, password, token})
             .then(res => response = res)
             .catch((e) => response = e.response.data)
 
@@ -20,9 +20,9 @@ export class AuthService {
         return response
     }
 
-    static async login(login: string, password: string, token: string): Promise<any> {
+    static async login(userLogin: string, password: string, token: string): Promise<any> {
         let response: any
-        await $api.post<AuthResponse>('login', {login, password, token})
+        await $api.post<AuthResponse>('login', {userLogin, password, token})
             .then(res => response = res)
             .catch((e) => response = e.response.data)
 
