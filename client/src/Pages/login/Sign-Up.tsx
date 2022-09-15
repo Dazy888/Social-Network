@@ -23,12 +23,8 @@ export function SignUp({registration, validate, navigate}: PropsType) {
     const reRef: any = useRef<ReCAPTCHA>()
 
     useEffect(() => {
-        const inputs = document.querySelectorAll('input')
-        for (let i = 0; i < 2; i++) {
-            inputs[i].onclick = () => {
-                changeLoginError('')
-            }
-        }
+        const input: any = document.querySelector('input[name=userLogin]')
+        input.onclick = () => changeLoginError('')
     }, [])
 
     async function submit(userLogin: string, password: string, setSubmitting: (status: boolean) => void) {

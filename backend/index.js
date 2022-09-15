@@ -5,8 +5,11 @@ import chalk from "chalk"
 import dotenv from "dotenv"
 import mongoose from "mongoose"
 import cookieParser from "cookie-parser"
-// Router
-import router from "./router/index.js"
+import path from "path"
+import { fileURLToPath } from 'url'
+// Routers
+import {userRouter} from "./routers/user-router.js"
+import {authRouter} from "./routers/auth-router.js"
 // Middleware
 import {ErrorMiddleware} from "./middlewares/error-middleware.js"
 
@@ -18,13 +21,19 @@ const successMsg = chalk.bgGreen
 
 const app = express()
 
-app.use(express.json())
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+app.use(express.json({ extended: true }))
 app.use(cookieParser())
 app.use(cors({
     credentials: true,
     origin: process.env.CLIENT_URL
 }))
-app.use('/api', router)
+app.use('/api/auth', authRouter)
+app.use('/api/user', userRouter)
 app.use(ErrorMiddleware)
 
 const start = async () => {

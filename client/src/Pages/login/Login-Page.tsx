@@ -1,5 +1,5 @@
 // React
-import React, {useState} from "react"
+import React from "react"
 // Navigation
 import {Route, Routes} from "react-router-dom"
 // Components
@@ -10,7 +10,6 @@ import './styles/Login.css'
 import './styles/Media.css'
 // Types
 import {Login, Navigate, Registration} from "./types/login-types"
-import {Modal} from "../../components/Modal"
 
 type PropsType = {
     login: Login
@@ -20,16 +19,15 @@ type PropsType = {
 
 export function LoginPage({login, registration, navigate}: PropsType) {
     const actions: any = React.createRef()
-    const [modalStatus, setModalStatus] = useState(false)
 
     const validate = (userLogin: string, password: string) => {
         const pass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/
-        const login = /[а-яА-ЯЁё-і]/g
+        const login = /^[a-zA-Z0-9]+$/
         const errors: any = {}
 
         if (!userLogin) {
             errors.userLogin = 'Login is required'
-        } else if (login.test(userLogin)) {
+        } else if (!login.test(userLogin)) {
             errors.userLogin = 'Invalid login'
         }
 
@@ -49,7 +47,6 @@ export function LoginPage({login, registration, navigate}: PropsType) {
 
     return (
         <div id={'login-wrapper'}>
-            {modalStatus ? <Modal setModelStatus={setModalStatus}/> : null}
             <div className={'login'}>
                 <div onClick={choseAction} className={'login__actions'} ref={actions}>
                     <button className={'actions__login active-action'} onClick={() => navigate('/login/sign-in')}>

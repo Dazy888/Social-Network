@@ -9,3 +9,5 @@ export type Registration = (userLogin: string, password: string, token: string) 
 export type Navigate = (path: string) => void
 // Form
 export type Validate = (userLogin: string, password: string) => Object
+// Profile
+export type ChangeHeaderData = (name: string, location: string, currentName: string) => string | null

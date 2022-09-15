@@ -3,7 +3,7 @@ export type User = {
     avatar: string
     name: string
     location: string
-    // aboutMe: string
-    // hobbies: string
-    // skills: string
+    aboutMe: string
+    hobbies: string
+    skills: string
 }

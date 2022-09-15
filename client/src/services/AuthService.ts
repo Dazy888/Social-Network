@@ -7,7 +7,7 @@ import {AuthResponse} from "../models/response/AuthResponse"
 export class AuthService {
     static async registration(userLogin: string, password: string, token: string): Promise<any> {
         let response: any
-        await $api.post<AuthResponse>('registration', {userLogin, password, token})
+        await $api.post<AuthResponse>('auth/registration', {userLogin, password, token})
             .then(res => response = res)
             .catch((e) => response = e.response.data)
 
@@ -22,7 +22,7 @@ export class AuthService {
 
     static async login(userLogin: string, password: string, token: string): Promise<any> {
         let response: any
-        await $api.post<AuthResponse>('login', {userLogin, password, token})
+        await $api.post<AuthResponse>('auth/login', {userLogin, password, token})
             .then(res => response = res)
             .catch((e) => response = e.response.data)
 
@@ -36,10 +36,34 @@ export class AuthService {
     }
 
     static async logout(): Promise<void> {
-        return $api.post('logout')
+        return $api.post('auth/logout')
     }
 
     static async refresh(): Promise<AxiosResponse> {
-        return $api.get<AuthResponse>(`${API_URL}refresh`, {withCredentials: true})
+        return $api.get<AuthResponse>(`${API_URL}auth/refresh`, {withCredentials: true})
+    }
+
+    static async changeHeaderData(name: string, location: string, currentName: string): Promise<AxiosResponse> {
+        let response: any
+
+        await $api.put<AuthResponse>(`auth/change-header-data`, {name, location, currentName})
+            .then(res => response = res)
+            .catch((e) => response = e.response.data)
+
+        if (/User with this/.test(response)) return response
+
+        return response
+    }
+
+    static async changeBanner(file: File): Promise<AxiosResponse> {
+        let response: any
+
+        console.log(file)
+
+        await $api.post<AuthResponse>(`${API_URL}upload`, {banner: file})
+            .then(res => response = res)
+            .catch((e) => response = e.response.data)
+
+        return response
     }
 }
