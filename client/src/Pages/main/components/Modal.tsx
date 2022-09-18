@@ -7,23 +7,21 @@ import {Formik} from "formik"
 import {ErrorMessages} from "../../login/components/ErrorMessages"
 import {ErrorIcons} from "../../login/components/ErrorIcons"
 // Types
-import {ChangeHeaderData} from "../../login/types/login-types"
+import {ChangeLocation, ChangeName, ChangePhoto} from "../../login/types/login-types"
 import {ProfileLoader} from "./Profile-Loader"
-import {changeBanner} from "../../../store/reducers/profile/profile-reducer";
-import {$api, API_URL} from "../../../http";
-import {AuthResponse} from "../../../models/response/AuthResponse";
 
 type PropsType = {
-    currentUserName: string
-    changeBanner: (file: File) => void
+    id: any
+    currentName: string
+    currentLocation: string
+    changeBanner: ChangePhoto
+    changeAvatar: ChangePhoto
     setModalStatus: (status: boolean) => void
-    changeHeaderData: ChangeHeaderData
-    name: string
-    location: string
+    changeName: ChangeName
+    changeLocation: ChangeLocation
 }
 
-export function Modal({setModalStatus, changeHeaderData, currentUserName, name, location, changeBanner}: PropsType) {
-    const userNameExp = /[a-zA-Z0-9]+/
+export function Modal({setModalStatus, currentName, currentLocation, changeName, changeLocation, changeAvatar, changeBanner, id}: PropsType) {
     const [nameError, setNameError] = useState<string>('')
 
     useEffect(() => {
@@ -32,30 +30,46 @@ export function Modal({setModalStatus, changeHeaderData, currentUserName, name, 
     }, [])
 
     async function submit(name: string, location: string, setSubmitting: (status: boolean) => void, banner: any, avatar: any) {
+        let response
+        const btn: any = document.querySelector('button[type=submit]')
         setSubmitting(true)
-        const response = await changeHeaderData(name, location, currentUserName)
+        btn.disabled = true
+
+        if (name !== currentName) response = await changeName(name, id)
+        if (response) {
+            setNameError(response)
+            setSubmitting(false)
+            btn.disabled = false
+            return
+        }
+        if (location !== currentLocation) await changeLocation(location, id)
 
         if (banner.name) {
-            const data = new FormData()
-            data.append('banner', banner)
-            await $api.post<AuthResponse>(`${API_URL}upload`, data)
+            let data = new FormData()
+            data.append('file', banner)
+            data.append('id', id)
+            await changeBanner(data)
+        }
+
+        if (avatar.name) {
+            let data = new FormData()
+            data.append('file', avatar)
+            data.append('id', id)
+            await changeAvatar(data)
         }
 
         setSubmitting(false)
-
-        if (response) {
-            setNameError(response)
-            return
-        }
+        btn.disabled = false
         setModalStatus(false)
     }
 
     function validate(name: string, location: string) {
+        const userNameExp = /[a-zA-Z0-9]+/
         let errors: any = {}
 
         if (!name) {
             errors.name = 'Name is required'
-        } else if (!userNameExp.test(name)) {
+        } else if (!userNameExp.test(name) || /\s/.test(name)) {
             errors.name = 'Invalid name'
         }
 
@@ -70,7 +84,7 @@ export function Modal({setModalStatus, changeHeaderData, currentUserName, name, 
 
     return (
         <div className="modal">
-            <Formik validate={values => validate(values.name, values.location)} initialValues={{name, location, banner: {name: ''}, avatar: {name: ''}}} onSubmit={(values, {setSubmitting}) => submit(values.name, values.location, setSubmitting, values.banner, values.avatar)}>
+            <Formik validate={values => validate(values.name, values.location)} initialValues={{name: currentName, location: currentLocation, banner: {name: ''}, avatar: {name: ''}}} onSubmit={(values, {setSubmitting}) => submit(values.name, values.location, setSubmitting, values.banner, values.avatar)}>
                 {({
                       values,
                       errors,
@@ -115,7 +129,7 @@ export function Modal({setModalStatus, changeHeaderData, currentUserName, name, 
                             </div>
                         </div>
                         <div className={'buttons flex-property-set_between'}>
-                            <button className={'submit'} type="submit" disabled={(!(values.banner.name || isSubmitting || values.avatar.name || touched.name || touched.location))}>Submit</button>
+                            <button className={'submit'} type="submit" disabled={(values.name === currentName && values.location === currentLocation && !values.banner.name && !values.avatar.name)}>Submit</button>
                             <button className={'cancel'} onClick={() => setModalStatus(false)}>Cancel</button>
                         </div>
                         {isSubmitting ? <ProfileLoader/> : null}

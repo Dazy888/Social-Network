@@ -14,17 +14,19 @@ import {
 import {getAuthStatus} from "../../store/reducers/auth/auth-selectors"
 // Types
 import {User} from "./types/Types"
-import {ChangeHeaderData, Navigate} from "../login/types/login-types"
+import {ChangeLocation, ChangeName, ChangePhoto, Navigate} from "../login/types/login-types"
 
 type PropsType = {
+    changeBanner: ChangePhoto
+    changeAvatar: ChangePhoto
     navigate: Navigate
     logout: () => void
     auth: () => User
-    changeHeaderData: ChangeHeaderData
-    changeBanner: (file: File) => void
+    changeName: ChangeName
+    changeLocation: ChangeLocation
 }
 
-export function MainPage({logout, auth, navigate, changeHeaderData, changeBanner}: PropsType) {
+export function MainPage({logout, auth, navigate, changeName, changeLocation, changeAvatar, changeBanner}: PropsType) {
     const banner = useSelector(getBanner)
     const avatar = useSelector(getAvatar)
     const name = useSelector(getName)
@@ -42,7 +44,7 @@ export function MainPage({logout, auth, navigate, changeHeaderData, changeBanner
     return(
         <div id={'app-wrapper'}>
             <Header avatar={avatar} logout={logout} />
-            <Content changeBanner={changeBanner} changeHeaderData={changeHeaderData} skills={skills} aboutMe={aboutMe} hobbies={hobbies} banner={banner} location={location} name={name} avatar={avatar}/>
+            <Content changeAvatar={changeAvatar} changeBanner={changeBanner} changeName={changeName} changeLocation={changeLocation} skills={skills} aboutMe={aboutMe} hobbies={hobbies} banner={banner} location={location} name={name} avatar={avatar}/>
         </div>
     )
 }

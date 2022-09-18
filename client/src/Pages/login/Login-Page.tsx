@@ -33,7 +33,7 @@ export function LoginPage({login, registration, navigate}: PropsType) {
 
         if (!password) {
             errors.password = 'Password is required'
-        } else if (!pass.test(password)) {
+        } else if (!pass.test(password) || /\s/.test(password)) {
             errors.password = 'Invalid password'
         }
 

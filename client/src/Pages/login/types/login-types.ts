@@ -10,4 +10,6 @@ export type Navigate = (path: string) => void
 // Form
 export type Validate = (userLogin: string, password: string) => Object
 // Profile
-export type ChangeHeaderData = (name: string, location: string, currentName: string) => string | null
+export type ChangeName = (name: string, id: number) => string | void
+export type ChangeLocation = (location: string, id: number) => void
+export type ChangePhoto = (file: FormData) => void

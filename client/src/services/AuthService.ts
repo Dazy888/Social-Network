@@ -42,28 +42,4 @@ export class AuthService {
     static async refresh(): Promise<AxiosResponse> {
         return $api.get<AuthResponse>(`${API_URL}auth/refresh`, {withCredentials: true})
     }
-
-    static async changeHeaderData(name: string, location: string, currentName: string): Promise<AxiosResponse> {
-        let response: any
-
-        await $api.put<AuthResponse>(`auth/change-header-data`, {name, location, currentName})
-            .then(res => response = res)
-            .catch((e) => response = e.response.data)
-
-        if (/User with this/.test(response)) return response
-
-        return response
-    }
-
-    static async changeBanner(file: File): Promise<AxiosResponse> {
-        let response: any
-
-        console.log(file)
-
-        await $api.post<AuthResponse>(`${API_URL}upload`, {banner: file})
-            .then(res => response = res)
-            .catch((e) => response = e.response.data)
-
-        return response
-    }
 }

@@ -27,3 +27,7 @@ export const getSkills = (state: AppStateType) => {
 export const getHobbies = (state: AppStateType) => {
     return state.profile.location
 }
+
+export const getId = (state: AppStateType) => {
+    return state.profile.id
+}

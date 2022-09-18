@@ -2,8 +2,8 @@ import {UserModel} from "../models/user-model.js"
 import {ApiError} from "../exceptions/api-error.js"
 
 class UserService {
-    async changeName(name, currentName) {
-        const user = await UserModel.findOne({currentName})
+    async changeName(name, id) {
+        const user = await UserModel.findOne({id})
 
         user.name = name
         user.save()
@@ -11,8 +11,8 @@ class UserService {
         return user.name
     }
 
-    async changeLocation(location, currentName) {
-        const user = await UserModel.findOne({currentName})
+    async changeLocation(location, id) {
+        const user = await UserModel.findOne({id})
 
         user.location = location
         user.save()

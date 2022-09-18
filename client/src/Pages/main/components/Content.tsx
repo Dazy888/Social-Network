@@ -6,19 +6,21 @@ import {Profile} from "./Profile"
 import {ProfileLoader} from "./Profile-Loader"
 // Types
 import {User} from "../types/Types"
-import {ChangeHeaderData} from "../../login/types/login-types"
+import {ChangeLocation, ChangeName, ChangePhoto} from "../../login/types/login-types"
 
 export type ContentPropsType = {
-    changeHeaderData: ChangeHeaderData
-    changeBanner: (file: File) => void
+    changeBanner: ChangePhoto
+    changeAvatar: ChangePhoto
+    changeName: ChangeName
+    changeLocation: ChangeLocation
 }
 
-export function Content({avatar, banner, location, name, aboutMe, hobbies, skills, changeHeaderData, changeBanner}: User & ContentPropsType) {
+export function Content({avatar, banner, location, name, aboutMe, hobbies, skills, changeName, changeLocation, changeAvatar, changeBanner}: User & ContentPropsType) {
     return(
         <div id={'content'}>
             {avatar
                 ?   <Routes>
-                        <Route path={'/profile'} element={<Profile changeBanner={changeBanner} changeHeaderData={changeHeaderData} aboutMe={aboutMe} hobbies={hobbies} skills={skills} avatar={avatar} banner={banner} location={location} name={name}/>}/>
+                        <Route path={'/profile'} element={<Profile changeBanner={changeBanner} changeAvatar={changeAvatar} changeLocation={changeLocation} changeName={changeName} aboutMe={aboutMe} hobbies={hobbies} skills={skills} avatar={avatar} banner={banner} location={location} name={name}/>}/>
                     </Routes>
                 : <ProfileLoader/>}
         </div>

@@ -6,13 +6,16 @@ import {Modal} from "./Modal"
 // Types
 import {User} from "../types/Types"
 import {ContentPropsType} from "./Content"
+import {useSelector} from "react-redux";
+import {getId} from "../../../store/reducers/profile/profile-selectors";
 
-export function Profile({banner, avatar, location, name, aboutMe, hobbies, skills, changeHeaderData, changeBanner}: User & ContentPropsType) {
+export function Profile({banner, avatar, location, name, aboutMe, hobbies, skills, changeName, changeLocation, changeAvatar, changeBanner}: User & ContentPropsType) {
     const [modal, setModal] = useState(false)
+    const id = useSelector(getId)
 
     return(
         <div>
-            {modal ? <Modal changeBanner={changeBanner} name={name} location={location} currentUserName={name} changeHeaderData={changeHeaderData} setModalStatus={setModal}/> : null}
+            {modal ? <Modal id={id} changeBanner={changeBanner} changeAvatar={changeAvatar } changeName={changeName} changeLocation={changeLocation} currentLocation={location} currentName={name} setModalStatus={setModal}/> : null}
             <div className={'profile'}>
                 <div className={'header'}>
                     <img alt={'Banner'} className={'header__banner'} src={banner}/>

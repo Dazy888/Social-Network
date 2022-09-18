@@ -11,22 +11,24 @@ import store from "./store/store"
 import {compose} from "redux"
 // Reducers
 import {checkAuth, login, logout, registration} from "./store/reducers/auth/auth-reducer"
-import {auth, changeBanner, changeHeaderData} from "./store/reducers/profile/profile-reducer"
+import {auth, changeAvatar, changeBanner, changeLocation, changeName} from "./store/reducers/profile/profile-reducer"
 // Types
-import {ChangeHeaderData, Login, Registration} from "./pages/login/types/login-types"
+import {ChangeLocation, ChangeName, ChangePhoto, Login, Registration} from "./pages/login/types/login-types"
 import {User} from "./pages/main/types/Types"
 
 type PropsType = {
+    changeBanner: ChangePhoto
+    changeAvatar: ChangePhoto
     checkAuth: () => void
     logout: () => void
-    changeHeaderData: ChangeHeaderData
+    changeName: ChangeName
+    changeLocation: ChangeLocation
     auth: () => User
     login: Login
     registration: Registration
-    changeBanner: (file: File) => void
 }
 
-function App({checkAuth, login, registration, logout, auth, changeHeaderData, changeBanner}: PropsType) {
+function App({checkAuth, login, registration, logout, auth, changeLocation, changeName, changeAvatar, changeBanner}: PropsType) {
     let navigate = useNavigate()
 
     useEffect( () => {
@@ -42,7 +44,7 @@ function App({checkAuth, login, registration, logout, auth, changeHeaderData, ch
     return(
         <div>
             <Routes>
-                <Route path={'/*'} element={<MainPage changeBanner={changeBanner} changeHeaderData={changeHeaderData} navigate={navigate} auth={auth} logout={logout}/>}></Route>
+                <Route path={'/*'} element={<MainPage changeAvatar={changeAvatar} changeBanner={changeBanner} changeLocation={changeLocation} changeName={changeName} navigate={navigate} auth={auth} logout={logout}/>}></Route>
                 <Route path={'/login/*'} element={<LoginPage navigate={navigate} login={login} registration={registration}/>}></Route>
             </Routes>
         </div>
@@ -50,7 +52,7 @@ function App({checkAuth, login, registration, logout, auth, changeHeaderData, ch
 }
 
 let mapStateToProps
-const SocialNetworkApp = compose<React.ComponentType>(connect(mapStateToProps, {login, registration, checkAuth, logout, auth, changeHeaderData, changeBanner}))(App);
+const SocialNetworkApp = compose<React.ComponentType>(connect(mapStateToProps, {login, registration, checkAuth, logout, auth, changeName, changeLocation, changeBanner, changeAvatar}))(App);
 
 export const SocialNetwork: React.FC = () => {
     return (
