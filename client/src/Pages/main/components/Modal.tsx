@@ -14,6 +14,8 @@ type PropsType = {
     id: any
     currentName: string
     currentLocation: string
+    currentBanner: string
+    currentAvatar: string
     changeBanner: ChangePhoto
     changeAvatar: ChangePhoto
     setModalStatus: (status: boolean) => void
@@ -21,7 +23,7 @@ type PropsType = {
     changeLocation: ChangeLocation
 }
 
-export function Modal({setModalStatus, currentName, currentLocation, changeName, changeLocation, changeAvatar, changeBanner, id}: PropsType) {
+export function Modal({setModalStatus, currentName, currentLocation, changeName, changeLocation, changeAvatar, changeBanner, currentBanner, currentAvatar, id}: PropsType) {
     const [nameError, setNameError] = useState<string>('')
 
     useEffect(() => {
@@ -48,6 +50,7 @@ export function Modal({setModalStatus, currentName, currentLocation, changeName,
             let data = new FormData()
             data.append('file', banner)
             data.append('id', id)
+            data.append('currentPath', currentBanner)
             await changeBanner(data)
         }
 
@@ -55,6 +58,7 @@ export function Modal({setModalStatus, currentName, currentLocation, changeName,
             let data = new FormData()
             data.append('file', avatar)
             data.append('id', id)
+            data.append('currentPath', currentAvatar)
             await changeAvatar(data)
         }
 

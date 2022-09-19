@@ -36,6 +36,8 @@ export function MainPage({logout, auth, navigate, changeName, changeLocation, ch
     const hobbies = useSelector(getHobbies)
     const isAuth = useSelector(getAuthStatus)
 
+    console.log(banner)
+
     useEffect(() => {
         if (!isAuth) navigate('login/sign-in')
         auth()

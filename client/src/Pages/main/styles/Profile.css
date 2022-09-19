@@ -17,6 +17,7 @@
   color: rebeccapurple;
   background: transparent;
   cursor: pointer;
+  border: none;
 }
 .profile .header .header__banner {
   width: 100%;
@@ -38,8 +39,9 @@
   opacity: 0.9;
 }
 .profile .header .header__user .header__avatar {
-  width: 100px;
-  height: 100px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
 }
 .profile .header .header__tile {
   height: 100px;

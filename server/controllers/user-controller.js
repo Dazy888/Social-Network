@@ -1,4 +1,3 @@
-
 import dotenv from "dotenv"
 import UserService  from "../service/user-service.js"
 import {UserModel}  from "../models/user-model.js"
@@ -25,8 +24,8 @@ class UserController {
                 res.json(`User with this name already exists`)
                 return
             }
-            const userData = await UserService.changeName(name, id)
-            return res.json(userData)
+            const newName = await UserService.changeName(name, id)
+            return res.json(newName)
         } catch (e) {
             next(e)
         }
@@ -35,8 +34,8 @@ class UserController {
     async changeLocation(req, res, next) {
         try {
             const {location, id} = req.body
-            const userData = await UserService.changeLocation(location, id)
-            return res.json(userData)
+            const newLocation = await UserService.changeLocation(location, id)
+            return res.json(newLocation)
         } catch (e) {
             next(e)
         }
@@ -44,8 +43,10 @@ class UserController {
 
     async changeBanner(req, res, next) {
         try {
-            console.log(req.file)
-            console.log(req.body.id)
+            const path = req.file.path
+            const {id, currentPath} = req.body
+            const newPath = await UserService.changeBanner(path, id, currentPath)
+            return res.json(newPath)
         } catch (e) {
             next(e)
         }
@@ -53,7 +54,10 @@ class UserController {
 
     async changeAvatar(req, res, next) {
         try {
-            console.log(req.file)
+            const path = req.file.path
+            const {id, currentPath} = req.body
+            const newPath = await UserService.changAvatar(path, id, currentPath)
+            return res.json(newPath)
         } catch (e) {
             next(e)
         }

@@ -38,6 +38,16 @@ export const profileReducer = (state = initialState, action: ActionsType): Initi
                 ...state,
                 location: action.location
             }
+        case 'SN/profile/SET_BANNER':
+            return {
+                ...state,
+                banner: action.banner
+            }
+        case 'SN/profile/SET_AVATAR':
+            return {
+                ...state,
+                avatar: action.avatar
+            }
         default:
             return state;
     }
@@ -79,5 +89,5 @@ export const changeBanner = (data: FormData) => async (dispatch: any) => {
 
 export const changeAvatar = (data: FormData) => async (dispatch: any) => {
     const response: string = await UserService.changeAvatar(data)
-    dispatch(actions.setLocation(response))
+    dispatch(actions.setAvatar(response))
 }
