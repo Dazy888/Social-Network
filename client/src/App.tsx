@@ -11,12 +11,22 @@ import store from "./store/store"
 import {compose} from "redux"
 // Reducers
 import {checkAuth, login, logout, registration} from "./store/reducers/auth/auth-reducer"
-import {auth, changeAvatar, changeBanner, changeLocation, changeName} from "./store/reducers/profile/profile-reducer"
+import {
+    auth,
+    changeAboutMe,
+    changeAvatar,
+    changeBanner, changeHobbies,
+    changeLocation,
+    changeName, changeSkills
+} from "./store/reducers/profile/profile-reducer"
 // Types
-import {ChangeLocation, ChangeName, ChangePhoto, Login, Registration} from "./pages/login/types/login-types"
+import {ChangeInfo, ChangeLocation, ChangeName, ChangePhoto, Login, Registration} from "./pages/login/types/login-types"
 import {User} from "./pages/main/types/Types"
 
 type PropsType = {
+    changeAboutMe: ChangeInfo
+    changeHobbies: ChangeInfo
+    changeSkills: ChangeInfo
     changeBanner: ChangePhoto
     changeAvatar: ChangePhoto
     checkAuth: () => void
@@ -28,7 +38,7 @@ type PropsType = {
     registration: Registration
 }
 
-function App({checkAuth, login, registration, logout, auth, changeLocation, changeName, changeAvatar, changeBanner}: PropsType) {
+function App({checkAuth, login, registration, logout, auth, changeLocation, changeName, changeAvatar, changeBanner, changeHobbies, changeSkills, changeAboutMe}: PropsType) {
     let navigate = useNavigate()
 
     useEffect( () => {
@@ -44,7 +54,7 @@ function App({checkAuth, login, registration, logout, auth, changeLocation, chan
     return(
         <div>
             <Routes>
-                <Route path={'/*'} element={<MainPage changeAvatar={changeAvatar} changeBanner={changeBanner} changeLocation={changeLocation} changeName={changeName} navigate={navigate} auth={auth} logout={logout}/>}></Route>
+                <Route path={'/*'} element={<MainPage changeAboutMe={changeAboutMe} changeHobbies={changeHobbies} changeSkills={changeSkills} changeAvatar={changeAvatar} changeBanner={changeBanner} changeLocation={changeLocation} changeName={changeName} navigate={navigate} auth={auth} logout={logout}/>}></Route>
                 <Route path={'/login/*'} element={<LoginPage navigate={navigate} login={login} registration={registration}/>}></Route>
             </Routes>
         </div>
@@ -52,7 +62,7 @@ function App({checkAuth, login, registration, logout, auth, changeLocation, chan
 }
 
 let mapStateToProps
-const SocialNetworkApp = compose<React.ComponentType>(connect(mapStateToProps, {login, registration, checkAuth, logout, auth, changeName, changeLocation, changeBanner, changeAvatar}))(App);
+const SocialNetworkApp = compose<React.ComponentType>(connect(mapStateToProps, {login, registration, checkAuth, logout, auth, changeName, changeLocation, changeBanner, changeAvatar, changeAboutMe, changeHobbies, changeSkills}))(App);
 
 export const SocialNetwork: React.FC = () => {
     return (

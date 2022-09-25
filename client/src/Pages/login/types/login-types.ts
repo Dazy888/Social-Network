@@ -13,3 +13,4 @@ export type Validate = (userLogin: string, password: string) => Object
 export type ChangeName = (name: string, id: number) => string | void
 export type ChangeLocation = (location: string, id: number) => void
 export type ChangePhoto = (file: FormData) => void
+export type ChangeInfo = (text: string, id: number) => void

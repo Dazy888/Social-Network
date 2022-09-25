@@ -2,6 +2,20 @@
   max-width: 1400px;
   margin: 100px auto auto;
 
+  .title {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  .text {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    opacity: 0.7;
+    overflow-wrap: break-word;
+  }
+
   .header {
     width: 100%;
     height: fit-content;
@@ -29,6 +43,7 @@
       left: 650px;
       z-index: 1;
       text-align: center;
+      color: white;
 
       .header__name {
         font-size: 25px;
@@ -50,7 +65,85 @@
     .header__tile {
       height: 100px;
       transform: translateY(-4px);
+      background: rebeccapurple;
+    }
+  }
+
+  .main {
+    max-width: 1400px;
+    margin: 60px auto auto;
+    color: white;
+
+    h3 {
+      padding: 23px 25px 18px 25px;
+    }
+
+    hr {
+      display: block;
+      width: 100%;
+      height: 2px;
       background: white;
+      border: none;
+    }
+
+    .information {
+      width: 300px;
+      background: rebeccapurple;
+      border-radius: 10px;
+
+      .information__item {
+        padding: 23px 25px 18px 25px;
+
+        textarea {
+          width: 250px;
+          height: 100px;
+          resize: none;
+          margin-top: 10px;
+          border-radius: 10px;
+          padding: 5px 0 0 10px;
+          box-sizing: border-box;
+
+          &:focus-visible {
+            outline: none;
+          }
+        }
+
+        .information__title {
+          width: 120px;
+
+          .information__title {
+            font-size: 15px;
+          }
+
+          i {
+            font-size: 12px;
+            cursor: pointer;
+          }
+        }
+
+        .text {
+          margin: 10px 0 0 10px;
+        }
+      }
+    }
+
+    .posts {
+      width: 530px;
+
+      .add-post {
+        display: block;
+        background: none;
+        border: none;
+        cursor: pointer;
+        margin: auto;
+        font-size: 50px;
+        color: rebeccapurple;
+      }
+    }
+
+    .photographs__friends {
+      width: 250px;
+      background: rebeccapurple;
     }
   }
 }

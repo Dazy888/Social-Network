@@ -17,15 +17,15 @@ export const getLocation = (state: AppStateType) => {
 }
 
 export const getAboutMe = (state: AppStateType) => {
-    return state.profile.location
+    return state.profile.aboutMe
 }
 
 export const getSkills = (state: AppStateType) => {
-    return state.profile.location
+    return state.profile.skills
 }
 
 export const getHobbies = (state: AppStateType) => {
-    return state.profile.location
+    return state.profile.hobbies
 }
 
 export const getId = (state: AppStateType) => {

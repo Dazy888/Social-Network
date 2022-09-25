@@ -14,9 +14,12 @@ import {
 import {getAuthStatus} from "../../store/reducers/auth/auth-selectors"
 // Types
 import {User} from "./types/Types"
-import {ChangeLocation, ChangeName, ChangePhoto, Navigate} from "../login/types/login-types"
+import {ChangeInfo, ChangeLocation, ChangeName, ChangePhoto, Navigate} from "../login/types/login-types"
 
 type PropsType = {
+    changeAboutMe: ChangeInfo
+    changeHobbies: ChangeInfo
+    changeSkills: ChangeInfo
     changeBanner: ChangePhoto
     changeAvatar: ChangePhoto
     navigate: Navigate
@@ -26,17 +29,9 @@ type PropsType = {
     changeLocation: ChangeLocation
 }
 
-export function MainPage({logout, auth, navigate, changeName, changeLocation, changeAvatar, changeBanner}: PropsType) {
-    const banner = useSelector(getBanner)
+export function MainPage({logout, auth, navigate, changeName, changeLocation, changeAvatar, changeBanner, changeHobbies, changeSkills, changeAboutMe}: PropsType) {
     const avatar = useSelector(getAvatar)
-    const name = useSelector(getName)
-    const location = useSelector(getLocation)
-    const aboutMe = useSelector(getAboutMe)
-    const skills = useSelector(getSkills)
-    const hobbies = useSelector(getHobbies)
     const isAuth = useSelector(getAuthStatus)
-
-    console.log(banner)
 
     useEffect(() => {
         if (!isAuth) navigate('login/sign-in')
@@ -46,7 +41,7 @@ export function MainPage({logout, auth, navigate, changeName, changeLocation, ch
     return(
         <div id={'app-wrapper'}>
             <Header avatar={avatar} logout={logout} />
-            <Content changeAvatar={changeAvatar} changeBanner={changeBanner} changeName={changeName} changeLocation={changeLocation} skills={skills} aboutMe={aboutMe} hobbies={hobbies} banner={banner} location={location} name={name} avatar={avatar}/>
+            <Content changeAboutMe={changeAboutMe} changeHobbies={changeHobbies} changeSkills={changeSkills} changeAvatar={changeAvatar} changeBanner={changeBanner} changeName={changeName} changeLocation={changeLocation} avatar={avatar}/>
         </div>
     )
 }

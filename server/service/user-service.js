@@ -43,6 +43,30 @@ class UserService {
         return user.avatar
     }
 
+    async changeAboutMe(text, id) {
+        const user = await UserModel.findOne({id})
+        user.aboutMe = text
+        user.save()
+
+        return user.aboutMe
+    }
+
+    async changeHobbies(text, id) {
+        const user = await UserModel.findOne({id})
+        user.hobbies = text
+        user.save()
+
+        return user.hobbies
+    }
+
+    async changeSkills(text, id) {
+        const user = await UserModel.findOne({id})
+        user.skills = text
+        user.save()
+
+        return user.skills
+    }
+
     async activate(activationLink) {
         const user = await UserModel.findOne({activationLink})
         if (!user) throw ApiError.BadRequest('Invalid activation link')

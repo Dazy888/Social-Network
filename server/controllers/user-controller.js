@@ -62,6 +62,35 @@ class UserController {
             next(e)
         }
     }
+
+    async changeAboutMe(req, res, next) {
+        try {
+            const {text, id} = req.body
+            const newText = await UserService.changeAboutMe(text, id)
+            return res.json(newText)
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async changeHobbies(req, res, next) {
+        try {
+            const {text, id} = req.body
+            const newText = await UserService.changeHobbies(text, id)
+            return res.json(newText)
+        } catch (e) {
+            next(e)
+        }  }
+
+    async changeSkills(req, res, next) {
+        try {
+            const {text, id} = req.body
+            const newText = await UserService.changeSkills(text, id)
+            return res.json(newText)
+        } catch (e) {
+            next(e)
+        }
+    }
 }
 
 export default new UserController()
