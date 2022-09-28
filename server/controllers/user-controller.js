@@ -91,6 +91,16 @@ class UserController {
             next(e)
         }
     }
+
+    async addPost(req, res, next) {
+        try {
+            const {text, id} = req.body
+            const newText = await UserService.addPost(text, id)
+            return res.json(newText)
+        } catch (e) {
+            next(e)
+        }
+    }
 }
 
 export default new UserController()

@@ -7,7 +7,7 @@ type PropsType = {
     avatar: string
 }
 
-export function Header({avatar, logout}: PropsType) {
+export default React.memo(function Header({avatar, logout}: PropsType) {
     return (
         <div id={'header'} className={'flex-property-set_center'}>
             <div className={'header__content flex-property-set_between'}>
@@ -24,4 +24,4 @@ export function Header({avatar, logout}: PropsType) {
             </div>
         </div>
     )
-}
+})

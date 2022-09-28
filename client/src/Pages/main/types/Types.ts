@@ -1,3 +1,5 @@
+import {Post} from "../../../store/reducers/profile/profile-reducer";
+
 export type User = {
     banner: string
     avatar: string
@@ -6,4 +8,5 @@ export type User = {
     aboutMe: string
     hobbies: string
     skills: string
+    posts: Array<Post>
 }

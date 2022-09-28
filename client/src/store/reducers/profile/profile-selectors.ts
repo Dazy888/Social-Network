@@ -31,3 +31,7 @@ export const getHobbies = (state: AppStateType) => {
 export const getId = (state: AppStateType) => {
     return state.profile.id
 }
+
+export const getPosts = (state: AppStateType) => {
+    return state.profile.posts
+}

@@ -26,7 +26,7 @@ code {
 }
 
 #content {
-  height: 100vh;
+  height: fit-content;
   grid-area: content;
   background: #888da8;
 }

@@ -1,6 +1,8 @@
 import {UserModel} from "../models/user-model.js"
 import {ApiError} from "../exceptions/api-error.js"
 import * as fs from "fs";
+import {PostDto} from "../dtos/post-dto.js";
+import {PostModel} from "../models/post-model.js";
 
 class UserService {
     async changeName(name, id) {
@@ -65,6 +67,18 @@ class UserService {
         user.save()
 
         return user.skills
+    }
+
+    async addPost(text, id) {
+        console.log(text, id)
+
+        const user = await UserModel.findOne({id})
+        const postModel = await PostModel.create({text, date: new Date()})
+        const post = new PostDto(postModel)
+        user.posts = [...user.posts, post]
+        user.save()
+
+        return text
     }
 
     async activate(activationLink) {

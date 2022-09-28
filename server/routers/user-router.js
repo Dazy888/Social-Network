@@ -4,11 +4,17 @@ import {uploadAvatar, uploadBanner} from "../middlewares/upload-middleware.js"
 
 export const userRouter = express.Router()
 
+// Header
 userRouter.put('/change-name', UserController.changeName)
 userRouter.put('/change-location', UserController.changeLocation)
+// Information
 userRouter.put('/change-aboutMe', UserController.changeAboutMe)
 userRouter.put('/change-hobbies', UserController.changeHobbies)
 userRouter.put('/change-skills', UserController.changeSkills)
+// Photographs
 userRouter.put('/change-banner', uploadBanner.single('file'), UserController.changeBanner)
 userRouter.put('/change-avatar', uploadAvatar.single('file'), UserController.changeAvatar)
+// Posts
+userRouter.put('/add-post', UserController.addPost)
+// Settings
 userRouter.get('/activate/:link', UserController.activate)

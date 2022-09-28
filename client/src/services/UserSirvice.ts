@@ -44,4 +44,9 @@ export class UserService {
         const response: AxiosResponse = await $api.put(`user/change-skills`, {text, id})
         return response.data
     }
+
+    static async addPost(text: string, id: number): Promise<string> {
+        const response: AxiosResponse = await $api.put(`user/add-post`, {text, id})
+        return response.data
+    }
 }

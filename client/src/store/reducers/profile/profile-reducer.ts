@@ -6,6 +6,11 @@ import {InferActionsTypes} from '../../store'
 import {AuthService} from "../../../services/AuthService"
 import {UserService} from "../../../services/UserSirvice";
 
+export type Post = {
+    text: string
+    date: any
+}
+
 let initialState = {
     id: 0,
     banner: '',
@@ -16,7 +21,7 @@ let initialState = {
     hobbies: '',
     skills: '',
     // photographs: [''] as Array<string>,
-    posts: []
+    posts: [] as Array<Post>
 }
 
 type InitialStateType = typeof initialState
@@ -63,6 +68,11 @@ export const profileReducer = (state = initialState, action: ActionsType): Initi
                 ...state,
                 skills: action.text
             }
+        case 'SN/profile/ADD_POST':
+            return {
+                ...state,
+                posts: [...state.posts, action.payload]
+            }
         default:
             return state;
     }
@@ -71,7 +81,7 @@ export const profileReducer = (state = initialState, action: ActionsType): Initi
 type ActionsType = InferActionsTypes<typeof actions>
 
 export const actions = {
-    setUser: (name: string, location: string, banner: string, avatar: string, aboutMe: string, skills: string, hobbies: string, id: number) => ({type: 'SN/profile/SET_USER', payload: {name, location, banner, avatar, aboutMe, skills, hobbies, id}} as const),
+    setUser: (name: string, location: string, banner: string, avatar: string, aboutMe: string, skills: string, hobbies: string, id: number, posts: Array<Post>) => ({type: 'SN/profile/SET_USER', payload: {name, location, banner, avatar, aboutMe, skills, hobbies, id, posts}} as const),
     setName: (name: string) => ({type: 'SN/profile/SET_NAME', name} as const),
     setLocation: (location: string) => ({type: 'SN/profile/SET_LOCATION', location} as const),
     setBanner: (banner: string) => ({type: 'SN/profile/SET_BANNER', banner} as const),
@@ -79,13 +89,14 @@ export const actions = {
     setAboutMe: (text: string) => ({type: 'SN/profile/SET_ABOUT_ME', text} as const),
     steHobbies: (text: string) => ({type: 'SN/profile/SET_HOBBIES', text} as const),
     setSkills: (text: string) => ({type: 'SN/profile/SET_SKILLS', text} as const),
+    addNewPost: (text: string, date: Date) => ({type: 'SN/profile/ADD_POST', payload: {text, date}} as const),
 }
 
 export const auth = () => async (dispatch: any) => {
     const response: AxiosResponse = await AuthService.refresh()
     const user = response.data.user
 
-    dispatch(actions.setUser(user.name, user.location, user.banner, user.avatar, user.aboutMe, user.skills, user.hobbies, user.id))
+    dispatch(actions.setUser(user.name, user.location, user.banner, user.avatar, user.aboutMe, user.skills, user.hobbies, user.id, user.posts))
     return response.status
 }
 
@@ -123,4 +134,9 @@ export const changeHobbies = (text: string, id: number) => async (dispatch: any)
 export const changeSkills = (text: string, id: number) => async (dispatch: any) => {
     const response: string = await UserService.changeSkills(text, id)
     dispatch(actions.setSkills(response))
+}
+
+export const addPost = (text: string, id: number) => async (dispatch: any) => {
+    const response: string = await UserService.addPost(text, id)
+    dispatch(actions.addNewPost(response, new Date()))
 }
