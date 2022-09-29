@@ -70,15 +70,23 @@ class UserService {
     }
 
     async addPost(text, id) {
-        console.log(text, id)
-
         const user = await UserModel.findOne({id})
         const postModel = await PostModel.create({text, date: new Date()})
         const post = new PostDto(postModel)
         user.posts = [...user.posts, post]
         user.save()
 
-        return text
+        return post
+    }
+
+    async deletePost(postId, userId) {
+        const user = await UserModel.findOne({userId})
+        const posts = user.posts
+
+        for (let i = 0; i < posts.length; i++) if (posts[i].id === postId) posts.splice(i,1)
+
+        user.save()
+        return posts
     }
 
     async activate(activationLink) {

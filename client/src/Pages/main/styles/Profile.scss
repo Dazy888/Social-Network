@@ -1,6 +1,6 @@
 .profile {
   max-width: 1400px;
-  margin: 100px auto auto;
+  margin: 100px auto 100px;
 
   textarea {
     resize: none;
@@ -23,6 +23,7 @@
     opacity: 0.7;
     overflow-wrap: break-word;
   }
+
 
   .header {
     width: 100%;
@@ -81,7 +82,7 @@
     max-width: 1400px;
     margin: 60px auto auto;
     color: white;
-    align-items: baseline;
+    align-items: flex-start;
 
     hr {
       display: block;
@@ -138,12 +139,13 @@
       width: 600px;
 
       .post {
-        width: 97%;
+        width: 100%;
         height: fit-content;
         padding: 25px;
         border-radius: 10px;
         background: rebeccapurple;
         margin-bottom: 30px;
+        box-sizing: border-box;
 
         .post__header {
           margin-bottom: 20px;
@@ -180,13 +182,12 @@
         .line {
           width: 100%;
           height: 1px;
-          opacity: 0.7;
         }
       }
 
       .posts__new-post {
         width: fit-content;
-        margin: 100px auto 0;
+        margin: auto;
 
         h3 {
           text-align: center;
@@ -205,17 +206,57 @@
         }
       }
 
-      textarea {
-        width: 100%;
-        height: 100px;
-        border-radius: 10px;
-        padding: 10px 0 0 10px;
+      .posts__create {
+        margin-bottom: 100px;
+
+        textarea {
+          width: 100%;
+          height: 100px;
+          border-radius: 10px;
+          padding: 10px;
+          box-sizing: border-box;
+        }
+
+        .buttons {
+          width: 300px;
+          margin: 20px auto auto;
+
+          button {
+            width: 130px;
+            height: 30px;
+            border-radius: 20px;
+            cursor: pointer;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            border: none;
+            transition: 0.3s;
+
+            &:hover {
+              transform: translateY(-10px);
+            }
+          }
+
+          .submit {
+            background: green;
+          }
+
+          .cancel {
+            background: red;
+          }
+        }
       }
     }
 
-    .photographs__friends {
-      width: 250px;
+    .subscriptions {
+      width: 300px;
+      height: fit-content;
       background: rebeccapurple;
+      border-radius: 10px;
+
+      h3 {
+        padding: 23px 25px 18px;
+      }
     }
   }
 }

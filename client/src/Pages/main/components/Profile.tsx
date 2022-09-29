@@ -3,69 +3,31 @@ import React, {useMemo, useState} from "react"
 import '../styles/Profile.css'
 // Components
 import Post from "./Post"
+import InformationItem from "./Information-Item"
 import {Modal} from "./Modal"
 // Types
 import {User} from "../types/Types"
 import {ContentPropsType} from "./Content"
-import {ChangeInfo} from "../../login/types/login-types"
+import {AddPost} from "../../login/types/login-types"
 // Store
 import {useSelector} from "react-redux"
 import {getId} from "../../../store/reducers/profile/profile-selectors"
 
-export default React.memo(function Profile({banner, posts, avatar, location, name, hobbies, aboutMe, skills, changeName, changeLocation, changeAvatar, changeBanner, changeHobbies, changeSkills, changeAboutMe, addPost}: User & ContentPropsType) {
+export default React.memo(function Profile({banner, posts, avatar, location, name, hobbies, aboutMe, skills, changeName, changeLocation, changeAvatar, changeBanner, changeHobbies, changeSkills, changeAboutMe, addPost, deletePost, subscriptions}: User & ContentPropsType) {
     const [modalStatus, setModalStatus] = useState<boolean>(false)
+    const [newPostStatus, setNewPostStatus] = useState<boolean>(false)
     const [aboutMeStatus, setAboutMeStatus] = useState<boolean>(false)
     const [skillsStatus, setSkillsStatus] = useState<boolean>(false)
     const [hobbiesStatus, setHobbiesStatus] = useState<boolean>(false)
+    const [editStatus, setEditStatus] = useState<boolean>(false)
     const id = useSelector(getId)
 
-    const postsElements = useMemo(() => [...posts].reverse().map((p) => <Post avatar={avatar} name={name} date={Math.abs(new Date().getTime() - new Date(p.date).getTime())} text={p.text}/>), [posts])
+    const postsElements = useMemo(() => [...posts].reverse().map((p) => <Post userId={id} id={p.id} deletePost={deletePost} avatar={avatar} name={name} date={Math.abs(new Date().getTime() - new Date(p.date).getTime())} text={p.text}/>), [posts])
 
-    function editInfo(event: any, changeText: ChangeInfo, value: string, textId: string, setEditStatus: (status: boolean) => void) {
-        setEditStatus(true)
-        const block = event.target.closest('.information__item')
-        const text = block.querySelector(`#${textId}`)
-        let textarea: any
-
-        setTimeout(() => {
-            textarea = block.querySelector('textarea')
-            textarea.value = value
-            textarea.onblur = sendText
-        }, 1)
-
-        function sendText() {
-            changeText(textarea.value, id)
-            text.innerText = textarea.value
-            document.onkeydown = null
-            setEditStatus(false)
-        }
-
-        document.onkeydown = (e) => {
-            if (e.code === 'Enter') sendText()
-        }
-    }
-
-    function addNewPost(e: any) {
-        const block = e.target.closest('.posts')
-        const addPostBlock = block.querySelector('.posts__new-post')
-        const textarea = document.createElement('textarea')
-        textarea.maxLength = 300
-
-        block.append(textarea)
-        block.querySelector('.posts__new-post').remove()
-
-        function sendText() {
-            addPost(textarea.value, id)
-            textarea.remove()
-            block.append(addPostBlock)
-            document.onkeydown = null
-        }
-
-        textarea.onblur = sendText
-
-        document.onkeydown = (e) => {
-            if (e.code === 'Enter') sendText()
-        }
+    function addNewPost(addPost: AddPost, setStatus: (status: boolean) => void) {
+        const textarea: any = document.querySelector('textarea')
+        addPost(textarea.value, id)
+        setStatus(false)
     }
 
     return(
@@ -86,57 +48,31 @@ export default React.memo(function Profile({banner, posts, avatar, location, nam
                     <div className={'information'}>
                         <h3 className={'title'}>Profile Intro</h3>
                         <hr/>
-                        <div className={'information__item'}>
-                            <div className={'information__title flex-property-set_between'}>
-                                <p className={'information__title'}>About Me:</p>
-                                <button disabled={aboutMeStatus} onClick={e => editInfo(e, changeAboutMe, aboutMe, 'aboutMe', setAboutMeStatus)} className={'information__btn'}>
-                                    <i className="fa-solid fa-pen"></i>
-                                </button>
-                            </div>
-                            {aboutMeStatus
-                                ? <textarea maxLength={100}/>
-                                : <p className={'text'} id={'aboutMe'}>{aboutMe}</p>
-                            }
-                        </div>
-                        <div className={'information__item'}>
-                            <div className={'information__title flex-property-set_between'}>
-                                <p className={'information__title'}>My Hobbies:</p>
-                                <button disabled={hobbiesStatus} onClick={e => editInfo(e, changeHobbies, hobbies, 'hobbies', setHobbiesStatus)} className={'information__btn'}>
-                                    <i className="fa-solid fa-pen"></i>
-                                </button>
-                            </div>
-                            {hobbiesStatus
-                                ? <textarea maxLength={100}/>
-                                : <p className={'text'} id={'hobbies'}>{hobbies}</p>
-                            }
-                        </div>
-                        <div className={'information__item'}>
-                            <div className={'information__title flex-property-set_between'}>
-                                <p className={'information__title'}>My Skills:</p>
-                                <button disabled={skillsStatus} onClick={e => editInfo(e, changeSkills, skills, 'skills', setSkillsStatus)} className={'information__btn'}>
-                                    <i className="fa-solid fa-pen"></i>
-                                </button>
-                            </div>
-                            {skillsStatus
-                                ? <textarea maxLength={100}/>
-                                : <p className={'text'} id={'skills'}>{skills}</p>
-                            }
-                        </div>
+                        <InformationItem editStatus={editStatus} setEditStatus={setEditStatus} id={id} textId={'aboutMe'} text={aboutMe} changeText={changeAboutMe} status={aboutMeStatus} setStatus={setAboutMeStatus}/>
+                        <InformationItem editStatus={editStatus} setEditStatus={setEditStatus} id={id} textId={'hobbies'} text={hobbies} changeText={changeHobbies} status={hobbiesStatus} setStatus={setHobbiesStatus}/>
+                        <InformationItem editStatus={editStatus} setEditStatus={setEditStatus} id={id} textId={'skills'} text={skills} changeText={changeSkills} status={skillsStatus} setStatus={setSkillsStatus}/>
                     </div>
                     <div className={'posts'}>
                         {postsElements}
-                        <div className={'posts__new-post'}>
-                            <h3 className={'title'}>Add New Post</h3>
-                            <button className={'add-post'} onClick={(e) => addNewPost(e)}>
-                                <i className="fa-regular fa-square-plus"></i>
-                            </button>
-                        </div>
+                        {newPostStatus
+                        ? <div className={'posts__create'}>
+                                <textarea maxLength={300}/>
+                                <div className={'buttons flex-property-set_between'}>
+                                    <button className={'submit'} onClick={(e) => addNewPost(addPost, setNewPostStatus)}>Submit</button>
+                                    <button className={'cancel'} onClick={() => setNewPostStatus(false)}>Cancel</button>
+                                </div>
+                          </div>
+                        : <div className={'posts__new-post'}>
+                                <h3 className={'title'}>Add New Post</h3>
+                                <button className={'add-post'} onClick={() => setNewPostStatus(true)}>
+                                    <i className="fa-regular fa-square-plus"></i>
+                                </button>
+                            </div>
+                        }
                     </div>
-                    <div className={'photographs__friends'}>
-                        <div className={'photographs'}>
-                            <h3>Last Photos</h3>
-                            <hr/>
-                        </div>
+                    <div className={'subscriptions'}>
+                        <h3 className={'title'}>Subscriptions ({subscriptions})</h3>
+                        <hr/>
                     </div>
                 </div>
             </div>

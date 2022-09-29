@@ -1,6 +1,7 @@
 // Axios
 import {$api} from "../http"
 import {AxiosResponse} from "axios"
+import {PostType} from "../pages/login/types/login-types";
 
 export class UserService {
     static async changeName(name: string, id: number): Promise<AxiosResponse> {
@@ -45,8 +46,13 @@ export class UserService {
         return response.data
     }
 
-    static async addPost(text: string, id: number): Promise<string> {
+    static async addPost(text: string, id: number): Promise<PostType> {
         const response: AxiosResponse = await $api.put(`user/add-post`, {text, id})
+        return response.data
+    }
+
+    static async deletePost(id: number, userId: number): Promise<Array<PostType>> {
+        const response: AxiosResponse = await $api.delete(`user/delete-post/${id}/${userId}`)
         return response.data
     }
 }

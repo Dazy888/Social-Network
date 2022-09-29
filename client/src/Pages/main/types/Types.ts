@@ -1,4 +1,4 @@
-import {Post} from "../../../store/reducers/profile/profile-reducer";
+import {PostType} from "../../login/types/login-types"
 
 export type User = {
     banner: string
@@ -8,5 +8,6 @@ export type User = {
     aboutMe: string
     hobbies: string
     skills: string
-    posts: Array<Post>
+    subscriptions: number
+    posts: Array<PostType>
 }

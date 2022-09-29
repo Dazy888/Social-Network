@@ -18,7 +18,7 @@ import {
     changeAvatar,
     changeBanner, changeHobbies,
     changeLocation,
-    changeName, changeSkills
+    changeName, changeSkills, deletePost
 } from "./store/reducers/profile/profile-reducer"
 // Types
 import {
@@ -26,13 +26,14 @@ import {
     ChangeInfo,
     ChangeLocation,
     ChangeName,
-    ChangePhoto,
+    ChangePhoto, DeletePost,
     Login,
     Registration
 } from "./pages/login/types/login-types"
 import {User} from "./pages/main/types/Types"
 
 type PropsType = {
+    deletePost: DeletePost
     addPost: AddPost
     changeAboutMe: ChangeInfo
     changeHobbies: ChangeInfo
@@ -48,7 +49,7 @@ type PropsType = {
     registration: Registration
 }
 
-function App({checkAuth, login, registration, logout, auth, changeLocation, changeName, changeAvatar, changeBanner, changeHobbies, changeSkills, changeAboutMe, addPost}: PropsType) {
+function App({checkAuth, login, registration, logout, auth, changeLocation, changeName, changeAvatar, changeBanner, changeHobbies, changeSkills, changeAboutMe, addPost, deletePost}: PropsType) {
     let navigate = useNavigate()
 
     useEffect( () => {
@@ -63,7 +64,7 @@ function App({checkAuth, login, registration, logout, auth, changeLocation, chan
     return(
         <div>
             <Routes>
-                <Route path={'/*'} element={<MainPage addPost={addPost} changeAboutMe={changeAboutMe} changeHobbies={changeHobbies} changeSkills={changeSkills} changeAvatar={changeAvatar} changeBanner={changeBanner} changeLocation={changeLocation} changeName={changeName} navigate={navigate} auth={auth} logout={logout}/>}></Route>
+                <Route path={'/*'} element={<MainPage deletePost={deletePost} addPost={addPost} changeAboutMe={changeAboutMe} changeHobbies={changeHobbies} changeSkills={changeSkills} changeAvatar={changeAvatar} changeBanner={changeBanner} changeLocation={changeLocation} changeName={changeName} navigate={navigate} auth={auth} logout={logout}/>}></Route>
                 <Route path={'/login/*'} element={<LoginPage navigate={navigate} login={login} registration={registration}/>}></Route>
             </Routes>
         </div>
@@ -71,7 +72,7 @@ function App({checkAuth, login, registration, logout, auth, changeLocation, chan
 }
 
 let mapStateToProps
-const SocialNetworkApp = compose<React.ComponentType>(connect(mapStateToProps, {login, registration, checkAuth, logout, auth, changeName, changeLocation, changeBanner, changeAvatar, changeAboutMe, changeHobbies, changeSkills, addPost}))(App);
+const SocialNetworkApp = compose<React.ComponentType>(connect(mapStateToProps, {login, registration, checkAuth, logout, auth, changeName, changeLocation, changeBanner, changeAvatar, changeAboutMe, changeHobbies, changeSkills, addPost, deletePost}))(App);
 
 export const SocialNetwork: React.FC = () => {
     return (

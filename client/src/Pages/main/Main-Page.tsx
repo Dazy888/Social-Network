@@ -9,9 +9,18 @@ import {getAvatar} from "../../store/reducers/profile/profile-selectors"
 import {getAuthStatus} from "../../store/reducers/auth/auth-selectors"
 // Types
 import {User} from "./types/Types"
-import {AddPost, ChangeInfo, ChangeLocation, ChangeName, ChangePhoto, Navigate} from "../login/types/login-types"
+import {
+    AddPost,
+    ChangeInfo,
+    ChangeLocation,
+    ChangeName,
+    ChangePhoto,
+    DeletePost,
+    Navigate
+} from "../login/types/login-types"
 
 type PropsType = {
+    deletePost: DeletePost
     addPost: AddPost
     changeAboutMe: ChangeInfo
     changeHobbies: ChangeInfo
@@ -25,7 +34,7 @@ type PropsType = {
     changeLocation: ChangeLocation
 }
 
-export default React.memo(function MainPage({logout, auth, navigate, changeName, changeLocation, changeAvatar, changeBanner, changeHobbies, changeSkills, changeAboutMe, addPost}: PropsType) {
+export default React.memo(function MainPage({logout, auth, navigate, changeName, changeLocation, changeAvatar, changeBanner, changeHobbies, changeSkills, changeAboutMe, addPost, deletePost}: PropsType) {
     const avatar = useSelector(getAvatar)
     const isAuth = useSelector(getAuthStatus)
 
@@ -37,7 +46,7 @@ export default React.memo(function MainPage({logout, auth, navigate, changeName,
     return(
         <div id={'app-wrapper'}>
             <Header avatar={avatar} logout={logout} />
-            <Content addPost={addPost} changeAboutMe={changeAboutMe} changeHobbies={changeHobbies} changeSkills={changeSkills} changeAvatar={changeAvatar} changeBanner={changeBanner} changeName={changeName} changeLocation={changeLocation}/>
+            <Content deletePost={deletePost} addPost={addPost} changeAboutMe={changeAboutMe} changeHobbies={changeHobbies} changeSkills={changeSkills} changeAvatar={changeAvatar} changeBanner={changeBanner} changeName={changeName} changeLocation={changeLocation}/>
         </div>
     )
 })

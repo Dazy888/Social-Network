@@ -35,3 +35,7 @@ export const getId = (state: AppStateType) => {
 export const getPosts = (state: AppStateType) => {
     return state.profile.posts
 }
+
+export const getSubscriptions = (state: AppStateType) => {
+    return state.profile.subscriptions
+}

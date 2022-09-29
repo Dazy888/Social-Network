@@ -95,8 +95,18 @@ class UserController {
     async addPost(req, res, next) {
         try {
             const {text, id} = req.body
-            const newText = await UserService.addPost(text, id)
-            return res.json(newText)
+            const newPost = await UserService.addPost(text, id)
+            return res.json(newPost)
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async deletePost(req, res, next) {
+        try {
+            const {id, userId} = req.params
+            const newPosts = await UserService.deletePost(id, userId)
+            return res.json(newPosts)
         } catch (e) {
             next(e)
         }

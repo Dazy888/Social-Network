@@ -16,5 +16,6 @@ userRouter.put('/change-banner', uploadBanner.single('file'), UserController.cha
 userRouter.put('/change-avatar', uploadAvatar.single('file'), UserController.changeAvatar)
 // Posts
 userRouter.put('/add-post', UserController.addPost)
+userRouter.delete('/delete-post/:id/:userId', UserController.deletePost)
 // Settings
 userRouter.get('/activate/:link', UserController.activate)
