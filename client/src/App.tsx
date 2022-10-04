@@ -22,7 +22,8 @@ import {
 } from "./store/reducers/profile/profile-reducer"
 // Types
 import {
-    AddPost,
+    ActivateType,
+    AddPost, CancelActivation,
     ChangeInfo,
     ChangeLocation,
     ChangeName,
@@ -31,8 +32,11 @@ import {
     Registration
 } from "./pages/login/types/login-types"
 import {User} from "./pages/main/types/Types"
+import {activate, cancelActivation} from "./store/reducers/settings/settings-reducer";
 
 type PropsType = {
+    cancelActivation: CancelActivation
+    activate: ActivateType
     deletePost: DeletePost
     addPost: AddPost
     changeAboutMe: ChangeInfo
@@ -49,22 +53,28 @@ type PropsType = {
     registration: Registration
 }
 
-function App({checkAuth, login, registration, logout, auth, changeLocation, changeName, changeAvatar, changeBanner, changeHobbies, changeSkills, changeAboutMe, addPost, deletePost}: PropsType) {
+function App({checkAuth, cancelActivation, login, registration, logout, auth, changeLocation, changeName, changeAvatar, changeBanner, changeHobbies, changeSkills, changeAboutMe, addPost, deletePost, activate}: PropsType) {
     let navigate = useNavigate()
 
     useEffect( () => {
         if (localStorage.getItem('token')) {
             checkAuth()
-            navigate('/profile')
         } else {
             navigate('/login/sign-in')
+        }
+    }, [])
+
+    useEffect(() => {
+        navigate(JSON.parse(window.sessionStorage.getItem('lastRoute') || '{}'))
+        window.onbeforeunload = () => {
+            window.sessionStorage.setItem('lastRoute', JSON.stringify(window.location.pathname))
         }
     }, [])
 
     return(
         <div>
             <Routes>
-                <Route path={'/*'} element={<MainPage deletePost={deletePost} addPost={addPost} changeAboutMe={changeAboutMe} changeHobbies={changeHobbies} changeSkills={changeSkills} changeAvatar={changeAvatar} changeBanner={changeBanner} changeLocation={changeLocation} changeName={changeName} navigate={navigate} auth={auth} logout={logout}/>}></Route>
+                <Route path={'/*'} element={<MainPage cancelActivation={cancelActivation} activate={activate} deletePost={deletePost} addPost={addPost} changeAboutMe={changeAboutMe} changeHobbies={changeHobbies} changeSkills={changeSkills} changeAvatar={changeAvatar} changeBanner={changeBanner} changeLocation={changeLocation} changeName={changeName} auth={auth} logout={logout}/>}></Route>
                 <Route path={'/login/*'} element={<LoginPage navigate={navigate} login={login} registration={registration}/>}></Route>
             </Routes>
         </div>
@@ -72,7 +82,7 @@ function App({checkAuth, login, registration, logout, auth, changeLocation, chan
 }
 
 let mapStateToProps
-const SocialNetworkApp = compose<React.ComponentType>(connect(mapStateToProps, {login, registration, checkAuth, logout, auth, changeName, changeLocation, changeBanner, changeAvatar, changeAboutMe, changeHobbies, changeSkills, addPost, deletePost}))(App);
+const SocialNetworkApp = compose<React.ComponentType>(connect(mapStateToProps, {login, registration, checkAuth, logout, auth, changeName, changeLocation, changeBanner, changeAvatar, changeAboutMe, changeHobbies, changeSkills, addPost, deletePost, activate, cancelActivation}))(App);
 
 export const SocialNetwork: React.FC = () => {
     return (

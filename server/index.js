@@ -5,13 +5,13 @@ import chalk from "chalk"
 import dotenv from "dotenv"
 import mongoose from "mongoose"
 import cookieParser from "cookie-parser"
-import path from "path"
 import { fileURLToPath } from 'url'
 // Routers
-import {userRouter} from "./routers/user-router.js"
+import {profileRouter} from "./routers/profile-router.js"
 import {authRouter} from "./routers/auth-router.js"
 // Middleware
 import {ErrorMiddleware} from "./middlewares/error-middleware.js"
+import {settingsRouter} from "./routers/settings-router.js";
 
 dotenv.config()
 
@@ -30,7 +30,8 @@ app.use(cors({
     origin: process.env.CLIENT_URL
 }))
 app.use('/api/auth', authRouter)
-app.use('/api/user', userRouter)
+app.use('/api/profile', profileRouter)
+app.use('/api/settings', settingsRouter)
 app.use(ErrorMiddleware)
 
 const start = async () => {

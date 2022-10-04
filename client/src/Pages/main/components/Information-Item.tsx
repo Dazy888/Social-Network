@@ -34,8 +34,8 @@ export default React.memo(function InformationItem({status, text, changeText, se
             changeText(textarea.value, id)
             text.innerText = textarea.value
             document.onkeydown = null
-            setEditStatus(true)
-            setStatus(true)
+            setEditStatus(false)
+            setStatus(false)
         }
     }
 

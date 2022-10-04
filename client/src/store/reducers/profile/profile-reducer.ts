@@ -6,6 +6,7 @@ import {PostType} from "../../../pages/login/types/login-types"
 // Service
 import {AuthService} from "../../../services/AuthService"
 import {UserService} from "../../../services/UserSirvice"
+import {settingsActions} from "../settings/settings-reducer";
 
 let initialState = {
     id: 0,
@@ -17,7 +18,8 @@ let initialState = {
     hobbies: '',
     skills: '',
     subscriptions: 0,
-    posts: [] as Array<PostType>
+    posts: [] as Array<PostType>,
+    email: ''
 }
 
 type InitialStateType = typeof initialState
@@ -82,7 +84,7 @@ export const profileReducer = (state = initialState, action: Actions): InitialSt
 type Actions = InferActionsTypes<typeof actions>
 
 export const actions = {
-    setUser: (name: string, location: string, banner: string, avatar: string, aboutMe: string, skills: string, hobbies: string, id: number, posts: Array<PostType>) => ({type: 'SN/profile/SET_USER', payload: {name, location, banner, avatar, aboutMe, skills, hobbies, id, posts}} as const),
+    setUser: (name: string, location: string, banner: string, avatar: string, aboutMe: string, skills: string, hobbies: string, id: number, posts: Array<PostType>, email: string) => ({type: 'SN/profile/SET_USER', payload: {name, location, banner, avatar, aboutMe, skills, hobbies, id, posts, email}} as const),
     setName: (name: string) => ({type: 'SN/profile/SET_NAME', name} as const),
     setLocation: (location: string) => ({type: 'SN/profile/SET_LOCATION', location} as const),
     setBanner: (banner: string) => ({type: 'SN/profile/SET_BANNER', banner} as const),
@@ -98,7 +100,8 @@ export const auth = () => async (dispatch: any) => {
     const response: AxiosResponse = await AuthService.refresh()
     const user = response.data.user
 
-    dispatch(actions.setUser(user.name, user.location, user.banner, user.avatar, user.aboutMe, user.skills, user.hobbies, user.id, user.posts))
+    dispatch(actions.setUser(user.name, user.location, user.banner, user.avatar, user.aboutMe, user.skills, user.hobbies, user.id, user.posts, user.email))
+    dispatch(settingsActions.setEmail(user.email))
     return response.status
 }
 

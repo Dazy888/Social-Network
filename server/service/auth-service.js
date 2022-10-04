@@ -19,8 +19,6 @@ class AuthService {
     async registration(userLogin, password) {
         const hashPassword = await bcrypt.hash(password, 3)
         const userId = Math.floor(Math.random() * 100)
-        // const activationLink = uuidv4()
-        // await MailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`)
 
         const user = await UserModel.create({userLogin, password: hashPassword, name: `User ${userId}`, location: 'Nowhere', banner: 'https://img.freepik.com/premium-vector/programming-code-made-with-binary-code-coding-hacker-background-digital-binary-data-streaming-digital-code_127544-778.jpg?w=2000', avatar: 'https://i.imgur.com/b08hxPY.png', aboutMe: '', skills: '', hobbies: '', posts: [], photographs: []})
 

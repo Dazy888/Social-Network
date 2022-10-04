@@ -2,10 +2,18 @@ import React from "react"
 // Navigation
 import {Route, Routes} from "react-router-dom"
 // Components
-import Profile from "./Profile"
+import Profile from "../Profile"
 import {ProfileLoader} from "./Profile-Loader"
 // Types
-import {AddPost, ChangeInfo, ChangeLocation, ChangeName, ChangePhoto, DeletePost} from "../../login/types/login-types"
+import {
+    ActivateType,
+    AddPost, CancelActivation,
+    ChangeInfo,
+    ChangeLocation,
+    ChangeName,
+    ChangePhoto,
+    DeletePost
+} from "../../login/types/login-types"
 // Store
 import {useSelector} from "react-redux"
 import {
@@ -19,8 +27,11 @@ import {
     getSkills,
     getSubscriptions
 } from "../../../store/reducers/profile/profile-selectors";
+import {Settings} from "../Settings";
 
 export type ContentPropsType = {
+    cancelActivation?: CancelActivation
+    activate?: ActivateType
     deletePost: DeletePost
     addPost: AddPost
     changeAboutMe: ChangeInfo
@@ -32,7 +43,7 @@ export type ContentPropsType = {
     changeLocation: ChangeLocation
 }
 
-export default React.memo(function Content({changeName, changeLocation, changeAvatar, changeBanner, changeHobbies, changeSkills, changeAboutMe, addPost, deletePost}: ContentPropsType) {
+export default React.memo(function Content({changeName, changeLocation, changeAvatar, changeBanner, changeHobbies, changeSkills, changeAboutMe, addPost, deletePost, activate, cancelActivation}: ContentPropsType) {
     const avatar = useSelector(getAvatar)
     const name = useSelector(getName)
     const location = useSelector(getLocation)
@@ -48,6 +59,7 @@ export default React.memo(function Content({changeName, changeLocation, changeAv
             {avatar
             ?   <Routes>
                     <Route path={'/profile'} element={<Profile subscriptions={subscriptions} deletePost={deletePost} posts={posts} addPost={addPost} changeSkills={changeSkills} changeHobbies={changeHobbies} changeAboutMe={changeAboutMe} changeBanner={changeBanner} changeAvatar={changeAvatar} changeLocation={changeLocation} changeName={changeName} aboutMe={aboutMe} hobbies={hobbies} skills={skills} avatar={avatar} banner={banner} location={location} name={name}/>}/>
+                    <Route path={'/settings/*'} element={<Settings cancelActivation={cancelActivation} activate={activate}/>}/>
                 </Routes>
                 : <ProfileLoader/>}
         </div>

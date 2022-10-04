@@ -1,7 +1,7 @@
 // React
 import React, {useEffect} from "react"
 // Components
-import Header from "./components/Header"
+import Header from "./Header"
 import Content from "./components/Content"
 // Store
 import {useSelector} from "react-redux"
@@ -10,16 +10,19 @@ import {getAuthStatus} from "../../store/reducers/auth/auth-selectors"
 // Types
 import {User} from "./types/Types"
 import {
-    AddPost,
+    ActivateType,
+    AddPost, CancelActivation,
     ChangeInfo,
     ChangeLocation,
     ChangeName,
     ChangePhoto,
     DeletePost,
-    Navigate
 } from "../login/types/login-types"
+import {useNavigate} from "react-router-dom";
 
 type PropsType = {
+    cancelActivation: CancelActivation
+    activate: ActivateType
     deletePost: DeletePost
     addPost: AddPost
     changeAboutMe: ChangeInfo
@@ -27,26 +30,29 @@ type PropsType = {
     changeSkills: ChangeInfo
     changeBanner: ChangePhoto
     changeAvatar: ChangePhoto
-    navigate: Navigate
     logout: () => void
     auth: () => User
     changeName: ChangeName
     changeLocation: ChangeLocation
 }
 
-export default React.memo(function MainPage({logout, auth, navigate, changeName, changeLocation, changeAvatar, changeBanner, changeHobbies, changeSkills, changeAboutMe, addPost, deletePost}: PropsType) {
+export default React.memo(function MainPage({logout, auth, changeName, changeLocation, changeAvatar, changeBanner, changeHobbies, changeSkills, changeAboutMe, addPost, deletePost, activate, cancelActivation}: PropsType) {
+    const navigate = useNavigate()
     const avatar = useSelector(getAvatar)
     const isAuth = useSelector(getAuthStatus)
 
     useEffect(() => {
-        if (!isAuth) navigate('login/sign-in')
-        auth()
+        if (!isAuth) {
+            navigate('login/sign-in')
+        } else {
+            auth()
+        }
     }, [isAuth])
 
     return(
         <div id={'app-wrapper'}>
             <Header avatar={avatar} logout={logout} />
-            <Content deletePost={deletePost} addPost={addPost} changeAboutMe={changeAboutMe} changeHobbies={changeHobbies} changeSkills={changeSkills} changeAvatar={changeAvatar} changeBanner={changeBanner} changeName={changeName} changeLocation={changeLocation}/>
+            <Content cancelActivation={cancelActivation} activate={activate} deletePost={deletePost} addPost={addPost} changeAboutMe={changeAboutMe} changeHobbies={changeHobbies} changeSkills={changeSkills} changeAvatar={changeAvatar} changeBanner={changeBanner} changeName={changeName} changeLocation={changeLocation}/>
         </div>
     )
 })

@@ -25,9 +25,9 @@ npm manifest:
   {
     "name": "backend",
     "version": "1.0.0",
-    "main": "user-router.js",
+    "main": "profile-router.js",
     "scripts": {
-      "dev": "nodemon user-router.js"
+      "dev": "nodemon profile-router.js"
     },
     "license": "MIT",
     "dependencies": {

@@ -11,6 +11,7 @@ export class UserDto {
     hobbies;
     posts;
     photographs;
+    email;
 
 
     constructor(model) {
@@ -26,5 +27,6 @@ export class UserDto {
         this.hobbies = model.hobbies
         this.posts = model.posts
         this.photographs = model.photographs
+        this.email = model.email
     }
 }

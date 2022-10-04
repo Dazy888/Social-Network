@@ -10,6 +10,7 @@ import {ErrorIcons} from "./components/ErrorIcons"
 import {Navigate, Registration, Validate} from "./types/login-types"
 // Recaptcha
 import ReCAPTCHA from "react-google-recaptcha"
+import {loaderCSS} from "./Sign-In";
 
 type PropsType = {
     validate: Validate
@@ -79,7 +80,7 @@ export function SignUp({registration, validate, navigate}: PropsType) {
                           <label className={'checkbox__label'}>Show password</label>
                       </div>
                       <button className={'content__submit'} type={'submit'} disabled={isSubmitting}>Sign up</button>
-                      <LoginLoader loading={isSubmitting}/>
+                      <LoginLoader color={'rgb(249, 94, 59)'} css={loaderCSS} loading={isSubmitting}/>
                       <ReCAPTCHA className={'captcha'} sitekey={'6Leond0hAAAAAOCUq2naPPzgveoMehWQmYG4Vabt'} size={"invisible"} ref={reRef}/>
                   </form>
             )}

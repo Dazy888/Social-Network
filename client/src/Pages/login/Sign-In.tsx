@@ -1,5 +1,5 @@
 // React
-import React, {useEffect, useRef, useState} from "react"
+import React, {CSSProperties, useEffect, useRef, useState} from "react"
 // Formik
 import {Formik} from "formik"
 // Components
@@ -17,6 +17,15 @@ type PropsType = {
     navigate: Navigate
 }
 
+export const loaderCSS: CSSProperties = {
+    display: "block",
+    width: "fit-content",
+    position: "relative",
+    left: "150px",
+    margin: "30px auto",
+    borderColor: "red",
+}
+
 export function SignIn({login, navigate, validate}: PropsType) {
     const [loginError, changeLoginError] = useState<string>('')
     const [passwordError, changePasswordError] = useState<string>('')
@@ -31,8 +40,6 @@ export function SignIn({login, navigate, validate}: PropsType) {
             }
         }
     }, [])
-
-
 
     async function submit(userLogin: string, password: string, setSubmitting: (status: boolean) => void) {
         setSubmitting(true)
@@ -74,7 +81,7 @@ export function SignIn({login, navigate, validate}: PropsType) {
                           <ErrorIcons error={errors.password} serverError={passwordError} touched={touched.password}/>
                       </div>
                       <button className={'content__submit'} type={'submit'} disabled={isSubmitting}>Sign in</button>
-                      <LoginLoader loading={isSubmitting}/>
+                      <LoginLoader color={'rgb(249, 94, 59)'} css={loaderCSS} loading={isSubmitting}/>
                       <ReCAPTCHA className={'captcha'} sitekey={'6Leond0hAAAAAOCUq2naPPzgveoMehWQmYG4Vabt'} size={"invisible"} ref={reRef}/>
                   </form>
             )}

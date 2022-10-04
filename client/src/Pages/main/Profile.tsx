@@ -1,17 +1,17 @@
 import React, {useMemo, useState} from "react"
 // CSS
-import '../styles/Profile.css'
+import './styles/Profile.css'
 // Components
-import Post from "./Post"
-import InformationItem from "./Information-Item"
-import {Modal} from "./Modal"
+import Post from "./components/Post"
+import InformationItem from "./components/Information-Item"
+import {Modal} from "./components/Modal"
 // Types
-import {User} from "../types/Types"
-import {ContentPropsType} from "./Content"
-import {AddPost} from "../../login/types/login-types"
+import {User} from "./types/Types"
+import {ContentPropsType} from "./components/Content"
+import {AddPost} from "../login/types/login-types"
 // Store
 import {useSelector} from "react-redux"
-import {getId} from "../../../store/reducers/profile/profile-selectors"
+import {getId} from "../../store/reducers/profile/profile-selectors"
 
 export default React.memo(function Profile({banner, posts, avatar, location, name, hobbies, aboutMe, skills, changeName, changeLocation, changeAvatar, changeBanner, changeHobbies, changeSkills, changeAboutMe, addPost, deletePost, subscriptions}: User & ContentPropsType) {
     const [modalStatus, setModalStatus] = useState<boolean>(false)

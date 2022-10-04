@@ -17,37 +17,37 @@ export class UserService {
     }
 
     static async changeLocation(location: string, id: number): Promise<string> {
-        const response: AxiosResponse = await $api.put(`user/change-location`, {location, id})
+        const response: AxiosResponse = await $api.put(`profile/change-location`, {location, id})
         return response.data
     }
 
     static async changeBanner(data: FormData): Promise<string> {
-        const response: AxiosResponse = await $api.put(`user/change-banner`, data)
+        const response: AxiosResponse = await $api.put(`profile/change-banner`, data)
         return response.data
     }
 
     static async changeAvatar(data: FormData): Promise<string> {
-        const response: AxiosResponse = await $api.put(`user/change-avatar`, data)
+        const response: AxiosResponse = await $api.put(`profile/change-avatar`, data)
         return response.data
     }
 
     static async changeAboutMe(text: string, id: number): Promise<string> {
-        const response: AxiosResponse = await $api.put(`user/change-aboutMe`, {text, id})
+        const response: AxiosResponse = await $api.put(`profile/change-aboutMe`, {text, id})
         return response.data
     }
 
     static async changeHobbies(text: string, id: number): Promise<string> {
-        const response: AxiosResponse = await $api.put(`user/change-hobbies`, {text, id})
+        const response: AxiosResponse = await $api.put(`profile/change-hobbies`, {text, id})
         return response.data
     }
 
     static async changeSkills(text: string, id: number): Promise<string> {
-        const response: AxiosResponse = await $api.put(`user/change-skills`, {text, id})
+        const response: AxiosResponse = await $api.put(`profile/change-skills`, {text, id})
         return response.data
     }
 
     static async addPost(text: string, id: number): Promise<PostType> {
-        const response: AxiosResponse = await $api.put(`user/add-post`, {text, id})
+        const response: AxiosResponse = await $api.put(`profile/add-post`, {text, id})
         return response.data
     }
 

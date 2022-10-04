@@ -5,6 +5,7 @@ const UserSchema = new mongoose.Schema({
     password: { type: String, required: true },
     isActivated: { type: Boolean, default: false },
     activationLink: { type: String },
+    email: { type: String },
     name: {type: String},
     location: {type: String},
     banner: {type: String},

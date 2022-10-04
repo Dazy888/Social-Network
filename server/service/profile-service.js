@@ -4,7 +4,7 @@ import * as fs from "fs";
 import {PostDto} from "../dtos/post-dto.js";
 import {PostModel} from "../models/post-model.js";
 
-class UserService {
+class ProfileService {
     async changeName(name, id) {
         const user = await UserModel.findOne({id})
 
@@ -88,14 +88,6 @@ class UserService {
         user.save()
         return posts
     }
-
-    async activate(activationLink) {
-        const user = await UserModel.findOne({activationLink})
-        if (!user) throw ApiError.BadRequest('Invalid activation link')
-
-        user.isActivated = true
-        user.save()
-    }
 }
 
-export default new UserService()
+export default new ProfileService()

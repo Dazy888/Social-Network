@@ -1,5 +1,5 @@
 import React from "react"
-import '../styles/Header.css'
+import './styles/Header.css'
 import {NavLink} from "react-router-dom"
 
 type PropsType = {
@@ -15,7 +15,7 @@ export default React.memo(function Header({avatar, logout}: PropsType) {
                 <ul className={'header__navigation flex-property-set_between'}>
                     <NavLink to={'/profile'}>Profile</NavLink>
                     <NavLink to={'/users'}>Users</NavLink>
-                    <NavLink to={'/settings'}>Settings</NavLink>
+                    <NavLink to={'/settings/change-pass'}>Settings</NavLink>
                 </ul>
                 <div className={'header__logout flex-property-set_between'}>
                     <img alt={'Avatar'} src={avatar} className={'header__avatar'}/>

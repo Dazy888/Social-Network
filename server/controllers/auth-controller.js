@@ -41,6 +41,7 @@ class AuthController {
             }
 
             const isPassEquals = await bcrypt.compare(password, user.password)
+
             if (!isPassEquals) {
                 res.status(400)
                 res.json('Wrong password')
