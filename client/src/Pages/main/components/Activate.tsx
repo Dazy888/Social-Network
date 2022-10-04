@@ -10,7 +10,6 @@ import {ActivateType, CancelActivation} from "../../login/types/login-types";
 import {useSelector} from "react-redux";
 import {getId} from "../../../store/reducers/profile/profile-selectors";
 import {getEmail} from "../../../store/reducers/settings/settings-selectors";
-import {cancelActivation} from "../../../store/reducers/settings/settings-reducer";
 import {getActivatedStatus} from "../../../store/reducers/auth/auth-selectors";
 
 const loaderCss = {

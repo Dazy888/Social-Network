@@ -1,6 +1,6 @@
 import express from "express"
 import {uploadAvatar, uploadBanner} from "../middlewares/upload-middleware.js"
-import ProfileController from "../controllers/profile-controller.js";
+import ProfileController from "../controllers/profile-controller.js"
 
 export const profileRouter = express.Router()
 

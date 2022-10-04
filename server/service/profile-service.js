@@ -1,26 +1,22 @@
+import * as fs from "fs"
+// Models
 import {UserModel} from "../models/user-model.js"
-import {ApiError} from "../exceptions/api-error.js"
-import * as fs from "fs";
-import {PostDto} from "../dtos/post-dto.js";
-import {PostModel} from "../models/post-model.js";
+import {PostDto} from "../dtos/post-dto.js"
+import {PostModel} from "../models/post-model.js"
 
 class ProfileService {
     async changeName(name, id) {
         const user = await UserModel.findOne({id})
-
         user.name = name
         user.save()
-
-        return user.name
+        return name
     }
 
     async changeLocation(location, id) {
         const user = await UserModel.findOne({id})
-
         user.location = location
         user.save()
-
-        return user.location
+        return location
     }
 
     async changeBanner(path, id, currentPath) {
@@ -30,7 +26,6 @@ class ProfileService {
 
         user.banner = `http://localhost:5000/${path}`
         user.save()
-
         return user.banner
     }
 
@@ -41,7 +36,6 @@ class ProfileService {
 
         user.avatar = `http://localhost:5000/${path}`
         user.save()
-
         return user.avatar
     }
 
@@ -49,24 +43,21 @@ class ProfileService {
         const user = await UserModel.findOne({id})
         user.aboutMe = text
         user.save()
-
-        return user.aboutMe
+        return text
     }
 
     async changeHobbies(text, id) {
         const user = await UserModel.findOne({id})
         user.hobbies = text
         user.save()
-
-        return user.hobbies
+        return text
     }
 
     async changeSkills(text, id) {
         const user = await UserModel.findOne({id})
         user.skills = text
         user.save()
-
-        return user.skills
+        return text
     }
 
     async addPost(text, id) {
@@ -75,14 +66,12 @@ class ProfileService {
         const post = new PostDto(postModel)
         user.posts = [...user.posts, post]
         user.save()
-
         return post
     }
 
     async deletePost(postId, userId) {
         const user = await UserModel.findOne({userId})
         const posts = user.posts
-
         for (let i = 0; i < posts.length; i++) if (posts[i].id === postId) posts.splice(i,1)
 
         user.save()

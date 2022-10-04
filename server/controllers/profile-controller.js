@@ -1,6 +1,7 @@
 import dotenv from "dotenv"
 import {UserModel}  from "../models/user-model.js"
-import ProfileService from "../service/profile-service.js";
+import ProfileService from "../service/profile-service.js"
+import {ServerErrors} from "../exceptions/api-error.js"
 
 dotenv.config()
 
@@ -10,13 +11,10 @@ class ProfileController {
             const {name, id} = req.body
 
             const user = await UserModel.findOne({name})
-            if (user) {
-                res.status(400)
-                res.json(`User with this name already exists`)
-                return
-            }
+            if (user) ServerErrors.BadRequest(res, 'User with this name already exists')
+
             const newName = await ProfileService.changeName(name, id)
-            return res.json(newName)
+            res.json(newName)
         } catch (e) {
             next(e)
         }
@@ -26,7 +24,7 @@ class ProfileController {
         try {
             const {location, id} = req.body
             const newLocation = await ProfileService.changeLocation(location, id)
-            return res.json(newLocation)
+            res.json(newLocation)
         } catch (e) {
             next(e)
         }
@@ -37,7 +35,7 @@ class ProfileController {
             const path = req.file.path
             const {id, currentPath} = req.body
             const newPath = await ProfileService.changeBanner(path, id, currentPath)
-            return res.json(newPath)
+            res.json(newPath)
         } catch (e) {
             next(e)
         }
@@ -48,7 +46,7 @@ class ProfileController {
             const path = req.file.path
             const {id, currentPath} = req.body
             const newPath = await ProfileService.changAvatar(path, id, currentPath)
-            return res.json(newPath)
+            res.json(newPath)
         } catch (e) {
             next(e)
         }
@@ -58,7 +56,7 @@ class ProfileController {
         try {
             const {text, id} = req.body
             const newText = await ProfileService.changeAboutMe(text, id)
-            return res.json(newText)
+            res.json(newText)
         } catch (e) {
             next(e)
         }
@@ -68,7 +66,7 @@ class ProfileController {
         try {
             const {text, id} = req.body
             const newText = await ProfileService.changeHobbies(text, id)
-            return res.json(newText)
+            res.json(newText)
         } catch (e) {
             next(e)
         }  }
@@ -77,7 +75,7 @@ class ProfileController {
         try {
             const {text, id} = req.body
             const newText = await ProfileService.changeSkills(text, id)
-            return res.json(newText)
+            res.json(newText)
         } catch (e) {
             next(e)
         }
@@ -87,7 +85,7 @@ class ProfileController {
         try {
             const {text, id} = req.body
             const newPost = await ProfileService.addPost(text, id)
-            return res.json(newPost)
+            res.json(newPost)
         } catch (e) {
             next(e)
         }
@@ -97,7 +95,7 @@ class ProfileController {
         try {
             const {id, userId} = req.params
             const newPosts = await ProfileService.deletePost(id, userId)
-            return res.json(newPosts)
+            res.json(newPosts)
         } catch (e) {
             next(e)
         }

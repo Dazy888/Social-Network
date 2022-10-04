@@ -1,18 +1,14 @@
-import {UserModel} from "../models/user-model.js";
-import {ApiError} from "../exceptions/api-error.js";
-import bcrypt from "bcrypt";
+import {UserModel} from "../models/user-model.js"
+import {ServerErrors} from "../exceptions/api-error.js";
 
 class SettingsService {
     async changePass(pass, id) {
         const user = await UserModel.findOne({id})
-        const password = await bcrypt.hash(pass, 3)
-
-        user.password = password
+        user.password = pass
         user.save()
     }
 
     async sendMail(email, activationLink, id) {
-        console.log(activationLink)
         const user = await UserModel.findOne({id})
         user.email = email
         user.activationLink = activationLink
@@ -27,8 +23,7 @@ class SettingsService {
 
     async activate(activationLink) {
         const user = await UserModel.findOne({activationLink})
-        if (!user) throw ApiError.BadRequest('Invalid activation link')
-
+        if (!user) ServerErrors.BadRequest('Invalid activation link')
         user.isActivated = true
         user.save()
     }

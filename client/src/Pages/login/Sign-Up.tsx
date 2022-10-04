@@ -34,6 +34,7 @@ export function SignUp({registration, validate, navigate}: PropsType) {
         reRef.current.reset()
 
         const response = await registration(userLogin, password, token)
+        console.log(response)
         setSubmitting(false)
 
         if (response.field) {

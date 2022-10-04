@@ -5,6 +5,8 @@ import bcrypt from "bcrypt"
 import AuthService from "../service/auth-service.js"
 // Model
 import {UserModel}  from "../models/user-model.js"
+// Errors
+import {ServerErrors} from "../exceptions/api-error.js"
 
 dotenv.config()
 
@@ -12,17 +14,13 @@ class AuthController {
     async registration(req, res, next) {
         try {
             const {userLogin, password, token} = req.body
-            await AuthService.humanValidation(token)
+            await AuthService.humanValidation(res, token)
 
-            if (await UserModel.findOne({userLogin})) {
-                res.status(400)
-                res.json(`User with this login already exists`)
-                return
-            }
+            if (await UserModel.findOne({userLogin})) ServerErrors.BadRequest(res, 'User with this login already exists')
 
             const userData = await AuthService.registration(userLogin, password)
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-            return res.json(userData)
+            res.json(userData)
         } catch (e) {
             next(e)
         }
@@ -31,26 +29,17 @@ class AuthController {
     async login(req, res, next) {
         try {
             const {userLogin, password, token} = req.body
-            await AuthService.humanValidation(token)
+            await AuthService.humanValidation(res, token)
 
             const user = await UserModel.findOne({userLogin})
-            if (!user) {
-                res.status(400)
-                res.json(`User with this login doesn't exist`)
-                return
-            }
+            if (!user) ServerErrors.BadRequest(`User with this login doesn't exist`)
 
             const isPassEquals = await bcrypt.compare(password, user.password)
-
-            if (!isPassEquals) {
-                res.status(400)
-                res.json('Wrong password')
-                return
-            }
+            if (!isPassEquals) ServerErrors.BadRequest('Wrong password')
 
             const userData = await AuthService.login(userLogin)
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-            return res.json(userData)
+            res.json(userData)
         } catch (e) {
             next(e)
         }
@@ -62,7 +51,7 @@ class AuthController {
             const token = await AuthService.logout(refreshToken)
 
             res.clearCookie('refreshToken')
-            return res.json(token)
+            res.json(token)
         } catch (e) {
             next(e)
         }
@@ -71,10 +60,10 @@ class AuthController {
     async refresh(req, res, next) {
         try {
             const {refreshToken} = req.cookies
-            const userData = await AuthService.refresh(refreshToken)
+            const userData = await AuthService.refresh(res, refreshToken)
 
             res.cookie('refreshToken', refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-            return res.json(userData)
+            res.json(userData)
         } catch (e) {
             next(e)
         }
