@@ -6,11 +6,14 @@ import {LoginLoader} from "../../login/components/Loader"
 // Form
 import {Formik} from "formik"
 // Store
-import {ActivateType, CancelActivation} from "../../login/types/login-types";
-import {useSelector} from "react-redux";
+import {connect, useSelector} from "react-redux"
 import {getId} from "../../../store/reducers/profile/profile-selectors";
 import {getEmail} from "../../../store/reducers/settings/settings-selectors";
 import {getActivatedStatus} from "../../../store/reducers/auth/auth-selectors";
+import {compose} from "redux"
+import {activate, cancelActivation} from "../../../store/reducers/settings/settings-reducer"
+// Types
+import {ActivateType, CancelActivation} from "../types/Settings-Types"
 
 const loaderCss = {
     display: 'block',
@@ -23,7 +26,7 @@ type PropsType = {
     activate: ActivateType
 }
 
-export function Activate({activate, cancelActivation}: PropsType) {
+export function ActivateComponent({activate, cancelActivation}: PropsType) {
     const id = useSelector(getId)
     const email = useSelector(getEmail)
     const isActivated = useSelector(getActivatedStatus)
@@ -43,7 +46,7 @@ export function Activate({activate, cancelActivation}: PropsType) {
 
     const submit = async (email: string, setSubmitting: (status: boolean) => void) => {
         setSubmitting(true)
-        await activate(email, id)
+        activate(email, id)
         setSubmitting(false)
     }
 
@@ -85,3 +88,5 @@ export function Activate({activate, cancelActivation}: PropsType) {
         </div>
     )
 }
+
+export const Activate = compose<React.ComponentType>(connect(null, {activate, cancelActivation}))(React.memo(ActivateComponent))

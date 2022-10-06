@@ -1,12 +1,11 @@
-// Axios
-import {AxiosResponse} from "axios"
 // Types
 import {InferActionsTypes} from '../../store'
-import {PostType} from "../../../pages/login/types/login-types"
+import {PostType} from "../../../pages/login/types/Login-Types"
 // Service
 import {AuthService} from "../../../services/AuthService"
-import {UserService} from "../../../services/UserSirvice"
-import {settingsActions} from "../settings/settings-reducer";
+import {UserService} from "../../../services/ProfileService"
+// Store
+import {settingsActions} from "../settings/settings-reducer"
 
 let initialState = {
     id: 0,
@@ -97,56 +96,54 @@ export const actions = {
 }
 
 export const auth = () => async (dispatch: any) => {
-    const response: AxiosResponse = await AuthService.refresh()
+    const response = await AuthService.refresh()
     const user = response.data.user
-
     dispatch(actions.setUser(user.name, user.location, user.banner, user.avatar, user.aboutMe, user.skills, user.hobbies, user.id, user.posts, user.email))
     dispatch(settingsActions.setEmail(user.email))
-    return response.status
 }
 
 export const changeName = (name: string, id: number) => async (dispatch: any) => {
-    const response: AxiosResponse = await UserService.changeName(name, id)
-    if (typeof response === 'string') return response
+    const response = await UserService.changeName(name, id)
+    if (/\s/.test(response.data)) return response.data
     dispatch(actions.setName(response.data))
 }
 
 export const changeLocation = (location: string, id: number) => async (dispatch: any) => {
-    const response: string = await UserService.changeLocation(location, id)
-    dispatch(actions.setLocation(response))
+    const response = await UserService.changeLocation(location, id)
+    dispatch(actions.setLocation(response.data))
 }
 
 export const changeBanner = (data: FormData) => async (dispatch: any) => {
-    const response: string = await UserService.changeBanner(data)
-    dispatch(actions.setBanner(response))
+    const response = await UserService.changeBanner(data)
+    dispatch(actions.setBanner(response.data))
 }
 
 export const changeAvatar = (data: FormData) => async (dispatch: any) => {
-    const response: string = await UserService.changeAvatar(data)
-    dispatch(actions.setAvatar(response))
+    const response = await UserService.changeAvatar(data)
+    dispatch(actions.setAvatar(response.data))
 }
 
 export const changeAboutMe = (text: string, id: number) => async (dispatch: any) => {
-    const response: string = await UserService.changeAboutMe(text, id)
-    dispatch(actions.setAboutMe(response))
+    const response = await UserService.changeAboutMe(text, id)
+    dispatch(actions.setAboutMe(response.data))
 }
 
 export const changeHobbies = (text: string, id: number) => async (dispatch: any) => {
-    const response: string = await UserService.changeHobbies(text, id)
-    dispatch(actions.steHobbies(response))
+    const response = await UserService.changeHobbies(text, id)
+    dispatch(actions.steHobbies(response.data))
 }
 
 export const changeSkills = (text: string, id: number) => async (dispatch: any) => {
-    const response: string = await UserService.changeSkills(text, id)
-    dispatch(actions.setSkills(response))
+    const response = await UserService.changeSkills(text, id)
+    dispatch(actions.setSkills(response.data))
 }
 
 export const addPost = (text: string, id: number) => async (dispatch: any) => {
-    const response: PostType = await UserService.addPost(text, id)
-    dispatch(actions.addNewPost(response))
+    const response = await UserService.addPost(text, id)
+    dispatch(actions.addNewPost(response.data))
 }
 
 export const deletePost = (id: number, userId: number) => async (dispatch: any) => {
-    const response: Array<PostType> = await UserService.deletePost(id, userId)
-    dispatch(actions.deletePost(response))
+    const response = await UserService.deletePost(id, userId)
+    dispatch(actions.deletePost(response.data))
 }

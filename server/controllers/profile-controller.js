@@ -9,7 +9,6 @@ class ProfileController {
     async changeName(req, res, next) {
         try {
             const {name, id} = req.body
-
             const user = await UserModel.findOne({name})
             if (user) ServerErrors.BadRequest(res, 'User with this name already exists')
 

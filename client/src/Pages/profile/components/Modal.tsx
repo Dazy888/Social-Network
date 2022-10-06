@@ -7,8 +7,8 @@ import {Formik} from "formik"
 import {ErrorMessages} from "../../login/components/ErrorMessages"
 import {ErrorIcons} from "../../login/components/ErrorIcons"
 // Types
-import {ChangeLocation, ChangeName, ChangePhoto} from "../../login/types/login-types"
-import {ProfileLoader} from "./Profile-Loader"
+import {ChangeLocation, ChangeName, ChangePhoto} from "../../login/types/Login-Types"
+import {ProfileLoader} from "../../main/components/Profile-Loader"
 
 type PropsType = {
     id: any

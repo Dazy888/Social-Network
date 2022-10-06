@@ -7,14 +7,14 @@ import {ErrorMessages} from "./components/ErrorMessages"
 import {ErrorIcons} from "./components/ErrorIcons"
 import {LoginLoader} from "./components/Loader"
 // Types
-import {Login, Navigate, Validate} from "./types/login-types"
+import {Login, Validate} from "./types/Login-Types"
 // Recaptcha
 import ReCAPTCHA from "react-google-recaptcha"
+import {useNavigate} from "react-router-dom";
 
 type PropsType = {
     validate: Validate
     login: Login
-    navigate: Navigate
 }
 
 export const loaderCSS: CSSProperties = {
@@ -26,20 +26,11 @@ export const loaderCSS: CSSProperties = {
     borderColor: "red",
 }
 
-export function SignIn({login, navigate, validate}: PropsType) {
+export default React.memo(function SignIn({login, validate}: PropsType) {
+    const navigate = useNavigate()
     const [loginError, changeLoginError] = useState<string>('')
     const [passwordError, changePasswordError] = useState<string>('')
     const reRef: any = useRef<ReCAPTCHA>()
-
-    useEffect(() => {
-        const inputs = document.querySelectorAll('input')
-        for (let i = 0; i < 2; i++) {
-            inputs[i].onclick = () => {
-                changeLoginError('')
-                changePasswordError('')
-            }
-        }
-    }, [])
 
     async function submit(userLogin: string, password: string, setSubmitting: (status: boolean) => void) {
         setSubmitting(true)
@@ -69,22 +60,22 @@ export function SignIn({login, navigate, validate}: PropsType) {
                   isSubmitting,
                   values
               }) => (
-                  <form onSubmit={handleSubmit}>
-                      <div className={'error-container'}>
-                          <ErrorMessages error={errors.userLogin} serverError={loginError} touched={touched.userLogin}/>
-                          <input value={values.userLogin} onBlur={handleBlur} onChange={handleChange} className={`${errors.userLogin && touched.userLogin || loginError ? 'red-border' : ''}`} name={'userLogin'} type={'text'} placeholder={'Your login'} minLength={4} maxLength={10}/>
-                          <ErrorIcons error={errors.userLogin} serverError={loginError} touched={touched.userLogin}/>
-                      </div>
-                      <div className={'error-container'}>
-                          <ErrorMessages error={errors.password} serverError={passwordError} touched={touched.password}/>
-                          <input value={values.password} onBlur={handleBlur} onChange={handleChange} className={`${errors.password && touched.password || passwordError ? 'red-border' : ''}`} name={'password'} type={'password'} placeholder={'Your password'} minLength={8} maxLength={15}/>
-                          <ErrorIcons error={errors.password} serverError={passwordError} touched={touched.password}/>
-                      </div>
-                      <button className={'content__submit'} type={'submit'} disabled={isSubmitting}>Sign in</button>
-                      <LoginLoader color={'rgb(249, 94, 59)'} css={loaderCSS} loading={isSubmitting}/>
-                      <ReCAPTCHA className={'captcha'} sitekey={'6Leond0hAAAAAOCUq2naPPzgveoMehWQmYG4Vabt'} size={"invisible"} ref={reRef}/>
-                  </form>
+                <form onSubmit={handleSubmit}>
+                    <div className={'error-container'}>
+                        <ErrorMessages error={errors.userLogin} serverError={loginError} touched={touched.userLogin}/>
+                        <input onClick={() => changeLoginError('')} value={values.userLogin} onBlur={handleBlur} onChange={handleChange} className={`${errors.userLogin && touched.userLogin || loginError ? 'red-border' : ''}`} name={'userLogin'} type={'text'} placeholder={'Your login'} minLength={4} maxLength={10}/>
+                        <ErrorIcons error={errors.userLogin} serverError={loginError} touched={touched.userLogin}/>
+                    </div>
+                    <div className={'error-container'}>
+                        <ErrorMessages error={errors.password} serverError={passwordError} touched={touched.password}/>
+                        <input onClick={() => changePasswordError('')} value={values.password} onBlur={handleBlur} onChange={handleChange} className={`${errors.password && touched.password || passwordError ? 'red-border' : ''}`} name={'password'} type={'password'} placeholder={'Your password'} minLength={8} maxLength={15}/>
+                        <ErrorIcons error={errors.password} serverError={passwordError} touched={touched.password}/>
+                    </div>
+                    <button className={'content__submit'} type={'submit'} disabled={isSubmitting}>Sign in</button>
+                    <LoginLoader color={'rgb(249, 94, 59)'} css={loaderCSS} loading={isSubmitting}/>
+                    <ReCAPTCHA className={'captcha'} sitekey={'6Leond0hAAAAAOCUq2naPPzgveoMehWQmYG4Vabt'} size={"invisible"} ref={reRef}/>
+                </form>
             )}
         </Formik>
     )
-}
+})

@@ -1,4 +1,6 @@
-import React, {useEffect, useState} from "react"
+import React, {useState} from "react"
+// Navigation
+import {useNavigate} from "react-router-dom"
 // Components
 import {ErrorMessages} from "../../login/components/ErrorMessages"
 import {ErrorIcons} from "../../login/components/ErrorIcons"
@@ -6,12 +8,10 @@ import {LoginLoader} from "../../login/components/Loader"
 // Form
 import {Formik} from "formik"
 // Axios
-import {AxiosResponse} from "axios"
 import {SettingsService} from "../../../services/SettingsService"
 // Store
 import {useSelector} from "react-redux"
 import {getId} from "../../../store/reducers/profile/profile-selectors"
-import {useNavigate} from "react-router-dom";
 
 const loaderCss = {
     display: 'block',
@@ -23,11 +23,6 @@ export function ChangePass() {
     const navigate = useNavigate()
     const [passErr, changePassErr] = useState<string>('')
     const id = useSelector(getId)
-
-    useEffect(() => {
-        const input: any = document.querySelector('input[name=pass]')
-        input.onclick = () => changePassErr('')
-    }, [])
 
     const validate = (pass: string, confirmPass: string, newPass: string) => {
         const passExp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/
@@ -54,13 +49,10 @@ export function ChangePass() {
 
     const submit = async (pass: string, confirmPass: string, newPass: string, setSubmitting: (status: boolean) => void) => {
         setSubmitting(true)
-        const response: AxiosResponse = await SettingsService.changePass(pass, newPass, id)
+        const response = await SettingsService.changePass(pass, newPass, id)
+        if (/Wrong/.test(response.data)) return changePassErr(response.data)
 
-        if (typeof response === 'string') {
-            changePassErr(response)
-        } else {
-            navigate('/profile')
-        }
+        navigate('/profile')
         setSubmitting(false)
     }
 
@@ -81,7 +73,7 @@ export function ChangePass() {
                     <form onSubmit={handleSubmit}>
                         <div className={'error-container'}>
                             <ErrorMessages error={errors.pass} serverError={passErr} touched={touched.pass}/>
-                            <input value={values.pass} onBlur={handleBlur} onChange={handleChange} className={`${errors.pass && touched.pass || passErr ? 'red-border big-input' : 'big-input'}`} name={'pass'} type={'password'} placeholder={'Current password'} minLength={4} maxLength={15}/>
+                            <input onClick={() => changePassErr('')} value={values.pass} onBlur={handleBlur} onChange={handleChange} className={`${errors.pass && touched.pass || passErr ? 'red-border big-input' : 'big-input'}`} name={'pass'} type={'password'} placeholder={'Current password'} minLength={4} maxLength={15}/>
                             <ErrorIcons error={errors.pass} serverError={passErr} touched={touched.pass}/>
                         </div>
                         <div className={'row flex-property-set_between'}>

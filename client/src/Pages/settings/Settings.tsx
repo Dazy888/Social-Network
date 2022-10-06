@@ -1,16 +1,13 @@
-import {NavLink, Route, Routes} from "react-router-dom";
-import React from "react";
+import React from "react"
+// Navigation
+import {NavLink, Route, Routes} from "react-router-dom"
+// CSS
 import './styles/Settings.css'
-import {ChangePass} from "./components/Change-Pass";
-import {ActivateType, CancelActivation} from "../login/types/login-types";
-import { Activate } from "./components/Activate";
+// Components
+import { ChangePass } from "./components/Change-Pass"
+import { Activate } from "./components/Activate"
 
-type PropsType = {
-    cancelActivation: CancelActivation | any
-    activate: ActivateType | any
-}
-
-export function Settings({activate, cancelActivation}: PropsType) {
+export function Settings() {
     return(
         <div className={'settings flex-property-set_center'}>
             <div className={'settings__container flex-property-set_between'}>
@@ -22,7 +19,7 @@ export function Settings({activate, cancelActivation}: PropsType) {
                 </div>
                 <Routes>
                     <Route path={'/change-pass'} element={<ChangePass/>}/>
-                    <Route path={'/activate-email'} element={<Activate cancelActivation={cancelActivation} activate={activate}/>}/>
+                    <Route path={'/activate-email'} element={<Activate/>}/>
                 </Routes>
             </div>
         </div>

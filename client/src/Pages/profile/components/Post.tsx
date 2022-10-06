@@ -1,5 +1,5 @@
 import React from "react"
-import {DeletePost} from "../../login/types/login-types"
+import {DeletePost} from "../../login/types/Login-Types"
 
 type PropsType = {
     avatar: string

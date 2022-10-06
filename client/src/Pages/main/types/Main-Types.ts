@@ -1,4 +1,4 @@
-import {PostType} from "../../login/types/login-types"
+import {PostType} from "../../profile/types/Profile-Types"
 
 export type User = {
     banner: string
