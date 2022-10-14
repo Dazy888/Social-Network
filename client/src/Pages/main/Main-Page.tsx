@@ -1,9 +1,13 @@
 import React, {useEffect} from "react"
 // Navigation
-import {useNavigate} from "react-router-dom"
+import {Route, Routes, useNavigate} from "react-router-dom"
 // Components
 import Header from "./components/Header"
-import Content from "./components/Content"
+import {Profile} from "../profile/Profile"
+import {Settings} from "../settings/Settings"
+import {ProfileLoader} from "./components/Profile-Loader"
+import {Users} from "../users/Users"
+import {NoContent} from "../404/No-Content"
 // Store
 import {connect, useSelector} from "react-redux"
 import {getAvatar} from "../../store/reducers/profile/profile-selectors"
@@ -19,19 +23,47 @@ type PropsType = {
     auth: () => User
 }
 
+type LayoutProps = {
+    avatar: string
+}
+
+function MainLayout({avatar}: LayoutProps): any {
+    return(
+        <div id={'app-wrapper'}>
+            <Header avatar={avatar} logout={logout} />
+            <div id={'content'}>
+                {avatar
+                    ?   <Routes>
+                        <Route path={'/main/profile'} element={<Profile />}/>
+                        <Route path={'/main/settings/*'} element={<Settings/>}/>
+                        {/*<Route path={'/users/*'} element={<Users/>}/>*/}
+                    </Routes>
+                    :   <ProfileLoader/>}
+            </div>
+        </div>
+    )
+}
+
 function MainPageComponent({logout, auth}: PropsType) {
-    const navigate = useNavigate()
     const avatar = useSelector(getAvatar)
-    const isAuth = useSelector(getAuthStatus)
 
     useEffect(() => {
-        (!isAuth) ? navigate('login/sign-in') : auth()
-    }, [isAuth])
+        auth()
+    }, [])
 
     return(
         <div id={'app-wrapper'}>
             <Header avatar={avatar} logout={logout} />
-            <Content avatar={avatar}/>
+            <div id={'content'}>
+                {avatar
+                    ?   <Routes>
+                            <Route path={'/profile'} element={<Profile />}/>
+                            <Route path={'/settings/*'} element={<Settings/>}/>
+                            <Route path={'/users/*'} element={<Users/>}/>
+                            <Route path={'*'} element={<NoContent/>}/>
+                        </Routes>
+                    :   <ProfileLoader/>}
+            </div>
         </div>
     )
 }

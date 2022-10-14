@@ -8,7 +8,7 @@ type PropsType = {
     id: number
     text: string
     title: string
-    changeText: (text: string, id: number) => void
+    changeText: (text: string, id: number) => Promise<void>
 }
 
 export default React.memo(function InformationItem({text, changeText, id, textId, setEditStatus, editStatus, title}: PropsType) {

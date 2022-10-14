@@ -1,7 +1,7 @@
-import './Error.css'
+import './No-Content.css'
 import {useNavigate} from "react-router-dom"
 
-export function Error() {
+export function NoContent() {
     const navigate = useNavigate()
 
     return(

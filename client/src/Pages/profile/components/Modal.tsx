@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react"
+import React, {useRef, useState} from "react"
 // CSS
 import "../styles/Modal.css"
 // Formik
@@ -6,16 +6,16 @@ import {Formik} from "formik"
 // Components
 import {ErrorMessages} from "../../login/components/ErrorMessages"
 import {ErrorIcons} from "../../login/components/ErrorIcons"
-// Types
-import {ChangeLocation, ChangeName, ChangePhoto} from "../../login/types/Login-Types"
 import {ProfileLoader} from "../../main/components/Profile-Loader"
+// Types
+import {ChangeLocation, ChangeName, ChangePhoto} from "../types/Profile-Types"
+// Store
+import {connect, useSelector} from "react-redux"
+import {getAvatar, getBanner, getId, getLocation, getName} from "../../../store/reducers/profile/profile-selectors"
+import {compose} from "redux"
+import {changeAvatar, changeBanner, changeLocation, changeName} from "../../../store/reducers/profile/profile-reducer"
 
 type PropsType = {
-    id: any
-    currentName: string
-    currentLocation: string
-    currentBanner: string
-    currentAvatar: string
     changeBanner: ChangePhoto
     changeAvatar: ChangePhoto
     setModalStatus: (status: boolean) => void
@@ -23,47 +23,49 @@ type PropsType = {
     changeLocation: ChangeLocation
 }
 
-export function Modal({setModalStatus, currentName, currentLocation, changeName, changeLocation, changeAvatar, changeBanner, currentBanner, currentAvatar, id}: PropsType) {
+function ModalComponent({setModalStatus, changeName, changeLocation, changeAvatar, changeBanner}: PropsType) {
     const [nameError, setNameError] = useState<string>('')
+    const btnRef: any = useRef()
 
-    useEffect(() => {
-        const input: any = document.querySelector('input[name=name]')
-        input.onclick = () => setNameError('')
-    }, [])
+    const id: any = useSelector(getId)
+    const currentAvatar = useSelector(getAvatar)
+    const currentBanner = useSelector(getBanner)
+    const currentName = useSelector(getName)
+    const currentLocation = useSelector(getLocation)
 
     async function submit(name: string, location: string, setSubmitting: (status: boolean) => void, banner: any, avatar: any) {
-        let response
-        const btn: any = document.querySelector('button[type=submit]')
-        setSubmitting(true)
-        btn.disabled = true
-
-        if (name !== currentName) response = await changeName(name, id)
-        if (response) {
-            setNameError(response)
-            setSubmitting(false)
-            btn.disabled = false
-            return
+        function changeRequestStatus (status: boolean) {
+            setSubmitting(status)
+            btn.disabled = status
         }
+
+        async function sendPhoto (photo: File, currentPhoto: string, changePhoto: (data: FormData) => void) {
+            if (photo.name) {
+                let data = new FormData()
+                data.append('file', photo)
+                data.append('id', id)
+                data.append('currentPath', currentPhoto)
+                await changePhoto(data)
+            }
+        }
+
+        const btn = btnRef.current
+        changeRequestStatus(true)
+
+        if (name !== currentName) {
+            const response = await changeName(name, id)
+            if (response) {
+                setNameError(response)
+                changeRequestStatus(false)
+            }
+        }
+
         if (location !== currentLocation) await changeLocation(location, id)
 
-        if (banner.name) {
-            let data = new FormData()
-            data.append('file', banner)
-            data.append('id', id)
-            data.append('currentPath', currentBanner)
-            await changeBanner(data)
-        }
+        await sendPhoto(banner, currentBanner, changeBanner)
+        await sendPhoto(avatar, currentAvatar, changeAvatar)
 
-        if (avatar.name) {
-            let data = new FormData()
-            data.append('file', avatar)
-            data.append('id', id)
-            data.append('currentPath', currentAvatar)
-            await changeAvatar(data)
-        }
-
-        setSubmitting(false)
-        btn.disabled = false
+        changeRequestStatus(false)
         setModalStatus(false)
     }
 
@@ -102,7 +104,7 @@ export function Modal({setModalStatus, currentName, currentLocation, changeName,
                     <form onSubmit={handleSubmit}>
                         <div className={'error-container'}>
                             <ErrorMessages error={errors.name} serverError={nameError} touched={touched.name}/>
-                            <input type="text" name="name" onChange={handleChange} onBlur={handleBlur} value={values.name} placeholder={'Your new name'} minLength={3} maxLength={10}/>
+                            <input onClick={() => setNameError('')} type="text" name="name" onChange={handleChange} onBlur={handleBlur} value={values.name} placeholder={'Your new name'} minLength={3} maxLength={10}/>
                             <ErrorIcons error={errors.name} serverError={nameError} touched={touched.name}/>
                         </div>
                         <div className={'error-container'}>
@@ -133,7 +135,7 @@ export function Modal({setModalStatus, currentName, currentLocation, changeName,
                             </div>
                         </div>
                         <div className={'buttons flex-property-set_between'}>
-                            <button className={'submit'} type="submit" disabled={(values.name === currentName && values.location === currentLocation && !values.banner.name && !values.avatar.name)}>Submit</button>
+                            <button ref={btnRef} className={'submit'} type="submit" disabled={(values.name === currentName && values.location === currentLocation && !values.banner.name && !values.avatar.name)}>Submit</button>
                             <button className={'cancel'} onClick={() => setModalStatus(false)}>Cancel</button>
                         </div>
                         {isSubmitting ? <ProfileLoader/> : null}
@@ -143,3 +145,5 @@ export function Modal({setModalStatus, currentName, currentLocation, changeName,
         </div>
     )
 }
+
+export const Modal = compose<React.ComponentType>(connect(null, {changeName, changeLocation, changeAvatar, changeBanner}))(React.memo(ModalComponent))

@@ -1,9 +1,9 @@
 import {$api} from "../http"
 import {AxiosResponse} from "axios"
 
-export class UserService {
+export class ProfileService {
     static async changeName(name: string, id: number): Promise<AxiosResponse> {
-        return $api.put(`user/change-name`, {name, id})
+        return $api.put(`profile/change-name`, {name, id})
             .then(res => {return res})
             .catch((e) => {return e.response})
     }
@@ -37,6 +37,6 @@ export class UserService {
     }
 
     static async deletePost(id: number, userId: number): Promise<AxiosResponse> {
-        return $api.delete(`user/delete-post/${id}/${userId}`)
+        return $api.delete(`profile/delete-post/${id}/${userId}`)
     }
 }

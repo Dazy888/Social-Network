@@ -1,9 +1,9 @@
 // Types
 import {InferActionsTypes} from '../../store'
-import {PostType} from "../../../pages/login/types/Login-Types"
+import {PostType} from "../../../pages/profile/types/Profile-Types"
 // Service
 import {AuthService} from "../../../services/AuthService"
-import {UserService} from "../../../services/ProfileService"
+import {ProfileService} from "../../../services/ProfileService"
 // Store
 import {settingsActions} from "../settings/settings-reducer"
 
@@ -18,7 +18,8 @@ let initialState = {
     skills: '',
     subscriptions: 0,
     posts: [] as Array<PostType>,
-    email: ''
+    email: '',
+    modalStatus: false
 }
 
 type InitialStateType = typeof initialState
@@ -75,6 +76,11 @@ export const profileReducer = (state = initialState, action: Actions): InitialSt
                 ...state,
                 posts: action.posts
             }
+        case 'SN/profile/SET_STATUS':
+            return {
+                ...state,
+                modalStatus: action.status
+            }
         default:
             return state;
     }
@@ -93,57 +99,62 @@ export const actions = {
     setSkills: (text: string) => ({type: 'SN/profile/SET_SKILLS', text} as const),
     addNewPost: (post: PostType) => ({type: 'SN/profile/ADD_POST', post} as const),
     deletePost: (posts: Array<PostType>) => ({type: 'SN/profile/DELETE_POST', posts} as const),
+    setModalStatus: (status: boolean) => ({type: 'SN/profile/SET_STATUS', status} as const),
 }
 
 export const auth = () => async (dispatch: any) => {
     const response = await AuthService.refresh()
     const user = response.data.user
-    dispatch(actions.setUser(user.name, user.location, user.banner, user.avatar, user.aboutMe, user.skills, user.hobbies, user.id, user.posts, user.email))
+    dispatch(actions.setUser(user.name, user.location, user.banner, user.avatar, user.aboutMe, user.skills, user.hobbies, user.id, response.data.posts, user.email))
     dispatch(settingsActions.setEmail(user.email))
 }
 
 export const changeName = (name: string, id: number) => async (dispatch: any) => {
-    const response = await UserService.changeName(name, id)
+    const response = await ProfileService.changeName(name, id)
     if (/\s/.test(response.data)) return response.data
     dispatch(actions.setName(response.data))
 }
 
 export const changeLocation = (location: string, id: number) => async (dispatch: any) => {
-    const response = await UserService.changeLocation(location, id)
+    const response = await ProfileService.changeLocation(location, id)
     dispatch(actions.setLocation(response.data))
 }
 
 export const changeBanner = (data: FormData) => async (dispatch: any) => {
-    const response = await UserService.changeBanner(data)
+    const response = await ProfileService.changeBanner(data)
     dispatch(actions.setBanner(response.data))
 }
 
 export const changeAvatar = (data: FormData) => async (dispatch: any) => {
-    const response = await UserService.changeAvatar(data)
+    const response = await ProfileService.changeAvatar(data)
     dispatch(actions.setAvatar(response.data))
 }
 
 export const changeAboutMe = (text: string, id: number) => async (dispatch: any) => {
-    const response = await UserService.changeAboutMe(text, id)
+    const response = await ProfileService.changeAboutMe(text, id)
     dispatch(actions.setAboutMe(response.data))
 }
 
 export const changeHobbies = (text: string, id: number) => async (dispatch: any) => {
-    const response = await UserService.changeHobbies(text, id)
+    const response = await ProfileService.changeHobbies(text, id)
     dispatch(actions.steHobbies(response.data))
 }
 
 export const changeSkills = (text: string, id: number) => async (dispatch: any) => {
-    const response = await UserService.changeSkills(text, id)
+    const response = await ProfileService.changeSkills(text, id)
     dispatch(actions.setSkills(response.data))
 }
 
 export const addPost = (text: string, id: number) => async (dispatch: any) => {
-    const response = await UserService.addPost(text, id)
+    const response = await ProfileService.addPost(text, id)
     dispatch(actions.addNewPost(response.data))
 }
 
 export const deletePost = (id: number, userId: number) => async (dispatch: any) => {
-    const response = await UserService.deletePost(id, userId)
+    const response = await ProfileService.deletePost(id, userId)
     dispatch(actions.deletePost(response.data))
+}
+
+export const setModalStatus = (status: boolean) => async (dispatch: any) => {
+    dispatch(actions.setModalStatus(status))
 }

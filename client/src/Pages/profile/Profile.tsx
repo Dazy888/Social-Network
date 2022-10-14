@@ -9,8 +9,10 @@ import {Modal} from "./components/Modal"
 import {connect, useSelector} from "react-redux"
 import {getAboutMe, getAvatar, getBanner, getHobbies, getId, getLocation, getName, getPosts, getSkills} from "../../store/reducers/profile/profile-selectors"
 import {compose} from "redux"
+import {addPost, changeAboutMe, changeHobbies, changeSkills, deletePost, setModalStatus} from "../../store/reducers/profile/profile-reducer"
 // Types
 import {AddPost, ChangeInfo, ChangeLocation, ChangeName, ChangePhoto, DeletePost} from "./types/Profile-Types"
+import {useQuery} from "react-query";
 
 type PropsType = {
     deletePost: DeletePost
@@ -22,12 +24,14 @@ type PropsType = {
     changeAvatar: ChangePhoto
     changeName: ChangeName
     changeLocation: ChangeLocation
+    setModalStatus: (status: boolean) => void
 }
 
-function ProfileComponent({addPost, deletePost, changeLocation, changeAvatar, changeBanner, changeHobbies, changeSkills, changeAboutMe, changeName}: PropsType) {
+function ProfileComponent({addPost, deletePost, changeHobbies, changeSkills, changeAboutMe}: PropsType) {
     const textareaPostRef: any = useRef()
 
     const [modalStatus, setModalStatus] = useState<boolean>(false)
+
     const [newPostStatus, setNewPostStatus] = useState<boolean>(false)
     const [editStatus, setEditStatus] = useState<boolean>(false)
 
@@ -41,16 +45,16 @@ function ProfileComponent({addPost, deletePost, changeLocation, changeAvatar, ch
     const skills = useSelector(getSkills)
     const hobbies = useSelector(getHobbies)
 
-    const postsElements = useMemo(() => [...posts].reverse().map((p) => <Post userId={id} id={p.id} deletePost={deletePost} avatar={avatar} name={name} date={Math.abs(new Date().getTime() - new Date(p.date).getTime())} text={p.text}/>), [posts])
+    const postsElements = useMemo(() => [...posts].reverse().map((p, pos) => <Post key={pos} userId={id} id={p.id} deletePost={deletePost} avatar={avatar} name={name} date={Math.abs(new Date().getTime() - new Date(p.date).getTime())} text={p.text}/>), [posts])
 
-    function addNewPost(addPost: AddPost, setStatus: (status: boolean) => void) {
-        addPost(textareaPostRef.current.value, id)
+    async function addNewPost(addPost: AddPost, setStatus: (status: boolean) => void) {
+        await addPost(textareaPostRef.current.value, id)
         setStatus(false)
     }
 
     return(
         <div>
-            {modalStatus ? <Modal currentAvatar={avatar} currentBanner={banner} id={id} changeBanner={changeBanner} changeAvatar={changeAvatar } changeName={changeName} changeLocation={changeLocation} currentLocation={location} currentName={name} setModalStatus={setModalStatus}/> : null}
+            {modalStatus ? <Modal/> : null}
             <div className={'profile'}>
                 <div className={'header'}>
                     <img alt={'Banner'} className={'header__banner'} src={banner}/>
@@ -88,14 +92,14 @@ function ProfileComponent({addPost, deletePost, changeLocation, changeAvatar, ch
                             </div>
                         }
                     </div>
-                    {/*<div className={'subscriptions'}>*/}
-                    {/*    <h3 className={'title'}>Subscriptions ({subscriptions})</h3>*/}
-                    {/*    <hr/>*/}
-                    {/*</div>*/}
+                    <div className={'subscriptions'}>
+                        <h3 className={'title'}>Subscriptions 100</h3>
+                        <hr/>
+                    </div>
                 </div>
             </div>
         </div>
     )
 }
 
-export const Profile = compose<React.ComponentType>(connect(null, {getAboutMe, getAvatar, getBanner, getHobbies, getId, getLocation, getName, getPosts, getSkills}))(React.memo(ProfileComponent))
+export const Profile = compose<React.ComponentType>(connect(null, {getAboutMe, getAvatar, getBanner, getHobbies, getId, getLocation, getName, getPosts, getSkills, changeAboutMe, changeSkills, changeHobbies, addPost, deletePost, setModalStatus}))(React.memo(ProfileComponent))

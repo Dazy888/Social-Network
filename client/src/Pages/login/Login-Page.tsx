@@ -1,4 +1,4 @@
-import React, {useRef} from "react"
+import React, {useEffect, useRef} from "react"
 // Navigation
 import {Route, Routes, useNavigate} from "react-router-dom"
 // Components
@@ -23,16 +23,15 @@ function LoginPageComponent({login, registration}: PropsType) {
     const navigate = useNavigate()
     const actions: any = useRef()
 
+    useEffect(() => {
+        if (localStorage.getItem('token')) navigate('/profile')
+    }, [])
+
     const validate = (userLogin: string, password: string) => {
         const pass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/
         const login = /^[a-zA-Z0-9]+$/
 
-        type Errors = {
-            userLogin: string,
-            password: string
-        }
-
-        let errors : Errors = {userLogin: '', password: ''}
+        let errors: any = {}
 
         if (!userLogin) {
             errors.userLogin = 'Login is required'

@@ -13,9 +13,9 @@ export default React.memo(function Header({avatar, logout}: PropsType) {
             <div className={'header__content flex-property-set_between'}>
                 <img alt={'Logo'} className={'header__logo'} src={'https://user-images.githubusercontent.com/16946573/144957680-01ea405e-959b-46b1-a163-df688466ac23.png'}/>
                 <ul className={'header__navigation flex-property-set_between'}>
-                    <NavLink to={'/profile'}>Profile</NavLink>
-                    <NavLink to={'/users'}>Users</NavLink>
-                    <NavLink to={'/settings/change-pass'}>Settings</NavLink>
+                    <NavLink to={'/main/profile'}>Profile</NavLink>
+                    <NavLink to={'/main/users'}>Users</NavLink>
+                    <NavLink to={'/main/settings/change-pass'}>Settings</NavLink>
                 </ul>
                 <div className={'header__logout flex-property-set_between'}>
                     <img alt={'Avatar'} src={avatar} className={'header__avatar'}/>
