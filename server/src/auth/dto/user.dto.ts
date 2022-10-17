@@ -9,7 +9,6 @@ export class UserDto {
     aboutMe;
     skills;
     hobbies;
-    photographs;
     email;
 
 
@@ -24,7 +23,6 @@ export class UserDto {
         this.aboutMe = model.aboutMe
         this.skills = model.skills
         this.hobbies = model.hobbies
-        this.photographs = model.photographs
         this.email = model.email
     }
 }

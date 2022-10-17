@@ -1,5 +1,5 @@
-import {Body, Controller, Post} from '@nestjs/common'
-import {RegistrationDto} from "./dto/registration.dto"
+import {BadRequestException, Body, Controller, Post, Response, Request, Get} from '@nestjs/common'
+import {AuthorizationDto} from "./dto/authorization.dto"
 import {AuthService} from "./auth.service"
 
 @Controller('auth')
@@ -7,22 +7,38 @@ export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
     @Post('/registration')
-    async registration(@Body() user: RegistrationDto) {
+    async registration(@Body() user: AuthorizationDto, @Response() res) {
         const {login, password, token} = user
-        return this.authService.registration(login, password, token)
+        const response = await this.authService.registration(login, password, token)
+
+        if (typeof response === "string") throw new BadRequestException(response)
+
+        res.cookie('refreshToken', response.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+        return response
     }
 
-    // async registration(req, res, next) {
-    //     try {
-    //         const {userLogin, password, token} = req.body
-    //         await AuthService.humanValidation(res, token)
-    //         if (await UserModel.findOne({userLogin})) ServerErrors.BadRequest(res, 'User with this login already exists')
-    //
-    //         const userData = await AuthService.registration(userLogin, password)
-    //         res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-    //         res.json(userData)
-    //     } catch (e) {
-    //         next(e)
-    //     }
-    // }
+    @Post('/login')
+    async login(@Body() user: AuthorizationDto, @Response() res) {
+        const {login, password, token} = user
+        const response = await this.authService.login(login, password, token)
+
+        if (typeof response === "string") throw new BadRequestException(response)
+
+        res.cookie('refreshToken', response.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+        return response
+    }
+
+    @Get('/logout')
+    async logout(@Request() req, @Response() res) {
+        const {refreshToken} = req.cookies
+        res.clearCookie('refreshToken')
+        return this.authService.logout(refreshToken)
+    }
+
+    @Get('/refresh')
+    async refresh(@Request() req, @Response() res) {
+        const {refreshToken} = req.cookies
+        res.cookie('refreshToken', refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+        return this.authService.refresh(refreshToken)
+    }
 }
