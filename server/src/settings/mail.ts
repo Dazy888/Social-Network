@@ -4,6 +4,8 @@ import * as dotenv from "dotenv"
 dotenv.config()
 
 class MailService {
+    private transporter: any
+
     constructor() {
         this.transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,

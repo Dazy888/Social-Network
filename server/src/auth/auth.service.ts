@@ -1,4 +1,4 @@
-// Libraries
+1// Libraries
 import * as bcrypt from 'bcrypt'
 import * as jwt from "jsonwebtoken"
 import * as dotenv from "dotenv"
@@ -65,7 +65,7 @@ export class AuthService {
     }
 
     async registration(login: string, password: string, token: string): Promise<any> {
-        if (await this.humanValidation(token)) return `Don't fool us bot`
+        // if (await this.humanValidation(token)) return `Don't fool us bot`
         if (await this.userModel.findOne({userLogin: login})) return 'User with this login already exists'
 
         const hashPassword = await bcrypt.hash(password, 3)
@@ -78,7 +78,7 @@ export class AuthService {
 
         return {
             ...tokens,
-            user: userDto
+            user: {...userDto}
         }
     }
 
@@ -110,10 +110,14 @@ export class AuthService {
     }
 
     async refresh(refreshToken: string) {
+
         if (!refreshToken) return 'User is not authorized'
 
         const userData = this.validateRefreshToken(refreshToken)
         const tokenFromDb = await this.findToken(refreshToken)
+
+        // console.log(tokenFromDb)
+
         if (!userData || !tokenFromDb) return 'User is not authorized'
 
         const user = await this.userModel.findById(userData.id)

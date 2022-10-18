@@ -7,13 +7,13 @@ import { ChangePassDto } from "./dto/change-pass.dto"
 import { SendMailDto } from "./dto/send-mail.dto"
 // Service
 import { SettingsService } from "./settings.service"
-import MailService from "./mail.js"
+import MailService from "./mail"
 
 @Controller('settings')
 export class SettingsController {
     constructor(private readonly settingsService: SettingsService) {}
 
-    @Put('/change-pass')
+    @Put('/password')
     async changePass(@Body() data: ChangePassDto) {
         const {pass, id} = data
         const response = await this.settingsService.changePass(await bcrypt.hash(pass, 3), id)
@@ -38,7 +38,7 @@ export class SettingsController {
     }
 
     @Get('/activate/:link')
-    async activate(@Param('link') link: string, @Res() res) {
+    async activate(@Param('link') link: string, @Res({ passthrough: true }) res) {
         const response = await this.settingsService.activate(link)
         if (response) return response
         res.redirect(process.env.CLIENT_URL)

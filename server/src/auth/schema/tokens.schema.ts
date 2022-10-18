@@ -6,7 +6,7 @@ export type TokensDocument = Tokens & Document
 @Schema()
 export class Tokens {
     @Prop()
-    user: mongoose.Schema.Types.ObjectId
+    userId: mongoose.Schema.Types.ObjectId
 
     @Prop()
     refreshToken: string

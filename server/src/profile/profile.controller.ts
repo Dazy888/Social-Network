@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Post, Put, Request} from '@nestjs/common'
+import { Body, Controller, Delete, Post, Put, Request, Param } from '@nestjs/common'
 import { ChangeTextDto } from "./dto/change-text.dto"
 import { ProfileService } from "./profile.service"
 import {ChangePhotoDto} from "./dto/change-photo.dto"
@@ -24,6 +24,7 @@ export class ProfileController {
     @Put('/avatar')
     async changeAvatar(@Body() data: ChangePhotoDto, @Request() req) {
         const {id, currentPath} = data
+        console.log(req.file.path)
         return this.profileService.changeAvatar(req.file.path, id, currentPath)
     }
 
@@ -57,9 +58,8 @@ export class ProfileController {
         return this.profileService.createPost(text, id)
     }
 
-    @Delete('/post')
-    async deletePost(@Body() data: DeletePostDto) {
-        const {id, userId} = data
-        return this.profileService.deletePost(id, userId)
+    @Delete('/post/:postId/:userId')
+    async deletePost(@Param('userId') userId: string, @Param('postId') postId: string) {
+        return this.profileService.deletePost(postId, userId)
     }
 }

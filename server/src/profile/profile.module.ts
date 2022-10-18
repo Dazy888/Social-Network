@@ -1,5 +1,5 @@
 // NestJS
-import { Module } from '@nestjs/common'
+import {MiddlewareConsumer, Module} from '@nestjs/common'
 import {MongooseModule} from "@nestjs/mongoose"
 // Schemas
 import {User, UserSchema} from "../auth/schema/user.schema"
@@ -8,6 +8,8 @@ import {Posts, PostsSchema} from "../auth/schema/posts.schema"
 import {ProfileController} from "./profile.controller"
 // Service
 import {ProfileService} from "./profile.service"
+// Middleware
+import {uploadAvatar, uploadBanner} from "./middlewares/upload.middleware";
 
 @Module({
     imports: [MongooseModule.forFeature([{name: User.name, schema: UserSchema}, {name: Posts.name, schema: PostsSchema}])],
@@ -15,4 +17,14 @@ import {ProfileService} from "./profile.service"
     providers: [ProfileService]
 })
 
-export class ProfileModule {}
+export class ProfileModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(uploadBanner)
+            .forRoutes('banner')
+
+        consumer
+            .apply(uploadAvatar)
+            .forRoutes('avatar')
+    }
+}

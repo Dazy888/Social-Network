@@ -1,6 +1,6 @@
 import React, {useEffect} from "react"
 // Navigation
-import {Route, Routes, useNavigate} from "react-router-dom"
+import {Route, Routes} from "react-router-dom"
 // Components
 import Header from "./components/Header"
 import {Profile} from "../profile/Profile"
@@ -11,7 +11,6 @@ import {NoContent} from "../404/No-Content"
 // Store
 import {connect, useSelector} from "react-redux"
 import {getAvatar} from "../../store/reducers/profile/profile-selectors"
-import {getAuthStatus} from "../../store/reducers/auth/auth-selectors"
 import {compose} from "redux"
 import {logout} from "../../store/reducers/auth/auth-reducer"
 import {auth} from "../../store/reducers/profile/profile-reducer"
@@ -21,27 +20,6 @@ import {User} from "./types/Main-Types"
 type PropsType = {
     logout: () => void
     auth: () => User
-}
-
-type LayoutProps = {
-    avatar: string
-}
-
-function MainLayout({avatar}: LayoutProps): any {
-    return(
-        <div id={'app-wrapper'}>
-            <Header avatar={avatar} logout={logout} />
-            <div id={'content'}>
-                {avatar
-                    ?   <Routes>
-                        <Route path={'/main/profile'} element={<Profile />}/>
-                        <Route path={'/main/settings/*'} element={<Settings/>}/>
-                        {/*<Route path={'/users/*'} element={<Users/>}/>*/}
-                    </Routes>
-                    :   <ProfileLoader/>}
-            </div>
-        </div>
-    )
 }
 
 function MainPageComponent({logout, auth}: PropsType) {

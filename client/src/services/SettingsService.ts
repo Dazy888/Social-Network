@@ -3,7 +3,7 @@ import {AxiosResponse} from "axios"
 
 export class SettingsService {
     static async changePass(pass: string, newPass: string, id: number): Promise<AxiosResponse> {
-        return  $api.put<AxiosResponse>('settings/change-pass', {pass, newPass, id})
+        return $api.put<AxiosResponse>('settings/password', {pass, newPass, id})
             .then(res => {return res})
             .catch((e) => {return e.response})
     }
@@ -13,6 +13,6 @@ export class SettingsService {
     }
 
     static async cancelActivation(id: number): Promise<AxiosResponse> {
-        return $api.put<AxiosResponse>('settings/cancel-activation', {id})
+        return $api.get<AxiosResponse>(`settings/cancel-activation/${id}`)
     }
 }

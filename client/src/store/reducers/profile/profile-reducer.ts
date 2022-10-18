@@ -104,6 +104,9 @@ export const actions = {
 
 export const auth = () => async (dispatch: any) => {
     const response = await AuthService.refresh()
+
+    console.log(response)
+
     const user = response.data.user
     dispatch(actions.setUser(user.name, user.location, user.banner, user.avatar, user.aboutMe, user.skills, user.hobbies, user.id, response.data.posts, user.email))
     dispatch(settingsActions.setEmail(user.email))

@@ -50,6 +50,9 @@ export const login = (userLogin: string, password: string, token: string) => asy
 
 export const registration = (userLogin: string, password: string, token: string) => async (dispatch: any) => {
     let response = await AuthService.registration(userLogin, password, token)
+
+    console.log(response)
+
     if (/User with this/.test(response.data)) return response.data
 
     const user = response.data.user
@@ -66,6 +69,7 @@ export const logout = (): ThunkType => async (dispatch) => {
 export const checkAuth = (): ThunkType => async (dispatch) => {
     const response = await AuthService.refresh()
     const user = response.data.user
+
     localStorage.setItem('token', response.data.accessToken)
     dispatch(actions.setAuthData(user.isActivated, true))
 }
