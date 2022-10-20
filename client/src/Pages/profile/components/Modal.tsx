@@ -10,10 +10,8 @@ import {ProfileLoader} from "../../main/components/Profile-Loader"
 // Types
 import {ChangeLocation, ChangeName, ChangePhoto} from "../types/Profile-Types"
 // Store
-import {connect, useSelector} from "react-redux"
+import {useSelector} from "react-redux"
 import {getAvatar, getBanner, getId, getLocation, getName} from "../../../store/reducers/profile/profile-selectors"
-import {compose} from "redux"
-import {changeAvatar, changeBanner, changeLocation, changeName} from "../../../store/reducers/profile/profile-reducer"
 
 type PropsType = {
     changeBanner: ChangePhoto
@@ -23,7 +21,7 @@ type PropsType = {
     changeLocation: ChangeLocation
 }
 
-function ModalComponent({setModalStatus, changeName, changeLocation, changeAvatar, changeBanner}: PropsType) {
+export default React.memo(function ModalComponent({setModalStatus, changeName, changeLocation, changeAvatar, changeBanner}: PropsType) {
     const [nameError, setNameError] = useState<string>('')
     const btnRef: any = useRef()
 
@@ -42,7 +40,7 @@ function ModalComponent({setModalStatus, changeName, changeLocation, changeAvata
         async function sendPhoto (photo: File, currentPhoto: string, changePhoto: (data: FormData) => void) {
             if (photo.name) {
                 let data = new FormData()
-                data.append('file', photo)
+                data.append('image', photo)
                 data.append('id', id)
                 data.append('currentPath', currentPhoto)
                 await changePhoto(data)
@@ -136,7 +134,7 @@ function ModalComponent({setModalStatus, changeName, changeLocation, changeAvata
                         </div>
                         <div className={'buttons flex-property-set_between'}>
                             <button ref={btnRef} className={'submit'} type="submit" disabled={(values.name === currentName && values.location === currentLocation && !values.banner.name && !values.avatar.name)}>Submit</button>
-                            <button className={'cancel'} onClick={() => setModalStatus(false)}>Cancel</button>
+                            <button className={'cancel'} onClick={() => {setModalStatus(false)}}>Cancel</button>
                         </div>
                         {isSubmitting ? <ProfileLoader/> : null}
                     </form>
@@ -144,6 +142,4 @@ function ModalComponent({setModalStatus, changeName, changeLocation, changeAvata
             </Formik>
         </div>
     )
-}
-
-export const Modal = compose<React.ComponentType>(connect(null, {changeName, changeLocation, changeAvatar, changeBanner}))(React.memo(ModalComponent))
+})

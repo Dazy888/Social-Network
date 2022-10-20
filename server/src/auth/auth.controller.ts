@@ -14,11 +14,10 @@ export class AuthController {
         if (typeof response === "string") throw new BadRequestException(response)
 
         res.cookie('refreshToken', response.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-        console.log(response.user)
         return response
     }
 
-    @Post('/login')
+    @Post('login')
     async login(@Body() user: AuthorizationDto, @Response({ passthrough: true }) res) {
         const {userLogin, password, token} = user
         const response = await this.authService.login(userLogin, password, token)
@@ -29,14 +28,14 @@ export class AuthController {
         return response
     }
 
-    @Get('/logout')
+    @Get('logout')
     async logout(@Request() req, @Response({ passthrough: true }) res) {
         const {refreshToken} = req.cookies
         res.clearCookie('refreshToken')
         return this.authService.logout(refreshToken)
     }
 
-    @Get('/refresh')
+    @Get('refresh')
     async refresh(@Request() req, @Response({ passthrough: true }) res) {
         const {refreshToken} = req.cookies
         res.cookie('refreshToken', refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})

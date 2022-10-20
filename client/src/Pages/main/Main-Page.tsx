@@ -1,6 +1,6 @@
 import React, {useEffect} from "react"
 // Navigation
-import {Route, Routes} from "react-router-dom"
+import {Route, Routes, useNavigate} from "react-router-dom"
 // Components
 import Header from "./components/Header"
 import {Profile} from "../profile/Profile"
@@ -23,10 +23,15 @@ type PropsType = {
 }
 
 function MainPageComponent({logout, auth}: PropsType) {
+    const navigate = useNavigate()
     const avatar = useSelector(getAvatar)
 
+    async function sendAuthReq() {
+        if (await auth()) navigate('/login/sign-in')
+    }
+
     useEffect(() => {
-        auth()
+        sendAuthReq()
     }, [])
 
     return(

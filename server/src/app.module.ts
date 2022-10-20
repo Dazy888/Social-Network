@@ -10,9 +10,13 @@ import { AuthModule } from './auth/auth.module'
 import { ProfileModule } from './profile/profile.module'
 import { SettingsModule } from './settings/settings.module'
 
-
 @Module({
-  imports: [MongooseModule.forRoot('mongodb+srv://David:28032006@nodejs.rgylxul.mongodb.net/social-network?retryWrites=true&w=majority'), AuthModule, ProfileModule, SettingsModule],
+  imports: [
+      MongooseModule.forRoot('mongodb+srv://David:28032006@nodejs.rgylxul.mongodb.net/social-network?retryWrites=true&w=majority'),
+      AuthModule,
+      ProfileModule,
+      SettingsModule,
+  ],
   controllers: [AppController],
   providers: [AppService]
 })

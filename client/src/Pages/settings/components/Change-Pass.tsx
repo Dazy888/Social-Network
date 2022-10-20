@@ -50,6 +50,7 @@ export function ChangePass() {
     const submit = async (pass: string, confirmPass: string, newPass: string, setSubmitting: (status: boolean) => void) => {
         setSubmitting(true)
         const response = await SettingsService.changePass(pass, newPass, id)
+        console.log(response)
         if (/Wrong/.test(response.data)) return changePassErr(response.data)
 
         navigate('/profile')

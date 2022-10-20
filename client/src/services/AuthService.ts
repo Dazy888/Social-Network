@@ -4,17 +4,9 @@ import {AuthResponse} from "../models/response/AuthResponse"
 
 export class AuthService {
     static async registration(userLogin: string, password: string, token: string): Promise<AxiosResponse> {
-        const response = await $api.post<AuthResponse>('auth/registration', {userLogin, password, token})
-        console.log(response)
-        return response
-        // return $api.post<AuthResponse>('auth/registration', {userLogin, password, token})
-        //     .then((res) => {
-        //         console.log(res)
-        //         return res
-        //     })
-            // .catch((err) => {
-            //     console.log(err)
-            // })
+        return $api.post<AuthResponse>('auth/registration', {userLogin, password, token})
+            .then(res => {return res})
+            .catch((err) => {return err.response})
     }
 
     static async login(userLogin: string, password: string, token: string): Promise<AxiosResponse> {
@@ -28,8 +20,6 @@ export class AuthService {
     }
 
     static async refresh(): Promise<AxiosResponse> {
-        const response = $api.get<AuthResponse>(`${API_URL}auth/refresh`)
-        console.log(response)
-        return response
+        return $api.get<AuthResponse>(`${API_URL}auth/refresh`, {withCredentials: true})
     }
 }

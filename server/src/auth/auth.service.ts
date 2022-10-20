@@ -65,7 +65,7 @@ export class AuthService {
     }
 
     async registration(login: string, password: string, token: string): Promise<any> {
-        // if (await this.humanValidation(token)) return `Don't fool us bot`
+        if (await this.humanValidation(token)) return `Don't fool us bot`
         if (await this.userModel.findOne({userLogin: login})) return 'User with this login already exists'
 
         const hashPassword = await bcrypt.hash(password, 3)
@@ -83,7 +83,7 @@ export class AuthService {
     }
 
     async login(login: string, password: string, token: string): Promise<any> {
-        if (await this.humanValidation(token)) return `Don't fool us bot`
+        // if (await this.humanValidation(token)) return `Don't fool us bot`
 
         if (!(await this.userModel.findOne({userLogin: login}))) return `User with this login doesn't exist`
 
@@ -115,8 +115,6 @@ export class AuthService {
 
         const userData = this.validateRefreshToken(refreshToken)
         const tokenFromDb = await this.findToken(refreshToken)
-
-        // console.log(tokenFromDb)
 
         if (!userData || !tokenFromDb) return 'User is not authorized'
 

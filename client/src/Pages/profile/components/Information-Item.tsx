@@ -19,26 +19,20 @@ export default React.memo(function InformationItem({text, changeText, id, textId
     function editInfo(event: any, changeText: ChangeInfo, value: string, textId: string, setStatus: (status: boolean) => void, setEditStatus: (status: boolean) => void) {
         setEditStatus(true)
         setStatus(true)
-
         const text = textRef.current
-        const textarea = textareaRef.current
 
         setTimeout(() => {
+            const textarea = textareaRef.current
+
             textarea.value = value
-            textarea.onblur = sendText
+            textarea.onblur = async () => {
+                await changeText(textarea.value, id)
+                text.innerText = textarea.value
+                document.onkeydown = null
+                setEditStatus(false)
+                setStatus(false)
+            }
         }, 1)
-
-        document.onkeydown = (e) => {
-            if (e.code === 'Enter') sendText()
-        }
-
-        function sendText() {
-            changeText(textarea.value, id)
-            text.innerText = textarea.value
-            document.onkeydown = null
-            setEditStatus(false)
-            setStatus(false)
-        }
     }
 
     return(

@@ -4,15 +4,21 @@ import './styles/Profile.css'
 // Components
 import Post from "./components/Post"
 import InformationItem from "./components/Information-Item"
-import {Modal} from "./components/Modal"
+import Modal from "./components/Modal"
 // Store
 import {connect, useSelector} from "react-redux"
 import {getAboutMe, getAvatar, getBanner, getHobbies, getId, getLocation, getName, getPosts, getSkills} from "../../store/reducers/profile/profile-selectors"
 import {compose} from "redux"
-import {addPost, changeAboutMe, changeHobbies, changeSkills, deletePost, setModalStatus} from "../../store/reducers/profile/profile-reducer"
+import {
+    addPost,
+    changeAboutMe, changeAvatar, changeBanner,
+    changeHobbies, changeLocation,
+    changeName,
+    changeSkills,
+    deletePost,
+} from "../../store/reducers/profile/profile-reducer"
 // Types
 import {AddPost, ChangeInfo, ChangeLocation, ChangeName, ChangePhoto, DeletePost} from "./types/Profile-Types"
-import {useQuery} from "react-query";
 
 type PropsType = {
     deletePost: DeletePost
@@ -24,10 +30,9 @@ type PropsType = {
     changeAvatar: ChangePhoto
     changeName: ChangeName
     changeLocation: ChangeLocation
-    setModalStatus: (status: boolean) => void
 }
 
-function ProfileComponent({addPost, deletePost, changeHobbies, changeSkills, changeAboutMe}: PropsType) {
+function ProfileComponent({addPost, deletePost, changeHobbies, changeSkills, changeAboutMe, changeLocation, changeName, changeBanner, changeAvatar}: PropsType) {
     const textareaPostRef: any = useRef()
 
     const [modalStatus, setModalStatus] = useState<boolean>(false)
@@ -54,7 +59,7 @@ function ProfileComponent({addPost, deletePost, changeHobbies, changeSkills, cha
 
     return(
         <div>
-            {modalStatus ? <Modal/> : null}
+            {modalStatus ? <Modal setModalStatus={setModalStatus} changeBanner={changeBanner} changeLocation={changeLocation} changeName={changeName} changeAvatar={changeAvatar}/> : null}
             <div className={'profile'}>
                 <div className={'header'}>
                     <img alt={'Banner'} className={'header__banner'} src={banner}/>
@@ -102,4 +107,4 @@ function ProfileComponent({addPost, deletePost, changeHobbies, changeSkills, cha
     )
 }
 
-export const Profile = compose<React.ComponentType>(connect(null, {getAboutMe, getAvatar, getBanner, getHobbies, getId, getLocation, getName, getPosts, getSkills, changeAboutMe, changeSkills, changeHobbies, addPost, deletePost, setModalStatus}))(React.memo(ProfileComponent))
+export const Profile = compose<React.ComponentType>(connect(null, {getAboutMe, getAvatar, getBanner, getHobbies, getId, getLocation, getName, getPosts, getSkills, changeAboutMe, changeSkills, changeHobbies, addPost, deletePost, changeName, changeLocation, changeAvatar, changeBanner}))(React.memo(ProfileComponent))

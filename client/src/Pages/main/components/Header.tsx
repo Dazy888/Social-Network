@@ -1,6 +1,6 @@
 import React from "react"
 import '../styles/Header.css'
-import {NavLink} from "react-router-dom"
+import {NavLink, useNavigate} from "react-router-dom"
 
 type PropsType = {
     logout: () => void
@@ -8,6 +8,13 @@ type PropsType = {
 }
 
 export default React.memo(function Header({avatar, logout}: PropsType) {
+    const navigate = useNavigate()
+
+    async function goLogout() {
+        await logout()
+        navigate('/login/sign-in')
+    }
+
     return (
         <div id={'header'} className={'flex-property-set_center'}>
             <div className={'header__content flex-property-set_between'}>
@@ -15,11 +22,11 @@ export default React.memo(function Header({avatar, logout}: PropsType) {
                 <ul className={'header__navigation flex-property-set_between'}>
                     <NavLink to={'/main/profile'}>Profile</NavLink>
                     <NavLink to={'/main/users'}>Users</NavLink>
-                    <NavLink to={'/main/settings/change-pass'}>Settings</NavLink>
+                    <NavLink to={'/main/settings'}>Settings</NavLink>
                 </ul>
                 <div className={'header__logout flex-property-set_between'}>
                     <img alt={'Avatar'} src={avatar} className={'header__avatar'}/>
-                    <button className={'header__btn'} onClick={logout}>Logout</button>
+                    <button className={'header__btn'} onClick={goLogout}>Logout</button>
                 </div>
             </div>
         </div>

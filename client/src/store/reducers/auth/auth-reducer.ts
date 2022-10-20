@@ -1,10 +1,11 @@
 // Axios
-import {AxiosResponse} from "axios"
+import axios, {AxiosResponse} from "axios"
 // Types
 import {BaseThunkType, InferActionsTypes} from '../../store'
 // Service
 import {AuthService} from "../../../services/AuthService"
 import {ServerError} from "../../../pages/login/types/Login-Types"
+import {API_URL} from "../../../http";
 
 let initialState = {
     userLogin: '',
@@ -51,8 +52,6 @@ export const login = (userLogin: string, password: string, token: string) => asy
 export const registration = (userLogin: string, password: string, token: string) => async (dispatch: any) => {
     let response = await AuthService.registration(userLogin, password, token)
 
-    console.log(response)
-
     if (/User with this/.test(response.data)) return response.data
 
     const user = response.data.user
@@ -66,8 +65,10 @@ export const logout = (): ThunkType => async (dispatch) => {
     dispatch(actions.setAuthData(false, false))
 }
 
-export const checkAuth = (): ThunkType => async (dispatch) => {
+export const checkAuth = () => async (dispatch: any) => {
     const response = await AuthService.refresh()
+    if (typeof response.data === "string") return response.data
+
     const user = response.data.user
 
     localStorage.setItem('token', response.data.accessToken)

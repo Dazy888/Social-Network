@@ -1,5 +1,5 @@
 import { Model } from "mongoose"
-import fs from "fs"
+import * as fs from "fs"
 // NestJS
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from "@nestjs/mongoose"
@@ -25,19 +25,29 @@ export class ProfileService {
     }
 
     async changeAvatar(path: string, id: string, currentPath: string) {
+        async function updatePhoto(model) {
+            await model.findByIdAndUpdate({_id: id}, {avatar: path})
+            return `http://localhost:5001/${path}`
+        }
+
+        if (!/uploads/.test(currentPath)) return updatePhoto(this.userModel)
+
         const lastPath = `uploads${currentPath.split('uploads')[1]}`
         fs.unlink(lastPath, (err) => err ? console.log(err) : console.log('File was deleted'))
-
-        await this.userModel.findByIdAndUpdate({_id: id}, {avatar: path})
-        return path
+        return updatePhoto(this.userModel)
     }
 
     async changeBanner(path: string, id: string, currentPath: string) {
+        async function updatePhoto(model) {
+            await model.findByIdAndUpdate({_id: id}, {banner: path})
+            return `http://localhost:5001/${path}`
+        }
+
+        if (!/uploads/.test(currentPath)) return updatePhoto(this.userModel)
+
         const lastPath = `uploads${currentPath.split('uploads')[1]}`
         fs.unlink(lastPath, (err) => err ? console.log(err) : console.log('File was deleted'))
-
-        await this.userModel.findByIdAndUpdate({_id: id}, {avatar: path})
-        return path
+        return updatePhoto(this.userModel)
     }
 
     async changeAboutMe(text: string, id: string) {

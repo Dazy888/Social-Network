@@ -33,7 +33,7 @@ export default React.memo(function SignUp({registration, validate}: PropsType) {
         const response = await registration(userLogin, password, token)
         if (response) return changeLoginError(response)
 
-        navigate('/profile')
+        navigate('/main/profile')
         setSubmitting(false)
     }
 
