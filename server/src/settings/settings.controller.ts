@@ -1,4 +1,3 @@
-import * as bcrypt from "bcrypt"
 import { v4 as uuidv4 } from "uuid"
 // NestJS
 import { BadRequestException, Body, Controller, Get, Param, Post, Put, Res } from '@nestjs/common'
@@ -15,18 +14,18 @@ export class SettingsController {
 
     @Put('/password')
     async changePass(@Body() data: ChangePassDto) {
-        const {pass, id} = data
-        const response = await this.settingsService.changePass(await bcrypt.hash(pass, 3), id)
+        const {pass, id, newPass} = data
+        const response = await this.settingsService.changePass(pass, id, newPass)
 
         if (typeof response === "string") throw new BadRequestException('Wrong password')
         return 'Ok'
     }
 
-    @Post('/send-mail')
+    @Post('/mail')
     async sendMail(@Body() data: SendMailDto) {
         const {email, id} = data
         const link = uuidv4()
-        await MailService.sendActivationMail(email, `${process.env.API_URL}/settings/activate/${link}`)
+        await MailService.sendActivationMail(email, `${process.env.API_URL}/api/settings/activate/${link}`)
         await this.settingsService.sendMail(email, link, id)
         return {isActivated: true, email}
     }

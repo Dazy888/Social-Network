@@ -16,9 +16,10 @@ import {activate, cancelActivation} from "../../../store/reducers/settings/setti
 import {ActivateType, CancelActivation} from "../types/Settings-Types"
 
 const loaderCss = {
-    display: 'block',
-    width: 'fit-content',
-    margin: '30px auto'
+    display: "block",
+    width: "fit-content",
+    position: "relative",
+    margin: "50px auto",
 }
 
 type PropsType = {
@@ -46,7 +47,7 @@ export function ActivateComponent({activate, cancelActivation}: PropsType) {
 
     const submit = async (email: string, setSubmitting: (status: boolean) => void) => {
         setSubmitting(true)
-        activate(email, id)
+        await activate(email, id)
         setSubmitting(false)
     }
 
@@ -77,7 +78,7 @@ export function ActivateComponent({activate, cancelActivation}: PropsType) {
                               </div>
                         }
                         {isActivated ? <p className={'text'}>Your email is activated</p> : <button className={'submit'} type={'submit'} disabled={isSubmitting || !!email}>Activate</button>}
-                        <LoginLoader color={'rebeccapurple'} css={loaderCss} loading={isSubmitting}/>
+                        <LoginLoader color={'rgb(102, 51, 153)'} css={loaderCss} loading={isSubmitting}/>
                     </form>
                 )}
             </Formik>

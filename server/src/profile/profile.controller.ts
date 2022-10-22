@@ -2,9 +2,8 @@ import { Body, Controller, Delete, Post, Put, Param, UseInterceptors, UploadedFi
 import { FilesInterceptor } from "@nestjs/platform-express"
 import { ChangeTextDto } from "./dto/change-text.dto"
 import { ProfileService } from "./profile.service"
-import {ChangePhotoDto} from "./dto/change-photo.dto"
-import {DeletePostDto} from "./dto/delete-post.dto"
-import {diskStorage} from "multer";
+import { ChangePhotoDto } from "./dto/change-photo.dto"
+import { diskStorage } from "multer"
 
 @Controller('profile')
 export class ProfileController {

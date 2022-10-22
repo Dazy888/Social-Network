@@ -108,7 +108,8 @@ export const auth = () => async (dispatch: any) => {
     if (typeof response.data === "string") return response.data
 
     const user = response.data.user
-    dispatch(actions.setUser(user.name, user.location, `http://localhost:5001/${user.banner}`, `http://localhost:5001/${user.avatar}`, user.aboutMe, user.skills, user.hobbies, user.id, response.data.posts, user.email))
+
+    dispatch(actions.setUser(user.name, user.location, user.banner, user.avatar, user.aboutMe, user.skills, user.hobbies, user.id, response.data.posts, user.email))
     dispatch(settingsActions.setEmail(user.email))
 }
 

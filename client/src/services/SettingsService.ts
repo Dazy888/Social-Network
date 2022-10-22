@@ -9,7 +9,7 @@ export class SettingsService {
     }
 
     static async activate(email: string, id: number): Promise<AxiosResponse> {
-        return $api.post<AxiosResponse>('settings/send-link', {email, id})
+        return $api.post<AxiosResponse>('settings/mail', {email, id})
     }
 
     static async cancelActivation(id: number): Promise<AxiosResponse> {
