@@ -9,6 +9,6 @@ export interface Users {
 
 export const UsersService = {
     async getUsers() {
-        return $api.get<Users>('users/get-all')
+        return $api.get<Users[]>('users')
     }
 }

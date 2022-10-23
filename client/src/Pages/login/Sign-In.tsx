@@ -1,21 +1,27 @@
 // React
-import React, {CSSProperties, useRef, useState} from "react"
+import React, { CSSProperties, useRef, useState } from "react"
 // Formik
-import {Formik} from "formik"
+import { Formik } from "formik"
 // Components
-import {ErrorMessages} from "./components/ErrorMessages"
-import {ErrorIcons} from "./components/ErrorIcons"
-import {LoginLoader} from "./components/Loader"
+import { ErrorMessages } from "./components/ErrorMessages"
+import { ErrorIcons } from "./components/ErrorIcons"
+import { LoginLoader } from "./components/Loader"
 // Types
-import {Login, Validate} from "./types/Login-Types"
+import { Login, Validate } from "./types/Login-Types"
 // Recaptcha
 import ReCAPTCHA from "react-google-recaptcha"
-//Navigation
-import {useNavigate} from "react-router-dom"
+// Navigation
+import { useNavigate } from "react-router-dom"
+// React Query
+import { useMutation } from "react-query"
+// Service
+import { AuthService } from "../../services/AuthService"
+// Action
+import { authActions } from "../../store/reducers/auth/auth-reducer"
 
 type PropsType = {
-    validate: Validate
     login: Login
+    validate: Validate
 }
 
 export const loaderCSS: CSSProperties = {
@@ -27,38 +33,52 @@ export const loaderCSS: CSSProperties = {
     borderColor: "red",
 }
 
-export default React.memo(function SignIn({login, validate}: PropsType) {
+type LoginProps = {
+    userLogin: string
+    password: string
+    token: string
+}
+
+export default React.memo(function SignIn({validate, login}: PropsType) {
     const navigate = useNavigate()
     const [loginError, changeLoginError] = useState<string>('')
     const [passwordError, changePasswordError] = useState<string>('')
     const reRef: any = useRef<ReCAPTCHA>()
 
-    async function submit(userLogin: string, password: string, setSubmitting: (status: boolean) => void) {
-        setSubmitting(true)
+    const {isLoading, mutateAsync} = useMutation('login',
+        (data: LoginProps) => AuthService.login(data.userLogin, data.password, data.token),
+        {
+            onSuccess(response) {
+                if (response.status === 200) {
+                    const data = response.data
+                    login(data.accessToken, data.user.isActivated)
+                    navigate('/main/profile')
+                } else {
+                    const message = response.data.message
+
+                    if (/W/.test(message)) {
+                        changePasswordError(message)
+                    } else {
+                        changeLoginError(message)
+                    }
+                }
+            },
+        })
+
+    async function submit(userLogin: string, password: string) {
         const token = await reRef.current.executeAsync()
         reRef.current.reset()
-
-        const response = await login(userLogin, password, token)
-        setSubmitting(false)
-
-        if (response === 200) {
-            navigate('/main/profile')
-        } else if (response.field === 'login') {
-            changeLoginError(response.message)
-        } else {
-            changePasswordError(response.message)
-        }
+        await mutateAsync({userLogin, password, token})
     }
 
     return(
-        <Formik validate={values => validate(values.userLogin, values.password)} initialValues={{userLogin: '', password: ''}} onSubmit={(values, {setSubmitting}) => submit(values.userLogin, values.password, setSubmitting)}>
+        <Formik validate={values => validate(values.userLogin, values.password)} initialValues={{userLogin: '', password: ''}} onSubmit={(values) => submit(values.userLogin, values.password)}>
             {({
                   errors,
                   touched,
                   handleSubmit,
                   handleChange,
                   handleBlur,
-                  isSubmitting,
                   values
               }) => (
                 <form onSubmit={handleSubmit}>
@@ -73,7 +93,7 @@ export default React.memo(function SignIn({login, validate}: PropsType) {
                         <ErrorIcons error={errors.password} serverError={passwordError} touched={touched.password}/>
                     </div>
                     <button className={'content__submit'} type={'submit'} disabled={false}>Sign in</button>
-                    <LoginLoader color={'rgb(249, 94, 59)'} css={loaderCSS} loading={isSubmitting}/>
+                    <LoginLoader color={'rgb(249, 94, 59)'} css={loaderCSS} loading={isLoading}/>
                     <ReCAPTCHA className={'captcha'} sitekey={'6Leond0hAAAAAOCUq2naPPzgveoMehWQmYG4Vabt'} size={"invisible"} ref={reRef}/>
                 </form>
             )}

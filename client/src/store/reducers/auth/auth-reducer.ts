@@ -1,11 +1,5 @@
-// Axios
-import axios, {AxiosResponse} from "axios"
-// Types
-import {BaseThunkType, InferActionsTypes} from '../../store'
-// Service
-import {AuthService} from "../../../services/AuthService"
-import {ServerError} from "../../../pages/login/types/Login-Types"
-import {API_URL} from "../../../http";
+import { BaseThunkType, InferActionsTypes } from '../../store'
+import { AuthService } from "../../../services/AuthService"
 
 let initialState = {
     userLogin: '',
@@ -27,25 +21,16 @@ export const authReducer = (state = initialState, action: ActionsType): InitialS
     }
 }
 
-type ActionsType = InferActionsTypes<typeof actions>
+type ActionsType = InferActionsTypes<typeof authActions>
 type ThunkType = BaseThunkType<ActionsType>
 
-export const actions = {
+export const authActions = {
     setAuthData: (isActivated: boolean, isAuth: boolean) => ({type: 'SN/auth/SET_AUTH_DATA', payload: {isActivated, isAuth}} as const),
 }
 
-export const login = (userLogin: string, password: string, token: string) => async (dispatch: any) => {
-    const response = await AuthService.login(userLogin, password, token)
-
-    if (response.data === 'Wrong password') {
-        return {field: 'password', message: response}
-    } else if (/User with this/.test(response.data)) {
-        return {field: 'login', message: response}
-    }
-
-    const user = response.data.user
-    localStorage.setItem('token', response.data.accessToken)
-    dispatch(actions.setAuthData(user.isActivated, true))
+export const login = (accessToken: string, isActivated: boolean) => async (dispatch: any) => {
+    localStorage.setItem('token', accessToken)
+    dispatch(authActions.setAuthData(isActivated, true))
     return 200
 }
 
@@ -56,13 +41,13 @@ export const registration = (userLogin: string, password: string, token: string)
 
     const user = response.data.user
     localStorage.setItem('token', response.data.accessToken)
-    dispatch(actions.setAuthData(user.isActivated, true))
+    dispatch(authActions.setAuthData(user.isActivated, true))
 }
 
 export const logout = (): ThunkType => async (dispatch) => {
     await AuthService.logout()
     localStorage.removeItem('token')
-    dispatch(actions.setAuthData(false, false))
+    dispatch(authActions.setAuthData(false, false))
 }
 
 export const checkAuth = () => async (dispatch: any) => {
@@ -72,5 +57,5 @@ export const checkAuth = () => async (dispatch: any) => {
     const user = response.data.user
 
     localStorage.setItem('token', response.data.accessToken)
-    dispatch(actions.setAuthData(user.isActivated, true))
+    dispatch(authActions.setAuthData(user.isActivated, true))
 }

@@ -1,6 +1,6 @@
-import React, {useEffect, useRef} from "react"
+import React, { useEffect, useRef } from "react"
 // Navigation
-import {Route, Routes, useNavigate} from "react-router-dom"
+import { Route, Routes, useNavigate } from "react-router-dom"
 // Components
 import SignIn from "./Sign-In"
 import SignUp from "./Sign-Up"
@@ -8,18 +8,18 @@ import SignUp from "./Sign-Up"
 import './styles/Login.css'
 import './styles/Media.css'
 // Store
-import {compose} from "redux"
-import {connect} from "react-redux"
+import { compose } from "redux"
+import { connect } from "react-redux"
 import {login, registration} from "../../store/reducers/auth/auth-reducer"
 // Types
-import {Login, Registration} from "./types/Login-Types"
+import { Login, Registration } from "./types/Login-Types"
 
 type PropsType = {
     login: Login
     registration: Registration
 }
 
-function LoginPageComponent({login, registration}: PropsType) {
+function LoginPageComponent({registration, login}: PropsType) {
     const navigate = useNavigate()
     const actions: any = useRef()
 
@@ -76,4 +76,4 @@ function LoginPageComponent({login, registration}: PropsType) {
     )
 }
 
-export const LoginPage = compose<React.ComponentType>(connect(null, {login, registration}))(React.memo(LoginPageComponent))
+export const LoginPage = compose<React.ComponentType>(connect(null, {registration, login}))(React.memo(LoginPageComponent))

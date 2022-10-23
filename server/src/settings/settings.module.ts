@@ -6,7 +6,7 @@ import { SettingsController } from './settings.controller'
 // Service
 import { SettingsService } from './settings.service'
 // Schema
-import {User, UserSchema} from "../auth/schema/user.schema"
+import { User, UserSchema } from "../auth/schema/user.schema"
 
 @Module({
   imports: [MongooseModule.forFeature([{name: User.name, schema: UserSchema}])],
