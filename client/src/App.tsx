@@ -1,17 +1,18 @@
-import React, {FC, useEffect} from 'react'
+import React, { useEffect } from 'react'
 // Navigation
-import {BrowserRouter, Route, Routes, useNavigate} from "react-router-dom"
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom"
 // Components
-import {LoginPage} from "./pages/login/Login-Page"
-import {MainPage} from "./pages/main/Main-Page"
-import {NoContent} from "./pages/404/No-Content";
+import { LoginPage } from "./pages/login/Login-Page"
+import { MainPage } from "./pages/main/Main-Page"
+import { NoContent } from "./pages/404/No-Content";
 // Redux
-import {connect, Provider} from "react-redux"
+import { connect, Provider } from "react-redux"
 import store from "./store/store"
-import {compose} from "redux"
-import {checkAuth} from "./store/reducers/auth/auth-reducer"
+import { compose } from "redux"
+import { checkAuth } from "./store/reducers/auth/auth-reducer"
 // React Query
-import {QueryClient, QueryClientProvider} from "react-query"
+import {QueryClient, QueryClientProvider, useQuery} from "react-query"
+import {AuthService} from "./services/AuthService";
 
 type PropsType = {
     checkAuth: () => void
@@ -26,9 +27,25 @@ const queryClient = new QueryClient({
 })
 function App({checkAuth}: PropsType) {
     let navigate = useNavigate()
+    const {refetch} = useQuery('check auth', () => AuthService.refresh(),
+        {
+            enabled: false,
+            onSuccess(response) {
+                console.log(response)
+                if (response.status === 200) {
+
+                } else {
+
+                }
+            }
+        })
 
     useEffect( () => {
-        (localStorage.getItem('token')) ? checkAuth() : navigate('/login/sign-in')
+        if (localStorage.getItem('token')) {
+            refetch()
+        } else {
+            navigate('/login/sign-in')
+        }
     }, [])
 
     useEffect(() => {

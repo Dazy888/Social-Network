@@ -12,7 +12,7 @@ export class AuthService {
     static async login(userLogin: string, password: string, token: string): Promise<AxiosResponse> {
         return $api.post<AuthResponse>('auth/login', {userLogin, password, token})
             .then(res => {return res})
-            .catch((e) => {return e.response})
+            .catch((err) => {return err.response})
      }
 
     static async logout(): Promise<void> {

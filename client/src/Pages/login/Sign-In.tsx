@@ -7,7 +7,7 @@ import { ErrorMessages } from "./components/ErrorMessages"
 import { ErrorIcons } from "./components/ErrorIcons"
 import { LoginLoader } from "./components/Loader"
 // Types
-import { Login, Validate } from "./types/Login-Types"
+import { Authorization, Validate } from "./types/Login-Types"
 // Recaptcha
 import ReCAPTCHA from "react-google-recaptcha"
 // Navigation
@@ -16,12 +16,10 @@ import { useNavigate } from "react-router-dom"
 import { useMutation } from "react-query"
 // Service
 import { AuthService } from "../../services/AuthService"
-// Action
-import { authActions } from "../../store/reducers/auth/auth-reducer"
 
 type PropsType = {
-    login: Login
     validate: Validate
+    authorization: Authorization
 }
 
 export const loaderCSS: CSSProperties = {
@@ -33,26 +31,30 @@ export const loaderCSS: CSSProperties = {
     borderColor: "red",
 }
 
-type LoginProps = {
+export type AuthProps = {
     userLogin: string
     password: string
     token: string
 }
 
-export default React.memo(function SignIn({validate, login}: PropsType) {
+export function successfulEnter(navigate: (path: string) => void, authorization: Authorization, accessToken: string, isActivated: boolean) {
+    authorization(accessToken, isActivated)
+    navigate('/main/profile')
+}
+
+export default React.memo(function SignIn({validate, authorization}: PropsType) {
     const navigate = useNavigate()
     const [loginError, changeLoginError] = useState<string>('')
     const [passwordError, changePasswordError] = useState<string>('')
     const reRef: any = useRef<ReCAPTCHA>()
 
     const {isLoading, mutateAsync} = useMutation('login',
-        (data: LoginProps) => AuthService.login(data.userLogin, data.password, data.token),
+        (data: AuthProps) => AuthService.login(data.userLogin, data.password, data.token),
         {
             onSuccess(response) {
-                if (response.status === 200) {
+                if (response.status === 201) {
                     const data = response.data
-                    login(data.accessToken, data.user.isActivated)
-                    navigate('/main/profile')
+                    successfulEnter(navigate, authorization, data.accessToken, data.user.isActivated)
                 } else {
                     const message = response.data.message
 
@@ -92,7 +94,7 @@ export default React.memo(function SignIn({validate, login}: PropsType) {
                         <input onClick={() => changePasswordError('')} value={values.password} onBlur={handleBlur} onChange={handleChange} className={`${errors.password && touched.password || passwordError ? 'red-border' : ''}`} name={'password'} type={'password'} placeholder={'Your password'} minLength={8} maxLength={15}/>
                         <ErrorIcons error={errors.password} serverError={passwordError} touched={touched.password}/>
                     </div>
-                    <button className={'content__submit'} type={'submit'} disabled={false}>Sign in</button>
+                    <button className={'content__submit'} type={'submit'} disabled={isLoading}>Sign in</button>
                     <LoginLoader color={'rgb(249, 94, 59)'} css={loaderCSS} loading={isLoading}/>
                     <ReCAPTCHA className={'captcha'} sitekey={'6Leond0hAAAAAOCUq2naPPzgveoMehWQmYG4Vabt'} size={"invisible"} ref={reRef}/>
                 </form>

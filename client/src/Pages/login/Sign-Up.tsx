@@ -6,35 +6,44 @@ import {LoginLoader} from "./components/Loader"
 import {ErrorMessages} from "./components/ErrorMessages"
 import {ErrorIcons} from "./components/ErrorIcons"
 // Types
-import {Registration, Validate} from "./types/Login-Types"
+import { Authorization, Validate } from "./types/Login-Types"
 // Recaptcha
 import ReCAPTCHA from "react-google-recaptcha"
 // CSS
-import {loaderCSS} from "./Sign-In"
+import {AuthProps, loaderCSS, successfulEnter} from "./Sign-In"
 // Navigation
 import {useNavigate} from "react-router-dom"
+import {useMutation} from "react-query";
+import {AuthService} from "../../services/AuthService";
 
 type PropsType = {
     validate: Validate
-    registration: Registration
+    authorization: Authorization
 }
 
-export default React.memo(function SignUp({registration, validate}: PropsType) {
+export default React.memo(function SignUp({authorization, validate}: PropsType) {
     const navigate = useNavigate()
     const [loginError, changeLoginError] = useState<string>('')
     const reRef: any = useRef<ReCAPTCHA>()
     const passRef: any = useRef()
 
-    async function submit(userLogin: string, password: string, setSubmitting: (status: boolean) => void) {
-        setSubmitting(true)
+    const {isLoading, mutateAsync} = useMutation('registration',
+        (data: AuthProps) => AuthService.registration(data.userLogin, data.password, data.token),
+        {
+            onSuccess(response) {
+                if (response.status === 201) {
+                    const data = response.data
+                    successfulEnter(navigate, authorization, data.accessToken, data.user.isActivated)
+                } else {
+                    changeLoginError(response.data.message)
+                }
+            },
+        })
+
+    async function submit(userLogin: string, password: string) {
         const token = await reRef.current.executeAsync()
         reRef.current.reset()
-
-        const response = await registration(userLogin, password, token)
-        if (response) return changeLoginError(response)
-
-        navigate('/main/profile')
-        setSubmitting(false)
+        await mutateAsync({userLogin, password, token})
     }
 
     function showPassword() {
@@ -42,7 +51,7 @@ export default React.memo(function SignUp({registration, validate}: PropsType) {
     }
 
     return(
-        <Formik validate={values => validate(values.userLogin, values.password)} initialValues={{userLogin: '', password: ''}} onSubmit={(values, {setSubmitting}) => submit(values.userLogin, values.password, setSubmitting)}>
+        <Formik validate={values => validate(values.userLogin, values.password)} initialValues={{userLogin: '', password: ''}} onSubmit={(values) => submit(values.userLogin, values.password)}>
             {({
                   values,
                   handleChange,
@@ -50,7 +59,6 @@ export default React.memo(function SignUp({registration, validate}: PropsType) {
                   errors,
                   touched,
                   handleSubmit,
-                  isSubmitting,
               }) => (
                 <form onSubmit={handleSubmit}>
                     <div className={'error-container'}>
@@ -67,8 +75,8 @@ export default React.memo(function SignUp({registration, validate}: PropsType) {
                         <input className={'checkbox__input'} onClick={showPassword} name={'show-password'} type={'checkbox'} />
                         <label className={'checkbox__label'}>Show password</label>
                     </div>
-                    <button className={'content__submit'} type={'submit'} disabled={isSubmitting}>Sign up</button>
-                    <LoginLoader color={'rgb(249, 94, 59)'} css={loaderCSS} loading={isSubmitting}/>
+                    <button className={'content__submit'} type={'submit'} disabled={isLoading}>Sign up</button>
+                    <LoginLoader color={'rgb(249, 94, 59)'} css={loaderCSS} loading={isLoading}/>
                     <ReCAPTCHA className={'captcha'} sitekey={'6Leond0hAAAAAOCUq2naPPzgveoMehWQmYG4Vabt'} size={"invisible"} ref={reRef}/>
                 </form>
             )}

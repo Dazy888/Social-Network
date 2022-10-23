@@ -28,20 +28,9 @@ export const authActions = {
     setAuthData: (isActivated: boolean, isAuth: boolean) => ({type: 'SN/auth/SET_AUTH_DATA', payload: {isActivated, isAuth}} as const),
 }
 
-export const login = (accessToken: string, isActivated: boolean) => async (dispatch: any) => {
+export const authorization = (accessToken: string, isActivated: boolean) => async (dispatch: any) => {
     localStorage.setItem('token', accessToken)
     dispatch(authActions.setAuthData(isActivated, true))
-    return 200
-}
-
-export const registration = (userLogin: string, password: string, token: string) => async (dispatch: any) => {
-    let response = await AuthService.registration(userLogin, password, token)
-
-    if (/User with this/.test(response.data)) return response.data
-
-    const user = response.data.user
-    localStorage.setItem('token', response.data.accessToken)
-    dispatch(authActions.setAuthData(user.isActivated, true))
 }
 
 export const logout = (): ThunkType => async (dispatch) => {

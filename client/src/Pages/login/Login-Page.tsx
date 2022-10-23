@@ -10,16 +10,15 @@ import './styles/Media.css'
 // Store
 import { compose } from "redux"
 import { connect } from "react-redux"
-import {login, registration} from "../../store/reducers/auth/auth-reducer"
-// Types
-import { Login, Registration } from "./types/Login-Types"
+import { authorization } from "../../store/reducers/auth/auth-reducer"
+// Type
+import { Authorization } from "./types/Login-Types"
 
 type PropsType = {
-    login: Login
-    registration: Registration
+    authorization: Authorization
 }
 
-function LoginPageComponent({registration, login}: PropsType) {
+function LoginPageComponent({authorization}: PropsType) {
     const navigate = useNavigate()
     const actions: any = useRef()
 
@@ -67,8 +66,8 @@ function LoginPageComponent({registration, login}: PropsType) {
                 </div>
                 <div className={'login__content'}>
                     <Routes>
-                        <Route path={'/sign-in'} element={<SignIn login={login} validate={validate}/>}/>
-                        <Route path={'/sign-up'} element={<SignUp registration={registration} validate={validate}/>}/>
+                        <Route path={'/sign-in'} element={<SignIn authorization={authorization} validate={validate}/>}/>
+                        <Route path={'/sign-up'} element={<SignUp authorization={authorization} validate={validate}/>}/>
                     </Routes>
                 </div>
             </div>
@@ -76,4 +75,4 @@ function LoginPageComponent({registration, login}: PropsType) {
     )
 }
 
-export const LoginPage = compose<React.ComponentType>(connect(null, {registration, login}))(React.memo(LoginPageComponent))
+export const LoginPage = compose<React.ComponentType>(connect(null, { authorization }))(React.memo(LoginPageComponent))
