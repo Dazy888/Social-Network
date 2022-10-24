@@ -1,19 +1,21 @@
 import React from "react"
 // Components
-import {ErrorMessages} from "../../login/components/ErrorMessages"
-import {ErrorIcons} from "../../login/components/ErrorIcons"
-import {LoginLoader} from "../../login/components/Loader"
-// Form
-import {Formik} from "formik"
+import { ErrorMessages } from "../../login/components/ErrorMessages"
+import { ErrorIcons } from "../../login/components/ErrorIcons"
+import { LoginLoader } from "../../login/components/Loader"
+// Formik
+import { Formik } from "formik"
+// Redux
+import { useDispatch, useSelector } from "react-redux"
 // Store
-import {connect, useSelector} from "react-redux"
-import {getId} from "../../../store/reducers/profile/profile-selectors";
-import {getEmail} from "../../../store/reducers/settings/settings-selectors";
-import {getActivatedStatus} from "../../../store/reducers/auth/auth-selectors";
-import {compose} from "redux"
-import {activate, cancelActivation} from "../../../store/reducers/settings/settings-reducer"
-// Types
-import {ActivateType, CancelActivation} from "../types/Settings-Types"
+import { getId } from "../../../store/reducers/profile/profile-selectors"
+import { getEmail } from "../../../store/reducers/settings/settings-selectors"
+import { getActivatedStatus } from "../../../store/reducers/auth/auth-selectors"
+import { settingsActions } from "../../../store/reducers/settings/settings-reducer"
+// React Query
+import { useMutation} from "react-query"
+// Service
+import { SettingsService } from "../../../services/SettingsService"
 
 const loaderCss = {
     display: "block",
@@ -22,12 +24,18 @@ const loaderCss = {
     margin: "50px auto",
 }
 
-type PropsType = {
-    cancelActivation: CancelActivation
-    activate: ActivateType
+type ActivateProps = {
+    email: string
+    id: number
 }
 
-export function ActivateComponent({activate, cancelActivation}: PropsType) {
+type CancelActivationProps = {
+    id: number
+}
+
+export default React.memo(function ActivateComponent() {
+    const dispatch = useDispatch()
+
     const id = useSelector(getId)
     const email = useSelector(getEmail)
     const isActivated = useSelector(getActivatedStatus)
@@ -45,17 +53,27 @@ export function ActivateComponent({activate, cancelActivation}: PropsType) {
         return errors
     }
 
-    const submit = async (email: string, setSubmitting: (status: boolean) => void) => {
-        setSubmitting(true)
-        await activate(email, id)
-        setSubmitting(false)
-    }
+    const { isLoading, mutateAsync:activate } = useMutation('activate email', (data: ActivateProps) => SettingsService.activate(data.email, data.id),
+        {
+            onSuccess(response) {
+                dispatch(settingsActions.setEmail(response.data.email))
+            }
+        }
+    )
+
+    const { mutateAsync:cancelActivation } = useMutation('cancel activation', (data: CancelActivationProps) => SettingsService.cancelActivation(data.id),
+        {
+            onSuccess() {
+                dispatch(settingsActions.setEmail(''))
+            }
+        }
+    )
 
     return(
         <div className={'settings-form'}>
             <h3 className={'title'}>Activate Email</h3>
             <hr/>
-            <Formik validate={values => validate(values.email)} initialValues={{email: ''}} onSubmit={(values, {setSubmitting}) => submit(values.email, setSubmitting)}>
+            <Formik validate={values => validate(values.email)} initialValues={{email: ''}} onSubmit={(values) => activate({email: values.email, id})}>
                 {({
                       errors,
                       touched,
@@ -70,24 +88,22 @@ export function ActivateComponent({activate, cancelActivation}: PropsType) {
                             ? <div className={'activated-email'}>
                                 <input className={'big-input'} disabled={true} value={email}/>
                                 <i className="fa-solid fa-circle-check"></i>
-                              </div>
+                            </div>
                             : <div className={'error-container'}>
                                 <ErrorMessages error={errors.email} touched={touched.email}/>
                                 <input value={values.email} onBlur={handleBlur} onChange={handleChange} className={`${errors.email && touched.email ? 'red-border big-input' : 'big-input'}`} name={'email'} type={'email'} placeholder={'Your email'} minLength={10} maxLength={20}/>
                                 <ErrorIcons error={errors.email} touched={touched.email}/>
-                              </div>
+                            </div>
                         }
-                        {isActivated ? <p className={'text'}>Your email is activated</p> : <button className={'submit'} type={'submit'} disabled={isSubmitting || !!email}>Activate</button>}
-                        <LoginLoader color={'rgb(102, 51, 153)'} css={loaderCss} loading={isSubmitting}/>
+                        {isActivated ? <p className={'text'}>Your email is activated</p> : <button className={'submit'} type={'submit'} disabled={isLoading || !!email}>Activate</button>}
+                        <LoginLoader color={'rgb(102, 51, 153)'} css={loaderCss} loading={isLoading}/>
                     </form>
                 )}
             </Formik>
             {isActivated ? null : <div>
                 {!!email ? <p className={'text'}>The activation link was send on your email</p> : null}
-                {!!email ? <button className={'cancel'} onClick={() => cancelActivation(id)}>Cancel</button> : null}
+                {!!email ? <button className={'cancel'} onClick={() => cancelActivation({id})}>Cancel</button> : null}
             </div>}
         </div>
     )
-}
-
-export const Activate = compose<React.ComponentType>(connect(null, {activate, cancelActivation}))(React.memo(ActivateComponent))
+})

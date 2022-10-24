@@ -1,27 +1,31 @@
-import React, {useRef, useState} from "react"
+import React, { useRef, useState } from "react"
 // CSS
 import "../styles/Modal.css"
 // Formik
-import {Formik} from "formik"
+import { Formik } from "formik"
 // Components
-import {ErrorMessages} from "../../login/components/ErrorMessages"
-import {ErrorIcons} from "../../login/components/ErrorIcons"
-import {ProfileLoader} from "../../main/components/Profile-Loader"
+import { ErrorMessages } from "../../login/components/ErrorMessages"
+import { ErrorIcons } from "../../login/components/ErrorIcons"
+import { ProfileLoader } from "../../main/components/Profile-Loader"
 // Types
-import {ChangeLocation, ChangeName, ChangePhoto} from "../types/Profile-Types"
+import { TextProps } from "../types/Profile-Types"
+// Redux
+import {useDispatch, useSelector} from "react-redux"
 // Store
-import {useSelector} from "react-redux"
-import {getAvatar, getBanner, getId, getLocation, getName} from "../../../store/reducers/profile/profile-selectors"
+import { getAvatar, getBanner, getId, getLocation, getName } from "../../../store/reducers/profile/profile-selectors"
+import { profileActions } from "../../../store/reducers/profile/profile-reducer"
+// React Query
+import { useMutation } from "react-query"
+// Service
+import { ProfileService } from "../../../services/ProfileService"
 
 type PropsType = {
-    changeBanner: ChangePhoto
-    changeAvatar: ChangePhoto
     setModalStatus: (status: boolean) => void
-    changeName: ChangeName
-    changeLocation: ChangeLocation
 }
 
-export default React.memo(function ModalComponent({setModalStatus, changeName, changeLocation, changeAvatar, changeBanner}: PropsType) {
+export default React.memo(function ModalComponent({ setModalStatus }: PropsType) {
+    const dispatch = useDispatch()
+
     const [nameError, setNameError] = useState<string>('')
     const btnRef: any = useRef()
 
@@ -30,6 +34,40 @@ export default React.memo(function ModalComponent({setModalStatus, changeName, c
     const currentBanner = useSelector(getBanner)
     const currentName = useSelector(getName)
     const currentLocation = useSelector(getLocation)
+
+    const { mutateAsync:changeName } = useMutation('change name', (data: TextProps) => ProfileService.changeName(data.text, data.id),
+        {
+            onSuccess(response) {
+                const data = response.data
+                if (/\s/.test(data)) return setNameError(data)
+                dispatch(profileActions.setName(response.data))
+            }
+        }
+    )
+
+    const { mutateAsync:changeLocation } = useMutation('change location', (data: TextProps) => ProfileService.changeLocation(data.text, data.id),
+        {
+            onSuccess(response) {
+                dispatch(profileActions.setLocation(response.data))
+            }
+        }
+    )
+
+    const { mutateAsync:changeBanner } = useMutation('change banner', (data: FormData) => ProfileService.changeBanner(data),
+        {
+            onSuccess(response) {
+                dispatch(profileActions.setBanner(response.data))
+            }
+        }
+    )
+
+    const { mutateAsync:changeAvatar } = useMutation('change avatar', (data: FormData) => ProfileService.changeAvatar(data),
+        {
+            onSuccess(response) {
+                dispatch(profileActions.setAvatar(response.data))
+            }
+        }
+    )
 
     async function submit(name: string, location: string, setSubmitting: (status: boolean) => void, banner: any, avatar: any) {
         function changeRequestStatus (status: boolean) {
@@ -50,15 +88,8 @@ export default React.memo(function ModalComponent({setModalStatus, changeName, c
         const btn = btnRef.current
         changeRequestStatus(true)
 
-        if (name !== currentName) {
-            const response = await changeName(name, id)
-            if (response) {
-                setNameError(response)
-                changeRequestStatus(false)
-            }
-        }
-
-        if (location !== currentLocation) await changeLocation(location, id)
+        if (name !== currentName) await changeName({text: name, id})
+        if (location !== currentLocation) await changeLocation({text: location, id})
 
         await sendPhoto(banner, currentBanner, changeBanner)
         await sendPhoto(avatar, currentAvatar, changeAvatar)

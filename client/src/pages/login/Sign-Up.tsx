@@ -1,29 +1,32 @@
-import React, {useRef, useState} from "react"
+import React, { useRef, useState } from "react"
 // Formik
-import {Formik} from "formik"
+import { Formik } from "formik"
 // Components
-import {LoginLoader} from "./components/Loader"
-import {ErrorMessages} from "./components/ErrorMessages"
-import {ErrorIcons} from "./components/ErrorIcons"
+import { LoginLoader } from "./components/Loader"
+import { ErrorMessages } from "./components/ErrorMessages"
+import { ErrorIcons } from "./components/ErrorIcons"
 // Types
-import { Authorization, Validate } from "./types/Login-Types"
+import { Validate } from "./types/login-types"
 // Recaptcha
 import ReCAPTCHA from "react-google-recaptcha"
 // CSS
-import {AuthProps, loaderCSS, successfulEnter} from "./Sign-In"
+import { AuthProps, loaderCSS, successfulEnter } from "./Sign-In"
 // Navigation
-import {useNavigate} from "react-router-dom"
-import {useMutation} from "react-query";
-import {AuthService} from "../../services/AuthService";
+import { useNavigate } from "react-router-dom"
+import { useMutation } from "react-query"
+import { AuthService } from "../../services/AuthService"
+import {useDispatch} from "react-redux";
 
 type PropsType = {
     validate: Validate
-    authorization: Authorization
 }
 
-export default React.memo(function SignUp({authorization, validate}: PropsType) {
+export default React.memo(function SignUp({ validate }: PropsType) {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
     const [loginError, changeLoginError] = useState<string>('')
+
     const reRef: any = useRef<ReCAPTCHA>()
     const passRef: any = useRef()
 
@@ -33,7 +36,7 @@ export default React.memo(function SignUp({authorization, validate}: PropsType) 
             onSuccess(response) {
                 if (response.status === 201) {
                     const data = response.data
-                    successfulEnter(navigate, authorization, data.accessToken, data.user.isActivated)
+                    successfulEnter(navigate, dispatch, data.accessToken, data.user.isActivated)
                 } else {
                     changeLoginError(response.data.message)
                 }

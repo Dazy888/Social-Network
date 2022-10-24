@@ -7,7 +7,7 @@ import { ErrorMessages } from "./components/ErrorMessages"
 import { ErrorIcons } from "./components/ErrorIcons"
 import { LoginLoader } from "./components/Loader"
 // Types
-import { Authorization, Validate } from "./types/Login-Types"
+import { Validate } from "./types/login-types"
 // Recaptcha
 import ReCAPTCHA from "react-google-recaptcha"
 // Navigation
@@ -16,10 +16,13 @@ import { useNavigate } from "react-router-dom"
 import { useMutation } from "react-query"
 // Service
 import { AuthService } from "../../services/AuthService"
+// Redux
+import { useDispatch } from "react-redux"
+// Store
+import { authActions } from "../../store/reducers/auth/auth-reducer"
 
 type PropsType = {
     validate: Validate
-    authorization: Authorization
 }
 
 export const loaderCSS: CSSProperties = {
@@ -37,15 +40,19 @@ export type AuthProps = {
     token: string
 }
 
-export function successfulEnter(navigate: (path: string) => void, authorization: Authorization, accessToken: string, isActivated: boolean) {
-    authorization(accessToken, isActivated)
+export function successfulEnter(navigate: (path: string) => void, dispatch: any, accessToken: string, isActivated: boolean) {
+    localStorage.setItem('token', accessToken)
+    dispatch(authActions.setAuthData(isActivated, true))
     navigate('/main/profile')
 }
 
-export default React.memo(function SignIn({validate, authorization}: PropsType) {
+export default React.memo(function SignIn({validate}: PropsType) {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
     const [loginError, changeLoginError] = useState<string>('')
     const [passwordError, changePasswordError] = useState<string>('')
+
     const reRef: any = useRef<ReCAPTCHA>()
 
     const {isLoading, mutateAsync} = useMutation('login',
@@ -54,7 +61,7 @@ export default React.memo(function SignIn({validate, authorization}: PropsType) 
             onSuccess(response) {
                 if (response.status === 201) {
                     const data = response.data
-                    successfulEnter(navigate, authorization, data.accessToken, data.user.isActivated)
+                    successfulEnter(navigate, dispatch, data.accessToken, data.user.isActivated)
                 } else {
                     const message = response.data.message
 

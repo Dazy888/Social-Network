@@ -7,23 +7,13 @@ import SignUp from "./Sign-Up"
 // CSS
 import './styles/Login.css'
 import './styles/Media.css'
-// Store
-import { compose } from "redux"
-import { connect } from "react-redux"
-import { authorization } from "../../store/reducers/auth/auth-reducer"
-// Type
-import { Authorization } from "./types/Login-Types"
 
-type PropsType = {
-    authorization: Authorization
-}
-
-function LoginPageComponent({authorization}: PropsType) {
+export default React.memo(function LoginPage() {
     const navigate = useNavigate()
     const actions: any = useRef()
 
     useEffect(() => {
-        if (localStorage.getItem('token')) navigate('/profile')
+        if (localStorage.getItem('token')) navigate('/main/profile')
     }, [])
 
     const validate = (userLogin: string, password: string) => {
@@ -66,13 +56,11 @@ function LoginPageComponent({authorization}: PropsType) {
                 </div>
                 <div className={'login__content'}>
                     <Routes>
-                        <Route path={'/sign-in'} element={<SignIn authorization={authorization} validate={validate}/>}/>
-                        <Route path={'/sign-up'} element={<SignUp authorization={authorization} validate={validate}/>}/>
+                        <Route path={'/sign-in'} element={<SignIn validate={validate}/>}/>
+                        <Route path={'/sign-up'} element={<SignUp validate={validate}/>}/>
                     </Routes>
                 </div>
             </div>
         </div>
     )
-}
-
-export const LoginPage = compose<React.ComponentType>(connect(null, { authorization }))(React.memo(LoginPageComponent))
+})

@@ -1,5 +1,12 @@
 import React from "react"
-import {DeletePost} from "../types/Profile-Types"
+// React Query
+import { useMutation } from "react-query"
+// Service
+import { ProfileService } from "../../../services/ProfileService"
+// Redux
+import { useDispatch } from "react-redux"
+// Store
+import { profileActions } from "../../../store/reducers/profile/profile-reducer"
 
 type PropsType = {
     avatar: string
@@ -8,10 +15,10 @@ type PropsType = {
     text: string
     id: number
     userId: number
-    deletePost: DeletePost
 }
 
-export default React.memo(function Post({avatar, name, date, text, deletePost, id, userId}: PropsType) {
+export default React.memo(function Post({avatar, name, date, text, id, userId}: PropsType) {
+    const dispatch = useDispatch()
     let time
 
     if (Math.round(date / 1000 / 60) === 1) {
@@ -28,6 +35,19 @@ export default React.memo(function Post({avatar, name, date, text, deletePost, i
         time = `${Math.round(date / 1000 / 60 / 60 / 24)} days ago`
     }
 
+    type DeletePostProps = {
+        id: number
+        userId: number
+    }
+
+    const { mutateAsync } = useMutation('delete post', (data: DeletePostProps) => ProfileService.deletePost(data.id, data.userId),
+        {
+            onSuccess(response) {
+                dispatch(profileActions.deletePost(response.data))
+            }
+        }
+    )
+
     return(
         <div className={'post'}>
             <div className={'post__header flex-property-set_between'}>
@@ -38,7 +58,7 @@ export default React.memo(function Post({avatar, name, date, text, deletePost, i
                         <p className={'text'}>{time}</p>
                     </div>
                 </div>
-                <button className={'post__delete'} onClick={() => deletePost(id, userId)}>
+                <button className={'post__delete'} onClick={() => mutateAsync({id, userId})}>
                     <i className="fa-solid fa-trash"></i>
                 </button>
             </div>

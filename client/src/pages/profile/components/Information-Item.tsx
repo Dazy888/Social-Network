@@ -1,5 +1,5 @@
-import React, {useRef, useState} from "react"
-import {ChangeInfo} from "../types/Profile-Types"
+import React, { useRef, useState } from "react"
+import { ChangeInfo } from "../types/Profile-Types"
 
 type PropsType = {
     editStatus: boolean
@@ -8,7 +8,7 @@ type PropsType = {
     id: number
     text: string
     title: string
-    changeText: (text: string, id: number) => Promise<void>
+    changeText: any
 }
 
 export default React.memo(function InformationItem({text, changeText, id, textId, setEditStatus, editStatus, title}: PropsType) {
@@ -26,7 +26,7 @@ export default React.memo(function InformationItem({text, changeText, id, textId
 
             textarea.value = value
             textarea.onblur = async () => {
-                await changeText(textarea.value, id)
+                await changeText({text: textarea.value, id})
                 text.innerText = textarea.value
                 document.onkeydown = null
                 setEditStatus(false)

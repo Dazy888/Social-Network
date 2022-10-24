@@ -1,11 +1,11 @@
-import React, {useEffect} from "react"
+import React, { useEffect } from "react"
 // Navigation
-import {NavLink, Route, Routes, useNavigate} from "react-router-dom"
+import { NavLink, Route, Routes, useNavigate } from "react-router-dom"
 // CSS
 import './styles/Settings.css'
 // Components
 import { ChangePass } from "./components/Change-Pass"
-import { Activate } from "./components/Activate"
+import Activate from "./components/Activate"
 
 export function Settings() {
     const navigate = useNavigate()

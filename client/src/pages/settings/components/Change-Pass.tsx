@@ -1,22 +1,31 @@
-import React, {useState} from "react"
+import React, { useState } from "react"
 // Navigation
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 // Components
-import {ErrorMessages} from "../../login/components/ErrorMessages"
-import {ErrorIcons} from "../../login/components/ErrorIcons"
-import {LoginLoader} from "../../login/components/Loader"
-// Form
-import {Formik} from "formik"
-// Axios
-import {SettingsService} from "../../../services/SettingsService"
+import { ErrorMessages } from "../../login/components/ErrorMessages"
+import { ErrorIcons } from "../../login/components/ErrorIcons"
+import { LoginLoader } from "../../login/components/Loader"
+// Formik
+import { Formik } from "formik"
+// Service
+import { SettingsService } from "../../../services/SettingsService"
 // Store
-import {useSelector} from "react-redux"
-import {getId} from "../../../store/reducers/profile/profile-selectors"
+import { getId } from "../../../store/reducers/profile/profile-selectors"
+// Redux
+import { useSelector } from "react-redux"
+// React Query
+import { useMutation } from "react-query"
 
 const loaderCss = {
     display: 'block',
     width: 'fit-content',
     margin: '30px auto'
+}
+
+type ChangePassProps = {
+    pass: string
+    newPass: string
+    id: number
 }
 
 export function ChangePass() {
@@ -47,24 +56,19 @@ export function ChangePass() {
         return errors
     }
 
-    const submit = async (pass: string, confirmPass: string, newPass: string, setSubmitting: (status: boolean) => void) => {
-        setSubmitting(true)
-        const response = await SettingsService.changePass(pass, newPass, id)
-        if (response.data.message) {
-            changePassErr(response.data.message)
-            setSubmitting(false)
-            return
+    const { mutateAsync, isLoading } = useMutation('change pass', (data: ChangePassProps) => SettingsService.changePass(data.pass, data.newPass, data.id),
+        {
+            onSuccess(response) {
+                (response.status === 200) ? navigate('/main/profile') : changePassErr(response.data.message)
+            }
         }
-
-        navigate('/main/profile')
-        setSubmitting(false)
-    }
+    )
 
     return(
         <div className={'settings-form'}>
             <h3 className={'title'}>Change Password</h3>
             <hr/>
-            <Formik validate={values => validate(values.pass, values.confirmPass, values.newPass)} initialValues={{confirmPass: '', pass: '', newPass: ''}} onSubmit={(values, {setSubmitting}) => submit(values.pass, values.confirmPass, values.newPass, setSubmitting)}>
+            <Formik validate={values => validate(values.pass, values.confirmPass, values.newPass)} initialValues={{confirmPass: '', pass: '', newPass: ''}} onSubmit={(values) => mutateAsync({pass: values.pass, newPass: values.newPass, id})}>
                 {({
                       errors,
                       touched,
@@ -92,8 +96,8 @@ export function ChangePass() {
                                 <ErrorIcons error={errors.confirmPass} touched={touched.confirmPass}/>
                             </div>
                         </div>
-                        <button className={'submit'} type={'submit'} disabled={isSubmitting}>Change password</button>
-                        <LoginLoader color={'rebeccapurple'} css={loaderCss} loading={isSubmitting}/>
+                        <button className={'submit'} type={'submit'} disabled={isLoading}>Change password</button>
+                        <LoginLoader color={'rebeccapurple'} css={loaderCss} loading={isLoading}/>
                     </form>
                 )}
             </Formik>

@@ -1,19 +1,29 @@
 import React from "react"
 import '../styles/Header.css'
 import {NavLink, useNavigate} from "react-router-dom"
+import {useQuery} from "react-query";
+import {AuthService} from "../../../services/AuthService";
+import {authActions} from "../../../store/reducers/auth/auth-reducer";
+import {useDispatch} from "react-redux";
 
 type PropsType = {
-    logout: () => void
     avatar: string
 }
 
-export default React.memo(function Header({avatar, logout}: PropsType) {
+export default React.memo(function Header({ avatar }: PropsType) {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
-    async function goLogout() {
-        await logout()
-        navigate('/login/sign-in')
-    }
+    const { refetch } = useQuery('logout', () => AuthService.logout(),
+        {
+            enabled: false,
+            onSuccess() {
+                localStorage.removeItem('token')
+                dispatch(authActions.setAuthData(false, false))
+                navigate('/login/sign-in')
+            }
+        }
+    )
 
     return (
         <div id={'header'} className={'flex-property-set_center'}>
@@ -26,7 +36,7 @@ export default React.memo(function Header({avatar, logout}: PropsType) {
                 </ul>
                 <div className={'header__logout flex-property-set_between'}>
                     <img alt={'Avatar'} src={avatar} className={'header__avatar'}/>
-                    <button className={'header__btn'} onClick={goLogout}>Logout</button>
+                    <button className={'header__btn'} onClick={() => refetch()}>Logout</button>
                 </div>
             </div>
         </div>

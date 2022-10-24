@@ -1,6 +1,8 @@
-import {PostType} from "../../profile/types/Profile-Types"
+import { PostType } from "../../profile/types/Profile-Types"
 
 export type User = {
+    id: number
+    email: string
     banner: string
     avatar: string
     name: string

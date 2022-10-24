@@ -2,21 +2,18 @@ import React, { useEffect } from 'react'
 // Navigation
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom"
 // Components
-import { LoginPage } from "./pages/login/Login-Page"
-import { MainPage } from "./pages/main/Main-Page"
-import { NoContent } from "./pages/404/No-Content";
+import MainPage from "./pages/main/Main-Page";
+import LoginPage from "./pages/login/Login-Page"
+import {NoContent} from "./pages/404/No-Content"
 // Redux
-import { connect, Provider } from "react-redux"
+import { Provider, useDispatch } from "react-redux"
+// Store
 import store from "./store/store"
-import { compose } from "redux"
-import { checkAuth } from "./store/reducers/auth/auth-reducer"
+import { authActions } from "./store/reducers/auth/auth-reducer"
 // React Query
-import {QueryClient, QueryClientProvider, useQuery} from "react-query"
-import {AuthService} from "./services/AuthService";
-
-type PropsType = {
-    checkAuth: () => void
-}
+import { QueryClient, QueryClientProvider, useQuery } from "react-query"
+// Service
+import { AuthService } from "./services/AuthService"
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -25,17 +22,21 @@ const queryClient = new QueryClient({
         }
     }
 })
-function App({checkAuth}: PropsType) {
+
+function App() {
     let navigate = useNavigate()
-    const {refetch} = useQuery('check auth', () => AuthService.refresh(),
+    const dispatch = useDispatch()
+
+    const { refetch } = useQuery('check auth', () => AuthService.refresh(),
         {
             enabled: false,
             onSuccess(response) {
-                console.log(response)
                 if (response.status === 200) {
-
+                    localStorage.setItem('token', response.data.accessToken)
+                    dispatch(authActions.setAuthData(response.data.user.isAtivated, true))
+                    navigate('/main/profile')
                 } else {
-
+                    navigate('/login/sign-in')
                 }
             }
         })
@@ -69,14 +70,12 @@ function App({checkAuth}: PropsType) {
     )
 }
 
-const SocialNetworkApp = compose<React.ComponentType>(connect(null, {checkAuth}))(App)
-
 export default React.memo(function SocialNetwork() {
     return (
         <QueryClientProvider client={queryClient}>
             <BrowserRouter>
                 <Provider store={store}>
-                    <SocialNetworkApp/>
+                    <App/>
                 </Provider>
             </BrowserRouter>
         </QueryClientProvider>
