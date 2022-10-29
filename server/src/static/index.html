@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Api Documentation</title>
+    <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/603/603197.png">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Social network api documentation</h1>
+        <div class="content">
+            <div class="module">
+                <div class="module__header flex">
+                    <h2 class="module__title">Authorization</h2>
+                    <button class="module__btn">Show / Hide</button>
+                </div>
+                <div class="module__request flex">
+                    <div class="module__request-type post">
+                        <h3>POST</h3>
+                    </div>
+                    <div class="module__url post-url">
+                        <p class="module__text">/api/auth/registration</p>
+                    </div>
+                </div>
+                <div class="module__request flex">
+                    <div class="module__request-type post">
+                        <h3>POST</h3>
+                    </div>
+                    <div class="module__url post-url">
+                        <p class="module__text">/api/auth/login</p>
+                    </div>
+                </div>
+                <div class="module__request flex">
+                    <div class="module__request-type get">
+                        <h3>GET</h3>
+                    </div>
+                    <div class="module__url get-url">
+                        <p class="module__text">/api/auth/logout</p>
+                    </div>
+                </div>
+                <div class="module__request flex">
+                    <div class="module__request-type get">
+                        <h3>GET</h3>
+                    </div>
+                    <div class="module__url get-url">
+                        <p class="module__text">/api/auth/refresh</p>
+                    </div>
+                </div>
+            </div>
+            <div class="module">
+                <div class="module__header">
+                    <h2 class="module__title">Profile</h2>
+                    <button class="module__btn">Show / Hide</button>
+                </div>
+                <div class="module__request">
+                    <div class="module__request-type put">
+                        <h3>PUT</h3>
+                    </div>
+                    <div class="module__url put-url">
+                        <p class="module__text">/api/profile/name</p>
+                    </div>
+                </div>
+                <div class="module__request">
+                    <div class="module__request-type put">
+                        <h3>PUT</h3>
+                    </div>
+                    <div class="module__url put-url">
+                        <p class="module__text">/api/profile/location</p>
+                    </div>
+                </div>
+                <div class="module__request">
+                    <div class="module__request-type post">
+                        <h3>POST</h3>
+                    </div>
+                    <div class="module__url post-url">
+                        <p class="module__text">/api/profile/avatar</p>
+                    </div>
+                </div>
+                <div class="module__request">
+                    <div class="module__request-type post">
+                        <h3>POST</h3>
+                    </div>
+                    <div class="module__url post-url">
+                        <p class="module__text">/api/profile/banner</p>
+                    </div>
+                </div>
+                <div class="module__request">
+                    <div class="module__request-type put">
+                        <h3>PUT</h3>
+                    </div>
+                    <div class="module__url put-url">
+                        <p class="module__text">/api/profile/about-me</p>
+                    </div>
+                </div>
+                <div class="module__request">
+                    <div class="module__request-type put">
+                        <h3>PUT</h3>
+                    </div>
+                    <div class="module__ur put-url">
+                        <p class="module__text">/api/profile/about-me</p>
+                    </div>
+                </div>
+                <div class="module__request">
+                    <div class="module__request-type put">
+                        <h3>PUT</h3>
+                    </div>
+                    <div class="module__url put-url">
+                        <p class="module__text">/api/profile/hobbies</p>
+                    </div>
+                </div>
+                <div class="module__request">
+                    <div class="module__request-type put">
+                        <h3>PUT</h3>
+                    </div>
+                    <div class="module__url put-url">
+                        <p class="module__text">/api/profile/skills</p>
+                    </div>
+                </div>
+                <div class="module__request">
+                    <div class="module__request-type post">
+                        <h3>POST</h3>
+                    </div>
+                    <div class="module__url post-url">
+                        <p class="module__text">/api/profile/post</p>
+                    </div>
+                </div>
+                <div class="module__request">
+                    <div class="module__request-type delete">
+                        <h3>DELETE</h3>
+                    </div>
+                    <div class="module__url delete-url">
+                        <p class="module__text">/api/profile/post</p>
+                    </div>
+                </div>
+            </div>
+            <div class="module">
+                <div class="module__header">
+                    <h2 class="module__title">Settings</h2>
+                    <button class="module__btn">Show / Hide</button>
+                </div>
+                <div class="module__request">
+                    <div class="module__request-type">
+                        <h3>PUT</h3>
+                    </div>
+                    <div class="module__url">
+                        <p class="module__text">/api/settings/password</p>
+                    </div>
+                </div>
+                <div class="module__request">
+                    <div class="module__request-type">
+                        <h3>POST</h3>
+                    </div>
+                    <div class="module__url">
+                        <p class="module__text">/api/settings/mail</p>
+                    </div>
+                </div>
+                <div class="module__request">
+                    <div class="module__request-type">
+                        <h3>GET</h3>
+                    </div>
+                    <div class="module__url">
+                        <p class="module__text">/api/settings/cancel-activation/{id}</p>
+                    </div>
+                </div>
+                <div class="module__request">
+                    <div class="module__request-type">
+                        <h3>GET</h3>
+                    </div>
+                    <div class="module__url">
+                        <p class="module__text">/api/settings/activate/{link}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="module">
+                <div class="module__header">
+                    <h2 class="module__title">Users</h2>
+                    <button class="module__btn">Show / Hide</button>
+                </div>
+                <div class="module__request">
+                    <div class="module__request-type">
+                        <h3></h3>
+                    </div>
+                    <div class="module__url">
+                        <p class="module__text"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
