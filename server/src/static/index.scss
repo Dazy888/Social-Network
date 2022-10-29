@@ -26,9 +26,18 @@
 
     .module {
       width: 100%;
+      margin-bottom: 50px;
+
+      .show-big {
+        height: 500px !important;
+      }
+
+      .show-small {
+        height: 210px !important;
+      }
 
       .module__header {
-        margin-bottom: 10px;
+        margin-bottom: 30px;
 
         .module__btn {
           border-radius: 10px;
@@ -51,53 +60,63 @@
         }
       }
 
-      .module__request {
-        padding-left: 20px;
-        cursor: pointer;
+      .module__content {
+        height: 0;
+        transition: height 1s;
+        overflow: hidden;
 
-        .post {
-          background: rgb(17, 165, 74);
-        }
+        .module__request {
+          padding-left: 20px;
+          cursor: pointer;
+          margin-bottom: 20px;
 
-        .post-url {
-          background: rgba(17, 165, 74, 0.6);
-        }
+          .post {
+            background: rgb(17, 165, 74);
+          }
 
-        .get {
-          background: rgb(15, 107, 181);
-        }
+          .post-url {
+            background: rgba(17, 165, 74, 0.6);
+          }
 
-        .get-url {
-          background: rgba(15, 107, 181, 0.6);
-        }
+          .get {
+            background: rgb(15, 107, 181);
+          }
 
-        .put {
-          background: rgb(201, 134, 52);
-        }
+          .get-url {
+            background: rgba(15, 107, 181, 0.6);
+          }
 
-        .put-url {
-          background: rgba(201, 134, 52, 0.6);
-        }
+          .put {
+            background: rgb(201, 134, 52);
+          }
 
-        .delete {
-          background: rgb(159, 41, 25);
-        }
+          .put-url {
+            background: rgba(201, 134, 52, 0.6);
+          }
 
-        .delete-url {
-          background: rgba(159, 41, 25, 0.6);
-        }
+          .delete {
+            background: rgb(159, 41, 25);
+          }
 
-        .module__request-type {
-          padding: 10px 15px;
-          font-size: 13px;
-        }
+          .delete-url {
+            background: rgba(159, 41, 25, 0.6);
+          }
 
-        .module__url {
-          width: 100%;
-          height: 38px;
-          font-size: 18px;
-          padding: 8px 0 0 20px;
-          box-sizing: border-box;
+          .module__request-type {
+            width: 95px;
+            box-sizing: border-box;
+            padding: 10px 15px;
+            font-size: 13px;
+            text-align: center;
+          }
+
+          .module__url {
+            width: 97%;
+            height: 37px;
+            font-size: 18px;
+            padding: 8px 0 0 20px;
+            box-sizing: border-box;
+          }
         }
       }
     }
