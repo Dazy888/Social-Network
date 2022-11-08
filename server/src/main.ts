@@ -13,7 +13,7 @@ async function bootstrap() {
   }))
   app.use('/uploads', express.static('./uploads'))
   app.setGlobalPrefix('api')
-  await app.listen(5001)
+  await app.listen(5000)
 }
 
 bootstrap()

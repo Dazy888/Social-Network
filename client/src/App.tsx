@@ -14,6 +14,8 @@ import { authActions } from "./store/reducers/auth/auth-reducer"
 import { QueryClient, QueryClientProvider, useQuery } from "react-query"
 // Service
 import { AuthService } from "./services/AuthService"
+import {profileActions} from "./store/reducers/profile/profile-reducer";
+import {settingsActions} from "./store/reducers/settings/settings-reducer";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -34,6 +36,11 @@ function App() {
                 if (response.status === 200) {
                     localStorage.setItem('token', response.data.accessToken)
                     dispatch(authActions.setAuthData(response.data.user.isAtivated, true))
+
+                    const user = response.data.user
+                    dispatch(profileActions.setUser(user.name, user.location, user.banner, user.avatar, user.aboutMe, user.skills, user.hobbies, user.id, response.data.posts, user.email))
+                    dispatch(settingsActions.setEmail(user.email))
+
                     navigate('/main/profile')
                 } else {
                     navigate('/login/sign-in')
