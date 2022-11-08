@@ -43,6 +43,7 @@ export default React.memo(function Post({avatar, name, date, text, id, userId}: 
     const { mutateAsync } = useMutation('delete post', (data: DeletePostProps) => ProfileService.deletePost(data.id, data.userId),
         {
             onSuccess(response) {
+                console.log(response)
                 dispatch(profileActions.deletePost(response.data))
             }
         }

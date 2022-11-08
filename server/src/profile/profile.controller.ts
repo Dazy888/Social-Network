@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Post, Put, Param, UseInterceptors, UploadedFiles } from '@nestjs/common'
+import {
+    Body,
+    Controller,
+    Delete,
+    Post,
+    Put,
+    Param,
+    UseInterceptors,
+    UploadedFiles,
+    BadRequestException
+} from '@nestjs/common'
 import { FilesInterceptor } from "@nestjs/platform-express"
 import { ChangeTextDto } from "./dto/change-text.dto"
 import { ProfileService } from "./profile.service"
@@ -7,13 +17,17 @@ import { diskStorage } from "multer"
 
 @Controller('profile')
 export class ProfileController {
-    constructor(private readonly profileService: ProfileService) {
-    }
+    constructor(private readonly profileService: ProfileService) {}
 
     @Put('name')
     async changeName(@Body() data: ChangeTextDto) {
         const {text, id} = data
-        return this.profileService.changeName(text, id)
+        const response = await this.profileService.changeName(text, id)
+        if (/User/.test(response)) {
+            throw new BadRequestException(response)
+        } else {
+            return response
+        }
     }
 
     @Put('location')

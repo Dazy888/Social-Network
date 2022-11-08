@@ -2,13 +2,13 @@ import {$api} from "../http"
 import {AxiosResponse} from "axios"
 
 export class ProfileService {
-    static async changeName(name: string, id: number): Promise<AxiosResponse> {
+    static changeName(name: string, id: number): Promise<AxiosResponse> {
         return $api.put(`profile/name`, {text: name, id})
             .then(res => {return res})
             .catch((e) => {return e.response})
     }
 
-    static async changeLocation(location: string, id: number): Promise<AxiosResponse> {
+    static changeLocation(location: string, id: number): Promise<AxiosResponse> {
         return $api.put(`profile/location`, {text: location, id})
     }
 
@@ -17,6 +17,7 @@ export class ProfileService {
     }
 
     static async changeAvatar(data: FormData): Promise<AxiosResponse> {
+        console.log(await $api.post(`profile/avatar`, data))
         return $api.post(`profile/avatar`, data)
     }
 

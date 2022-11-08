@@ -72,6 +72,6 @@ export class ProfileService {
 
     async deletePost(postId: string, userId: string) {
         await this.postsModel.findByIdAndDelete({_id: postId})
-        return this.userModel.findOne({userId})
+        return this.postsModel.find({user: userId})
     }
 }

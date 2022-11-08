@@ -88,11 +88,7 @@ export class AuthService {
         if (!user) return `User with this login doesn't exist`
         const userDto = new UserDto(user)
 
-        console.log(password)
-        console.log(user.password)
-
         const isPassEquals = await bcrypt.compare(password, user.password)
-        console.log(isPassEquals)
         if (!isPassEquals) return 'Wrong password'
 
         const posts = await this.postsModel.find({user: user.id})

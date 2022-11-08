@@ -15,37 +15,222 @@
                     <h2 class="module__title">Authorization</h2>
                     <button class="module__btn">Show / Hide</button>
                 </div>
-                <div class="module__content" small>
-                    <div class="module__request flex">
-                        <div class="module__request-type post">
-                            <h3>POST</h3>
+                <div class="module__content">
+                    <div class="module__request">
+                        <div class="request-header flex">
+                            <div class="module__request-type post">
+                                <h3>POST</h3>
+                            </div>
+                            <div class="module__url post-url">
+                                <p class="module__text">/api/auth/registration</p>
+                            </div>
                         </div>
-                        <div class="module__url post-url">
-                            <p class="module__text">/api/auth/registration</p>
+                        <div medium class="request-content post-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/auth/registration</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Request Body</h1>
+                                <p>
+                                    {
+                                        userLogin: string
+                                        password: string
+                                        token: string
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body (<span>wrong login</span>)</h1>
+                                <p>
+                                    {
+                                        error : "Bad Request"
+                                        message : "User with this login already exists"
+                                        statusCode : 400
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code (<span>wrong login</span>)</h1>
+                                <p>400</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body (<span class="success">success</span>)</h1>
+                                <p>
+                                    {
+                                        accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
+                                        refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
+                                        user: {
+                                            userLogin: 'Polly'
+                                            id: '635e25e2cef7d70adff6a10e'
+                                            avatar: "https://i.imgur.com/b08hxPY.png"
+                                            banner: 'https://img.freepik.com/premium-vector/programming…data-streaming-digital-code_127544-778.jpg?w=2000'
+                                            name: 'User 5'
+                                            location: 'Nowhere'
+                                            aboutMe: ""
+                                            hobbies: ""
+                                            skills: ""
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code (<span class="success">success</span>)</h1>
+                                <p>201</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="module__request flex">
-                        <div class="module__request-type post">
-                            <h3>POST</h3>
+                    <div class="module__request">
+                        <div class="request-header flex">
+                            <div class="module__request-type post">
+                                <h3>POST</h3>
+                            </div>
+                            <div class="module__url post-url">
+                                <p class="module__text">/api/auth/login</p>
+                            </div>
                         </div>
-                        <div class="module__url post-url">
-                            <p class="module__text">/api/auth/login</p>
+                        <div big class="request-content post-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/auth/login</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Request Body</h1>
+                                <p>
+                                    {
+                                        userLogin: string
+                                        password: string
+                                        token: string
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Headers</h1>
+                                <p>
+                                    {
+                                        content-length : "88"
+                                        content-type : "application/json; charset=utf-8"
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body (<span>wrong login</span>)</h1>
+                                <p>
+                                    {
+                                        error : "Bad Request"
+                                        message : "User with this login doesn't exist"
+                                        statusCode : 400
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code (<span>wrong login</span>)</h1>
+                                <p>400</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body (<span>wrong password</span>)</h1>
+                                <p>
+                                    {
+                                        error : "Bad Request"
+                                        message : "Wrong password"
+                                        statusCode : 400
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code (<span>wrong password</span>)</h1>
+                                <p>400</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body (<span class="success">success</span>)</h1>
+                                <p>
+                                    {
+                                        accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
+                                        refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
+                                        user: {
+                                        userLogin: 'Polly'
+                                        id: '635e25e2cef7d70adff6a10e'
+                                        avatar: "https://i.imgur.com/b08hxPY.png"
+                                        banner: 'https://img.freepik.com/premium-vector/programming…data-streaming-digital-code_127544-778.jpg?w=2000'
+                                        name: 'User 5'
+                                        location: 'Nowhere'
+                                        aboutMe: ""
+                                        hobbies: ""
+                                        skills: ""
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code (<span class="success">success</span>)</h1>
+                                <p>201</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="module__request flex">
-                        <div class="module__request-type get">
-                            <h3>GET</h3>
+                    <div class="module__request">
+                        <div class="request-header flex">
+                            <div class="module__request-type get">
+                                <h3>GET</h3>
+                            </div>
+                            <div class="module__url get-url">
+                                <p class="module__text">/api/auth/logout</p>
+                            </div>
                         </div>
-                        <div class="module__url get-url">
-                            <p class="module__text">/api/auth/logout</p>
+                        <div very-small class="request-content get-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/auth/logout</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>
+                                    {
+                                        acknowledged: true
+                                        deletedCount: 1
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="module__request flex">
-                        <div class="module__request-type get">
-                            <h3>GET</h3>
+                    <div class="module__request">
+                        <div class="request-header flex">
+                            <div class="module__request-type get">
+                                <h3>GET</h3>
+                            </div>
+                            <div class="module__url get-content">
+                                <p class="module__text">/api/auth/refresh</p>
+                            </div>
                         </div>
-                        <div class="module__url get-url">
-                            <p class="module__text">/api/auth/refresh</p>
+                        <div small class="request-content get-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/auth/refresh</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body (<span class="success">success</span>)</h1>
+                                <p>
+                                    {
+                                        accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
+                                        refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
+                                        user: {
+                                        userLogin: 'Polly'
+                                        id: '635e25e2cef7d70adff6a10e'
+                                        avatar: "https://i.imgur.com/b08hxPY.png"
+                                        banner: 'https://img.freepik.com/premium-vector/programming…data-streaming-digital-code_127544-778.jpg?w=2000'
+                                        name: 'User 5'
+                                        location: 'Nowhere'
+                                        aboutMe: ""
+                                        hobbies: ""
+                                        skills: ""
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code (<span class="success">success</span>)</h1>
+                                <p>200</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -55,77 +240,312 @@
                     <h2 class="module__title">Profile</h2>
                     <button class="module__btn">Show / Hide</button>
                 </div>
-                <div class="module__content" big>
-                    <div class="module__request flex">
-                        <div class="module__request-type put">
-                            <h3>PUT</h3>
+                <div class="module__content">
+                    <div class="module__request">
+                        <div class="request-header flex">
+                            <div class="module__request-type put">
+                                <h3>PUT</h3>
+                            </div>
+                            <div class="module__url put-url">
+                                <p class="module__text">/api/profile/name</p>
+                            </div>
                         </div>
-                        <div class="module__url put-url">
-                            <p class="module__text">/api/profile/name</p>
-                        </div>
-                    </div>
-                    <div class="module__request flex">
-                        <div class="module__request-type put">
-                            <h3>PUT</h3>
-                        </div>
-                        <div class="module__url put-url">
-                            <p class="module__text">/api/profile/location</p>
-                        </div>
-                    </div>
-                    <div class="module__request flex">
-                        <div class="module__request-type post">
-                            <h3>POST</h3>
-                        </div>
-                        <div class="module__url post-url">
-                            <p class="module__text">/api/profile/avatar</p>
-                        </div>
-                    </div>
-                    <div class="module__request flex">
-                        <div class="module__request-type post">
-                            <h3>POST</h3>
-                        </div>
-                        <div class="module__url post-url">
-                            <p class="module__text">/api/profile/banner</p>
-                        </div>
-                    </div>
-                    <div class="module__request flex">
-                        <div class="module__request-type put">
-                            <h3>PUT</h3>
-                        </div>
-                        <div class="module__url put-url">
-                            <p class="module__text">/api/profile/about-me</p>
-                        </div>
-                    </div>
-                    <div class="module__request flex">
-                        <div class="module__request-type put">
-                            <h3>PUT</h3>
-                        </div>
-                        <div class="module__url put-url">
-                            <p class="module__text">/api/profile/hobbies</p>
-                        </div>
-                    </div>
-                    <div class="module__request flex">
-                        <div class="module__request-type put">
-                            <h3>PUT</h3>
-                        </div>
-                        <div class="module__url put-url">
-                            <p class="module__text">/api/profile/skills</p>
+                        <div name class="request-content put-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/profile/name</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Request Body</h1>
+                                <p>
+                                    {
+                                        text: string
+                                        id: string
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body (<span>wrong name</span>)</h1>
+                                <p>
+                                    {
+                                        error: "Bad Request"
+                                        message: "User with this name already exists"
+                                        statusCode: 400
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code (<span>wrong name</span>)</h1>
+                                <p>400</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body (<span class="success">success</span>)</h1>
+                                <p>"New name"</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code (<span class="success">success</span>)</h1>
+                                <p>200</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="module__request flex">
-                        <div class="module__request-type post">
-                            <h3>POST</h3>
+                    <div class="module__request">
+                        <div class="request-header flex">
+                            <div class="module__request-type put">
+                                <h3>PUT</h3>
+                            </div>
+                            <div class="module__url put-url">
+                                <p class="module__text">/api/profile/location</p>
+                            </div>
                         </div>
-                        <div class="module__url post-url">
-                            <p class="module__text">/api/profile/post</p>
+                        <div location class="request-content put-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/profile/location</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Request Body</h1>
+                                <p>
+                                    {
+                                        text: string
+                                        id: string
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>"New location"</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="module__request flex">
-                        <div class="module__request-type delete">
-                            <h3>DELETE</h3>
+                    <div class="module__request">
+                        <div class="request-header flex">
+                            <div class="module__request-type post">
+                                <h3>POST</h3>
+                            </div>
+                            <div class="module__url post-url">
+                                <p class="module__text">/api/profile/avatar</p>
+                            </div>
                         </div>
-                        <div class="module__url delete-url">
-                            <p class="module__text">/api/profile/post</p>
+                        <div very-small class="request-content post-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/profile/avatar</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Request Body</h1>
+                                <p>data: FormData</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>"http://localhost:5001/uploads\\avatars\\1667134616768--Ð¸Ð·Ð¾Ð±ÑÐ°Ð¶ÐµÐ½Ð¸Ðµ_viber_2022-10-21_22-24-28-018.jpg"</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>201</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module__request">
+                        <div class="request-header flex">
+                            <div class="module__request-type post">
+                                <h3>POST</h3>
+                            </div>
+                            <div class="module__url post-url">
+                                <p class="module__text">/api/profile/banner</p>
+                            </div>
+                        </div>
+                        <div very-small class="request-content post-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/profile/banner</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Request Body</h1>
+                                <p>data: FormData</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>"http://localhost:5001/uploads\\banners\\1667134616768--Ð¸Ð·Ð¾Ð±ÑÐ°Ð¶ÐµÐ½Ð¸Ðµ_viber_2022-10-21_22-24-28-018.jpg"</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>201</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module__request">
+                        <div class="request-header flex">
+                            <div class="module__request-type put">
+                                <h3>PUT</h3>
+                            </div>
+                            <div class="module__url put-url">
+                                <p class="module__text">/api/profile/about-me</p>
+                            </div>
+                        </div>
+                        <div location class="request-content put-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/profile/about-me</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Request Body</h1>
+                                <p>
+                                    {
+                                        text: string
+                                        id: string
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>"New text"</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module__request">
+                        <div class="request-header flex">
+                            <div class="module__request-type put">
+                                <h3>PUT</h3>
+                            </div>
+                            <div class="module__url put-url">
+                                <p class="module__text">/api/profile/hobbies</p>
+                            </div>
+                        </div>
+                        <div location class="request-content put-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/profile/hobbies</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Request Body</h1>
+                                <p>
+                                    {
+                                        text: string
+                                        id: string
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>"New text"</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module__request">
+                        <div class="request-header flex">
+                            <div class="module__request-type put">
+                                <h3>PUT</h3>
+                            </div>
+                            <div class="module__url put-url">
+                                <p class="module__text">/api/profile/skills</p>
+                            </div>
+                        </div>
+                        <div location class="request-content put-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/profile/skills</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Request Body</h1>
+                                <p>
+                                    {
+                                        text: string
+                                        id: string
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>"New text"</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module__request">
+                        <div class="request-header flex">
+                            <div class="module__request-type post">
+                                <h3>POST</h3>
+                            </div>
+                            <div class="module__url post-url">
+                                <p class="module__text">/api/profile/post</p>
+                            </div>
+                        </div>
+                        <div small class="request-content post-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/profile/post</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Request Body</h1>
+                                <p>
+                                    {
+                                        text: string
+                                        id: string
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>
+                                    {
+                                        date: "Sun Oct 30 2022 16:12:07 GMT+0300 (Москва, стандартное время)"
+                                        id: "635e782706078894b4b8243f"
+                                        text: "dasdas"
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>201</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module__request">
+                        <div class="request-header flex">
+                            <div class="module__request-type delete">
+                                <h3>DELETE</h3>
+                            </div>
+                            <div class="module__url delete-url">
+                                <p class="module__text">/api/profile/post/{postId}/{userId}</p>
+                            </div>
+                        </div>
+                        <div location class="request-content delete-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/profile/post/{postId}/{userId}</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>
+                                    [
+                                        {
+                                            date: "Sun Oct 30 2022 15:24:04 GMT+0200 (Центральная Африка)"
+                                            text: "Hello it is my first post"
+                                            user: "635e42dacef7d70adff6a36f"
+                                            _id: "635e7af4341f38faac0f3513"
+                                        }
+                                    ]
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -135,37 +555,139 @@
                     <h2 class="module__title">Settings</h2>
                     <button class="module__btn">Show / Hide</button>
                 </div>
-                <div class="module__content" small>
-                    <div class="module__request flex">
-                        <div class="module__request-type put">
-                            <h3>PUT</h3>
+                <div class="module__content">
+                    <div class="module__request">
+                        <div class="request-header flex">
+                            <div class="module__request-type put">
+                                <h3>PUT</h3>
+                            </div>
+                            <div class="module__url put-url">
+                                <p class="module__text">/api/settings/password</p>
+                            </div>
                         </div>
-                        <div class="module__url put-url">
-                            <p class="module__text">/api/settings/password</p>
+                        <div profile-content class="request-content put-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/settings/password</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Request Body</h1>
+                                <p>
+                                    {
+                                        pass: string
+                                        newPass: string
+                                        id: string
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body (<span>wrong password</span>)</h1>
+                                <p>
+                                    {
+                                        error: "Bad Request"
+                                        message: "Wrong password"
+                                        statusCode: 400
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code (<span>wrong name</span>)</h1>
+                                <p>400</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body (<span class="success">success</span>)</h1>
+                                <p>"Ok"</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code (<span class="success">success</span>)</h1>
+                                <p>200</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="module__request flex">
-                        <div class="module__request-type post">
-                            <h3>POST</h3>
+                    <div class="module__request">
+                        <div class="request-header flex">
+                            <div class="module__request-type post">
+                                <h3>POST</h3>
+                            </div>
+                            <div class="module__url post-url">
+                                <p class="module__text">/api/settings/mail</p>
+                            </div>
                         </div>
-                        <div class="module__url post-url">
-                            <p class="module__text">/api/settings/mail</p>
+                        <div small class="request-content post-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/settings/mail</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Request Body</h1>
+                                <p>
+                                    {
+                                        email: string
+                                        id: string
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>
+                                    {
+                                        isActivated: true
+                                        email: "example@gmail.com"
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="module__request flex">
-                        <div class="module__request-type get">
-                            <h3>GET</h3>
+                    <div class="module__request">
+                        <div class="request-header flex">
+                            <div class="module__request-type get">
+                                <h3>GET</h3>
+                            </div>
+                            <div class="module__url get-url">
+                                <p class="module__text">/api/settings/cancel-activation/{id}</p>
+                            </div>
                         </div>
-                        <div class="module__url get-url">
-                            <p class="module__text">/api/settings/cancel-activation/{id}</p>
+                        <div settings class="request-content get-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/settings/cancel-activation/{id}</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>Ok</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="module__request flex">
-                        <div class="module__request-type get">
-                            <h3>GET</h3>
+                    <div class="module__request">
+                        <div class="request-header flex">
+                            <div class="module__request-type get">
+                                <h3>GET</h3>
+                            </div>
+                            <div class="module__url get-url">
+                                <p class="module__text">/api/settings/activate/{link}</p>
+                            </div>
                         </div>
-                        <div class="module__url get-url">
-                            <p class="module__text">/api/settings/activate/{link}</p>
+                        <div settings class="request-content get-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/settings/activate/{link}</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>Redirect</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
                         </div>
                     </div>
                 </div>

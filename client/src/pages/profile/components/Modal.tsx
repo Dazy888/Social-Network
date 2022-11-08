@@ -38,6 +38,7 @@ export default React.memo(function ModalComponent({ setModalStatus }: PropsType)
     const { mutateAsync:changeName } = useMutation('change name', (data: TextProps) => ProfileService.changeName(data.text, data.id),
         {
             onSuccess(response) {
+                console.log(response)
                 const data = response.data
                 if (/\s/.test(data)) return setNameError(data)
                 dispatch(profileActions.setName(response.data))
