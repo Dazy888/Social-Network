@@ -21,5 +21,7 @@ export class AuthService {
 
     static refresh(): Promise<AxiosResponse> {
         return $api.get<AuthResponse>(`${API_URL}auth/refresh`, {withCredentials: true})
+            .then(res => {return res})
+            .catch((err) => {return err.response})
     }
 }

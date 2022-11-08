@@ -13,7 +13,7 @@ export default React.memo(function LoginPage() {
     const actions: any = useRef()
 
     useEffect(() => {
-        if (localStorage.getItem('token')) navigate('/main/profile')
+        if (localStorage.getItem('token') && document.cookie.includes('refreshtoken')) navigate('/main/profile')
     }, [])
 
     const validate = (userLogin: string, password: string) => {

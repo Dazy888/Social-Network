@@ -108,7 +108,6 @@ export class AuthService {
     }
 
     async refresh(refreshToken: string) {
-
         if (!refreshToken) return 'User is not authorized'
 
         const userData = this.validateRefreshToken(refreshToken)

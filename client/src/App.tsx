@@ -33,6 +33,8 @@ function App() {
         {
             enabled: false,
             onSuccess(response) {
+                console.log(response)
+
                 if (response.status === 200) {
                     localStorage.setItem('token', response.data.accessToken)
                     dispatch(authActions.setAuthData(response.data.user.isAtivated, true))
@@ -43,6 +45,7 @@ function App() {
 
                     navigate('/main/profile')
                 } else {
+                    console.log(1)
                     navigate('/login/sign-in')
                 }
             }

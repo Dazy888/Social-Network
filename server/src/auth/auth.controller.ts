@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Post, Response, Request, Get } from '@nestjs/common'
+import { BadRequestException, Body, Controller, Post, Response, Request, Get, HttpException, HttpStatus } from '@nestjs/common'
 import { AuthorizationDto} from "./dto/authorization.dto"
 import { AuthService} from "./auth.service"
 
@@ -37,8 +37,14 @@ export class AuthController {
 
     @Get('refresh')
     async refresh(@Request() req, @Response({ passthrough: true }) res) {
-        const {refreshToken} = req.cookies
-        res.cookie('refreshToken', refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-        return this.authService.refresh(refreshToken)
+        const { refreshToken } = req.cookies
+        const response = await this.authService.refresh(refreshToken)
+
+        if (typeof response === "string") {
+            throw new BadRequestException(response)
+        } else {
+            res.cookie('refreshToken', refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+            return response
+        }
     }
 }

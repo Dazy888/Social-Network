@@ -19,7 +19,7 @@ export default React.memo(function MainPage() {
         <div id={'app-wrapper'}>
             <Header avatar={avatar} />
             <div id={'content'}>
-                {!avatar
+                {avatar
                     ?   <Routes>
                         <Route path={'/profile'} element={<Profile />}/>
                         <Route path={'/settings/*'} element={<Settings/>}/>
