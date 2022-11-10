@@ -1,4 +1,3 @@
-1// Libraries
 import * as bcrypt from 'bcrypt'
 import * as jwt from "jsonwebtoken"
 import * as dotenv from "dotenv"
@@ -28,7 +27,6 @@ export class AuthService {
     generateTokens(payload): TokensType {
         const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {expiresIn: '30m'})
         const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {expiresIn: '30d'})
-
         return {accessToken, refreshToken}
     }
 

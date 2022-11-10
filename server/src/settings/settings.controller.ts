@@ -4,7 +4,7 @@ import { BadRequestException, Body, Controller, Get, Param, Post, Put, Res } fro
 // DTO
 import { ChangePassDto } from "./dto/change-pass.dto"
 import { SendMailDto } from "./dto/send-mail.dto"
-// Service
+// Services
 import { SettingsService } from "./settings.service"
 import MailService from "./mail"
 
@@ -25,9 +25,14 @@ export class SettingsController {
     async sendMail(@Body() data: SendMailDto) {
         const {email, id} = data
         const link = uuidv4()
+
         await MailService.sendActivationMail(email, `${process.env.API_URL}/api/settings/activate/${link}`)
         await this.settingsService.sendMail(email, link, id)
-        return {isActivated: true, email}
+
+        return {
+            isActivated: true,
+            email
+        }
     }
 
     @Get('/cancel-activation/:id')

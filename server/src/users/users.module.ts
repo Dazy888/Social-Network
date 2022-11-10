@@ -5,7 +5,7 @@ import { UsersController } from './users.controller'
 // Service
 import { UsersService } from './users.service'
 // Module
-import {MongooseModule} from "@nestjs/mongoose"
+import { MongooseModule } from "@nestjs/mongoose"
 // Schema
 import { User, UserSchema } from "../auth/schema/user.schema"
 

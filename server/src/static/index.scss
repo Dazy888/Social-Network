@@ -1,29 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500&display=swap');
 
-* {
-  margin: 0;
-  padding: 0;
-}
-
 .container {
   min-height: 100vh;
   background: #8860d0;
+  padding: 50px 20px;
   color: white;
   font-family: sans-serif, Arial, Roboto;
-  padding: 50px 20px;
 
   h1 {
     text-align: center;
     margin-bottom: 50px;
   }
 
-  .content {
-    .flex {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+  .flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
+  .content {
     .module {
       width: 100%;
       margin-bottom: 50px;
@@ -35,15 +30,14 @@
       .module__header {
         margin-bottom: 30px;
 
-        .module__btn {
+        button {
+          display: block;
           border-radius: 10px;
           padding: 4px 2px;
           color: #5ab9ea;
           font-weight: 600;
           font-size: 20px;
           cursor: pointer;
-          display: block;
-          box-sizing: border-box;
 
           background: linear-gradient(to left, #8860d0 50%, #5ab9ea 50%) right;
           background-size: 300%;
@@ -108,56 +102,54 @@
           .request-header {
             cursor: pointer;
 
-            .module__request-type {
+            .request-type {
               width: 95px;
-              box-sizing: border-box;
               padding: 10px 15px;
               font-size: 13px;
               text-align: center;
             }
 
-            .module__url {
+            .request-url {
               width: 97%;
-              height: 37px;
+              height: 35px;
               font-size: 18px;
               padding: 8px 0 0 20px;
-              box-sizing: border-box;
             }
+          }
+
+          .show-login {
+            padding: 30px 10px;
+            height: 1430px !important;
+          }
+
+          .show-registration {
+            padding: 30px 10px;
+            height: 1000px !important;
+          }
+
+          .show-very-big {
+            padding: 30px 10px;
+            height: 760px !important;
           }
 
           .show-big {
             padding: 30px 10px;
-            height: 1560px !important;
+            height: 570px !important;
           }
 
           .show-medium {
             padding: 30px 10px;
-            height: 1100px !important;
-          }
-
-          .show-name {
-            padding: 30px 10px;
-            height: 800px !important;
-          }
-
-          .show-location {
-            padding: 30px 10px;
-            height: 500px !important;
-          }
-
-          .show-settings {
-            padding: 30px 10px;
-            height: 320px !important;
+            height: 470px !important;
           }
 
           .show-small {
             padding: 30px 10px;
-            height: 620px !important;
+            height: 400px !important;
           }
 
           .show-very-small {
             padding: 30px 10px;
-            height: 420px !important;
+            height: 310px !important;
           }
 
           .post-content {
@@ -180,7 +172,6 @@
             height: 0;
             overflow: hidden;
             transition: padding 0.1s, height 1s;
-            box-sizing: border-box;
 
             .content-item {
               margin-bottom: 20px;
@@ -202,7 +193,6 @@
               p {
                 width: 100%;
                 padding: 10px;
-                box-sizing: border-box;
                 background: rgb(252, 246, 219);
                 color: black;
                 white-space: pre;

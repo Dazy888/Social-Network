@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join } from 'path'
 // NestJS
 import { Module } from '@nestjs/common'
 // Controller
@@ -7,11 +7,11 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 // Modules
 import { MongooseModule } from '@nestjs/mongoose'
+import { ServeStaticModule } from '@nestjs/serve-static'
 import { AuthModule } from './auth/auth.module'
 import { ProfileModule } from './profile/profile.module'
 import { SettingsModule } from './settings/settings.module'
-import { UsersModule } from './users/users.module';
-import { ServeStaticModule } from '@nestjs/serve-static'
+import { UsersModule } from './users/users.module'
 
 @Module({
   imports: [

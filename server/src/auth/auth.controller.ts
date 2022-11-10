@@ -1,5 +1,8 @@
-import { BadRequestException, Body, Controller, Post, Response, Request, Get, HttpException, HttpStatus } from '@nestjs/common'
+// NestJS
+import { BadRequestException, Body, Controller, Post, Response, Request, Get } from '@nestjs/common'
+// DTO
 import { AuthorizationDto} from "./dto/authorization.dto"
+// Service
 import { AuthService} from "./auth.service"
 
 @Controller('auth')
@@ -8,9 +11,9 @@ export class AuthController {
 
     @Post('registration')
     async registration(@Body() user: AuthorizationDto, @Response({ passthrough: true }) res): Promise<any> {
-        const {userLogin, password, token} = user
-        const response = await this.authService.registration(userLogin, password, token)
+        const { userLogin, password, token } = user
 
+        const response = await this.authService.registration(userLogin, password, token)
         if (typeof response === "string") throw new BadRequestException(response)
 
         res.cookie('refreshToken', response.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
@@ -19,9 +22,9 @@ export class AuthController {
 
     @Post('login')
     async login(@Body() user: AuthorizationDto, @Response({ passthrough: true }) res) {
-        const {userLogin, password, token} = user
-        const response = await this.authService.login(userLogin, password, token)
+        const { userLogin, password, token } = user
 
+        const response = await this.authService.login(userLogin, password, token)
         if (typeof response === "string") throw new BadRequestException(response)
 
         res.cookie('refreshToken', response.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
@@ -30,7 +33,7 @@ export class AuthController {
 
     @Get('logout')
     async logout(@Request() req, @Response({ passthrough: true }) res) {
-        const {refreshToken} = req.cookies
+        const { refreshToken } = req.cookies
         res.clearCookie('refreshToken')
         return this.authService.logout(refreshToken)
     }
@@ -38,13 +41,11 @@ export class AuthController {
     @Get('refresh')
     async refresh(@Request() req, @Response({ passthrough: true }) res) {
         const { refreshToken } = req.cookies
-        const response = await this.authService.refresh(refreshToken)
 
-        if (typeof response === "string") {
-            throw new BadRequestException(response)
-        } else {
-            res.cookie('refreshToken', refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
-            return response
-        }
+        const response = await this.authService.refresh(refreshToken)
+        if (typeof response === "string") throw new BadRequestException(response)
+
+        res.cookie('refreshToken', refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+        return response
     }
 }

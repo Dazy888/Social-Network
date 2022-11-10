@@ -5,16 +5,17 @@ import { Injectable } from '@nestjs/common'
 import { InjectModel } from "@nestjs/mongoose"
 // Schemas
 import { User, UserDocument } from "../auth/schema/user.schema"
-import {Posts, PostsDocument} from "../auth/schema/posts.schema"
+import { Posts, PostsDocument } from "../auth/schema/posts.schema"
 // DTO
-import {PostDto} from "./dto/post.dto"
+import { PostDto } from "./dto/post.dto"
 
 @Injectable()
 export class ProfileService {
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>, @InjectModel(Posts.name) private postsModel: Model<PostsDocument>) {}
 
     async changeName(name: string, id: string) {
-        if (await this.userModel.findOne({name})) return 'User with this name already exists'
+        const user = await this.userModel.findOne({name})
+        if (user) return 'User with this name already exists'
         await this.userModel.findByIdAndUpdate({_id: id}, {name})
         return name
     }
