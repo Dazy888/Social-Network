@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react"
 // CSS
-import "../styles/Modal.css"
+import "../styles/modal.css"
 // Formik
 import { Formik } from "formik"
 // Components
@@ -8,9 +8,9 @@ import { ErrorMessages } from "../../login/components/ErrorMessages"
 import { ErrorIcons } from "../../login/components/ErrorIcons"
 import { ProfileLoader } from "../../main/components/Profile-Loader"
 // Types
-import { TextProps } from "../types/Profile-Types"
+import { TextProps } from "../types/profile-types"
 // Redux
-import {useDispatch, useSelector} from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 // Store
 import { getAvatar, getBanner, getId, getLocation, getName } from "../../../store/reducers/profile/profile-selectors"
 import { profileActions } from "../../../store/reducers/profile/profile-reducer"
@@ -38,10 +38,9 @@ export default React.memo(function ModalComponent({ setModalStatus }: PropsType)
     const { mutateAsync:changeName } = useMutation('change name', (data: TextProps) => ProfileService.changeName(data.text, data.id),
         {
             onSuccess(response) {
-                console.log(response)
                 const data = response.data
                 if (/\s/.test(data)) return setNameError(data)
-                dispatch(profileActions.setName(response.data))
+                dispatch(profileActions.setName(data))
             }
         }
     )

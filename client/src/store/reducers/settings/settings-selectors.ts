@@ -1,5 +1,3 @@
-import {AppStateType} from "../../store";
+import { AppStateType } from "../../store"
 
-export const getEmail = (state: AppStateType) => {
-    return state.settings.email
-}
+export const getEmail = (state: AppStateType) => state.settings.email

@@ -1,41 +1,12 @@
-import {AppStateType} from "../../store"
+import { AppStateType } from "../../store"
 
-export const getBanner = (state: AppStateType) => {
-    return state.profile.banner
-}
-
-export const getAvatar = (state: AppStateType) => {
-    return state.profile.avatar
-}
-
-export const getName = (state: AppStateType) => {
-    return state.profile.name
-}
-
-export const getLocation = (state: AppStateType) => {
-    return state.profile.location
-}
-
-export const getAboutMe = (state: AppStateType) => {
-    return state.profile.aboutMe
-}
-
-export const getSkills = (state: AppStateType) => {
-    return state.profile.skills
-}
-
-export const getHobbies = (state: AppStateType) => {
-    return state.profile.hobbies
-}
-
-export const getId = (state: AppStateType) => {
-    return state.profile.id
-}
-
-export const getPosts = (state: AppStateType) => {
-    return state.profile.posts
-}
-
-export const getSubscriptions = (state: AppStateType) => {
-    return state.profile.subscriptions
-}
+export const getBanner = (state: AppStateType) => state.profile.banner
+export const getAvatar = (state: AppStateType) => state.profile.avatar
+export const getName = (state: AppStateType) => state.profile.name
+export const getLocation = (state: AppStateType) => state.profile.location
+export const getAboutMe = (state: AppStateType) => state.profile.aboutMe
+export const getSkills = (state: AppStateType) => state.profile.skills
+export const getHobbies = (state: AppStateType) => state.profile.hobbies
+export const getId = (state: AppStateType) => state.profile.id
+export const getPosts = (state: AppStateType) => state.profile.posts
+export const getSubscriptions = (state: AppStateType) => state.profile.subscriptions

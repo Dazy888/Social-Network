@@ -1,4 +1,3 @@
-// React
 import React, { CSSProperties, useRef, useState } from "react"
 // Formik
 import { Formik } from "formik"
@@ -31,7 +30,7 @@ export const loaderCSS: CSSProperties = {
     position: "relative",
     left: "150px",
     margin: "30px auto",
-    borderColor: "red",
+    borderColor: "red"
 }
 
 export type AuthProps = {
@@ -42,7 +41,7 @@ export type AuthProps = {
 
 export function successfulEnter(navigate: (path: string) => void, dispatch: any, accessToken: string, isActivated: boolean) {
     localStorage.setItem('token', accessToken)
-    dispatch(authActions.setAuthData(isActivated, true))
+    dispatch(authActions.setAuthData(isActivated))
     navigate('/main/profile')
 }
 

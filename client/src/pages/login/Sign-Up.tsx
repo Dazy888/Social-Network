@@ -9,13 +9,16 @@ import { ErrorIcons } from "./components/ErrorIcons"
 import { Validate } from "./types/login-types"
 // Recaptcha
 import ReCAPTCHA from "react-google-recaptcha"
-// CSS
+// Sign in
 import { AuthProps, loaderCSS, successfulEnter } from "./Sign-In"
 // Navigation
 import { useNavigate } from "react-router-dom"
+// React Query
 import { useMutation } from "react-query"
+// Redux
+import { useDispatch } from "react-redux"
+// Service
 import { AuthService } from "../../services/AuthService"
-import {useDispatch} from "react-redux";
 
 type PropsType = {
     validate: Validate

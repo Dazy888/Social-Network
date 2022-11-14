@@ -1,17 +1,18 @@
 import React, { useMemo, useRef, useState } from "react"
 // CSS
-import './styles/Profile.css'
+import './styles/profile.css'
 // Components
 import Post from "./components/Post"
 import InformationItem from "./components/Information-Item"
 import Modal from "./components/Modal"
 // Store
-import {connect, useDispatch, useSelector} from "react-redux"
-import { getAboutMe, getAvatar, getBanner, getHobbies, getId, getLocation, getName, getPosts, getSkills } from "../../store/reducers/profile/profile-selectors"
-import { compose } from "redux"
 import { profileActions } from "../../store/reducers/profile/profile-reducer"
+import { getAboutMe, getAvatar, getBanner, getHobbies, getId, getLocation, getName, getPosts, getSkills } from "../../store/reducers/profile/profile-selectors"
+// Redux
+import { connect, useDispatch, useSelector } from "react-redux"
+import { compose } from "redux"
 // Types
-import { TextProps } from "./types/Profile-Types"
+import { TextProps } from "./types/profile-types"
 // React Query
 import { useMutation } from "react-query"
 // Service
@@ -19,11 +20,9 @@ import { ProfileService } from "../../services/ProfileService"
 
 function ProfileComponent() {
     const dispatch = useDispatch()
-
     const textareaPostRef: any = useRef()
 
     const [modalStatus, setModalStatus] = useState<boolean>(false)
-
     const [newPostStatus, setNewPostStatus] = useState<boolean>(false)
     const [editStatus, setEditStatus] = useState<boolean>(false)
 
@@ -110,7 +109,7 @@ function ProfileComponent() {
                           </div>
                         : <div className={'posts__new-post'}>
                                 <h3 className={'title'}>Add New Post</h3>
-                                <button className={'add-post'} onClick={() => setNewPostStatus(true)}>
+                                <button onClick={() => setNewPostStatus(true)}>
                                     <i className="fa-regular fa-square-plus"></i>
                                 </button>
                             </div>

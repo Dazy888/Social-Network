@@ -1,4 +1,4 @@
-import { PostType } from "../../profile/types/Profile-Types"
+import { PostType } from "../../profile/types/profile-types"
 
 export type User = {
     id: number

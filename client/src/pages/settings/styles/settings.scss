@@ -25,15 +25,14 @@
       border: none;
     }
 
-    .settings__sections {
+    nav {
       width: 250px;
       height: 100%;
       background: rebeccapurple;
       border-radius: 20px;
 
-      .settings__list {
+      ul {
         width: 80%;
-        list-style-type: none;
 
         .list-item {
           display: block;
@@ -76,15 +75,11 @@
       }
 
       .cancel {
-        display: block;
         width: 170px;
         height: 40px;
         border-radius: 20px;
-        cursor: pointer;
-        color: white;
         font-size: 18px;
         font-weight: 500;
-        border: none;
         transition: 0.3s;
         background: red;
         margin: 30px auto;
@@ -151,10 +146,7 @@
           height: 50px;
           padding: 0;
           background: rebeccapurple;
-          cursor: pointer;
-          border: none;
           border-radius: 10px;
-          color: white;
           font-size: 16px;
           font-weight: 600;
         }

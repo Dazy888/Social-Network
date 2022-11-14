@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 export type ErrorItemsComponent = {
     error: string | undefined
@@ -6,7 +6,7 @@ export type ErrorItemsComponent = {
     touched: boolean | undefined
 }
 
-export function ErrorMessages({serverError, error, touched}: ErrorItemsComponent) {
+export function ErrorMessages({ serverError, error, touched }: ErrorItemsComponent) {
     return(
         <div>
             {error && touched ? <span className={'error-text'}>{error}</span> : null}

@@ -13,7 +13,7 @@ import { getEmail } from "../../../store/reducers/settings/settings-selectors"
 import { getActivatedStatus } from "../../../store/reducers/auth/auth-selectors"
 import { settingsActions } from "../../../store/reducers/settings/settings-reducer"
 // React Query
-import { useMutation} from "react-query"
+import { useMutation } from "react-query"
 // Service
 import { SettingsService } from "../../../services/SettingsService"
 
@@ -21,7 +21,7 @@ const loaderCss = {
     display: "block",
     width: "fit-content",
     position: "relative",
-    margin: "50px auto",
+    margin: "50px auto"
 }
 
 type ActivateProps = {
@@ -101,8 +101,8 @@ export default React.memo(function ActivateComponent() {
                 )}
             </Formik>
             {isActivated ? null : <div>
-                {!!email ? <p className={'text'}>The activation link was send on your email</p> : null}
-                {!!email ? <button className={'cancel'} onClick={() => cancelActivation({id})}>Cancel</button> : null}
+            {!!email ? <p className={'text'}>The activation link was send on your email</p> : null}
+            {!!email ? <button className={'cancel'} onClick={() => cancelActivation({id})}>Cancel</button> : null}
             </div>}
         </div>
     )

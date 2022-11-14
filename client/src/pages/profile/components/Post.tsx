@@ -17,7 +17,7 @@ type PropsType = {
     userId: number
 }
 
-export default React.memo(function Post({avatar, name, date, text, id, userId}: PropsType) {
+export default React.memo(function Post({ avatar, name, date, text, id, userId }: PropsType) {
     const dispatch = useDispatch()
     let time
 
@@ -43,7 +43,6 @@ export default React.memo(function Post({avatar, name, date, text, id, userId}: 
     const { mutateAsync } = useMutation('delete post', (data: DeletePostProps) => ProfileService.deletePost(data.id, data.userId),
         {
             onSuccess(response) {
-                console.log(response)
                 dispatch(profileActions.deletePost(response.data))
             }
         }
@@ -59,7 +58,7 @@ export default React.memo(function Post({avatar, name, date, text, id, userId}: 
                         <p className={'text'}>{time}</p>
                     </div>
                 </div>
-                <button className={'post__delete'} onClick={() => mutateAsync({id, userId})}>
+                <button onClick={() => mutateAsync({id, userId})}>
                     <i className="fa-solid fa-trash"></i>
                 </button>
             </div>

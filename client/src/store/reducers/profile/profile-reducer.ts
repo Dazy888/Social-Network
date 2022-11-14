@@ -1,8 +1,5 @@
-// Types
 import { InferActionsTypes } from '../../store'
-import { PostType } from "../../../pages/profile/types/Profile-Types"
-// Service
-import { ProfileService } from "../../../services/ProfileService"
+import { PostType } from "../../../pages/profile/types/profile-types"
 
 let initialState = {
     id: 0,

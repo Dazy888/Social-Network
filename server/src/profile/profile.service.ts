@@ -27,7 +27,7 @@ export class ProfileService {
 
     async changeAvatar(path: string, id: string, currentPath: string) {
         async function updatePhoto(model) {
-            await model.findByIdAndUpdate({_id: id}, {avatar: `http://localhost:5001/${path}`})
+            await model.findByIdAndUpdate({_id: id}, {avatar: `http://localhost:5000/${path}`})
             return `http://localhost:5001/${path}`
         }
 
@@ -40,7 +40,7 @@ export class ProfileService {
 
     async changeBanner(path: string, id: string, currentPath: string) {
         async function updatePhoto(model) {
-            await model.findByIdAndUpdate({_id: id}, {banner: `http://localhost:5001/${path}`})
+            await model.findByIdAndUpdate({_id: id}, {banner: `http://localhost:5000/${path}`})
             return `http://localhost:5001/${path}`
         }
 

@@ -1,5 +1,4 @@
-import {InferActionsTypes} from '../../store'
-import {SettingsService} from "../../../services/SettingsService";
+import { InferActionsTypes } from '../../store'
 
 let initialState = {
     email: '',
@@ -15,7 +14,7 @@ export const settingsReducer = (state = initialState, action: Actions): InitialS
                 email: action.email
             }
         default:
-            return state;
+            return state
     }
 }
 

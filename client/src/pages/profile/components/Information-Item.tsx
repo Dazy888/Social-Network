@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react"
-import { ChangeInfo } from "../types/Profile-Types"
+import { ChangeInfo } from "../types/profile-types"
 
 type PropsType = {
     editStatus: boolean
@@ -11,26 +11,29 @@ type PropsType = {
     changeText: any
 }
 
-export default React.memo(function InformationItem({text, changeText, id, textId, setEditStatus, editStatus, title}: PropsType) {
+export default React.memo(function InformationItem({ text, changeText, id, textId, setEditStatus, editStatus, title }: PropsType) {
     const [status, setStatus] = useState<boolean>(false)
     const textareaRef: any = useRef()
     const textRef: any = useRef()
 
     function editInfo(event: any, changeText: ChangeInfo, value: string, textId: string, setStatus: (status: boolean) => void, setEditStatus: (status: boolean) => void) {
-        setEditStatus(true)
-        setStatus(true)
+        function setStatuses(status: boolean) {
+            setEditStatus(status)
+            setStatus(status)
+        }
+
+        setStatuses(true)
         const text = textRef.current
 
         setTimeout(() => {
             const textarea = textareaRef.current
-
             textarea.value = value
+
             textarea.onblur = async () => {
                 await changeText({text: textarea.value, id})
                 text.innerText = textarea.value
                 document.onkeydown = null
-                setEditStatus(false)
-                setStatus(false)
+                setStatuses(false)
             }
         }, 1)
     }
@@ -38,15 +41,12 @@ export default React.memo(function InformationItem({text, changeText, id, textId
     return(
         <div className={'information__item'}>
             <div className={'information__title flex-property-set_between'}>
-                <p className={'information__title'}>{title}</p>
-                <button disabled={editStatus} onClick={e => editInfo(e, changeText, text, textId, setStatus, setEditStatus)} className={'information__btn'}>
+                <h3>{title}</h3>
+                <button disabled={editStatus} onClick={e => editInfo(e, changeText, text, textId, setStatus, setEditStatus)}>
                     <i className="fa-solid fa-pen"></i>
                 </button>
             </div>
-            {status
-                ? <textarea ref={textareaRef} maxLength={100}/>
-                : <p ref={textRef} className={'text'}>{text}</p>
-            }
+            {status ? <textarea ref={textareaRef} maxLength={100}/> : <p ref={textRef} className={'text'}>{text}</p>}
         </div>
     )
 })
