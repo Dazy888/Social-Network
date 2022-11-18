@@ -147,8 +147,25 @@
           padding: 0;
           background: rebeccapurple;
           border-radius: 10px;
+          letter-spacing: 0.5px;
           font-size: 16px;
           font-weight: 600;
+        }
+
+        .message {
+          width: fit-content;
+          display: block;
+          margin: 20px auto 0;
+          font-weight: 500;
+          font-size: 20px;
+          color: green;
+
+          i {
+            width: fit-content;
+            display: block;
+            margin: 10px auto 0;
+            font-size: 25px;
+          }
         }
       }
     }

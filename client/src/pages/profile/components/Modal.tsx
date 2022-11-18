@@ -39,6 +39,7 @@ export default React.memo(function ModalComponent({ setModalStatus }: PropsType)
         {
             onSuccess(response) {
                 dispatch(profileActions.setName(response.data))
+                setModalStatus(false)
             },
             onError(err: string) {
                 setNameError(err)
@@ -50,6 +51,7 @@ export default React.memo(function ModalComponent({ setModalStatus }: PropsType)
         {
             onSuccess(response) {
                 dispatch(profileActions.setLocation(response.data))
+                setModalStatus(false)
             }
         }
     )
@@ -58,6 +60,7 @@ export default React.memo(function ModalComponent({ setModalStatus }: PropsType)
         {
             onSuccess(response) {
                 dispatch(profileActions.setBanner(response.data))
+                setModalStatus(false)
             }
         }
     )
@@ -66,6 +69,7 @@ export default React.memo(function ModalComponent({ setModalStatus }: PropsType)
         {
             onSuccess(response) {
                 dispatch(profileActions.setAvatar(response.data))
+                setModalStatus(false)
             }
         }
     )

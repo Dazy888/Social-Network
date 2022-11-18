@@ -1,10 +1,9 @@
 import React, { useState } from "react"
-// Navigation
-import { useNavigate } from "react-router-dom"
 // Components
 import { ErrorMessages } from "../../login/components/ErrorMessages"
 import { ErrorIcons } from "../../login/components/ErrorIcons"
 import { LoginLoader } from "../../login/components/Loader"
+import { SuccessMessage } from "./SuccessMessage"
 // Formik
 import { Formik } from "formik"
 // Service
@@ -29,7 +28,7 @@ type ChangePassProps = {
 }
 
 export function Pass() {
-    const navigate = useNavigate()
+    const [successMessage, changeSuccessMessage] = useState<string>('')
     const [passErr, changePassErr] = useState<string>('')
     const id = useSelector(getId)
 
@@ -59,7 +58,7 @@ export function Pass() {
     const { mutateAsync, isLoading } = useMutation('change pass', (data: ChangePassProps) => SettingsService.changePass(data.pass, data.newPass, data.id),
         {
             onSuccess() {
-                navigate('/main/profile')
+                changeSuccessMessage('Password was successfully changed')
             },
             onError(err: string) {
                 changePassErr(err)
@@ -99,8 +98,9 @@ export function Pass() {
                                 <ErrorIcons error={errors.confirmPass} touched={touched.confirmPass}/>
                             </div>
                         </div>
-                        <button className={'submit'} type={'submit'} disabled={isLoading}>Change password</button>
+                        <button className={'submit'} type={'submit'} disabled={isLoading || !!successMessage}>Change password</button>
                         <LoginLoader color={'rebeccapurple'} css={loaderCss} loading={isLoading}/>
+                        {successMessage ? <SuccessMessage message={successMessage}/> : null}
                     </form>
                 )}
             </Formik>
