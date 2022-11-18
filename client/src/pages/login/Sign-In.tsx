@@ -14,11 +14,13 @@ import { useNavigate } from "react-router-dom"
 // React Query
 import { useMutation } from "react-query"
 // Service
-import { AuthService } from "../../services/AuthService"
+import { AuthService } from "../../services/auth-service"
 // Redux
 import { useDispatch } from "react-redux"
 // Store
 import { authActions } from "../../store/reducers/auth/auth-reducer"
+import {AxiosResponse} from "axios";
+import {AuthResponse} from "../../models/response/auth-response";
 
 type PropsType = {
     validate: Validate
@@ -54,23 +56,16 @@ export default React.memo(function SignIn({validate}: PropsType) {
 
     const reRef: any = useRef<ReCAPTCHA>()
 
-    const {isLoading, mutateAsync} = useMutation('login',
+    const { isLoading, mutateAsync } = useMutation('login',
         (data: AuthProps) => AuthService.login(data.userLogin, data.password, data.token),
         {
-            onSuccess(response) {
-                if (response.status === 201) {
-                    const data = response.data
-                    successfulEnter(navigate, dispatch, data.accessToken, data.user.isActivated)
-                } else {
-                    const message = response.data.message
-
-                    if (/W/.test(message)) {
-                        changePasswordError(message)
-                    } else {
-                        changeLoginError(message)
-                    }
-                }
+            onSuccess(response: AxiosResponse<AuthResponse>) {
+                const data = response.data
+                successfulEnter(navigate, dispatch, data.accessToken, data.user.isActivated)
             },
+            onError(error: string) {
+                (/W/.test(error)) ? changePasswordError(error) : changeLoginError(error)
+            }
         })
 
     async function submit(userLogin: string, password: string) {

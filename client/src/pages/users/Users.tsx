@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo} from "react"
 import {useMutation, useQuery} from "react-query"
-import {UsersService} from "../../services/UsersService"
+import {UsersService} from "../../services/users-service"
 
 export function Users() {
     // Post mutation

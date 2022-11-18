@@ -23,10 +23,10 @@ function App() {
 
     useEffect( () => {
         if (!localStorage.getItem('token')) navigate('/login/sign-in')
-    })
+    }, [])
 
     function Redirect(): any {
-        navigate('/main/profile')
+        useEffect(() => navigate('/main/profile'), [])
     }
 
     return(

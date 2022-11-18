@@ -8,7 +8,7 @@ import { LoginLoader } from "../../login/components/Loader"
 // Formik
 import { Formik } from "formik"
 // Service
-import { SettingsService } from "../../../services/SettingsService"
+import { SettingsService } from "../../../services/settings-service"
 // Store
 import { getId } from "../../../store/reducers/profile/profile-selectors"
 // Redux
@@ -28,7 +28,7 @@ type ChangePassProps = {
     id: number
 }
 
-export function ChangePass() {
+export function Pass() {
     const navigate = useNavigate()
     const [passErr, changePassErr] = useState<string>('')
     const id = useSelector(getId)
@@ -58,8 +58,11 @@ export function ChangePass() {
 
     const { mutateAsync, isLoading } = useMutation('change pass', (data: ChangePassProps) => SettingsService.changePass(data.pass, data.newPass, data.id),
         {
-            onSuccess(response) {
-                (response.status === 200) ? navigate('/main/profile') : changePassErr(response.data.message)
+            onSuccess() {
+                navigate('/main/profile')
+            },
+            onError(err: string) {
+                changePassErr(err)
             }
         }
     )

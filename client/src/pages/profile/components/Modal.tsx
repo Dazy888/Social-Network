@@ -17,7 +17,7 @@ import { profileActions } from "../../../store/reducers/profile/profile-reducer"
 // React Query
 import { useMutation } from "react-query"
 // Service
-import { ProfileService } from "../../../services/ProfileService"
+import { ProfileService } from "../../../services/profile-service"
 
 type PropsType = {
     setModalStatus: (status: boolean) => void
@@ -38,9 +38,10 @@ export default React.memo(function ModalComponent({ setModalStatus }: PropsType)
     const { mutateAsync:changeName } = useMutation('change name', (data: TextProps) => ProfileService.changeName(data.text, data.id),
         {
             onSuccess(response) {
-                const data = response.data
-                if (/\s/.test(data)) return setNameError(data)
-                dispatch(profileActions.setName(data))
+                dispatch(profileActions.setName(response.data))
+            },
+            onError(err: string) {
+                setNameError(err)
             }
         }
     )
@@ -95,7 +96,6 @@ export default React.memo(function ModalComponent({ setModalStatus }: PropsType)
         await sendPhoto(avatar, currentAvatar, changeAvatar)
 
         changeRequestStatus(false)
-        setModalStatus(false)
     }
 
     function validate(name: string, location: string) {

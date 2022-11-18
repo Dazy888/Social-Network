@@ -4,28 +4,41 @@ import { NavLink, Route, Routes, useNavigate } from "react-router-dom"
 // CSS
 import './styles/settings.css'
 // Components
-import { ChangePass } from "./components/Change-Pass"
-import Activate from "./components/Activate"
+import { Pass } from "./components/Pass"
+import Email from "./components/Email"
+import { NoContent } from "../404/NoContent"
 
-export function Settings() {
-    const navigate = useNavigate()
+type PropsType = {
+    path: string
+}
 
-    useEffect(() => navigate('change-pass'))
-
+function Content({ path }: PropsType) {
     return(
         <div className={'settings flex-property-set_center'}>
             <div className={'settings__container flex-property-set_between'}>
                 <nav className={'flex-property-set_center'}>
                     <ul>
-                        <NavLink to={'change-pass'} className={'list-item'}>Change password</NavLink>
-                        <NavLink to={'activate-email'} className={'list-item'}>Activate email</NavLink>
+                        <NavLink to={'/main/settings/pass'} className={'list-item'}>Change password</NavLink>
+                        <NavLink to={'/main/settings/email'} className={'list-item'}>Activate email</NavLink>
                     </ul>
                 </nav>
-                <Routes>
-                    <Route path={'/change-pass'} element={<ChangePass/>}/>
-                    <Route path={'/activate-email'} element={<Activate/>}/>
-                </Routes>
+                {(path === 'pass') ? <Pass/> : <Email/> }
             </div>
         </div>
+    )
+}
+
+export function Settings() {
+    const navigate = useNavigate()
+    useEffect(() => {
+        if (/settings$/.test(window.location.pathname)) navigate('pass')
+    }, [])
+
+    return(
+        <Routes>
+            <Route path={'/pass'} element={<Content path={'pass'}/>}></Route>
+            <Route path={'/email'} element={<Content path={'email'}/>}></Route>
+            <Route path={'/*'} element={<NoContent/>}></Route>
+        </Routes>
     )
 }

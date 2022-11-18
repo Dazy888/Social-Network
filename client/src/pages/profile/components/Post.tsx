@@ -2,7 +2,7 @@ import React from "react"
 // React Query
 import { useMutation } from "react-query"
 // Service
-import { ProfileService } from "../../../services/ProfileService"
+import { ProfileService } from "../../../services/profile-service"
 // Redux
 import { useDispatch } from "react-redux"
 // Store

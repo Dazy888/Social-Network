@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useRef} from "react"
 // CSS
 import '../styles/header.css'
 // Navigation
@@ -6,7 +6,7 @@ import { NavLink, useNavigate } from "react-router-dom"
 // React Query
 import { useQuery } from "react-query"
 // Service
-import { AuthService } from "../../../services/AuthService"
+import { AuthService } from "../../../services/auth-service"
 // Store
 import { authActions } from "../../../store/reducers/auth/auth-reducer"
 import { getAvatar } from "../../../store/reducers/profile/profile-selectors"
@@ -35,9 +35,9 @@ export default React.memo(function Header() {
                 <img alt={'Logo'} className={'header__logo'} src={'https://user-images.githubusercontent.com/16946573/144957680-01ea405e-959b-46b1-a163-df688466ac23.png'}/>
                 <nav>
                     <ul className={'flex-property-set_between'}>
-                        <NavLink to={'/main/profile'}>Profile</NavLink>
-                        <NavLink to={'/main/users'}>Users</NavLink>
-                        <NavLink to={'/main/settings'}>Settings</NavLink>
+                        <NavLink to={'profile'}>Profile</NavLink>
+                        <NavLink to={'users'}>Users</NavLink>
+                        <NavLink to={'settings'}>Settings</NavLink>
                     </ul>
                 </nav>
                 <div className={'header__logout flex-property-set_between'}>

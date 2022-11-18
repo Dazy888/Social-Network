@@ -15,7 +15,9 @@ import { settingsActions } from "../../../store/reducers/settings/settings-reduc
 // React Query
 import { useMutation } from "react-query"
 // Service
-import { SettingsService } from "../../../services/SettingsService"
+import { SettingsService } from "../../../services/settings-service"
+import {AxiosResponse} from "axios";
+import {SettingsResponse} from "../../../models/response/settings-response";
 
 const loaderCss = {
     display: "block",
@@ -33,7 +35,7 @@ type CancelActivationProps = {
     id: number
 }
 
-export default React.memo(function ActivateComponent() {
+export default React.memo(function Email() {
     const dispatch = useDispatch()
 
     const id = useSelector(getId)
@@ -55,7 +57,7 @@ export default React.memo(function ActivateComponent() {
 
     const { isLoading, mutateAsync:activate } = useMutation('activate email', (data: ActivateProps) => SettingsService.activate(data.email, data.id),
         {
-            onSuccess(response) {
+            onSuccess(response: AxiosResponse<SettingsResponse>) {
                 dispatch(settingsActions.setEmail(response.data.email))
             }
         }

@@ -7,6 +7,8 @@ import { ErrorMessages } from "./components/ErrorMessages"
 import { ErrorIcons } from "./components/ErrorIcons"
 // Types
 import { Validate } from "./types/login-types"
+import { AuthResponse } from "../../models/response/auth-response";
+import { AxiosResponse } from "axios"
 // Recaptcha
 import ReCAPTCHA from "react-google-recaptcha"
 // Sign in
@@ -18,7 +20,7 @@ import { useMutation } from "react-query"
 // Redux
 import { useDispatch } from "react-redux"
 // Service
-import { AuthService } from "../../services/AuthService"
+import { AuthService } from "../../services/auth-service"
 
 type PropsType = {
     validate: Validate
@@ -33,17 +35,16 @@ export default React.memo(function SignUp({ validate }: PropsType) {
     const reRef: any = useRef<ReCAPTCHA>()
     const passRef: any = useRef()
 
-    const {isLoading, mutateAsync} = useMutation('registration',
+    const { isLoading, mutateAsync } = useMutation('registration',
         (data: AuthProps) => AuthService.registration(data.userLogin, data.password, data.token),
         {
-            onSuccess(response) {
-                if (response.status === 201) {
-                    const data = response.data
-                    successfulEnter(navigate, dispatch, data.accessToken, data.user.isActivated)
-                } else {
-                    changeLoginError(response.data.message)
-                }
+            onSuccess(response: AxiosResponse<AuthResponse>) {
+                const data = response.data
+                successfulEnter(navigate, dispatch, data.accessToken, data.user.isActivated)
             },
+            onError() {
+                changeLoginError('User with this login already exists')
+            }
         })
 
     async function submit(userLogin: string, password: string) {
