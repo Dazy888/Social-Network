@@ -9,3 +9,10 @@ export type TextProps = {
     text: string
     id: number
 }
+
+export interface ProfileInterface {
+    name: string
+    location: string
+    banner: any
+    avatar: any
+}

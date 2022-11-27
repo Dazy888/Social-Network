@@ -1,12 +1,11 @@
 import React, { CSSProperties, useRef, useState } from "react"
-// Formik
-import { Formik } from "formik"
 // Components
-import { ErrorMessages } from "./components/ErrorMessages"
-import { ErrorIcons } from "./components/ErrorIcons"
+import { Input } from "./components/Input"
 import { LoginLoader } from "./components/Loader"
 // Types
-import { Validate } from "./types/login-types"
+import { LoginInterface } from "./types/login-types"
+import { AxiosResponse } from "axios";
+import { AuthResponse } from "../../models/response/auth-response";
 // Recaptcha
 import ReCAPTCHA from "react-google-recaptcha"
 // Navigation
@@ -19,12 +18,8 @@ import { AuthService } from "../../services/auth-service"
 import { useDispatch } from "react-redux"
 // Store
 import { authActions } from "../../store/reducers/auth/auth-reducer"
-import {AxiosResponse} from "axios";
-import {AuthResponse} from "../../models/response/auth-response";
-
-type PropsType = {
-    validate: Validate
-}
+// React Hook Form
+import { SubmitHandler, useForm } from "react-hook-form"
 
 export const loaderCSS: CSSProperties = {
     display: "block",
@@ -47,7 +42,7 @@ export function successfulEnter(navigate: (path: string) => void, dispatch: any,
     navigate('/main/profile')
 }
 
-export default React.memo(function SignIn({validate}: PropsType) {
+export default React.memo(function SignIn() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -68,38 +63,22 @@ export default React.memo(function SignIn({validate}: PropsType) {
             }
         })
 
-    async function submit(userLogin: string, password: string) {
+    const {register, handleSubmit, formState: { errors, touchedFields }, reset, resetField, getValues, getFieldState, watch} = useForm<LoginInterface>({mode: 'onChange'})
+    // const watchName = watch('name')
+
+    const onSubmit: SubmitHandler<LoginInterface> = async (data) => {
         const token = await reRef.current.executeAsync()
         reRef.current.reset()
-        await mutateAsync({userLogin, password, token})
+        await mutateAsync({userLogin: data.login, password: data.password, token})
     }
 
     return(
-        <Formik validate={values => validate(values.userLogin, values.password)} initialValues={{userLogin: '', password: ''}} onSubmit={(values) => submit(values.userLogin, values.password)}>
-            {({
-                  errors,
-                  touched,
-                  handleSubmit,
-                  handleChange,
-                  handleBlur,
-                  values
-              }) => (
-                <form onSubmit={handleSubmit}>
-                    <div className={'error-container'}>
-                        <ErrorMessages error={errors.userLogin} serverError={loginError} touched={touched.userLogin}/>
-                        <input onClick={() => changeLoginError('')} value={values.userLogin} onBlur={handleBlur} onChange={handleChange} className={`${errors.userLogin && touched.userLogin || loginError ? 'red-border' : ''}`} name={'userLogin'} type={'text'} placeholder={'Your login'} minLength={4} maxLength={10}/>
-                        <ErrorIcons error={errors.userLogin} serverError={loginError} touched={touched.userLogin}/>
-                    </div>
-                    <div className={'error-container'}>
-                        <ErrorMessages error={errors.password} serverError={passwordError} touched={touched.password}/>
-                        <input onClick={() => changePasswordError('')} value={values.password} onBlur={handleBlur} onChange={handleChange} className={`${errors.password && touched.password || passwordError ? 'red-border' : ''}`} name={'password'} type={'password'} placeholder={'Your password'} minLength={8} maxLength={15}/>
-                        <ErrorIcons error={errors.password} serverError={passwordError} touched={touched.password}/>
-                    </div>
-                    <button className={'content__submit'} type={'submit'} disabled={isLoading}>Sign in</button>
-                    <LoginLoader color={'rgb(249, 94, 59)'} css={loaderCSS} loading={isLoading}/>
-                    <ReCAPTCHA className={'captcha'} sitekey={'6Leond0hAAAAAOCUq2naPPzgveoMehWQmYG4Vabt'} size={"invisible"} ref={reRef}/>
-                </form>
-            )}
-        </Formik>
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <Input error={errors.login?.message} touched={touchedFields.login} serverError={loginError} register={register} name={'login'} patternValue={/^[a-zA-Z0-9]+$/} minLength={4} maxLength={10} changeServerError={changeLoginError} placeholder={'Login'}/>
+            <Input error={errors.password?.message} touched={touchedFields.password} serverError={passwordError} register={register} name={'password'} patternValue={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/} minLength={8} maxLength={15} changeServerError={changePasswordError} placeholder={'Password'}/>
+            <button className={'content__submit'} type={'submit'} disabled={isLoading}>Sign in</button>
+            <LoginLoader color={'rgb(249, 94, 59)'} css={loaderCSS} loading={isLoading}/>
+            <ReCAPTCHA className={'captcha'} sitekey={'6Leond0hAAAAAOCUq2naPPzgveoMehWQmYG4Vabt'} size={"invisible"} ref={reRef}/>
+        </form>
     )
 })

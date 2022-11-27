@@ -1,14 +1,12 @@
 import React, { useRef, useState } from "react"
 // CSS
 import "../styles/modal.css"
-// Formik
-import { Formik } from "formik"
 // Components
-import { ErrorMessages } from "../../login/components/ErrorMessages"
-import { ErrorIcons } from "../../login/components/ErrorIcons"
 import { ProfileLoader } from "../../main/components/Profile-Loader"
+import { Input } from "../../login/components/Input"
+import { InputFile } from "./Input-File"
 // Types
-import { TextProps } from "../types/profile-types"
+import {ProfileInterface, TextProps} from "../types/profile-types"
 // Redux
 import { useDispatch, useSelector } from "react-redux"
 // Store
@@ -18,6 +16,8 @@ import { profileActions } from "../../../store/reducers/profile/profile-reducer"
 import { useMutation } from "react-query"
 // Service
 import { ProfileService } from "../../../services/profile-service"
+// React Hook Form
+import { SubmitHandler, useForm } from "react-hook-form"
 
 type PropsType = {
     setModalStatus: (status: boolean) => void
@@ -35,11 +35,15 @@ export default React.memo(function ModalComponent({ setModalStatus }: PropsType)
     const currentName = useSelector(getName)
     const currentLocation = useSelector(getLocation)
 
+    function successRequest(data: string, action: (text: string) => any) {
+        dispatch(action(data))
+        setModalStatus(false)
+    }
+
     const { mutateAsync:changeName } = useMutation('change name', (data: TextProps) => ProfileService.changeName(data.text, data.id),
         {
             onSuccess(response) {
-                dispatch(profileActions.setName(response.data))
-                setModalStatus(false)
+                successRequest(response.data, profileActions.setName)
             },
             onError(err: string) {
                 setNameError(err)
@@ -50,8 +54,7 @@ export default React.memo(function ModalComponent({ setModalStatus }: PropsType)
     const { mutateAsync:changeLocation } = useMutation('change location', (data: TextProps) => ProfileService.changeLocation(data.text, data.id),
         {
             onSuccess(response) {
-                dispatch(profileActions.setLocation(response.data))
-                setModalStatus(false)
+                successRequest(response.data, profileActions.setLocation)
             }
         }
     )
@@ -59,8 +62,7 @@ export default React.memo(function ModalComponent({ setModalStatus }: PropsType)
     const { mutateAsync:changeBanner } = useMutation('change banner', (data: FormData) => ProfileService.changeBanner(data),
         {
             onSuccess(response) {
-                dispatch(profileActions.setBanner(response.data))
-                setModalStatus(false)
+                successRequest(response.data, profileActions.setBanner)
             }
         }
     )
@@ -68,18 +70,16 @@ export default React.memo(function ModalComponent({ setModalStatus }: PropsType)
     const { mutateAsync:changeAvatar } = useMutation('change avatar', (data: FormData) => ProfileService.changeAvatar(data),
         {
             onSuccess(response) {
-                dispatch(profileActions.setAvatar(response.data))
-                setModalStatus(false)
+                successRequest(response.data, profileActions.setAvatar)
             }
         }
     )
 
-    async function submit(name: string, location: string, setSubmitting: (status: boolean) => void, banner: any, avatar: any) {
-        function changeRequestStatus (status: boolean) {
-            setSubmitting(status)
-            btn.disabled = status
-        }
+    const { register, handleSubmit, setValue, formState: { errors, touchedFields, isSubmitting, isDirty }, watch } = useForm<ProfileInterface>({mode: 'onChange'})
+    const watchBanner = watch('banner')
+    const watchAvatar = watch('avatar')
 
+    const onSubmit: SubmitHandler<ProfileInterface> = async (data) => {
         async function sendPhoto (photo: File, currentPhoto: string, changePhoto: (data: FormData) => void) {
             if (photo.name) {
                 let data = new FormData()
@@ -90,91 +90,32 @@ export default React.memo(function ModalComponent({ setModalStatus }: PropsType)
             }
         }
 
-        const btn = btnRef.current
-        changeRequestStatus(true)
+        if (data.name !== currentName) await changeName({text: data.name, id})
+        if (data.location !== currentLocation) await changeLocation({text: data.location, id})
 
-        if (name !== currentName) await changeName({text: name, id})
-        if (location !== currentLocation) await changeLocation({text: location, id})
+        await sendPhoto(data.banner, currentBanner, changeBanner)
+        await sendPhoto(data.avatar, currentAvatar, changeAvatar)
 
-        await sendPhoto(banner, currentBanner, changeBanner)
-        await sendPhoto(avatar, currentAvatar, changeAvatar)
-
-        changeRequestStatus(false)
-    }
-
-    function validate(name: string, location: string) {
-        const userNameExp = /[a-zA-Z0-9]+/
-        let errors: any = {}
-
-        if (!name) {
-            errors.name = 'Name is required'
-        } else if (!userNameExp.test(name) || /\s/.test(name)) {
-            errors.name = 'Invalid name'
-        }
-
-        if (!location) {
-            errors.location = 'Location is required'
-        } else if (!userNameExp.test(location)) {
-            errors.location = 'Invalid location'
-        }
-
-        return errors
+        setModalStatus(false)
     }
 
     return (
         <div className="modal">
-            <Formik validate={values => validate(values.name, values.location)} initialValues={{name: currentName, location: currentLocation, banner: {name: ''}, avatar: {name: ''}}} onSubmit={(values, {setSubmitting}) => submit(values.name, values.location, setSubmitting, values.banner, values.avatar)}>
-                {({
-                      values,
-                      errors,
-                      touched,
-                      handleChange,
-                      handleBlur,
-                      handleSubmit,
-                      isSubmitting,
-                      setFieldValue
-                  }) => (
-                    <form onSubmit={handleSubmit}>
-                        <div className={'error-container'}>
-                            <ErrorMessages error={errors.name} serverError={nameError} touched={touched.name}/>
-                            <input onClick={() => setNameError('')} type="text" name="name" onChange={handleChange} onBlur={handleBlur} value={values.name} placeholder={'Your new name'} minLength={3} maxLength={10}/>
-                            <ErrorIcons error={errors.name} serverError={nameError} touched={touched.name}/>
-                        </div>
-                        <div className={'error-container'}>
-                            <ErrorMessages error={errors.location} touched={touched.location}/>
-                            <input type="text" name="location" onChange={handleChange} onBlur={handleBlur} value={values.location} placeholder={'Your new location'} minLength={4} maxLength={15}/>
-                            <ErrorIcons error={errors.location} touched={touched.location}/>
-                        </div>
-                        <div className={'files flex-property-set_between'}>
-                            <div className={'box'}>
-                                <label>Banner</label>
-                                <input type="file" name="banner" onChange={(event: any) => {setFieldValue('banner', event.currentTarget.files[0])}} />
-                                <div className={'circle flex-property-set_center'}>
-                                    <i className="fa-solid fa-upload"></i>
-                                </div>
-                                <span className={'photo-name'}>
-                                    {values.banner.name}
-                                </span>
-                            </div>
-                            <div className={'box'}>
-                                <label>Avatar</label>
-                                <input type="file" name="avatar" onChange={(event: any) => {setFieldValue('avatar', event.currentTarget.files[0])}} />
-                                <div className={'circle flex-property-set_center'}>
-                                    <i className="fa-solid fa-upload"></i>
-                                </div>
-                                <span className={'photo-name'}>
-                                    {values.avatar.name}
-                                </span>
-                            </div>
-                        </div>
-                        <div className={'buttons flex-property-set_between'}>
-                            <button ref={btnRef} className={'submit'} type="submit" disabled={(values.name === currentName && values.location === currentLocation && !values.banner.name && !values.avatar.name)}>Submit</button>
-                            <button className={'cancel'} onClick={() => {setModalStatus(false)}}>Cancel</button>
-                        </div>
-                        {isSubmitting ? <ProfileLoader/> : null}
-                    </form>
-                )}
-            </Formik>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <Input error={errors.name?.message} touched={touchedFields.name} serverError={nameError} register={register} name={'name'} patternValue={/^[a-zA-Z0-9]+$/} minLength={3} maxLength={10} changeServerError={setNameError} placeholder={'Your new name'}/>
+                <Input error={errors.location?.message} touched={touchedFields.location} register={register} name={'location'} patternValue={/^[a-zA-Z0-9]+$/} minLength={4} maxLength={15} changeServerError={setNameError} placeholder={'Your new location'}/>
+                <div className={'files flex-property-set_between'}>
+                    <div className={'box'}>
+                        <InputFile label={'Banner'} name={'banner'} register={register} setValue={setValue} currentValue={watchBanner}/>
+                        <InputFile label={'Avatar'} name={'avatar'} register={register} setValue={setValue} currentValue={watchAvatar}/>
+                    </div>
+                </div>
+                <div className={'buttons flex-property-set_between'}>
+                    <button ref={btnRef} className={'submit'} type="submit" disabled={!isDirty}>Submit</button>
+                    <button className={'cancel'} onClick={() => {setModalStatus(false)}}>Cancel</button>
+                </div>
+                {isSubmitting ? <ProfileLoader/> : null}
+            </form>
         </div>
     )
 })

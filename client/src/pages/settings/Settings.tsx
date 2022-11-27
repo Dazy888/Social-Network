@@ -4,8 +4,8 @@ import { NavLink, Route, Routes, useNavigate } from "react-router-dom"
 // CSS
 import './styles/settings.css'
 // Components
-import { Pass } from "./components/Pass"
-import Email from "./components/Email"
+import { ChangePass } from "./components/Change-Pass"
+import Email from "./components/Activate"
 import { NoContent } from "../404/NoContent"
 
 type PropsType = {
@@ -22,7 +22,7 @@ function Content({ path }: PropsType) {
                         <NavLink to={'/main/settings/email'} className={'list-item'}>Activate email</NavLink>
                     </ul>
                 </nav>
-                {(path === 'pass') ? <Pass/> : <Email/> }
+                {(path === 'pass') ? <ChangePass/> : <Email/> }
             </div>
         </div>
     )

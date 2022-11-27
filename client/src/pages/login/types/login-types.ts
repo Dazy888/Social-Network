@@ -1,1 +1,4 @@
-export type Validate = (userLogin: string, password: string) => Object
+export interface LoginInterface {
+    login: string
+    password: string
+}
