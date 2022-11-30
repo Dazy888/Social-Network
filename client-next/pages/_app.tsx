@@ -1,6 +1,12 @@
-import '../styles/globals.css'
 import type { AppProps } from 'next/app'
+// CSS
+import '../styles/index.css'
+// React Query
 import { QueryClient, QueryClientProvider } from "react-query"
+// Redux
+import { Provider } from "react-redux"
+// Store
+import store from "../store/store"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -11,7 +17,9 @@ const queryClient = new QueryClient({
 export default function App({ Component, pageProps }: AppProps) {
   return (
       <QueryClientProvider client={queryClient}>
-        <Component {...pageProps} />
+          <Provider store={store}>
+              <Component {...pageProps} />
+          </Provider>
       </QueryClientProvider>
   )
 }
