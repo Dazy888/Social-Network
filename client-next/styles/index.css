@@ -103,3 +103,7 @@ button {
 a {
   text-decoration: none;
 }
+
+.active {
+  color: rgb(249,94,59) !important;
+}
