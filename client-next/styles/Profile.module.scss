@@ -1,0 +1,379 @@
+.profile {
+  max-width: 1400px;
+  margin: 100px auto 100px;
+
+  .title {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  .text {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    opacity: 0.7;
+    overflow-wrap: break-word;
+  }
+
+  .header {
+    width: 100%;
+    height: fit-content;
+    position: relative;
+
+    .header__settings {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      font-size: 30px;
+      color: rebeccapurple;
+      background: transparent;
+      cursor: pointer;
+      border: none;
+    }
+
+    .header__banner {
+      width: 100%;
+      height: 300px;
+    }
+
+    .header__user {
+      position: absolute;
+      top: 220px;
+      left: 650px;
+      z-index: 1;
+      text-align: center;
+      color: white;
+
+      .header__name {
+        font-size: 25px;
+        font-weight: 500;
+        margin-bottom: 8px;
+      }
+
+      .header__location {
+        letter-spacing: 0.4px;
+        font-size: 15px;
+        opacity: 0.9;
+      }
+
+      .header__avatar {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+      }
+    }
+
+    .header__tile {
+      height: 100px;
+      transform: translateY(-4px);
+      background: rebeccapurple;
+    }
+  }
+
+  .main {
+    max-width: 1400px;
+    margin: 60px auto auto;
+    color: white;
+    align-items: flex-start;
+
+    hr {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: white;
+      border: none;
+    }
+
+    .information {
+      width: 300px;
+      background: rebeccapurple;
+      border-radius: 10px;
+
+      h3 {
+        padding: 23px 25px 18px 25px;
+      }
+
+      .information__item {
+        padding: 23px 25px 18px 25px;
+
+        textarea {
+          width: 250px;
+          height: 100px;
+          margin-top: 10px;
+          border-radius: 10px;
+          padding: 5px 0 0 10px;
+        }
+
+        .information__title {
+          width: 250px;
+
+          h3 {
+            font-size: 15px;
+            letter-spacing: 0.5px;
+          }
+
+          button {
+            font-size: 12px;
+            color: white;
+          }
+        }
+
+        .text {
+          margin: 10px 0 0 10px;
+        }
+      }
+    }
+
+    .posts {
+      width: 600px;
+
+      .post {
+        width: 100%;
+        height: fit-content;
+        padding: 25px;
+        border-radius: 10px;
+        background: rebeccapurple;
+        margin-bottom: 30px;
+
+        .post__header {
+          margin-bottom: 20px;
+
+          .post__user {
+            width: fit-content;
+            text-align: left;
+
+            img {
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              margin-right: 12px;
+            }
+          }
+
+          button {
+            font-size: 25px;
+          }
+        }
+
+        .post__text {
+          font-size: 15px;
+          opacity: 1;
+          font-weight: 500;
+          margin-bottom: 20px;
+        }
+
+        hr {
+          width: 100%;
+          height: 1px;
+        }
+      }
+
+      .posts__create {
+        margin-bottom: 100px;
+
+        textarea {
+          width: 100%;
+          height: 100px;
+          border-radius: 10px;
+          padding: 10px;
+        }
+
+        .buttons {
+          width: 300px;
+          margin: 20px auto auto;
+
+          button {
+            width: 130px;
+            height: 30px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 500;
+            transition: 0.3s;
+
+            &:hover {
+              transform: translateY(-10px);
+            }
+          }
+
+          .submit {
+            background: green;
+          }
+
+          .cancel {
+            background: red;
+          }
+        }
+      }
+
+      .posts__new-post {
+        width: fit-content;
+        margin: auto;
+
+        h3 {
+          text-align: center;
+          padding: 0;
+          margin-bottom: 10px;
+        }
+
+        button {
+          margin: auto;
+          font-size: 50px;
+          color: rebeccapurple;
+        }
+      }
+    }
+
+    .subscriptions {
+      width: 300px;
+      height: fit-content;
+      background: rebeccapurple;
+      border-radius: 10px;
+
+      h3 {
+        padding: 23px 25px 18px;
+      }
+    }
+  }
+
+  .modal {
+    width: 100vw;
+    height: 100vh;
+    z-index: 2;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+
+    form {
+      width: 453px;
+      height: 465px;
+      border-radius: 12px;
+      border: 2px solid black;
+      background-color: white;
+      box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+      display: flex;
+      flex-direction: column;
+      padding: 45px 25px;
+
+      .error-container {
+        position: relative;
+
+        .error-text {
+          font-size: 16px;
+          font-weight: 500;
+          position: absolute;
+          left: 35px;
+          top: -25px;
+          color: red;
+        }
+
+        .red-border {
+          border: 2px solid red;
+        }
+
+        .error {
+          position: absolute;
+          color: #f92552;
+          font-size: 20px;
+          right: 40px;
+          top: 14px;
+        }
+      }
+
+      input[type=text] {
+        display: block;
+        width: 300px;
+        height: 10px;
+        border: 1px solid rebeccapurple;
+        padding: 1.5rem 1.1rem 0.5rem;
+        line-height: 1.75;
+        border-radius: 5px;
+        margin: 0 auto 40px;
+        font-size: 18px;
+
+        &:focus {
+          color: #212529;
+          background-color: transparent;
+          outline: 0;
+          box-shadow: none;
+        }
+      }
+
+      .files {
+        width: 300px;
+        margin: 30px auto;
+
+        .box {
+          width: 50px;
+          height: 100px;
+          position: relative;
+
+          label {
+            position: absolute;
+            top: -30px;
+            text-align: center;
+            font-weight: 500;
+          }
+
+          input {
+            width: 50px;
+            height: 50px;
+            display: block;
+            position: absolute;
+            opacity: 0;
+            z-index: 1;
+            cursor: pointer;
+          }
+
+          .circle {
+            width: 50px;
+            height: 50px;
+            background: rebeccapurple;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+
+            i {
+              font-size: 30px;
+              color: white;
+            }
+          }
+
+          .photo-name {
+            width: 200px;
+            font-size: 13px;
+            position: absolute;
+            bottom: 0;
+            left: -75px;
+            text-align: center;
+          }
+        }
+      }
+
+      .buttons {
+        width: 400px;
+
+        button {
+          width: 170px;
+          height: 40px;
+          border-radius: 20px;
+          font-size: 18px;
+          font-weight: 500;
+          transition: 0.3s;
+
+          &:hover {
+            transform: translateY(-10px);
+          }
+        }
+
+        .submit {
+          background: green;
+        }
+
+        .cancel {
+          background: red;
+        }
+      }
+    }
+  }
+}

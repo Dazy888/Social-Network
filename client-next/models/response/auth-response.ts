@@ -1,5 +1,5 @@
 import { IUser } from "../IUser"
-import { PostType } from "../../pages/profile/types/profile-types";
+import { PostType } from "../../pages/main/profile/types/profile-types"
 
 export interface AuthResponse {
     accessToken: string

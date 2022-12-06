@@ -11,9 +11,9 @@ export class AuthController {
 
     @Post('registration')
     async registration(@Body() user: AuthorizationDto, @Response({ passthrough: true }) res): Promise<any> {
-        const { userLogin, password, token } = user
+        const { userLogin, password, /*token*/ } = user
 
-        const response = await this.authService.registration(userLogin, password, token)
+        const response = await this.authService.registration(userLogin, password, /*token*/)
         if (typeof response === "string") throw new BadRequestException(response)
 
         res.cookie('refreshToken', response.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
@@ -22,9 +22,9 @@ export class AuthController {
 
     @Post('login')
     async login(@Body() user: AuthorizationDto, @Response({ passthrough: true }) res) {
-        const { userLogin, password, token } = user
+        const { userLogin, password, /*token*/ } = user
 
-        const response = await this.authService.login(userLogin, password, token)
+        const response = await this.authService.login(userLogin, password, /*token*/)
         if (typeof response === "string") throw new BadRequestException(response)
 
         res.cookie('refreshToken', response.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})

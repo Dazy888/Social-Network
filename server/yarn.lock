@@ -4252,6 +4252,11 @@ nest@^0.1.6:
   resolved "https://registry.npmjs.org/nest/-/nest-0.1.6.tgz"
   integrity sha512-21378J/6pHB9EZMId5yz9DaxVj778pCHhzfXhRLLrLWZydpLgbsyxL5B5QyTSWJBk5L8XbiGgMvNZMb/qBySYg==
 
+nestjs@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/nestjs/-/nestjs-0.0.1.tgz#e4b3b82fbbd0bbf993a7c7a137b3ad59ccecf6b6"
+  integrity sha512-LJTf2zDRtWE69B6R2DUW6/LCftgVOq3kp3aqxPsB0eei8OX+lW2RFjzREZWRL1GUD/jGdBSMhM3Q5YWLC2uHNg==
+
 node-abort-controller@^3.0.1:
   version "3.0.1"
   resolved "https://registry.npmjs.org/node-abort-controller/-/node-abort-controller-3.0.1.tgz"

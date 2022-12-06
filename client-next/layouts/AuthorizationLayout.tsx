@@ -1,13 +1,9 @@
 import { useEffect, useRef } from "react"
 import { useRouter } from "next/router"
 import styles from '../styles/Authorization.module.scss'
-import Link from "next/link"
+import { NavLink } from "./components/NavLink"
 
-type PropsType = {
-    children: any
-}
-
-export function AuthorizationLayout({ children }: PropsType) {
+export function AuthorizationLayout({ children }: any) {
     const router = useRouter()
     const actions: any = useRef()
 
@@ -25,16 +21,8 @@ export function AuthorizationLayout({ children }: PropsType) {
         <div className={`${styles['auth-wrapper']} flex-center`}>
             <div className={`${styles['auth']} flex-center`}>
                 <div onClick={choseAction} className={styles['auth__actions']} ref={actions}>
-                    <Link href={'/authorization/sign-in'} legacyBehavior={true}>
-                        <a className={router.pathname === '/authorization/sign-in' ? 'active flex-center' : 'flex-center'}>
-                            <i className="fa-solid fa-arrow-right-to-bracket"></i>
-                        </a>
-                    </Link>
-                    <Link href={'/authorization/sign-up'} className={'flex-center'} legacyBehavior={true}>
-                        <a className={router.pathname === '/authorization/sign-up' ? 'active flex-center' : 'flex-center'}>
-                            <i className="fa-solid fa-address-card"></i>
-                        </a>
-                    </Link>
+                    <NavLink path={'/authorization/sign-in'} className={'flex-center'} activeClass={'active'} iconClass={'fa-solid fa-arrow-right-to-bracket'}/>
+                    <NavLink path={'/authorization/sign-up'} className={'flex-center'} activeClass={'active'} iconClass={'fa-solid fa-address-card'}/>
                 </div>
                 <div className={`${styles['auth__content']} flex-center`}>
                     {children}

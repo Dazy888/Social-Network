@@ -2,14 +2,13 @@ import ScaleLoader from "react-spinners/ScaleLoader"
 
 type PropsType = {
     loading: boolean
-    css: any
     color: string
 }
 
-export function LoginLoader({ loading, css, color }: PropsType) {
+export function LoginLoader({ loading, color }: PropsType) {
     return(
         <div className={'loader'}>
-            <ScaleLoader color={color} loading={loading} cssOverride={css}/>
+            <ScaleLoader color={color} loading={loading}/>
         </div>
     )
 }

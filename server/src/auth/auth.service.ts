@@ -1,11 +1,10 @@
 import * as bcrypt from 'bcrypt'
 import * as jwt from "jsonwebtoken"
 import * as dotenv from "dotenv"
-import axios from "axios"
 import { Model } from "mongoose"
 // NestJS
-import { Injectable } from '@nestjs/common'
 import { InjectModel } from "@nestjs/mongoose"
+import { Injectable } from "@nestjs/common"
 // Schemas
 import { User, UserDocument } from "./schema/user.schema"
 import { Tokens, TokensDocument } from "./schema/tokens.schema"
@@ -57,12 +56,12 @@ export class AuthService {
         return this.tokensModel.findOne({refreshToken})
     }
 
-    async humanValidation(token: string) {
-        const response = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`)
-        return !response.data.success
-    }
+    // async humanValidation(token: string) {
+    //     const response = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`)
+    //     return !response.data.success
+    // }
 
-    async registration(login: string, password: string, token: string): Promise<any> {
+    async registration(login: string, password: string, /*token: string*/): Promise<any> {
         // if (await this.humanValidation(token)) return `Don't fool us bot`
         if (await this.userModel.findOne({userLogin: login})) return 'User with this login already exists'
 
@@ -80,7 +79,7 @@ export class AuthService {
         }
     }
 
-    async login(login: string, password: string, token: string): Promise<any> {
+    async login(login: string, password: string, /*token: string*/): Promise<any> {
         // if (await this.humanValidation(token)) return `Don't fool us bot`
         const user = await this.userModel.findOne({userLogin: login})
         if (!user) return `User with this login doesn't exist`
