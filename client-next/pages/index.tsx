@@ -5,6 +5,6 @@ export default function HomePage() {
   const router = useRouter()
 
   useEffect( () => {
-    if (!localStorage.getItem('token')) router.push('/login/sign-in')
+    if (!localStorage.getItem('token')) router.push('/authorization/sign-in')
   }, [])
 }

@@ -61,9 +61,9 @@ export function MainLayout({ children }: any) {
                     <img alt={'Logo'} className={'header__logo'} src={'https://user-images.githubusercontent.com/16946573/144957680-01ea405e-959b-46b1-a163-df688466ac23.png'}/>
                     <nav>
                         <ul className={'flex-between'}>
-                            <NavLink path={'/main/profile'} activeClass={'active-page'}/>
-                            <NavLink path={'/main/users'} activeClass={'active-page'}/>
-                            <NavLink path={'/main/settings'} activeClass={'active-page'}/>
+                            <NavLink text={'Profile'} path={'/main/profile'} activeClass={'active-page'}/>
+                            <NavLink text={'Users'} path={'/main/users'} activeClass={'active-page'}/>
+                            <NavLink text={'Settings'} path={'/main/settings/activate'} activeClass={'active-page'}/>
                         </ul>
                     </nav>
                     <div className={'header__logout flex-between'}>

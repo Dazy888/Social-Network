@@ -1,27 +1,28 @@
 import { useMemo, useRef, useState } from "react"
 // Components
-import { MainLayout } from "../../layouts/MainLayout"
-import Post from "./profile/components/Post"
-import InformationItem from "./profile/components/Information-Item"
-import Modal from "./profile/components/Modal"
+import Post from "./components/Post"
+import InformationItem from "./components/Information-Item"
+import Modal from "./components/Modal"
+// Layout
+import { MainLayout } from "../../../layouts/Main-Layout"
 // Redux
 import { useDispatch, useSelector } from "react-redux"
 // Types
-import { TextProps } from "./profile/types/profile-types"
+import { TextProps } from "./types/profile-types"
 import { AxiosResponse } from "axios"
 // React Query
 import { useMutation } from "react-query"
 // Next
 import Head from "next/head"
 // Store
-import { getAboutMe, getAvatar, getBanner, getHobbies, getId, getLocation, getName, getPosts, getSkills } from "../../store/reducers/profile/profile-selectors";
-import { profileActions } from "../../store/reducers/profile/profile-reducer"
+import { getAboutMe, getAvatar, getBanner, getHobbies, getId, getLocation, getName, getPosts, getSkills } from "../../../store/reducers/profile/profile-selectors"
+import { profileActions } from "../../../store/reducers/profile/profile-reducer"
 // Service
-import { ProfileService } from "../../services/profile-service"
+import { ProfileService } from "../../../services/profile-service"
 // CSS
-import styles from '../../styles/Profile.module.scss'
+import styles from '../../../styles/Profile.module.scss'
 
-export default function Profile() {
+export default function Index() {
     const dispatch = useDispatch()
     const textareaPostRef: any = useRef()
 

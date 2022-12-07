@@ -15,9 +15,10 @@ type PropsType = {
     className?: string
     serverError?: string
     changeServerError?: any
+    linkRef?: any
 }
 
-export function Input({ className, error, touched, serverError, register, patternValue, maxLength, minLength, name, changeServerError, placeholder, type }: PropsType) {
+export function Input({ className, error, touched, serverError, register, patternValue, maxLength, minLength, name, changeServerError, placeholder, type, linkRef }: PropsType) {
     function changingServerError() {
         if (changeServerError) changeServerError('')
     }
@@ -41,7 +42,7 @@ export function Input({ className, error, touched, serverError, register, patter
                         value: maxLength,
                         message: `MaxLength is ${maxLength} symbols`
                     },
-                }))} onClick={changingServerError} className={`${error && touched || serverError ? `${styles['red-border']} ${className}` : `${className}`}`} type={type} placeholder={placeholder}/>
+                }))} ref={linkRef} onClick={changingServerError} className={`${error && touched || serverError ? `${styles['red-border']} ${className}` : `${className}`}`} type={type} placeholder={placeholder}/>
             <ErrorIcons error={error} serverError={serverError} touched={touched}></ErrorIcons>
         </div>
     )

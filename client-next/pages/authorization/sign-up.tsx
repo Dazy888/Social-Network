@@ -22,7 +22,7 @@ import { useRouter } from "next/router"
 import { AuthProps, successfulEnter } from "./sign-in"
 // Styles
 import styles from '../../styles/Authorization.module.scss'
-import {AuthorizationLayout} from "../../layouts/AuthorizationLayout";
+import {AuthorizationLayout} from "../../layouts/Authorization-Layout";
 import Head from "next/head";
 
 export default React.memo(function SignUp() {
@@ -64,12 +64,12 @@ export default React.memo(function SignUp() {
             </Head>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Input type={'text'} error={errors.login?.message} touched={touchedFields.login} serverError={loginError} register={register} name={'login'} patternValue={/^[a-zA-Z0-9]+$/} minLength={4} maxLength={10} changeServerError={changeLoginError} placeholder={'Login'}/>
-                <Input type={'password'} error={errors.password?.message} touched={touchedFields.password} register={register} name={'password'} patternValue={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/} minLength={8} maxLength={15} placeholder={'Password'}/>
+                <Input linkRef={passRef} type={'password'} error={errors.password?.message} touched={touchedFields.password} register={register} name={'password'} patternValue={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/} minLength={8} maxLength={15} placeholder={'Password'}/>
                 <div className={styles['content__checkbox']}>
                     <input className={styles['checkbox__input']} onClick={showPassword} name={'show-password'} type={'checkbox'} />
                     <label className={styles['checkbox__label']}>Show password</label>
                 </div>
-                <button className={styles['auth__submit']} type={'submit'} disabled={isLoading}>Sign in</button>
+                <button className={styles['auth__submit']} type={'submit'} disabled={isLoading}>Sign up</button>
                 <LoginLoader color={'rgb(249, 94, 59)'} loading={isLoading}/>
                 {/*<ReCAPTCHA className={'captcha'} sitekey={'6Leond0hAAAAAOCUq2naPPzgveoMehWQmYG4Vabt'} size={"invisible"} ref={reRef}/>*/}
             </form>

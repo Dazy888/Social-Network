@@ -1,6 +1,6 @@
 import React, { CSSProperties, useRef, useState } from "react"
 // Layout
-import { AuthorizationLayout } from "../../layouts/AuthorizationLayout"
+import { AuthorizationLayout } from "../../layouts/Authorization-Layout"
 // Navigation
 import { useRouter } from "next/router"
 // Redux
