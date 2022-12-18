@@ -67,12 +67,13 @@ export class ProfileService {
     }
 
     async createPost(text: string, id: string) {
-        const postModel = await this.postsModel.create({text, date: new Date(), user: id})
+        const randomNum: any = Math.floor(Math.random() * ((99999999999 - 1111111111) + 1111111111))
+        const postModel = await this.postsModel.create({text, date: new Date(), user: id, postId: randomNum})
         return new PostDto(postModel)
     }
 
     async deletePost(postId: string, userId: string) {
-        await this.postsModel.findByIdAndDelete({_id: postId})
+        await this.postsModel.findOneAndDelete({postId: postId})
         return this.postsModel.find({user: userId})
     }
 }

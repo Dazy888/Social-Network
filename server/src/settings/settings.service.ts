@@ -19,7 +19,14 @@ export class SettingsService {
     }
 
     async sendMail(email: string, activationLink: string, id: string): Promise<any> {
-        await this.userModel.findByIdAndUpdate({_id: id}, {email, activationLink})
+        const user = await this.userModel.findOne({email})
+
+        if (user) {
+            return 'User with this e-mail already exists'
+        } else {
+            await this.userModel.findByIdAndUpdate({_id: id}, {email, activationLink})
+            return
+        }
     }
 
     async cancelActivation(id: string): Promise<any> {

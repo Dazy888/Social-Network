@@ -1,4 +1,3 @@
-// NestJS
 import { BadRequestException, Body, Controller, Post, Response, Request, Get } from '@nestjs/common'
 // DTO
 import { AuthorizationDto} from "./dto/authorization.dto"

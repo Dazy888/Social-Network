@@ -13,6 +13,8 @@ export class Posts {
 
     @Prop()
     text: string
+    @Prop()
+    postId: string
 }
 
 export const PostsSchema = SchemaFactory.createForClass(Posts)

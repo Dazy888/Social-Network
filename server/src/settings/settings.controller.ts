@@ -25,13 +25,17 @@ export class SettingsController {
     async sendMail(@Body() data: SendMailDto) {
         const {email, id} = data
         const link = uuidv4()
+        const response = await this.settingsService.sendMail(email, link, id)
 
-        await MailService.sendActivationMail(email, `${process.env.API_URL}/api/settings/activate/${link}`)
-        await this.settingsService.sendMail(email, link, id)
+        if (response) {
+            throw new BadRequestException(response)
+        } else {
+            await MailService.sendActivationMail(email, `${process.env.API_URL}/api/settings/activate/${link}`)
 
-        return {
-            isActivated: true,
-            email
+            return {
+                isActivated: true,
+                email
+            }
         }
     }
 
@@ -45,6 +49,6 @@ export class SettingsController {
     async activate(@Param('link') link: string, @Res({ passthrough: true }) res) {
         const response = await this.settingsService.activate(link)
         if (response) return response
-        res.redirect(process.env.CLIENT_URL)
+        res.redirect(`${process.env.CLIENT_URL}/main/settings/activate`)
     }
 }

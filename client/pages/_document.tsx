@@ -1,0 +1,23 @@
+import Document, { Head, Html, Main, NextScript } from 'next/document'
+
+class MyDocument extends Document {
+    render(): JSX.Element {
+        return (
+            <Html>
+                <Head>
+                    <meta charSet="utf-8"/>
+                    <link rel="icon" href="https://user-images.githubusercontent.com/16946573/144957680-01ea405e-959b-46b1-a163-df688466ac23.png"/>
+                    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                    <script src="https://kit.fontawesome.com/0a15c952b0.js" crossOrigin="anonymous"></script>
+                    <script src="https://www.google.com/recaptcha/api.js?render=6LfUf90hAAAAAAMruXBmB6ly70MHrdCKmiQMqoEy"></script>
+                </Head>
+                <body>
+                    <Main />
+                    <NextScript />
+                </body>
+            </Html>
+        )
+    }
+}
+
+export default MyDocument
