@@ -62,7 +62,7 @@ export function MainLayout({ children }: any) {
                         <ul className={'flex-between'}>
                             <NavLink text={'Profile'} path={'/main/profile'} activeClass={'active-page'}/>
                             <NavLink text={'Users'} path={'/main/users'} activeClass={'active-page'}/>
-                            <NavLink text={'Settings'} path={'/main/settings/activate'} activeClass={'active-page'}/>
+                            <NavLink thirdPath={'/main/settings/profile'} secondPath={'/main/settings/change-pass'} text={'Settings'} path={'/main/settings/activate'} activeClass={'active-page'}/>
                         </ul>
                     </nav>
                     <div className={'header__logout flex-between'}>

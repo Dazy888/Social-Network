@@ -22,10 +22,7 @@ export class ProfileController {
     @Put('name')
     async changeName(@Body() data: ChangeTextDto) {
         const {text, id} = data
-        const response = await this.profileService.changeName(text, id)
-
-        if (/User/.test(response)) throw new BadRequestException(response)
-        return response
+        return this.profileService.changeName(text, id)
     }
 
     @Put('location')

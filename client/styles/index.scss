@@ -54,6 +54,18 @@ input {
   }
 }
 
+.avatar {
+  left: 2px;
+}
+
+.success {
+  border: 1px solid green !important;
+}
+
+.success-image {
+  background: green !important;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

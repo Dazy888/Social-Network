@@ -14,8 +14,6 @@ export class ProfileService {
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>, @InjectModel(Posts.name) private postsModel: Model<PostsDocument>) {}
 
     async changeName(name: string, id: string) {
-        const user = await this.userModel.findOne({name})
-        if (user) return 'User with this name already exists'
         await this.userModel.findByIdAndUpdate({_id: id}, {name})
         return name
     }

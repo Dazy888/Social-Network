@@ -78,8 +78,6 @@ export default React.memo(function ModalComponent({ setModalStatus }: PropsType)
     const watchBanner = watch('banner')
     const watchAvatar = watch('avatar')
 
-    console.log(isValid)
-
     const onSubmit: SubmitHandler<ProfileInterface> = async (data) => {
         async function sendPhoto (photo: File, currentPhoto: string, changePhoto: (data: FormData) => void) {
             if (photo.name) {

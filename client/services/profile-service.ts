@@ -4,10 +4,6 @@ import { AxiosResponse } from "axios"
 export class ProfileService {
     static changeName(name: string, id: number): Promise<AxiosResponse> {
         return $api.put(`profile/name`, { text: name, id })
-            .then(res => res)
-            .catch(err => {
-                throw err.response.data.message
-            })
     }
 
     static changeLocation(location: string, id: number): Promise<AxiosResponse> {
