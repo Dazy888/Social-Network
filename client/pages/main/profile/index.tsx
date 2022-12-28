@@ -1,8 +1,8 @@
 import { useMemo, useRef, useState } from "react"
 // Components
 import Post from "./components/Post"
-import InformationItem from "./components/Information-Item"
-import Modal from "./components/Modal"
+import { Header } from "./components/Header"
+import { Information } from "./components/Information"
 // Layout
 import { MainLayout } from "../../../layouts/Main-Layout"
 // Redux
@@ -19,24 +19,21 @@ import { getAboutMe, getAvatar, getBanner, getHobbies, getId, getLocation, getNa
 import { profileActions } from "../../../store/reducers/profile/profile-reducer"
 // Service
 import { ProfileService } from "../../../services/profile-service"
-// CSS
+// Styles
 import styles from '../../../styles/Profile.module.scss'
-import {useRouter} from "next/router";
 
 export default function Index() {
-    const router = useRouter()
     const dispatch = useDispatch()
     const textareaPostRef: any = useRef()
 
     const [newPostStatus, setNewPostStatus] = useState<boolean>(false)
-    const [editStatus, setEditStatus] = useState<boolean>(false)
 
     const id = useSelector(getId)
     const posts = useSelector(getPosts)
     const avatar = useSelector(getAvatar)
     const banner = useSelector(getBanner)
-    const name = useSelector(getName)
     const location = useSelector(getLocation)
+    const name = useSelector(getName)
     const aboutMe = useSelector(getAboutMe)
     const skills = useSelector(getSkills)
     const hobbies = useSelector(getHobbies)
@@ -56,56 +53,15 @@ export default function Index() {
         setStatus(false)
     }
 
-    const { mutateAsync:changeAboutMe } = useMutation('change about me', (data: TextProps) => ProfileService.changeAboutMe(data.text, data.id),
-        {
-            onSuccess(response: AxiosResponse) {
-                dispatch(profileActions.setAboutMe(response.data))
-            }
-        }
-    )
-
-    const { mutateAsync:changeHobbies } = useMutation('change hobbies', (data: TextProps) => ProfileService.changeHobbies(data.text, data.id),
-        {
-            onSuccess(response: AxiosResponse) {
-                dispatch(profileActions.setHobbies(response.data))
-            }
-        }
-    )
-
-    const { mutateAsync:changeSkills } = useMutation('change skills', (data: TextProps) => ProfileService.changeSkills(data.text, data.id),
-        {
-            onSuccess(response: AxiosResponse) {
-                dispatch(profileActions.setSkills(response.data))
-            }
-        }
-    )
-
     return(
         <MainLayout>
             <Head>
                 <title>Profile</title>
             </Head>
             <div className={styles['profile']}>
-                <div className={styles['header']}>
-                    <img alt={'Banner'} className={styles['header__banner']} src={banner}/>
-                    <div className={styles['header__user']}>
-                        <img alt={'Avatar'} className={styles['header__avatar']} src={avatar}/>
-                        <p className={styles['header__name']}>{name}</p>
-                        <p className={styles['header__location']}>{location}</p>
-                    </div>
-                    <div className={styles['header__tile']}></div>
-                    <button onClick={() => router.push('settings/profile')} className={styles['header__settings']}>
-                        <i className="fa-solid fa-gear"></i>
-                    </button>
-                </div>
+                <Header location={location} avatar={avatar} name={name} banner={banner}/>
                 <div className={`${styles['main']} flex-between`}>
-                    <div className={styles['information']}>
-                        <h3 className={styles['title']}>Profile Intro</h3>
-                        <hr/>
-                        <InformationItem title={'About Me:'} editStatus={editStatus} setEditStatus={setEditStatus} id={id} textId={'aboutMe'} text={aboutMe} changeText={changeAboutMe}/>
-                        <InformationItem title={'Skills:'} editStatus={editStatus} setEditStatus={setEditStatus} id={id} textId={'hobbies'} text={hobbies} changeText={changeHobbies}/>
-                        <InformationItem title={'Hobbies:'} editStatus={editStatus} setEditStatus={setEditStatus} id={id} textId={'skills'} text={skills} changeText={changeSkills}/>
-                    </div>
+                    <Information aboutMe={aboutMe} hobbies={hobbies} skills={skills}/>
                     <div className={styles['posts']}>
                         {postsElements}
                         {newPostStatus

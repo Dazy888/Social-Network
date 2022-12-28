@@ -2,11 +2,11 @@ import { $api } from "../http"
 import { AxiosResponse } from "axios"
 
 export class ProfileService {
-    static changeName(name: string, id: number): Promise<AxiosResponse> {
+    static changeName(name: string, id: string): Promise<AxiosResponse> {
         return $api.put(`profile/name`, { text: name, id })
     }
 
-    static changeLocation(location: string, id: number): Promise<AxiosResponse> {
+    static changeLocation(location: string, id: string): Promise<AxiosResponse> {
         return $api.put(`profile/location`, { text: location, id })
     }
 
@@ -30,11 +30,11 @@ export class ProfileService {
         return $api.put(`profile/skills`, { text, id })
     }
 
-    static async addPost(text: string, id: number): Promise<AxiosResponse> {
+    static async addPost(text: string, id: string): Promise<AxiosResponse> {
         return $api.post(`profile/post`, { text, id })
     }
 
-    static async deletePost(id: number, userId: number): Promise<AxiosResponse> {
+    static async deletePost(id: number, userId: string): Promise<AxiosResponse> {
         console.log(id, userId)
         return $api.delete(`profile/post/${id}/${userId}`)
     }

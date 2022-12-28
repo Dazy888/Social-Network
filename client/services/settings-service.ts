@@ -3,7 +3,7 @@ import { AxiosResponse } from "axios"
 import { SettingsResponse } from "../models/settings-response"
 
 export class SettingsService {
-    static async changePass(pass: string, newPass: string, id: number): Promise<AxiosResponse> {
+    static async changePass(pass: string, newPass: string, id: string): Promise<AxiosResponse> {
         return $api.put<AxiosResponse>('settings/password', { pass, newPass, id })
             .then(res => res)
             .catch(err => {
@@ -11,7 +11,7 @@ export class SettingsService {
             })
     }
 
-    static async activate(email: string, id: number): Promise<AxiosResponse> {
+    static async activate(email: string, id: string): Promise<AxiosResponse> {
         return $api.post<SettingsResponse>('settings/mail', { email, id })
             .then(res => res)
             .catch(err => {
@@ -19,7 +19,7 @@ export class SettingsService {
             })
     }
 
-    static async cancelActivation(id: number): Promise<AxiosResponse> {
+    static async cancelActivation(id: string): Promise<AxiosResponse> {
         return $api.get<AxiosResponse>(`settings/cancel-activation/${id}`)
     }
 }

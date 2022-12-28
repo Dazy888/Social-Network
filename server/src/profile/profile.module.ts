@@ -1,4 +1,3 @@
-// NestJS
 import { Module } from '@nestjs/common'
 // Schemas
 import { User, UserSchema } from "../auth/schema/user.schema"

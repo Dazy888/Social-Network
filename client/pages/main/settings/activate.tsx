@@ -30,11 +30,11 @@ import {ErrorIcons} from "../../authorization/components/ErrorIcons";
 
 type ActivateProps = {
     email: string
-    id: number
+    id: string
 }
 
 type CancelActivationProps = {
-    id: number
+    id: string
 }
 export default function Activate() {
     const [serverErr, changeServerErr] = useState<string>('')

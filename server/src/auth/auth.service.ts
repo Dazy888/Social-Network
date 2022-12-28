@@ -11,6 +11,7 @@ import { Tokens, TokensDocument } from "./schema/tokens.schema"
 import { Posts, PostsDocument } from "./schema/posts.schema"
 // DTO
 import { UserDto } from "./dto/user.dto"
+import {uuid} from "uuidv4";
 
 dotenv.config()
 
@@ -67,11 +68,11 @@ export class AuthService {
 
         const hashPassword = await bcrypt.hash(password, 3)
         const userId = Math.floor(Math.random() * 100)
-        const user = await this.userModel.create({userLogin: login, password: hashPassword, name: `User ${userId}`, location: 'Nowhere', banner: 'https://img.freepik.com/premium-vector/programming-code-made-with-binary-code-coding-hacker-background-digital-binary-data-streaming-digital-code_127544-778.jpg?w=2000', avatar: 'https://i.imgur.com/b08hxPY.png', aboutMe: '', skills: '', hobbies: '', isActivated: false})
+        const user = await this.userModel.create({userLogin: login, password: hashPassword, name: `User ${userId}`, location: 'Nowhere', banner: 'https://img.freepik.com/premium-vector/programming-code-made-with-binary-code-coding-hacker-background-digital-binary-data-streaming-digital-code_127544-778.jpg?w=2000', avatar: 'https://i.imgur.com/b08hxPY.png', aboutMe: '', skills: '', hobbies: '', isActivated: false, userId: uuid()})
 
         const userDto = new UserDto(user)
         const tokens = this.generateTokens({...userDto})
-        await this.saveToken(userDto.id, tokens.refreshToken)
+        await this.saveToken(userDto.userId, tokens.refreshToken)
 
         return {
             ...tokens,
@@ -91,7 +92,7 @@ export class AuthService {
         const posts = await this.postsModel.find({user: user.id})
 
         const tokens = this.generateTokens({...userDto})
-        await this.saveToken(userDto.id, tokens.refreshToken)
+        await this.saveToken(userDto.userId, tokens.refreshToken)
 
         return {
             ...tokens,
@@ -112,8 +113,9 @@ export class AuthService {
 
         if (!userData || !tokenFromDb) return 'User is not authorized'
 
-        const user = await this.userModel.findById(userData.id)
-        const posts = await this.postsModel.find({user: userData.id})
+        const user = await this.userModel.findOne({userId: userData.userId})
+        const posts = await this.postsModel.find({user: userData.userId})
+
         const userDto = new UserDto(user)
         const tokens = this.generateTokens({...userDto})
 

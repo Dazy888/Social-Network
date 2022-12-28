@@ -1,8 +1,12 @@
 import { $api } from "../http"
-import { Users } from "../models/users-response"
+import { UsersResponse } from "../models/users-response"
+import { UserData } from "../pages/main/users/types/users-types"
 
 export const UsersService = {
-    async getUsers() {
-        return $api.get<Users[]>('users')
+    async getUsers(skip: number, id: string) {
+        return $api.get<UsersResponse>(`users/${skip}/${id}`)
+    },
+    async getUser(id: string) {
+        return $api.get<UserData>(`users/${id}`)
     }
 }

@@ -11,11 +11,11 @@ export class SettingsService {
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
     async changePass(pass: string, id: string, newPass: string): Promise<any> {
-        const user = await this.userModel.findOne({id})
+        const user = await this.userModel.findOne({userId: id})
         const isPassEquals = await bcrypt.compare(pass, user.password)
 
         if (!isPassEquals) return 'Wrong password'
-        return this.userModel.findByIdAndUpdate({_id: id}, {password: await bcrypt.hash(newPass, 3)})
+        return this.userModel.findOneAndUpdate({userId: id}, {password: await bcrypt.hash(newPass, 3)})
     }
 
     async sendMail(email: string, activationLink: string, id: string): Promise<any> {
@@ -30,7 +30,7 @@ export class SettingsService {
     }
 
     async cancelActivation(id: string): Promise<any> {
-        await this.userModel.findByIdAndUpdate({_id: id}, {email: ''})
+        await this.userModel.findOneAndUpdate({userId: id}, {email: ''})
     }
 
     async activate(activationLink: string): Promise<any> {

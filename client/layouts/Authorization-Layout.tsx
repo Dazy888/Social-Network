@@ -2,13 +2,16 @@ import { useEffect, useRef } from "react"
 import { useRouter } from "next/router"
 import { NavLink } from "./components/NavLink"
 import styles from '../styles/Authorization.module.scss'
+import {useSelector} from "react-redux";
+import {getAvatar} from "../store/reducers/profile/profile-selectors";
 
 export function AuthorizationLayout({ children }: any) {
     const router = useRouter()
     const actions: any = useRef()
+    const avatar = useSelector(getAvatar)
 
     useEffect(() => {
-        if (localStorage.getItem('token')) router.push('/main/profile')
+        if (localStorage.getItem('token') && avatar) router.push('/main/profile')
     }, [])
 
     function choseAction(event: any) {

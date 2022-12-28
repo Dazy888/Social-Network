@@ -24,7 +24,7 @@ export interface RefreshResponse {
         aboutMe: string
         skills: string
         hobbies: string
-        id: number
+        userId: string
     },
     accessToken: string
     refreshToken: string

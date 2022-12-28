@@ -10,9 +10,10 @@ type PropsType = {
     text: string
     title: string
     changeText: any
+    forView?: boolean
 }
 
-export default React.memo(function InformationItem({ text, changeText, id, textId, setEditStatus, editStatus, title }: PropsType) {
+export default React.memo(function InformationItem({ text, changeText, id, textId, setEditStatus, editStatus, title, forView }: PropsType) {
     const [status, setStatus] = useState<boolean>(false)
     const textareaRef: any = useRef()
     const textRef: any = useRef()
@@ -43,9 +44,10 @@ export default React.memo(function InformationItem({ text, changeText, id, textI
         <div className={styles['information__item']}>
             <div className={`${styles['information__title']} flex-between`}>
                 <h3>{title}</h3>
-                <button disabled={editStatus} onClick={e => editInfo(e, changeText, text, textId, setStatus, setEditStatus)}>
-                    <i className="fa-solid fa-pen"></i>
-                </button>
+                {!forView ?
+                    <button disabled={editStatus} onClick={e => editInfo(e, changeText, text, textId, setStatus, setEditStatus)}>
+                        <i className="fa-solid fa-pen"></i>
+                    </button> : null}
             </div>
             {status ? <textarea ref={textareaRef} maxLength={100}/> : <p ref={textRef} className={styles['text']}>{text}</p>}
         </div>

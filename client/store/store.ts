@@ -7,7 +7,7 @@ import { settingsReducer } from "./reducers/settings/settings-reducer"
 let rootReducer = combineReducers({
     auth: authReducer,
     profile: profileReducer,
-    settings: settingsReducer
+    settings: settingsReducer,
 })
 
 type RootReducerType = typeof rootReducer

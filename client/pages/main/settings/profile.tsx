@@ -47,10 +47,15 @@ export default function Profile() {
         dispatch(profileActions.setName(txt))
     }
 
-    function changePhoto(selector: string, link: string) {
+    function changePhoto(selector: string, link: string, value: string) {
         const circle: any = document.querySelector(selector)
         circle.classList.add('success-image')
-        dispatch(profileActions.setAvatar(link))
+
+        if (value === 'avatar') {
+            dispatch(profileActions.setAvatar(link))
+        } else {
+            dispatch(profileActions.setBanner(link))
+        }
     }
 
     const { mutateAsync:changeName, isLoading } = useMutation('change name', (data: TextProps) => ProfileService.changeName(data.text, data.id),
@@ -72,7 +77,7 @@ export default function Profile() {
     const { mutateAsync:changeAvatar } = useMutation('change avatar', (data: FormData) => ProfileService.changeAvatar(data),
         {
             onSuccess(response) {
-                changePhoto('div[name=avatar]', response.data)
+                changePhoto('div[name=avatar]', response.data, 'avatar')
             }
         }
     )
@@ -80,7 +85,7 @@ export default function Profile() {
     const { mutateAsync:changeBanner } = useMutation('change banner', (data: FormData) => ProfileService.changeBanner(data),
         {
             onSuccess(response) {
-                changePhoto('div[name=banner]', response.data)
+                changePhoto('div[name=banner]', response.data, 'banner')
             }
         }
     )

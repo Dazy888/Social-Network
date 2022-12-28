@@ -8,10 +8,12 @@ const override: CSSProperties = {
     borderColor: "red"
 }
 
-export function ProfileLoader() {
+export function Loader() {
     return(
-        <div className={'loader'}>
-            <FadeLoader color={"rgb(102, 51, 153)"} loading={true} cssOverride={override} />
+        <div className={'users'}>
+            <div className={'loader'}>
+                <FadeLoader color={"rgb(102, 51, 153)"} loading={true} cssOverride={override} />
+            </div>
         </div>
     )
 }

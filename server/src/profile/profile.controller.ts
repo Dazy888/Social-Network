@@ -1,14 +1,4 @@
-import {
-    Body,
-    Controller,
-    Delete,
-    Post,
-    Put,
-    Param,
-    UseInterceptors,
-    UploadedFiles,
-    BadRequestException
-} from '@nestjs/common'
+import { Body, Controller, Delete, Post, Put, Param, UseInterceptors, UploadedFiles } from '@nestjs/common'
 import { FilesInterceptor } from "@nestjs/platform-express"
 import { ChangeTextDto } from "./dto/change-text.dto"
 import { ProfileService } from "./profile.service"

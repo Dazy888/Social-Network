@@ -26,7 +26,7 @@ import styles from '../../../styles/Settings.module.scss'
 type ChangePassProps = {
     pass: string
     newPass: string
-    id: number
+    id: string
 }
 export default function ChangePass() {
     const [successMessage, changeSuccessMessage] = useState<string>('')

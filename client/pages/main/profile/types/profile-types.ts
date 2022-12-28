@@ -8,7 +8,7 @@ export type PostType = {
 
 export type TextProps = {
     text: string
-    id: number
+    id: string
 }
 
 export interface ProfileInterface {

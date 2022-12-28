@@ -1,8 +1,8 @@
 import { InferActionsTypes } from '../../store'
-import { PostType } from "../../../pages/main/profile/types/profile-types";
+import { PostType } from "../../../pages/main/profile/types/profile-types"
 
 let initialState = {
-    id: 0,
+    userId: '',
     banner: '',
     avatar: '',
     name: '',
@@ -77,7 +77,7 @@ export const profileReducer = (state = initialState, action: Actions): InitialSt
 type Actions = InferActionsTypes<typeof profileActions>
 
 export const profileActions = {
-    setUser: (name: string, location: string, banner: string, avatar: string, aboutMe: string, skills: string, hobbies: string, id: number, posts: Array<PostType>, email: string) => ({type: 'SN/profile/SET_USER', payload: {name, location, banner, avatar, aboutMe, skills, hobbies, id, posts, email}} as const),
+    setUser: (name: string, location: string, banner: string, avatar: string, aboutMe: string, skills: string, hobbies: string, userId: string, posts: Array<PostType>, email: string) => ({type: 'SN/profile/SET_USER', payload: {name, location, banner, avatar, aboutMe, skills, hobbies, userId, posts, email}} as const),
     setName: (name: string) => ({type: 'SN/profile/SET_NAME', name} as const),
     setLocation: (location: string) => ({type: 'SN/profile/SET_LOCATION', location} as const),
     setBanner: (banner: string) => ({type: 'SN/profile/SET_BANNER', banner} as const),

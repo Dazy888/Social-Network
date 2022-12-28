@@ -15,10 +15,11 @@ type PropsType = {
     date: number
     text: string
     id: number
-    userId: number
+    userId: string
+    forView?: boolean
 }
 
-export default React.memo(function Post({ avatar, name, date, text, id, userId }: PropsType) {
+export default React.memo(function Post({ avatar, name, date, text, id, userId, forView = false }: PropsType) {
     const dispatch = useDispatch()
     let time
 
@@ -38,7 +39,7 @@ export default React.memo(function Post({ avatar, name, date, text, id, userId }
 
     type DeletePostProps = {
         id: number
-        userId: number
+        userId: string
     }
 
     const { mutateAsync } = useMutation('delete post', (data: DeletePostProps) => ProfileService.deletePost(data.id, data.userId),
@@ -59,9 +60,9 @@ export default React.memo(function Post({ avatar, name, date, text, id, userId }
                         <p className={styles['text']}>{time}</p>
                     </div>
                 </div>
-                <button onClick={() => mutateAsync({id, userId})}>
+                {!forView ? <button onClick={() => mutateAsync({id, userId})}>
                     <i className="fa-solid fa-trash"></i>
-                </button>
+                </button> : null}
             </div>
             <p className={styles['post__text']}>{text}</p>
             <hr className={styles['line']}/>

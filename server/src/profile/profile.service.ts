@@ -13,54 +13,47 @@ import { PostDto } from "./dto/post.dto"
 export class ProfileService {
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>, @InjectModel(Posts.name) private postsModel: Model<PostsDocument>) {}
 
+    async updatePhoto(path: string, field: string, model: any, id: string) {
+        (field === 'avatar') ? await model.findOneAndUpdate({userId: id}, {avatar: `http://localhost:5000/${path}`}) : await model.findOneAndUpdate({userId: id}, {banner: `http://localhost:5000/${path}`})
+        return `http://localhost:5000/${path}`
+    }
+
     async changeName(name: string, id: string) {
-        await this.userModel.findByIdAndUpdate({_id: id}, {name})
+        await this.userModel.findOneAndUpdate({userId: id}, {name})
         return name
     }
 
     async changeLocation(location: string, id: string) {
-        await this.userModel.findByIdAndUpdate({_id: id}, {location})
+        await this.userModel.findOneAndUpdate({userId: id}, {location})
         return location
     }
 
     async changeAvatar(path: string, id: string, currentPath: string) {
-        async function updatePhoto(model) {
-            await model.findByIdAndUpdate({_id: id}, {avatar: `http://localhost:5000/${path}`})
-            return `http://localhost:5000/${path}`
-        }
-
-        if (!/uploads/.test(currentPath)) return updatePhoto(this.userModel)
-
+        if (!/uploads/.test(currentPath)) return this.updatePhoto(path, 'avatar', this.userModel, id)
         const lastPath = `uploads${currentPath.split('uploads')[1]}`
         fs.unlink(lastPath, (err) => err ? console.log(err) : console.log('File was deleted'))
-        return updatePhoto(this.userModel)
+        return this.updatePhoto(path, 'avatar', this.userModel, id)
     }
 
     async changeBanner(path: string, id: string, currentPath: string) {
-        async function updatePhoto(model) {
-            await model.findByIdAndUpdate({_id: id}, {banner: `http://localhost:5000/${path}`})
-            return `http://localhost:5000/${path}`
-        }
-
-        if (!/uploads/.test(currentPath)) return updatePhoto(this.userModel)
-
+        if (!/uploads/.test(currentPath)) return this.updatePhoto(path, 'banner', this.userModel, id)
         const lastPath = `uploads${currentPath.split('uploads')[1]}`
         fs.unlink(lastPath, (err) => err ? console.log(err) : console.log('File was deleted'))
-        return updatePhoto(this.userModel)
+        return this.updatePhoto(path, 'banner', this.userModel, id)
     }
 
     async changeAboutMe(text: string, id: string) {
-        await this.userModel.findByIdAndUpdate({_id: id}, {aboutMe: text})
+        await this.userModel.findOneAndUpdate({userId: id}, {aboutMe: text})
         return text
     }
 
     async changeHobbies(text: string, id: string) {
-        await this.userModel.findByIdAndUpdate({_id: id}, {hobbies: text})
+        await this.userModel.findOneAndUpdate({userId: id}, {hobbies: text})
         return text
     }
 
     async changeSkills(text: string, id: string) {
-        await this.userModel.findByIdAndUpdate({_id: id}, {skills: text})
+        await this.userModel.findOneAndUpdate({userId: id}, {skills: text})
         return text
     }
 
