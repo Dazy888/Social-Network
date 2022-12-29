@@ -1,4 +1,5 @@
 import Head from "next/head"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 // Layout
 import { MainLayout } from "../../../layouts/Main-Layout"
@@ -19,7 +20,6 @@ import { Loader } from "./components/Loader"
 import { useSelector } from "react-redux"
 // Store
 import { getId } from "../../../store/reducers/profile/profile-selectors"
-import {useRouter} from "next/router";
 
 export default function Users() {
     const [users, setUsers] = useState<UserType[]>([])

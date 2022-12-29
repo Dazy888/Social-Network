@@ -1,9 +1,13 @@
 import { useEffect, useRef } from "react"
 import { useRouter } from "next/router"
+// Components
 import { NavLink } from "./components/NavLink"
+// Styles
 import styles from '../styles/Authorization.module.scss'
-import {useSelector} from "react-redux";
-import {getAvatar} from "../store/reducers/profile/profile-selectors";
+// Redux
+import { useSelector } from "react-redux"
+// Store
+import { getAvatar } from "../store/reducers/profile/profile-selectors"
 
 export function AuthorizationLayout({ children }: any) {
     const router = useRouter()

@@ -6,7 +6,6 @@ export const $api = axios.create({
     baseURL: API_URL,
     headers: { "Access-Control-Allow-Origin": "*" }
 })
-
 $api.interceptors.request.use((config: any) => {
     config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
     return config

@@ -1,8 +1,7 @@
 import { useEffect } from "react"
+import { useRouter } from "next/router"
 // Redux
 import {useDispatch, useSelector} from "react-redux"
-// Navigation
-import { useRouter } from "next/router"
 // React Query
 import { useQuery } from "react-query"
 // Service
@@ -25,12 +24,12 @@ export function MainLayout({ children }: any) {
 
     const { refetch:logout } = useQuery('logout', () => AuthService.logout(),
         {
-            enabled: false,
             onSuccess() {
                 localStorage.removeItem('token')
                 dispatch(authActions.setAuthData(false))
                 router.push('/authorization/sign-in')
-            }
+            },
+            enabled: false
         }
     )
 
