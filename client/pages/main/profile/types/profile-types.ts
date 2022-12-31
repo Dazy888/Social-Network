@@ -1,19 +1,11 @@
 export type ChangeInfo = ({id, text}: TextProps) => Promise<void>
-export type PostType = {
+export interface PostType {
     text: string
     date: Date
-    id: number
-    postId: number
+    id: string
+    postId: string
 }
-
-export type TextProps = {
+export interface TextProps {
     text: string
     id: string
-}
-
-export interface ProfileInterface {
-    name: string
-    location: string
-    banner: any
-    avatar: any
 }

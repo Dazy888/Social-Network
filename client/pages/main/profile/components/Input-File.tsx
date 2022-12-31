@@ -13,7 +13,7 @@ type PropsType = {
 export function InputFile({ name, label, register, setValue, currentValue }: PropsType) {
     const circleRef: any = useRef()
 
-     return(
+    return(
         <div className={styles['box']}>
             <label className={name}>{label}</label>
             <input onClick={() => circleRef.current.classList.remove('success-image')} {...(register(name))} type="file" onChange={(event: any) => {setValue(name, event.currentTarget.files[0])}} />

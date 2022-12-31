@@ -1,3 +1,4 @@
+import Head from "next/head"
 import { useMemo, useRef, useState } from "react"
 // Components
 import Post from "./components/Post"
@@ -12,8 +13,6 @@ import { TextProps } from "./types/profile-types"
 import { AxiosResponse } from "axios"
 // React Query
 import { useMutation } from "react-query"
-// Next
-import Head from "next/head"
 // Store
 import { getAboutMe, getAvatar, getBanner, getHobbies, getId, getLocation, getName, getPosts, getSkills } from "../../../store/reducers/profile/profile-selectors"
 import { profileActions } from "../../../store/reducers/profile/profile-reducer"
@@ -25,7 +24,6 @@ import styles from '../../../styles/Profile.module.scss'
 export default function Index() {
     const dispatch = useDispatch()
     const textareaPostRef: any = useRef()
-
     const [newPostStatus, setNewPostStatus] = useState<boolean>(false)
 
     const id = useSelector(getId)
@@ -63,7 +61,7 @@ export default function Index() {
                 <div className={`${styles['main']} flex-between`}>
                     <Information aboutMe={aboutMe} hobbies={hobbies} skills={skills}/>
                     <div className={styles['posts']}>
-                        {postsElements}
+                        { postsElements }
                         {newPostStatus
                             ? <div className={styles['posts__create']}>
                                 <textarea maxLength={300} ref={textareaPostRef}/>

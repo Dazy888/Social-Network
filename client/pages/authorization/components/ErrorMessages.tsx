@@ -1,9 +1,4 @@
-export type ErrorItemsComponent = {
-    error: string | undefined
-    serverError?: string
-    touched: boolean | undefined
-}
-
+import { ErrorItemsComponent } from "../types/authorization-types"
 export function ErrorMessages({ serverError, error, touched }: ErrorItemsComponent) {
     return(
         <div>

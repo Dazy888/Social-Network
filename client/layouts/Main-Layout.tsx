@@ -1,5 +1,6 @@
 import { useEffect } from "react"
 import { useRouter } from "next/router"
+import Image from "next/image"
 // Redux
 import {useDispatch, useSelector} from "react-redux"
 // React Query
@@ -24,38 +25,38 @@ export function MainLayout({ children }: any) {
 
     const { refetch:logout } = useQuery('logout', () => AuthService.logout(),
         {
-            onSuccess() {
+            async onSuccess() {
                 localStorage.removeItem('token')
                 dispatch(authActions.setAuthData(false))
-                router.push('/authorization/sign-in')
+                await router.push('/authorization/sign-in')
             },
             enabled: false
         }
     )
 
-    const { refetch } = useQuery('check auth', () => AuthService.refresh(),
+    const { refetch:refresh } = useQuery('check auth', () => AuthService.refresh(),
         {
              onSuccess(response: AxiosResponse<RefreshResponse>) {
                  const user = response.data.user
-                 localStorage.setItem('token', response.data.accessToken)
+                 localStorage.setItem('token', response.data.tokens.accessToken)
                  dispatch(authActions.setAuthData(user.isActivated))
                  dispatch(profileActions.setUser(user.name, user.location, user.banner, user.avatar, user.aboutMe, user.skills, user.hobbies, user.userId, response.data.posts, user.email))
                  dispatch(settingsActions.setEmail(user.email))
             },
-            onError() {
-                 router.push('/authorization/sign-in')
+            async onError() {
+                 await router.push('/authorization/sign-in')
             }
         })
 
     useEffect(() => {
-        (!localStorage.getItem('token')) ? router.push('/authorization/sign-in') : refetch()
+        (!localStorage.getItem('token')) ? router.push('/authorization/sign-in') : refresh()
     }, [])
 
     return(
         <div id={'app-wrapper'}>
             <div id={'header'} className={'flex-center'}>
                 <div className={'header__content flex-between'}>
-                    <img alt={'Logo'} className={'header__logo'} src={'https://user-images.githubusercontent.com/16946573/144957680-01ea405e-959b-46b1-a163-df688466ac23.png'}/>
+                    <Image alt={'Logo'} className={'header__logo'} src={'https://user-images.githubusercontent.com/16946573/144957680-01ea405e-959b-46b1-a163-df688466ac23.png'}/>
                     <nav>
                         <ul className={'flex-between'}>
                             <NavLink text={'Profile'} path={'/main/profile'} activeClass={'active-page'}/>
@@ -64,7 +65,7 @@ export function MainLayout({ children }: any) {
                         </ul>
                     </nav>
                     <div className={'header__logout flex-between'}>
-                        <img alt={'Avatar'} src={avatar} className={'header__avatar'}/>
+                        <Image alt={'Avatar'} src={avatar} className={'header__avatar'}/>
                         <button onClick={() => logout()}>Logout</button>
                     </div>
                 </div>

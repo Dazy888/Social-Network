@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import Head from "next/head"
 // Layout
 import { AuthorizationLayout } from "../../layouts/Authorization-Layout"
 // Navigation
@@ -14,30 +15,21 @@ import { AuthService } from "../../services/auth-service"
 // Types
 import { AxiosResponse } from "axios"
 import { AuthResponse } from "../../models/auth-response"
-import { LoginInterface } from "./types/login-types"
+import { AuthProps, LoginInterface } from "./types/authorization-types"
 // Store
 import { authActions } from "../../store/reducers/auth/auth-reducer"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
-// Next
-import Head from "next/head"
 // Components
 import { Input } from "./components/Input"
 import { LoginLoader } from "./components/Loader"
 // Styles
 import styles from '../../styles/Authorization.module.scss'
-
-export type AuthProps = {
-    userLogin: string
-    password: string
-}
-
 export function successfulEnter(router: any, dispatch: any, accessToken: string, isActivated: boolean) {
     localStorage.setItem('token', accessToken)
     dispatch(authActions.setAuthData(isActivated))
     router.push('/main/profile')
 }
-
 export default React.memo(function SignIn() {
     const router = useRouter()
     const dispatch = useDispatch()
@@ -51,14 +43,14 @@ export default React.memo(function SignIn() {
         {
             onSuccess(response: AxiosResponse<AuthResponse>) {
                 const data = response.data
-                successfulEnter(router, dispatch, data.accessToken, data.user.isActivated)
+                successfulEnter(router, dispatch, data.tokens.accessToken, data.user.isActivated)
             },
             onError(error: string) {
                 (/W/.test(error)) ? changePasswordError(error) : changeLoginError(error)
             }
         })
 
-    const {register, handleSubmit, formState: { errors, touchedFields }} = useForm<LoginInterface>({mode: 'onChange'})
+    const { register, handleSubmit, formState: { errors, touchedFields } } = useForm<LoginInterface>({mode: 'onChange'})
     const onSubmit: SubmitHandler<LoginInterface> = async (data) => {
         // const token = await reRef.current.executeAsync()
         // reRef.current.reset()

@@ -1,9 +1,11 @@
 import React, { useState } from "react"
+import Head from "next/head"
+import { useRouter } from "next/router"
 // Components
 import { LoginLoader } from "./components/Loader"
 import { Input } from "./components/Input"
 // Types
-import { LoginInterface } from "./types/login-types"
+import { AuthProps, LoginInterface } from "./types/authorization-types"
 import { AuthResponse } from "../../models/auth-response"
 import { AxiosResponse } from "axios"
 // Recaptcha
@@ -16,14 +18,12 @@ import { useDispatch } from "react-redux"
 import { AuthService } from "../../services/auth-service"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
-// Next
-import { useRouter } from "next/router"
 // Sign in
-import { AuthProps, successfulEnter } from "./sign-in"
+import { successfulEnter } from "./sign-in"
 // Styles
 import styles from '../../styles/Authorization.module.scss'
-import {AuthorizationLayout} from "../../layouts/Authorization-Layout";
-import Head from "next/head";
+// Layouts
+import { AuthorizationLayout } from "../../layouts/Authorization-Layout"
 
 export default React.memo(function SignUp() {
     const router = useRouter()
@@ -36,7 +36,7 @@ export default React.memo(function SignUp() {
         {
             onSuccess(response: AxiosResponse<AuthResponse>) {
                 const data = response.data
-                successfulEnter(router, dispatch, data.accessToken, data.user.isActivated)
+                successfulEnter(router, dispatch, data.tokens.accessToken, data.user.isActivated)
             },
             onError() {
                 changeLoginError('User with this login already exists')

@@ -11,8 +11,6 @@ import styles from '../../../styles/Users.module.scss'
 import {useMutation, useQuery} from "react-query"
 // Service
 import { UsersService } from "../../../services/users-service"
-// Types
-import { UserType } from "../../../models/users-response"
 // Components
 import { User } from "./components/User"
 import { Loader } from "./components/Loader"
@@ -20,9 +18,10 @@ import { Loader } from "./components/Loader"
 import { useSelector } from "react-redux"
 // Store
 import { getId } from "../../../store/reducers/profile/profile-selectors"
-
+// Types
+import { Users } from '../../../models/users-response'
 export default function Users() {
-    const [users, setUsers] = useState<UserType[]>([])
+    const [users, setUsers] = useState<Users[]>([])
     const [length, setLength] = useState<number>(0)
     const [skip, setSkip] = useState<number>(0)
 
@@ -62,26 +61,28 @@ export default function Users() {
                 <title>Users</title>
             </Head>
             <div>
-                {id ? <div>
-                    <ReactPaginate
-                        breakLabel={"..."}
-                        nextLabel={">"}
-                        onPageChange={handlePageClick}
-                        pageRangeDisplayed={5}
-                        pageCount={pageCount}
-                        previousLabel={"<"}
-                        renderOnZeroPageCount={undefined}
-                        containerClassName={'pagination flex-center'}
-                        pageLinkClassName={'page-num flex-center'}
-                        previousLinkClassName={'page-num flex-center paginator-btn left'}
-                        nextLinkClassName={'page-num flex-center paginator-btn right'}
-                        activeClassName={'active'}
-                        initialPage={Number(router.query.page) - 1}
-                    />
-                    <div className={`${styles['content']} users`}>
-                        {usersElem}
-                    </div>
-                </div> : <Loader/>}
+                {id
+                    ?   <div>
+                            <ReactPaginate
+                                breakLabel={"..."}
+                                nextLabel={">"}
+                                onPageChange={handlePageClick}
+                                pageRangeDisplayed={5}
+                                pageCount={pageCount}
+                                previousLabel={"<"}
+                                renderOnZeroPageCount={undefined}
+                                containerClassName={'pagination flex-center'}
+                                pageLinkClassName={'page-num flex-center'}
+                                previousLinkClassName={'page-num flex-center paginator-btn left'}
+                                nextLinkClassName={'page-num flex-center paginator-btn right'}
+                                activeClassName={'active'}
+                                initialPage={Number(router.query.page) - 1}
+                            />
+                            <div className={`${styles['content']} users`}>
+                                {usersElem}
+                            </div>
+                         </div>
+                    :   <Loader/>}
             </div>
         </MainLayout>
     )

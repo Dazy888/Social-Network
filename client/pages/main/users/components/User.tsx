@@ -1,6 +1,5 @@
 import styles from '../../../../styles/Users.module.scss'
-import {useRouter} from "next/router";
-import {useRef} from "react";
+import { useRouter } from "next/router"
 
 type PropsType = {
     avatar: string
@@ -10,8 +9,8 @@ type PropsType = {
 }
 export function User({id, name, avatar, location}: PropsType) {
     const router = useRouter()
-    function showProfile() {
-        router.push(`/main/profile/${id}`)
+    async function showProfile() {
+        await router.push(`/main/profile/${id}`)
     }
 
     return(

@@ -1,6 +1,5 @@
 import { useRouter } from "next/router"
 import styles from '../styles/Not-Found.module.scss'
-
 export default function NoContent() {
     const router = useRouter()
 

@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react"
+import React from "react"
 import Head from "next/head"
 // Layouts
 import { MainLayout } from "../../../layouts/Main-Layout"
@@ -13,7 +13,7 @@ import { InputFile } from "../profile/components/Input-File"
 import { SubmitHandler, useForm } from "react-hook-form"
 // Types
 import {AvatarInterface, BannerInterface, LocationInterface, NameInterface} from "./types/settings-types"
-import { ProfileInterface, TextProps } from "../profile/types/profile-types"
+import { TextProps } from "../profile/types/profile-types"
 // React Query
 import { useMutation } from "react-query"
 // Service
@@ -27,7 +27,7 @@ import { useDispatch, useSelector } from "react-redux"
 export default function Profile() {
     const dispatch = useDispatch()
 
-    const id: any = useSelector(getId)
+    const id = useSelector(getId)
     const currentName = useSelector(getName)
     const currentLocation = useSelector(getLocation)
     const currentAvatar = useSelector(getAvatar)
@@ -35,16 +35,16 @@ export default function Profile() {
 
     const { register:nameReg, handleSubmit:nameSub, formState: { errors:nameErr, touchedFields:nameTouched } } = useForm<NameInterface>({ mode: 'onChange' })
     const { register:locationReg, handleSubmit:locationSub, formState: { errors:locationErr, touchedFields:locationTouched } } = useForm<LocationInterface>({ mode: 'onChange' })
-    const { register:avatarReg, handleSubmit:avatarSub, formState: { errors:avatarErr, touchedFields:avatarTouched }, setValue:setAvatar, watch:watchAvatar } = useForm<AvatarInterface>({ mode: 'onChange' })
-    const { register:bannerReg, handleSubmit:bannerSub, formState: { errors:bannerErr, touchedFields:bannerTouched }, setValue:setBanner, watch:watchBanner } = useForm<BannerInterface>({ mode: 'onChange' })
+    const { register:avatarReg, handleSubmit:avatarSub, setValue:setAvatar, watch:watchAvatar } = useForm<AvatarInterface>({ mode: 'onChange' })
+    const { register:bannerReg, handleSubmit:bannerSub, setValue:setBanner, watch:watchBanner } = useForm<BannerInterface>({ mode: 'onChange' })
 
     const avatarValue = watchAvatar('avatar')
     const bannerValue = watchBanner('banner')
 
-    function changeTxt(selector: string, txt: string) {
+    function changeTxt(selector: string, txt: string, action: (text: string) => any) {
         const input: any = document.querySelector(selector)
         input.classList.add('success')
-        dispatch(profileActions.setName(txt))
+        dispatch(action(txt))
     }
 
     function changePhoto(selector: string, link: string, value: string) {
@@ -61,7 +61,7 @@ export default function Profile() {
     const { mutateAsync:changeName, isLoading } = useMutation('change name', (data: TextProps) => ProfileService.changeName(data.text, data.id),
         {
             onSuccess(response) {
-                changeTxt('input[name=name]', response.data)
+                changeTxt('input[name=name]', response.data, profileActions.setName)
             }
         }
     )
@@ -69,7 +69,7 @@ export default function Profile() {
     const { mutateAsync:changeLocation } = useMutation('change location', (data: TextProps) => ProfileService.changeLocation(data.text, data.id),
         {
             onSuccess(response) {
-                changeTxt('input[name=location]', response.data)
+                changeTxt('input[name=location]', response.data, profileActions.setLocation)
             }
         }
     )

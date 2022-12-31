@@ -1,4 +1,5 @@
 import React from "react"
+import Image from "next/image"
 // React Query
 import { useMutation } from "react-query"
 // Redux
@@ -14,7 +15,7 @@ type PropsType = {
     name: string
     date: number
     text: string
-    id: number
+    id: string
     userId: string
     forView?: boolean
 }
@@ -38,7 +39,7 @@ export default React.memo(function Post({ avatar, name, date, text, id, userId, 
     }
 
     type DeletePostProps = {
-        id: number
+        id: string
         userId: string
     }
 
@@ -54,15 +55,18 @@ export default React.memo(function Post({ avatar, name, date, text, id, userId, 
         <div className={styles['post']}>
             <div className={`${styles['post__header']} flex-between`}>
                 <div className={`${styles['post__user']} flex-between`}>
-                    <img alt={'avatar'} src={avatar}/>
+                    <Image alt={'avatar'} src={avatar}/>
                     <div className={styles['post__information']}>
                         <h3 className={styles['title']}>{name}</h3>
                         <p className={styles['text']}>{time}</p>
                     </div>
                 </div>
-                {!forView ? <button onClick={() => mutateAsync({id, userId})}>
-                    <i className="fa-solid fa-trash"></i>
-                </button> : null}
+                {!forView
+                    ?   <button onClick={() => mutateAsync({id, userId})}>
+                            <i className="fa-solid fa-trash"></i>
+                        </button>
+                    :   null
+                }
             </div>
             <p className={styles['post__text']}>{text}</p>
             <hr className={styles['line']}/>

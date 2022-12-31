@@ -18,3 +18,15 @@ export interface AvatarInterface {
 export interface BannerInterface {
     banner: any
 }
+export interface ChangePassProps {
+    pass: string
+    newPass: string
+    id: string
+}
+export interface ActivateProps {
+    email: string
+    id: string
+}
+export interface CancelActivationProps {
+    id: string
+}

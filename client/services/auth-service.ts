@@ -1,5 +1,5 @@
 import { $api, API_URL } from "../http"
-import {AxiosError, AxiosResponse} from "axios"
+import { AxiosResponse } from "axios"
 import { AuthResponse, RefreshResponse } from "../models/auth-response"
 
 export class AuthService {
@@ -10,7 +10,6 @@ export class AuthService {
                 throw err.response.data.message
             })
     }
-
     static login(userLogin: string, password: string, /*token: string*/): Promise<AxiosResponse> {
         return $api.post<AuthResponse>('auth/login', {userLogin, password, /*token*/})
             .then(res => res)
@@ -18,11 +17,9 @@ export class AuthService {
                 throw err.response.data.message
             })
     }
-
     static async logout(): Promise<void> {
         await $api.get('auth/logout')
     }
-
     static refresh(): Promise<AxiosResponse> {
         return $api.get<RefreshResponse>(`${API_URL}auth/refresh`, { withCredentials: true })
             .then(res => res)

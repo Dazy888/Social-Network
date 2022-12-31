@@ -16,7 +16,6 @@ import { AxiosResponse } from "axios"
 // Service
 import { ProfileService } from "../../../../services/profile-service"
 
-
 type PropsType = {
     aboutMe: string
     skills: string

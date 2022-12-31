@@ -1,13 +1,12 @@
 import { useState } from "react"
+import Head from "next/head"
 // Layouts
 import { SettingsLayout } from "../../../layouts/Settings-Layout"
 import { MainLayout } from "../../../layouts/Main-Layout"
-// Next
-import Head from "next/head"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
 // Types
-import { ChangePassInterface } from "./types/settings-types"
+import { ChangePassInterface, ChangePassProps } from "./types/settings-types"
 // Service
 import { SettingsService } from "../../../services/settings-service"
 // React Query
@@ -22,16 +21,11 @@ import { LoginLoader } from "../../authorization/components/Loader"
 import { SuccessMessage } from "./components/Success-Message"
 // Styles
 import styles from '../../../styles/Settings.module.scss'
-
-type ChangePassProps = {
-    pass: string
-    newPass: string
-    id: string
-}
 export default function ChangePass() {
     const [successMessage, changeSuccessMessage] = useState<string>('')
     const [confirmPassErr, changeConfirmPassErr] = useState<string>('')
     const [passErr, changePassErr] = useState<string>('')
+
     const id = useSelector(getId)
 
     const { mutateAsync, isLoading } = useMutation('change pass', (data: ChangePassProps) => SettingsService.changePass(data.pass, data.newPass, data.id),
@@ -46,7 +40,7 @@ export default function ChangePass() {
     )
 
     const passExp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/
-    const { register, handleSubmit, formState: { errors, touchedFields }, watch } = useForm<ChangePassInterface>({mode: 'onChange'})
+    const { register, handleSubmit, formState: { errors, touchedFields } } = useForm<ChangePassInterface>({mode: 'onChange'})
 
     const onSubmit: SubmitHandler<ChangePassInterface> = async (data) => {
         if (data.confirmPass !== data.newPass) changeConfirmPassErr(`Passwords don't match`)

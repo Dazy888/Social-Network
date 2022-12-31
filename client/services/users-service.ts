@@ -6,6 +6,7 @@ export const UsersService = {
     async getUsers(skip: number, id: string) {
         return $api.get<UsersResponse>(`users/${skip}/${id}`)
     },
+
     async getUser(id: string) {
         return $api.get<UserData>(`users/${id}`)
     }

@@ -75,8 +75,8 @@ export class AuthService {
         await this.saveToken(userDto.userId, tokens.refreshToken)
 
         return {
-            ...tokens,
-            user: {...userDto}
+            tokens,
+            user: userDto
         }
     }
 
@@ -95,7 +95,7 @@ export class AuthService {
         await this.saveToken(userDto.userId, tokens.refreshToken)
 
         return {
-            ...tokens,
+            tokens,
             user: userDto,
             posts
         }
@@ -120,7 +120,7 @@ export class AuthService {
         const tokens = this.generateTokens({...userDto})
 
         return {
-            ...tokens,
+            tokens,
             user: userDto,
             posts
         }

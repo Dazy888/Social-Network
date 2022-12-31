@@ -1,13 +1,15 @@
 import { PostType } from "../pages/main/profile/types/profile-types"
-
-export interface IUser {
+export interface AuthUser {
     email: string
     isActivated: boolean
 }
-export interface AuthResponse {
+export interface Tokens {
     accessToken: string
     refreshToken: string
-    user: IUser
+}
+export interface AuthResponse {
+    tokens: Tokens
+    user: AuthUser
 }
 
 export interface RefreshResponse {
@@ -26,7 +28,6 @@ export interface RefreshResponse {
         hobbies: string
         userId: string
     },
-    accessToken: string
-    refreshToken: string
+    tokens: Tokens
     posts: PostType[]
 }

@@ -16,7 +16,7 @@ let initialState = {
 }
 
 type InitialStateType = typeof initialState
-
+type Actions = InferActionsTypes<typeof profileActions>
 export const profileReducer = (state = initialState, action: Actions): InitialStateType => {
     switch (action.type) {
         case 'SN/profile/SET_USER':
@@ -73,9 +73,6 @@ export const profileReducer = (state = initialState, action: Actions): InitialSt
             return state;
     }
 }
-
-type Actions = InferActionsTypes<typeof profileActions>
-
 export const profileActions = {
     setUser: (name: string, location: string, banner: string, avatar: string, aboutMe: string, skills: string, hobbies: string, userId: string, posts: Array<PostType>, email: string) => ({type: 'SN/profile/SET_USER', payload: {name, location, banner, avatar, aboutMe, skills, hobbies, userId, posts, email}} as const),
     setName: (name: string) => ({type: 'SN/profile/SET_NAME', name} as const),

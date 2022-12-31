@@ -7,7 +7,6 @@ const override: CSSProperties = {
     margin: "400px auto",
     borderColor: "red"
 }
-
 export function Loader() {
     return(
         <div className={'users'}>

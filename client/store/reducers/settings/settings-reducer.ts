@@ -5,7 +5,7 @@ let initialState = {
 }
 
 type InitialStateType = typeof initialState
-
+type Actions = InferActionsTypes<typeof settingsActions>
 export const settingsReducer = (state = initialState, action: Actions): InitialStateType => {
     switch (action.type) {
         case 'SN/settings/ACTIVATE':
@@ -17,9 +17,6 @@ export const settingsReducer = (state = initialState, action: Actions): InitialS
             return state
     }
 }
-
-type Actions = InferActionsTypes<typeof settingsActions>
-
 export const settingsActions = {
     setEmail: (email: string) => ({type: 'SN/settings/ACTIVATE', email} as const),
 }

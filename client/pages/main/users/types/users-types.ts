@@ -1,6 +1,5 @@
 import { PostType } from "../../profile/types/profile-types"
-
-export type UserData = {
+export interface UserData {
     avatar: string
     banner: string
     name: string

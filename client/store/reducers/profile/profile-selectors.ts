@@ -1,5 +1,4 @@
 import { AppStateType } from "../../store"
-
 export const getBanner = (state: AppStateType) => state.profile.banner
 export const getAvatar = (state: AppStateType) => state.profile.avatar
 export const getName = (state: AppStateType) => state.profile.name

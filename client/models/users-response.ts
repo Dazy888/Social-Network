@@ -1,14 +1,10 @@
-export interface UserType {
+export interface Users {
     userId: string
     name: string
     location: string
     avatar: string
-    aboutMe: string
-    skills: string
-    hobbies: string
 }
-
 export interface UsersResponse {
-    users: UserType[],
+    users: Users[],
     length: number
 }

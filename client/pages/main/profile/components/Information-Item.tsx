@@ -6,7 +6,7 @@ type PropsType = {
     editStatus: boolean
     setEditStatus: (status: boolean) => void
     textId: string
-    id: number
+    id: string
     text: string
     title: string
     changeText: any
@@ -44,10 +44,12 @@ export default React.memo(function InformationItem({ text, changeText, id, textI
         <div className={styles['information__item']}>
             <div className={`${styles['information__title']} flex-between`}>
                 <h3>{title}</h3>
-                {!forView ?
-                    <button disabled={editStatus} onClick={e => editInfo(e, changeText, text, textId, setStatus, setEditStatus)}>
-                        <i className="fa-solid fa-pen"></i>
-                    </button> : null}
+                {!forView
+                    ?   <button disabled={editStatus} onClick={e => editInfo(e, changeText, text, textId, setStatus, setEditStatus)}>
+                            <i className="fa-solid fa-pen"></i>
+                        </button>
+                    :   null
+                }
             </div>
             {status ? <textarea ref={textareaRef} maxLength={100}/> : <p ref={textRef} className={styles['text']}>{text}</p>}
         </div>

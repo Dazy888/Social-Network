@@ -1,5 +1,4 @@
 import React, {useEffect, useMemo, useState} from "react"
-// Next
 import Head from "next/head"
 import { useRouter } from "next/router"
 // Layouts
@@ -24,7 +23,6 @@ export default React.memo(function UserProfile() {
 
     const { refetch } = useQuery('get user', () => UsersService.getUser(id), {
         onSuccess(res) {
-            // console.log(res)
             setUser(res.data)
         },
         enabled: false
