@@ -8,7 +8,7 @@ import ReactPaginate from "react-paginate"
 // Styles
 import styles from '../../../styles/Users.module.scss'
 // React Query
-import {useMutation, useQuery} from "react-query"
+import { useQuery } from "react-query"
 // Service
 import { UsersService } from "../../../services/users-service"
 // Components
@@ -19,9 +19,9 @@ import { useSelector } from "react-redux"
 // Store
 import { getId } from "../../../store/reducers/profile/profile-selectors"
 // Types
-import { Users } from '../../../models/users-response'
+import { UsersPreviewData } from '../../../models/users-response'
 export default function Users() {
-    const [users, setUsers] = useState<Users[]>([])
+    const [users, setUsers] = useState<UsersPreviewData[]>([])
     const [length, setLength] = useState<number>(0)
     const [skip, setSkip] = useState<number>(0)
 

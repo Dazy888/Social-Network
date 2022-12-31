@@ -1,6 +1,5 @@
 import { useRouter } from "next/router"
 import styles from "../../../../styles/Profile.module.scss"
-import Image from "next/image"
 
 type PropsType = {
     avatar: string
@@ -14,9 +13,9 @@ export function Header({ name, avatar, banner, location, forView = false }: Prop
 
     return(
         <div className={styles['header']}>
-            <Image alt={'Banner'} className={styles['header__banner']} src={banner}/>
+            <img alt={'Banner'} className={styles['header__banner']} src={banner}/>
             <div className={styles['header__user']}>
-                <Image alt={'Avatar'} className={styles['header__avatar']} src={avatar}/>
+                <img alt={'Avatar'} className={styles['header__avatar']} src={avatar}/>
                 <p className={styles['header__name']}>{name}</p>
                 <p className={styles['header__location']}>{location}</p>
             </div>

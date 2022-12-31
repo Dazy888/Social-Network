@@ -38,6 +38,7 @@ export function MainLayout({ children }: any) {
         {
              onSuccess(response: AxiosResponse<RefreshResponse>) {
                  const user = response.data.user
+                 console.log(user)
                  localStorage.setItem('token', response.data.tokens.accessToken)
                  dispatch(authActions.setAuthData(user.isActivated))
                  dispatch(profileActions.setUser(user.name, user.location, user.banner, user.avatar, user.aboutMe, user.skills, user.hobbies, user.userId, response.data.posts, user.email))
@@ -56,7 +57,7 @@ export function MainLayout({ children }: any) {
         <div id={'app-wrapper'}>
             <div id={'header'} className={'flex-center'}>
                 <div className={'header__content flex-between'}>
-                    <Image alt={'Logo'} className={'header__logo'} src={'https://user-images.githubusercontent.com/16946573/144957680-01ea405e-959b-46b1-a163-df688466ac23.png'}/>
+                    <img alt={'Logo'} className={'header__logo'} src={'https://user-images.githubusercontent.com/16946573/144957680-01ea405e-959b-46b1-a163-df688466ac23.png'}/>
                     <nav>
                         <ul className={'flex-between'}>
                             <NavLink text={'Profile'} path={'/main/profile'} activeClass={'active-page'}/>
@@ -65,7 +66,7 @@ export function MainLayout({ children }: any) {
                         </ul>
                     </nav>
                     <div className={'header__logout flex-between'}>
-                        <Image alt={'Avatar'} src={avatar} className={'header__avatar'}/>
+                        <img alt={'Avatar'} src={avatar} className={'header__avatar'}/>
                         <button onClick={() => logout()}>Logout</button>
                     </div>
                 </div>

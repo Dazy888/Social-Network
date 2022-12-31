@@ -42,5 +42,11 @@ export class User {
 
     @Prop()
     userId: string
+
+    @Prop()
+    followers: string[]
+
+    @Prop()
+    following: string[]
 }
 export const UserSchema = SchemaFactory.createForClass(User)

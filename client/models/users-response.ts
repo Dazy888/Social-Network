@@ -1,10 +1,10 @@
-export interface Users {
+export interface UsersPreviewData {
     userId: string
     name: string
     location: string
     avatar: string
 }
 export interface UsersResponse {
-    users: Users[],
+    users: UsersPreviewData[],
     length: number
 }

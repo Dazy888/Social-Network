@@ -10,6 +10,8 @@ export class UserDto {
     skills
     hobbies
     email
+    followers
+    following
     constructor(model) {
         this.userLogin = model.userLogin
         this.userId = model.userId
@@ -22,5 +24,7 @@ export class UserDto {
         this.skills = model.skills
         this.hobbies = model.hobbies
         this.email = model.email
+        this.followers = model.followers
+        this.following = model.following
     }
 }
