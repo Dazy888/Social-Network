@@ -2,6 +2,7 @@ import * as bcrypt from 'bcrypt'
 import * as jwt from "jsonwebtoken"
 import * as dotenv from "dotenv"
 import { Model } from "mongoose"
+import { uuid } from "uuidv4"
 // NestJS
 import { InjectModel } from "@nestjs/mongoose"
 import { Injectable } from "@nestjs/common"
@@ -11,7 +12,6 @@ import { Tokens, TokensDocument } from "./schema/tokens.schema"
 import { Posts, PostsDocument } from "./schema/posts.schema"
 // DTO
 import { UserDto } from "./dto/user.dto"
-import {uuid} from "uuidv4";
 
 dotenv.config()
 
@@ -19,17 +19,14 @@ type TokensType = {
     accessToken: string
     refreshToken: string
 }
-
 @Injectable()
 export class AuthService {
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>, @InjectModel(Tokens.name) private tokensModel: Model<TokensDocument>, @InjectModel(Posts.name) private postsModel: Model<PostsDocument>) {}
-
     generateTokens(payload): TokensType {
         const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {expiresIn: '30m'})
         const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {expiresIn: '30d'})
         return {accessToken, refreshToken}
     }
-
     validateRefreshToken(token: string) {
         try {
             return jwt.verify(token, process.env.JWT_REFRESH_SECRET)
@@ -37,7 +34,6 @@ export class AuthService {
             return null
         }
     }
-
     async saveToken(id: string, refreshToken: string) {
         const tokenData = await this.tokensModel.findOne({ user: id })
 
@@ -48,11 +44,9 @@ export class AuthService {
             await this.tokensModel.create({ user:id, refreshToken })
         }
     }
-
     async removeToken(refreshToken: string) {
         return this.tokensModel.deleteOne({refreshToken})
     }
-
     async findToken(refreshToken: string) {
         return this.tokensModel.findOne({refreshToken})
     }
@@ -61,7 +55,6 @@ export class AuthService {
     //     const response = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`)
     //     return !response.data.success
     // }
-
     async registration(login: string, password: string, /*token: string*/): Promise<any> {
         // if (await this.humanValidation(token)) return `Don't fool us bot`
         if (await this.userModel.findOne({userLogin: login})) return 'User with this login already exists'
@@ -79,7 +72,6 @@ export class AuthService {
             user: userDto
         }
     }
-
     async login(login: string, password: string, /*token: string*/): Promise<any> {
         // if (await this.humanValidation(token)) return `Don't fool us bot`
         const user = await this.userModel.findOne({userLogin: login})
@@ -100,11 +92,9 @@ export class AuthService {
             posts
         }
     }
-
     async logout(refreshToken: string): Promise<any> {
         return this.removeToken(refreshToken)
     }
-
     async refresh(refreshToken: string) {
         if (!refreshToken) return 'User is not authorized'
 

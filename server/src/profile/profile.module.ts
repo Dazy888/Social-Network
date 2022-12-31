@@ -8,7 +8,6 @@ import { ProfileController } from "./profile.controller"
 import { ProfileService } from "./profile.service"
 // Module
 import { MongooseModule } from "@nestjs/mongoose"
-
 @Module({
     imports: [MongooseModule.forFeature([{name: User.name, schema: UserSchema}, {name: Posts.name, schema: PostsSchema}]),],
     controllers: [ProfileController],

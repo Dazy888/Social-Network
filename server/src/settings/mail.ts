@@ -2,10 +2,8 @@ import * as nodemailer from "nodemailer"
 import * as dotenv from "dotenv"
 
 dotenv.config()
-
 class MailService {
     private transporter: any
-
     constructor() {
         this.transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
@@ -17,8 +15,6 @@ class MailService {
             }
         })
     }
-
-
     async sendActivationMail(to, link) {
         await this.transporter.sendMail({
             from: process.env.SMTP_USER,

@@ -1,17 +1,15 @@
 export class UserDto {
-    userLogin;
-    userId;
-    isActivated;
-    name;
-    location;
-    banner;
-    avatar;
-    aboutMe;
-    skills;
-    hobbies;
-    email;
-
-
+    userLogin
+    userId
+    isActivated
+    name
+    location
+    banner
+    avatar
+    aboutMe
+    skills
+    hobbies
+    email
     constructor(model) {
         this.userLogin = model.userLogin
         this.userId = model.userId

@@ -5,11 +5,9 @@ import { Model } from "mongoose"
 // Schema
 import { User, UserDocument } from "../auth/schema/user.schema"
 import { Posts, PostsDocument } from "../auth/schema/posts.schema"
-
 @Injectable()
 export class UsersService {
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>, @InjectModel(Posts.name) private postsModel: Model<PostsDocument>) {}
-
     async getUsers(skip: number, id: string) {
         const length = await this.userModel.count()
         const users = await this.userModel.find({userId: {$ne: id}}).skip(skip).limit(4)
@@ -22,7 +20,7 @@ export class UsersService {
         const user = await this.userModel.findOne({userId: id})
         const posts = await this.postsModel.find({user: id})
 
-        return{
+        return {
             avatar: user.avatar,
             banner: user.banner,
             name: user.name,

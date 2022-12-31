@@ -1,8 +1,8 @@
 export class PostDto {
-    id;
-    postId;
-    text;
-    date;
+    id
+    postId
+    text
+    date
 
     constructor(model) {
         this.id = model.id

@@ -12,7 +12,6 @@ import { AuthModule } from './auth/auth.module'
 import { ProfileModule } from './profile/profile.module'
 import { SettingsModule } from './settings/settings.module'
 import { UsersModule } from './users/users.module'
-
 @Module({
   imports: [
       MongooseModule.forRoot('mongodb+srv://David:28032006@nodejs.rgylxul.mongodb.net/social-network?retryWrites=true&w=majority'),
@@ -28,4 +27,5 @@ import { UsersModule } from './users/users.module'
   controllers: [AppController],
   providers: [AppService]
 })
+
 export class AppModule {}
