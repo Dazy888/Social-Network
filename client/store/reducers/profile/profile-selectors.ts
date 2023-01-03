@@ -8,4 +8,5 @@ export const getSkills = (state: AppStateType) => state.profile.skills
 export const getHobbies = (state: AppStateType) => state.profile.hobbies
 export const getId = (state: AppStateType) => state.profile.userId
 export const getPosts = (state: AppStateType) => state.profile.posts
-export const getSubscriptions = (state: AppStateType) => state.profile.subscriptions
+export const getFollowing = (state: AppStateType) => state.profile.following
+export const getFollowers = (state: AppStateType) => state.profile.followers

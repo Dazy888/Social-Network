@@ -8,6 +8,7 @@ import { User, UserDocument } from "../auth/schema/user.schema"
 import { Posts, PostsDocument } from "../auth/schema/posts.schema"
 // DTO
 import { PostDto } from "./dto/post.dto"
+import {uuid} from "uuidv4";
 @Injectable()
 export class ProfileService {
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>, @InjectModel(Posts.name) private postsModel: Model<PostsDocument>) {}
@@ -48,12 +49,15 @@ export class ProfileService {
         return text
     }
     async createPost(text: string, id: string) {
-        const randomNum: any = Math.floor(Math.random() * ((99999999999 - 1111111111) + 1111111111))
-        const postModel = await this.postsModel.create({text, date: new Date(), user: id, postId: randomNum})
+        const postModel = await this.postsModel.create({text, date: new Date(), user: id, postId: uuid()})
         return new PostDto(postModel)
     }
     async deletePost(postId: string, userId: string) {
         await this.postsModel.findOneAndDelete({postId: postId})
         return this.postsModel.find({user: userId})
+    }
+    async getAvatar(id: string) {
+        const user = await this.userModel.findOne({userId: id})
+        return user.avatar
     }
 }

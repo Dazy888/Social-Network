@@ -1,7 +1,7 @@
 import { InferActionsTypes } from '../../store'
 
 let initialState = {
-    email: '',
+    email: '' as string | null,
 }
 
 type InitialStateType = typeof initialState
@@ -18,5 +18,5 @@ export const settingsReducer = (state = initialState, action: Actions): InitialS
     }
 }
 export const settingsActions = {
-    setEmail: (email: string) => ({type: 'SN/settings/ACTIVATE', email} as const),
+    setEmail: (email: string | null) => ({type: 'SN/settings/ACTIVATE', email} as const),
 }

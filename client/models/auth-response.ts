@@ -14,11 +14,9 @@ export interface AuthResponse {
 
 export interface RefreshResponse {
     user: {
-        password: string
         userLogin: string
         isActivated: boolean
-        activationLink: string
-        email: string
+        email: string | null
         name: string
         location: string
         banner: string
@@ -27,6 +25,8 @@ export interface RefreshResponse {
         skills: string
         hobbies: string
         userId: string
+        followers: string[]
+        following: string[]
     },
     tokens: Tokens
     posts: PostType[]

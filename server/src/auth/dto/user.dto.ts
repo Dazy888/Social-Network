@@ -12,6 +12,7 @@ export class UserDto {
     email
     followers
     following
+    activationLink
     constructor(model) {
         this.userLogin = model.userLogin
         this.userId = model.userId
@@ -26,5 +27,6 @@ export class UserDto {
         this.email = model.email
         this.followers = model.followers
         this.following = model.following
+        this.activationLink = model.activationLink
     }
 }

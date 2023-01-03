@@ -1,6 +1,6 @@
 import { diskStorage } from "multer"
 // NestJS
-import { Body, Controller, Delete, Post, Put, Param, UseInterceptors, UploadedFiles } from '@nestjs/common'
+import {Body, Controller, Delete, Post, Put, Param, UseInterceptors, UploadedFiles, Get} from '@nestjs/common'
 import { FilesInterceptor } from "@nestjs/platform-express"
 // DTO
 import { ChangeTextDto } from "./dto/change-text.dto"
@@ -69,5 +69,9 @@ export class ProfileController {
     @Delete('post/:postId/:userId')
     async deletePost(@Param('userId') userId: string, @Param('postId') postId: string) {
         return this.profileService.deletePost(postId, userId)
+    }
+    @Get('avatar/:id')
+    async getAvatar(@Param('id') id: string) {
+        return this.profileService.getAvatar(id)
     }
 }

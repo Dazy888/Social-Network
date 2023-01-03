@@ -29,4 +29,7 @@ export class ProfileService {
     static async deletePost(id: string, userId: string): Promise<AxiosResponse> {
         return $api.delete(`profile/post/${id}/${userId}`)
     }
+    static async getAvatar(id: string): Promise<AxiosResponse> {
+        return $api.get(`profile/avatar/${id}`)
+    }
 }

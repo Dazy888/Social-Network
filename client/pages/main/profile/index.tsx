@@ -12,19 +12,34 @@ import { useDispatch, useSelector } from "react-redux"
 import { TextProps } from "./types/profile-types"
 import { AxiosResponse } from "axios"
 // React Query
-import { useMutation } from "react-query"
+import {useMutation, useQuery} from "react-query"
 // Store
-import { getAboutMe, getAvatar, getBanner, getHobbies, getId, getLocation, getName, getPosts, getSkills } from "../../../store/reducers/profile/profile-selectors"
+import {
+    getAboutMe,
+    getAvatar,
+    getBanner,
+    getFollowers, getFollowing,
+    getHobbies,
+    getId,
+    getLocation,
+    getName,
+    getPosts,
+    getSkills
+} from "../../../store/reducers/profile/profile-selectors"
 import { profileActions } from "../../../store/reducers/profile/profile-reducer"
 // Service
 import { ProfileService } from "../../../services/profile-service"
 // Styles
 import styles from '../../../styles/Profile.module.scss'
+import User from "./components/User";
+import {func} from "prop-types";
 
 export default function Index() {
     const dispatch = useDispatch()
     const textareaPostRef: any = useRef()
     const [newPostStatus, setNewPostStatus] = useState<boolean>(false)
+    const [currentUserId, setId] = useState<string>('')
+    const [currentUserAvatar, setAvatar] = useState<string>('')
 
     const id = useSelector(getId)
     const posts = useSelector(getPosts)
@@ -35,8 +50,18 @@ export default function Index() {
     const aboutMe = useSelector(getAboutMe)
     const skills = useSelector(getSkills)
     const hobbies = useSelector(getHobbies)
+    const followers = useSelector(getFollowers)
+    const following = useSelector(getFollowing)
 
     const postsElements = useMemo(() => [...posts].reverse().map((p, pos) => <Post key={pos} userId={id} id={p.postId} avatar={avatar} name={name} date={Math.abs(new Date().getTime() - new Date(p.date).getTime())} text={p.text}/>), [posts])
+
+    const followingUsers: any = useMemo(() => [...following].reverse().map(async (id, pos) => {
+        await getUser(id, pos)
+    }), [following])
+
+    const followersUsers: any = useMemo(() => [...followers].reverse().map(async (id, pos) => {
+        await getUser(id, pos)
+    }), [followers])
 
     const { mutateAsync:addPost } = useMutation('add post', (data: TextProps) => ProfileService.addPost(data.text, data.id),
         {
@@ -45,6 +70,14 @@ export default function Index() {
             }
         }
     )
+
+    async function getUser(id: string, key: number) {
+        setId(id)
+        await refetch
+        return <User key={key} avatar={currentUserAvatar}/>
+    }
+
+    const { refetch } = useQuery('get avatar', () => ProfileService.getAvatar(currentUserId), {enabled: false, onSuccess: (res) => setAvatar(res.data)})
 
     async function addNewPost(setStatus: (status: boolean) => void) {
         await addPost({text: textareaPostRef.current.value, id})
@@ -62,7 +95,7 @@ export default function Index() {
                     <Information aboutMe={aboutMe} hobbies={hobbies} skills={skills}/>
                     <div className={styles['posts']}>
                         { postsElements }
-                        {newPostStatus
+                        { newPostStatus
                             ? <div className={styles['posts__create']}>
                                 <textarea maxLength={300} ref={textareaPostRef}/>
                                 <div className={`${styles['buttons']} flex-between`}>
@@ -78,9 +111,15 @@ export default function Index() {
                             </div>
                         }
                     </div>
-                    <div className={styles['subscriptions']}>
-                        <h3 className={styles['title']}>Subscriptions 100</h3>
+                    <div className={styles['followers']}>
+                        <h3 className={styles['title']}>Followers {followers.length}</h3>
                         <hr/>
+                        {followersUsers}
+                    </div>
+                    <div className={styles['following']}>
+                        <h3 className={styles['title']}>Following {following.length}</h3>
+                        <hr/>
+                        {followingUsers}
                     </div>
                 </div>
             </div>
