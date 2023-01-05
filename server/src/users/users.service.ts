@@ -28,6 +28,8 @@ export class UsersService {
             aboutMe: user.aboutMe,
             skills: user.skills,
             hobbies: user.hobbies,
+            followers: user.followers,
+            following: user.following,
             posts: [...posts]
         }
     }

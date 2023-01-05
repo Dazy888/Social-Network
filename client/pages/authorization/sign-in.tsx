@@ -14,7 +14,7 @@ import { useMutation } from "react-query"
 import { AuthService } from "../../services/auth-service"
 // Types
 import { AxiosResponse } from "axios"
-import { AuthResponse } from "../../models/auth-response"
+import { AuthResponses } from "../../models/auth-responses"
 import { AuthProps, LoginInterface } from "./types/authorization-types"
 // Store
 import { authActions } from "../../store/reducers/auth/auth-reducer"
@@ -41,7 +41,7 @@ export default React.memo(function SignIn() {
 
     const { isLoading, mutateAsync } = useMutation('login', (data: AuthProps) => AuthService.login(data.userLogin, data.password, /*data.token*/),
         {
-            onSuccess(response: AxiosResponse<AuthResponse>) {
+            onSuccess(response: AxiosResponse<AuthResponses>) {
                 const data = response.data
                 successfulEnter(router, dispatch, data.tokens.accessToken, data.user.isActivated)
             },

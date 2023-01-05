@@ -4,7 +4,7 @@ export interface UsersPreviewData {
     location: string
     avatar: string
 }
-export interface UsersResponse {
+export interface UsersResponses {
     users: UsersPreviewData[],
     length: number
 }

@@ -19,7 +19,7 @@ import { useSelector } from "react-redux"
 // Store
 import { getId } from "../../../store/reducers/profile/profile-selectors"
 // Types
-import { UsersPreviewData } from '../../../models/users-response'
+import { UsersPreviewData } from '../../../models/users-responses'
 export default function Users() {
     const [users, setUsers] = useState<UsersPreviewData[]>([])
     const [length, setLength] = useState<number>(0)

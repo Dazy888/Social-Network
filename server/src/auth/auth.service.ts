@@ -2,7 +2,7 @@ import * as bcrypt from 'bcrypt'
 import * as jwt from "jsonwebtoken"
 import * as dotenv from "dotenv"
 import { Model } from "mongoose"
-import { uuid } from "uuidv4"
+import { v4 } from "uuid"
 // NestJS
 import { InjectModel } from "@nestjs/mongoose"
 import { Injectable } from "@nestjs/common"
@@ -60,8 +60,8 @@ export class AuthService {
         if (await this.userModel.findOne({userLogin: login})) return 'User with this login already exists'
 
         const hashPassword = await bcrypt.hash(password, 3)
-        const userId = Math.floor(Math.random() * 100)
-        const user = await this.userModel.create({userLogin: login, password: hashPassword, name: `User ${userId}`, location: 'Nowhere', banner: 'https://img.freepik.com/premium-vector/programming-code-made-with-binary-code-coding-hacker-background-digital-binary-data-streaming-digital-code_127544-778.jpg?w=2000', avatar: 'https://i.imgur.com/b08hxPY.png', aboutMe: 'This project was made by David Hutsenko', skills: 'This project was made by David Hutsenko', hobbies: 'This project was made by David Hutsenko', isActivated: false, userId: uuid(), email: null, followers: [], following: [], activationLink: null})
+        const userNumber = Math.floor(Math.random() * 100)
+        const user = await this.userModel.create({userLogin: login, password: hashPassword, name: `User ${userNumber}`, location: 'Nowhere', banner: 'https://img.freepik.com/premium-vector/programming-code-made-with-binary-code-coding-hacker-background-digital-binary-data-streaming-digital-code_127544-778.jpg?w=2000', avatar: 'https://i.imgur.com/b08hxPY.png', aboutMe: 'This project was made by David Hutsenko', skills: 'This project was made by David Hutsenko', hobbies: 'This project was made by David Hutsenko', isActivated: false, userId: v4(), email: null, followers: [], following: [], activationLink: null})
 
         const userDto = new UserDto(user)
         const tokens = this.generateTokens({...userDto})

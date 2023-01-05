@@ -9,3 +9,10 @@ export interface TextProps {
     text: string
     id: string
 }
+export interface SubscriptionProps {
+    authorizedUserId: string
+    openedUserId: string
+}
+export interface AvatarProps {
+    id: string
+}

@@ -7,5 +7,7 @@ export interface UserData {
     aboutMe: string
     skills: string
     hobbies: string
+    followers: string[],
+    following: string[],
     posts: PostType[]
 }

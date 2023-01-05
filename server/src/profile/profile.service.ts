@@ -1,5 +1,6 @@
 import { Model } from "mongoose"
 import * as fs from "fs"
+import { v4 } from "uuid"
 // NestJS
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from "@nestjs/mongoose"
@@ -8,7 +9,6 @@ import { User, UserDocument } from "../auth/schema/user.schema"
 import { Posts, PostsDocument } from "../auth/schema/posts.schema"
 // DTO
 import { PostDto } from "./dto/post.dto"
-import {uuid} from "uuidv4";
 @Injectable()
 export class ProfileService {
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>, @InjectModel(Posts.name) private postsModel: Model<PostsDocument>) {}
@@ -49,7 +49,7 @@ export class ProfileService {
         return text
     }
     async createPost(text: string, id: string) {
-        const postModel = await this.postsModel.create({text, date: new Date(), user: id, postId: uuid()})
+        const postModel = await this.postsModel.create({text, date: new Date(), user: id, postId: v4()})
         return new PostDto(postModel)
     }
     async deletePost(postId: string, userId: string) {
@@ -59,5 +59,30 @@ export class ProfileService {
     async getAvatar(id: string) {
         const user = await this.userModel.findOne({userId: id})
         return user.avatar
+    }
+    async getSubscriptions(id: string) {
+        const user = await this.userModel.findOne({userId: id})
+        return {
+            followers: user.followers,
+            following: user.following
+        }
+    }
+    async follow(authorizedUserId: string, openedUserId: string) {
+        const openedUser = await this.userModel.findOne({userId: openedUserId})
+        const initialUser = await this.userModel.findOne({userId: authorizedUserId})
+        await this.userModel.findOneAndUpdate({userId: openedUserId}, {followers: [...openedUser.followers, authorizedUserId]})
+        await this.userModel.findOneAndUpdate({userId: authorizedUserId}, {following: [...initialUser.following, openedUserId]})
+    }
+    async unfollow(authorizedUserId: string, openedUserId: string) {
+        const openedUser = await this.userModel.findOne({userId: openedUserId})
+        const authorizedUser = await this.userModel.findOne({userId: authorizedUserId})
+
+        const openedUserFollowers = openedUser.followers
+        const authorizedUserFollowing = authorizedUser.following
+        openedUserFollowers.splice(openedUserFollowers.indexOf(authorizedUserId), 1)
+        authorizedUserFollowing.splice(authorizedUserFollowing.indexOf(openedUserId), 1)
+
+        await this.userModel.findOneAndUpdate({userId: openedUserId}, {followers: openedUser.followers})
+        await this.userModel.findOneAndUpdate({userId: authorizedUserId}, {following: authorizedUser.following})
     }
 }

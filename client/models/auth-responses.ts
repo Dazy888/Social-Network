@@ -7,7 +7,7 @@ export interface Tokens {
     accessToken: string
     refreshToken: string
 }
-export interface AuthResponse {
+export interface AuthResponses {
     tokens: Tokens
     user: AuthUser
 }

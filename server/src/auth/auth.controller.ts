@@ -12,7 +12,7 @@ export class AuthController {
         const response = await this.authService.registration(userLogin, password, /*token*/)
         if (typeof response === "string") throw new BadRequestException(response)
 
-        res.cookie('refreshToken', response.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+        res.cookie('refreshToken', response.tokens.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
         return response
     }
     @Post('login')

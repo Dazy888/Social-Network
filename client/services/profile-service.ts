@@ -1,5 +1,6 @@
 import { $api } from "../http"
 import { AxiosResponse } from "axios"
+import { SubscriptionsResponse } from "../models/profile-responses"
 
 export class ProfileService {
     static changeName(name: string, id: string): Promise<AxiosResponse> {
@@ -30,6 +31,13 @@ export class ProfileService {
         return $api.delete(`profile/post/${id}/${userId}`)
     }
     static async getAvatar(id: string): Promise<AxiosResponse> {
+        console.log(id)
         return $api.get(`profile/avatar/${id}`)
+    }
+    static async follow(authorizedUserId: string, openedUserId: string) {
+        return $api.put(`profile/follow`, {authorizedUserId, openedUserId})
+    }
+    static async unfollow(authorizedUserId: string, openedUserId: string) {
+        return $api.put(`profile/unfollow`, {authorizedUserId, openedUserId})
     }
 }

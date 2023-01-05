@@ -66,6 +66,38 @@
       transform: translateY(-4px);
       background: rebeccapurple;
     }
+
+    .subscribe {
+      position: absolute;
+      right: 50px;
+      bottom: 50px;
+
+      button {
+        width: 80px;
+        height: 30px;
+        font-size: 14px;
+        line-height: 10px;
+        letter-spacing: 0.5px;
+        font-weight: 600;
+        border-radius: 5px;
+      }
+
+      .follow {
+        background: rgb(0, 149, 246);
+
+        &:hover {
+          background: rgb(24, 119, 242);
+        }
+      }
+
+      .unfollow {
+        background: #EFEFEF;
+
+        &:hover {
+          background: #DBDBDB;
+        }
+      }
+    }
   }
 
   .main {
@@ -222,9 +254,25 @@
       height: fit-content;
       background: rebeccapurple;
       border-radius: 10px;
+      padding: 10px;
 
-      h3 {
-        padding: 23px 25px 18px;
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        margin-bottom: 10px;
+      }
+
+      .followers, .following {
+        margin-bottom: 50px;
+        padding: 23px 25px 13px;
+
+        .content {
+          display: flex;
+          justify-content: space-between;
+          flex-wrap: wrap;
+        }
       }
     }
   }

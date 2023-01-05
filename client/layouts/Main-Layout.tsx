@@ -1,6 +1,5 @@
 import { useEffect } from "react"
 import { useRouter } from "next/router"
-import Image from "next/image"
 // Redux
 import {useDispatch, useSelector} from "react-redux"
 // React Query
@@ -8,7 +7,7 @@ import { useQuery } from "react-query"
 // Service
 import { AuthService } from "../services/auth-service"
 // Types
-import { RefreshResponse } from "../models/auth-response"
+import { RefreshResponse } from "../models/auth-responses"
 import { AxiosResponse } from "axios"
 // Store
 import { authActions } from "../store/reducers/auth/auth-reducer"
@@ -38,7 +37,6 @@ export function MainLayout({ children }: any) {
         {
              onSuccess(response: AxiosResponse<RefreshResponse>) {
                  const user = response.data.user
-                 console.log(user)
                  localStorage.setItem('token', response.data.tokens.accessToken)
                  dispatch(authActions.setAuthData(user.isActivated))
                  dispatch(profileActions.setUser(user.name, user.location, user.banner, user.avatar, user.aboutMe, user.skills, user.hobbies, user.userId, response.data.posts, user.email, user.followers, user.following))

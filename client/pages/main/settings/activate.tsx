@@ -17,7 +17,7 @@ import { SettingsService } from "../../../services/settings-service"
 // Types
 import { AxiosResponse } from "axios"
 import {ActivateInterface, ActivateProps, CancelActivationProps} from "./types/settings-types"
-import { SettingsResponse } from "../../../models/settings-response"
+import { SettingsResponses } from "../../../models/settings-responses"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
 // Components
@@ -36,7 +36,7 @@ export default function Activate() {
 
     const { isLoading, mutateAsync:activate } = useMutation('activate email', (data: ActivateProps) => SettingsService.activate(data.email, data.id),
         {
-            onSuccess(response: AxiosResponse<SettingsResponse>) {
+            onSuccess(response: AxiosResponse<SettingsResponses>) {
                 dispatch(settingsActions.setEmail(response.data.email))
             },
             onError(error: string) {

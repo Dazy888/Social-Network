@@ -5,6 +5,7 @@ import { FilesInterceptor } from "@nestjs/platform-express"
 // DTO
 import { ChangeTextDto } from "./dto/change-text.dto"
 import { ChangePhotoDto } from "./dto/change-photo.dto"
+import { SubscriptionDto } from "./dto/subscription.dto"
 // Service
 import { ProfileService } from "./profile.service"
 @Controller('profile')
@@ -73,5 +74,17 @@ export class ProfileController {
     @Get('avatar/:id')
     async getAvatar(@Param('id') id: string) {
         return this.profileService.getAvatar(id)
+    }
+    @Get('subscriptions/:id')
+    async getSubscriptions(@Param('id') id: string) {
+        return this.profileService.getSubscriptions(id)
+    }
+    @Put('follow')
+    async follow(@Body() data: SubscriptionDto) {
+        return this.profileService.follow(data.authorizedUserId, data.openedUserId)
+    }
+    @Put('unfollow')
+    async unfollow(@Body() data: SubscriptionDto) {
+        return this.profileService.unfollow(data.authorizedUserId, data.openedUserId)
     }
 }

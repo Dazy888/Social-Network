@@ -7,6 +7,7 @@ import {MainLayout} from "../../../layouts/Main-Layout"
 import { Header } from "./components/Header"
 import { Information } from "./components/Information"
 import Post from "./components/Post"
+import { Subscriptions } from "./components/Subscriptions"
 // React Query
 import { useQuery } from "react-query"
 // Types
@@ -15,13 +16,19 @@ import { UserData } from "../users/types/users-types"
 import { UsersService } from "../../../services/users-service"
 // Styles
 import styles from "../../../styles/Profile.module.scss"
-
+// Redux
+import { useSelector } from "react-redux"
+// Store
+import {getFollowers, getFollowing, getId} from "../../../store/reducers/profile/profile-selectors"
+import {User} from "./components/User";
 export default React.memo(function UserProfile() {
-    const [user, setUser] = useState<UserData>({banner: '', avatar: '', aboutMe: '', hobbies: '', name: '', location: '', skills: '', posts: []})
     const router = useRouter()
-    let id: any = router.query.userId
+    const [user, setUser] = useState<UserData>({banner: '', avatar: '', aboutMe: '', hobbies: '', name: '', location: '', skills: '', followers: [], following: [], posts: []})
 
-    const { refetch } = useQuery('get user', () => UsersService.getUser(id), {
+    const openedUserId: any = router.query.userId
+    const initialUserId = useSelector(getId)
+
+    const { refetch } = useQuery('get user', () => UsersService.getUser(openedUserId), {
         onSuccess(res) {
             setUser(res.data)
         },
@@ -29,12 +36,14 @@ export default React.memo(function UserProfile() {
     })
 
     useEffect(() => {
-        setTimeout(() => {
+        if (openedUserId) {
             refetch()
-        }, 100)
-    }, [])
+        }
+    }, [openedUserId])
 
-    const postsElements = useMemo(() => [...user.posts].reverse().map((p, pos) => <Post forView={true} key={pos} userId={id} id={p.postId} avatar={user.avatar} name={user.name} date={Math.abs(new Date().getTime() - new Date(p.date).getTime())} text={p.text}/>), [user.posts])
+    const postsElements = useMemo(() => [...user.posts].reverse().map((p, pos) => <Post forView={true} key={pos} userId={openedUserId} id={p.postId} avatar={user.avatar} name={user.name} date={Math.abs(new Date().getTime() - new Date(p.date).getTime())} text={p.text}/>), [user.posts])
+    const followingUsers: any = user.following.map((id, pos) => <User key={pos} id={id}/>)
+    const followersUsers: any = user.followers.map((id, pos) => <User key={pos} id={id}/>)
 
     return(
         <MainLayout>
@@ -42,16 +51,13 @@ export default React.memo(function UserProfile() {
                 <title>{user.name}</title>
             </Head>
             <div className={styles['profile']}>
-                <Header forView={true} avatar={user.avatar} banner={user.banner} location={user.location} name={user.name}/>
+                <Header setUser={setUser} user={user} followers={user.followers} openedUserId={openedUserId} subscribed={user.followers.includes(initialUserId)} forView={true} avatar={user.avatar} banner={user.banner} location={user.location} name={user.name}/>
                 <div className={`${styles['main']} flex-between`}>
                     <Information forView={true} aboutMe={user.aboutMe} hobbies={user.hobbies} skills={user.skills}/>
                     <div className={styles['posts']}>
                         {postsElements}
                     </div>
-                    <div className={styles['subscriptions']}>
-                        <h3 className={styles['title']}>Subscriptions 100</h3>
-                        <hr/>
-                    </div>
+                    <Subscriptions followers={followersUsers} following={followingUsers}/>
                 </div>
             </div>
         </MainLayout>

@@ -80,16 +80,6 @@ export const profileReducer = (state = initialState, action: Actions): InitialSt
                 ...state,
                 following: action.users
             }
-        case 'SN/profile/ADD_FOLLOWER':
-            return {
-                ...state,
-                followers: [...state.followers, action.user]
-            }
-        case 'SN/profile/REMOVE_FOLLOWER':
-            return {
-                ...state,
-                followers: action.users
-            }
         default:
             return state;
     }
@@ -107,6 +97,4 @@ export const profileActions = {
     deletePost: (posts: Array<PostType>) => ({ type: 'SN/profile/DELETE_POST', posts } as const),
     addFollowing: (user: string) => ({ type: 'SN/profile/ADD_FOLLOWING', user } as const),
     removeFollowing: (users: string[]) => ({ type: 'SN/profile/REMOVE_FOLLOWING', users } as const),
-    addFollower: (user: string) => ({ type: 'SN/profile/ADD_FOLLOWER', user } as const),
-    removeFollower: (users: string[]) => ({ type: 'SN/profile/REMOVE_FOLLOWER', users } as const)
 }
