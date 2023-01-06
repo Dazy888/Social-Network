@@ -1,6 +1,6 @@
 import { diskStorage } from "multer"
 // NestJS
-import {Body, Controller, Delete, Post, Put, Param, UseInterceptors, UploadedFiles, Get} from '@nestjs/common'
+import { Body, Controller, Delete, Post, Put, Param, UseInterceptors, UploadedFiles, Get } from '@nestjs/common'
 import { FilesInterceptor } from "@nestjs/platform-express"
 // DTO
 import { ChangeTextDto } from "./dto/change-text.dto"

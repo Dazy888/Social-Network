@@ -7,22 +7,19 @@ import { v4 } from "uuid"
 import { InjectModel } from "@nestjs/mongoose"
 import { Injectable } from "@nestjs/common"
 // Schemas
-import { User, UserDocument } from "./schema/user.schema"
-import { Tokens, TokensDocument } from "./schema/tokens.schema"
-import { Posts, PostsDocument } from "./schema/posts.schema"
+import { User, UserDocument } from "./schemas/user.schema"
+import { Tokens, TokensDocument } from "./schemas/tokens.schema"
+import { Posts, PostsDocument } from "./schemas/posts.schema"
 // DTO
 import { UserDto } from "./dto/user.dto"
+// Interfaces
+import { TokensResponse } from "./types/auth-types"
 
 dotenv.config()
-
-type TokensType = {
-    accessToken: string
-    refreshToken: string
-}
 @Injectable()
 export class AuthService {
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>, @InjectModel(Tokens.name) private tokensModel: Model<TokensDocument>, @InjectModel(Posts.name) private postsModel: Model<PostsDocument>) {}
-    generateTokens(payload): TokensType {
+    generateTokens(payload): TokensResponse {
         const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {expiresIn: '30m'})
         const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {expiresIn: '30d'})
         return {accessToken, refreshToken}

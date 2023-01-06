@@ -7,7 +7,6 @@ import { SendMailDto } from "./dto/send-mail.dto"
 // Services
 import { SettingsService } from "./settings.service"
 import MailService from "./mail"
-
 @Controller('settings')
 export class SettingsController {
     constructor(private readonly settingsService: SettingsService) {}
@@ -29,7 +28,6 @@ export class SettingsController {
             throw new BadRequestException(response)
         } else {
             await MailService.sendActivationMail(email, `${process.env.API_URL}/api/settings/activate/${link}`)
-
             return {
                 isActivated: true,
                 email

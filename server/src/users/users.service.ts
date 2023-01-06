@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common'
 import { InjectModel } from "@nestjs/mongoose"
 // Mongoose
 import { Model } from "mongoose"
-// Schema
-import { User, UserDocument } from "../auth/schema/user.schema"
-import { Posts, PostsDocument } from "../auth/schema/posts.schema"
+// Schemas
+import { User, UserDocument } from "../auth/schemas/user.schema"
+import { Posts, PostsDocument } from "../auth/schemas/posts.schema"
 @Injectable()
 export class UsersService {
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>, @InjectModel(Posts.name) private postsModel: Model<PostsDocument>) {}
@@ -19,7 +19,6 @@ export class UsersService {
     async getUser(id: string) {
         const user = await this.userModel.findOne({userId: id})
         const posts = await this.postsModel.find({user: id})
-
         return {
             avatar: user.avatar,
             banner: user.banner,

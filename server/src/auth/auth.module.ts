@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common'
 // Schemas
-import { User, UserSchema } from "./schema/user.schema"
-import { Tokens, TokensSchema } from "./schema/tokens.schema"
-import { Posts, PostsSchema } from "./schema/posts.schema"
+import { User, UserSchema } from "./schemas/user.schema"
+import { Tokens, TokensSchema } from "./schemas/tokens.schema"
+import { Posts, PostsSchema } from "./schemas/posts.schema"
 // Controllers
 import { AuthController } from "./auth.controller"
 // Services

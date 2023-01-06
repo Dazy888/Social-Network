@@ -1,5 +1,5 @@
 import { BadRequestException, Body, Controller, Post, Response, Request, Get } from '@nestjs/common'
-import { AuthorizationDto} from "./dto/authorization.dto"
+import { AuthorizationDto } from "./dto/authorization.dto"
 import { AuthService} from "./auth.service"
 
 @Controller('auth')
@@ -8,7 +8,6 @@ export class AuthController {
     @Post('registration')
     async registration(@Body() user: AuthorizationDto, @Response({ passthrough: true }) res): Promise<any> {
         const { userLogin, password, /*token*/ } = user
-
         const response = await this.authService.registration(userLogin, password, /*token*/)
         if (typeof response === "string") throw new BadRequestException(response)
 
@@ -18,7 +17,6 @@ export class AuthController {
     @Post('login')
     async login(@Body() user: AuthorizationDto, @Response({ passthrough: true }) res) {
         const { userLogin, password, /*token*/ } = user
-
         const response = await this.authService.login(userLogin, password, /*token*/)
         if (typeof response === "string") throw new BadRequestException(response)
 
@@ -34,7 +32,6 @@ export class AuthController {
     @Get('refresh')
     async refresh(@Request() req, @Response({ passthrough: true }) res) {
         const { refreshToken } = req.cookies
-
         const response = await this.authService.refresh(refreshToken)
         if (typeof response === "string") throw new BadRequestException(response)
 

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 // Schemas
-import { User, UserSchema } from "../auth/schema/user.schema"
-import { Posts, PostsSchema } from "../auth/schema/posts.schema"
+import { User, UserSchema } from "../auth/schemas/user.schema"
+import { Posts, PostsSchema } from "../auth/schemas/posts.schema"
 // Controller
 import { ProfileController } from "./profile.controller"
 // Service

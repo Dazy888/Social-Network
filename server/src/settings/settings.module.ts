@@ -4,7 +4,7 @@ import { SettingsController } from './settings.controller'
 // Service
 import { SettingsService } from './settings.service'
 // Schema
-import { User, UserSchema } from "../auth/schema/user.schema"
+import { User, UserSchema } from "../auth/schemas/user.schema"
 // Module
 import { MongooseModule } from "@nestjs/mongoose"
 @Module({

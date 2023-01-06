@@ -4,7 +4,7 @@ import { Model } from "mongoose"
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from "@nestjs/mongoose"
 // Schema
-import { User, UserDocument } from "../auth/schema/user.schema"
+import { User, UserDocument } from "../auth/schemas/user.schema"
 
 @Injectable()
 export class SettingsService {
@@ -16,9 +16,7 @@ export class SettingsService {
         return this.userModel.findOneAndUpdate({userId: id}, {password: await bcrypt.hash(newPass, 3)})
     }
     async sendMail(email: string, activationLink: string, id: string): Promise<any> {
-        const user = await this.userModel.findOne({email})
-
-        if (user) {
+        if (await this.userModel.findOne({email})) {
             return 'User with this e-mail already exists'
         } else {
             return this.userModel.findByIdAndUpdate({_id: id}, {email, activationLink})
@@ -28,9 +26,7 @@ export class SettingsService {
         await this.userModel.findOneAndUpdate({userId: id}, {email: ''})
     }
     async activate(activationLink: string): Promise<any> {
-        const user = await this.userModel.findOneAndUpdate({activationLink}, {isActivated: true})
-
-        if (!user) {
+        if (!await this.userModel.findOneAndUpdate({activationLink}, {isActivated: true})) {
             return 'Invalid activation link'
         } else {
             return

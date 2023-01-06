@@ -5,8 +5,8 @@ import { v4 } from "uuid"
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from "@nestjs/mongoose"
 // Schemas
-import { User, UserDocument } from "../auth/schema/user.schema"
-import { Posts, PostsDocument } from "../auth/schema/posts.schema"
+import { User, UserDocument } from "../auth/schemas/user.schema"
+import { Posts, PostsDocument } from "../auth/schemas/posts.schema"
 // DTO
 import { PostDto } from "./dto/post.dto"
 @Injectable()
@@ -69,9 +69,9 @@ export class ProfileService {
     }
     async follow(authorizedUserId: string, openedUserId: string) {
         const openedUser = await this.userModel.findOne({userId: openedUserId})
-        const initialUser = await this.userModel.findOne({userId: authorizedUserId})
+        const authorizedUser = await this.userModel.findOne({userId: authorizedUserId})
         await this.userModel.findOneAndUpdate({userId: openedUserId}, {followers: [...openedUser.followers, authorizedUserId]})
-        await this.userModel.findOneAndUpdate({userId: authorizedUserId}, {following: [...initialUser.following, openedUserId]})
+        await this.userModel.findOneAndUpdate({userId: authorizedUserId}, {following: [...authorizedUser.following, openedUserId]})
     }
     async unfollow(authorizedUserId: string, openedUserId: string) {
         const openedUser = await this.userModel.findOne({userId: openedUserId})
