@@ -14,9 +14,9 @@ import { settingsActions } from "../../../store/reducers/settings/settings-reduc
 import { useMutation } from "react-query"
 // Service
 import { SettingsService } from "../../../services/settings-service"
-// Types
+// Typification
 import { AxiosResponse } from "axios"
-import {ActivateInterface, ActivateProps, CancelActivationProps} from "./types/settings-types"
+import { ActivateInterface, ActivateProps, CancelActivationProps } from "./types/settings-types"
 import { SettingsResponses } from "../../../models/settings-responses"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"

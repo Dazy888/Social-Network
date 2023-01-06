@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app'
-// CSS
+// Styles
 import '../styles/index.scss'
 // React Query
 import { QueryClient, QueryClientProvider } from "react-query"

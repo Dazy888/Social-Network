@@ -1,39 +1,27 @@
 import Head from "next/head"
-import {useEffect, useMemo, useRef, useState} from "react"
+import { useMemo, useRef, useState } from "react"
 // Components
 import Post from "./components/Post"
 import { Header } from "./components/Header"
 import { Information } from "./components/Information"
 import { Subscriptions } from "./components/Subscriptions"
+import { User } from "./components/User"
 // Layout
 import { MainLayout } from "../../../layouts/Main-Layout"
 // Redux
 import { useDispatch, useSelector } from "react-redux"
-// Types
+// Typification
 import { TextProps } from "./types/profile-types"
 import { AxiosResponse } from "axios"
 // React Query
-import {useMutation, useQuery} from "react-query"
+import { useMutation } from "react-query"
 // Store
-import {
-    getAboutMe,
-    getAvatar,
-    getBanner,
-    getFollowers, getFollowing,
-    getHobbies,
-    getId,
-    getLocation,
-    getName,
-    getPosts,
-    getSkills
-} from "../../../store/reducers/profile/profile-selectors"
+import {getAboutMe, getAvatar, getBanner, getFollowers, getFollowing, getHobbies, getId, getLocation, getName, getPosts, getSkills } from "../../../store/reducers/profile/profile-selectors"
 import { profileActions } from "../../../store/reducers/profile/profile-reducer"
 // Service
 import { ProfileService } from "../../../services/profile-service"
 // Styles
 import styles from '../../../styles/Profile.module.scss'
-import {UsersService} from "../../../services/users-service";
-import {User} from "./components/User";
 export default function Index() {
     const dispatch = useDispatch()
     const textareaPostRef: any = useRef()

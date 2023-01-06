@@ -16,7 +16,7 @@ export function User({id, name, avatar, location}: PropsType) {
     return(
         <div onClick={() => showProfile()} id={id} className={`${styles['user']} flex-center`}>
             <div>
-                <img src={avatar}/>
+                <img alt={'Avatar'} src={avatar}/>
                 <h1>{name}</h1>
                 <p>{location}</p>
             </div>

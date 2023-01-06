@@ -3,16 +3,15 @@ import { useRouter } from "next/router"
 import styles from "../../../../styles/Profile.module.scss"
 // React Query
 import { useMutation } from "react-query"
-// Types
+// Typification
 import { SubscriptionProps } from "../types/profile-types"
-// Service
+import { UserData } from "../../users/types/users-types"
+// HTTP Service
 import { ProfileService } from "../../../../services/profile-service"
 // Redux
 import {useDispatch, useSelector} from "react-redux"
 // Store
-import {getFollowers, getId} from "../../../../store/reducers/profile/profile-selectors"
-import {profileActions} from "../../../../store/reducers/profile/profile-reducer";
-import {UserData} from "../../users/types/users-types";
+import { getId } from "../../../../store/reducers/profile/profile-selectors"
 
 type PropsType = {
     user?: UserData

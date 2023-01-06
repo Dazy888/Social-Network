@@ -12,7 +12,6 @@ type PropsType = {
     changeText: any
     forView?: boolean
 }
-
 export default React.memo(function InformationItem({ text, changeText, id, textId, setEditStatus, editStatus, title, forView }: PropsType) {
     const [status, setStatus] = useState<boolean>(false)
     const textareaRef: any = useRef()

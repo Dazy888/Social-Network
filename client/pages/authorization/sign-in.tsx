@@ -1,18 +1,16 @@
 import React, { useState } from "react"
 import Head from "next/head"
+import { useRouter } from "next/router"
+import { useDispatch } from "react-redux"
 // Layout
 import { AuthorizationLayout } from "../../layouts/Authorization-Layout"
-// Navigation
-import { useRouter } from "next/router"
-// Redux
-import { useDispatch } from "react-redux"
 // Captcha
 import ReCAPTCHA from "react-google-recaptcha"
 // React Query
 import { useMutation } from "react-query"
-// Service
+// HTTP Service
 import { AuthService } from "../../services/auth-service"
-// Types
+// Typification
 import { AxiosResponse } from "axios"
 import { AuthResponses } from "../../models/auth-responses"
 import { AuthProps, LoginInterface } from "./types/authorization-types"

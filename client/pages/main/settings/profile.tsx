@@ -11,8 +11,8 @@ import { LoginLoader } from "../../authorization/components/Loader"
 import { InputFile } from "../profile/components/Input-File"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
-// Types
-import {AvatarInterface, BannerInterface, LocationInterface, NameInterface} from "./types/settings-types"
+// Typification
+import { AvatarInterface, BannerInterface, LocationInterface, NameInterface } from "./types/settings-types"
 import { TextProps } from "../profile/types/profile-types"
 // React Query
 import { useMutation } from "react-query"
@@ -20,7 +20,7 @@ import { useMutation } from "react-query"
 import { ProfileService } from "../../../services/profile-service"
 // Store
 import { profileActions } from "../../../store/reducers/profile/profile-reducer"
-import {getAvatar, getBanner, getId, getLocation, getName} from "../../../store/reducers/profile/profile-selectors"
+import { getAvatar, getBanner, getId, getLocation, getName } from "../../../store/reducers/profile/profile-selectors"
 // Redux
 import { useDispatch, useSelector } from "react-redux"
 
@@ -77,7 +77,7 @@ export default function Profile() {
     const { mutateAsync:changeAvatar } = useMutation('change avatar', (data: FormData) => ProfileService.changeAvatar(data),
         {
             onSuccess(response) {
-                changePhoto('div[name=avatar]', response.data, 'avatar')
+                changePhoto('div[data-name=avatar]', response.data, 'avatar')
             }
         }
     )
@@ -85,7 +85,7 @@ export default function Profile() {
     const { mutateAsync:changeBanner } = useMutation('change banner', (data: FormData) => ProfileService.changeBanner(data),
         {
             onSuccess(response) {
-                changePhoto('div[name=banner]', response.data, 'banner')
+                changePhoto('div[data-name=banner]', response.data, 'banner')
             }
         }
     )

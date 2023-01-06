@@ -1,9 +1,7 @@
 import React from "react"
-import Image from "next/image"
+import { useDispatch } from "react-redux"
 // React Query
 import { useMutation } from "react-query"
-// Redux
-import { useDispatch } from "react-redux"
 // Store
 import { ProfileService } from "../../../../services/profile-service"
 import { profileActions } from "../../../../store/reducers/profile/profile-reducer"

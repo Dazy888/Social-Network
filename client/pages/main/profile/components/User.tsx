@@ -1,11 +1,16 @@
+import { useEffect, useState } from "react"
+import { useRouter } from "next/router"
+import { useSelector } from "react-redux"
+// Styles
 import styles from '../../../../styles/Profile.module.scss'
-import {useMutation, useQuery} from "react-query";
-import {ProfileService} from "../../../../services/profile-service";
-import {useEffect, useState} from "react";
-import {useRouter} from "next/router";
-import {useSelector} from "react-redux";
-import {getId} from "../../../../store/reducers/profile/profile-selectors";
-import {AvatarProps} from "../types/profile-types";
+// React Query
+import { useMutation } from "react-query"
+// HTTP Service
+import { ProfileService } from "../../../../services/profile-service"
+// Store
+import { getId } from "../../../../store/reducers/profile/profile-selectors"
+// Typification
+import { AvatarProps } from "../types/profile-types"
 
 type PropsType = {
     id: string
@@ -14,8 +19,6 @@ export function User({ id }: PropsType) {
     const router = useRouter()
     const initialUserId = useSelector(getId)
     const [avatar, setAvatar] = useState<string>('')
-
-    // console.log(id)
 
     const { mutateAsync} = useMutation('get avatar', (data: AvatarProps) => ProfileService.getAvatar(data.id), {onSuccess: (res) => setAvatar(res.data)})
 

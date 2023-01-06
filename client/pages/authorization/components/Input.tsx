@@ -18,7 +18,6 @@ type PropsType = {
     required?: boolean
     errorName?: string
 }
-
 export function Input({ className, error, touched, serverError, register, patternValue, maxLength, minLength, name, changeServerError, placeholder, type, required = true, errorName }: PropsType) {
     const inpRef: any = useRef()
     function changingServerError() {

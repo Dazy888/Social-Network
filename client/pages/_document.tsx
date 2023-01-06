@@ -1,5 +1,4 @@
 import Document, { Head, Html, Main, NextScript } from 'next/document'
-
 class MyDocument extends Document {
     render(): JSX.Element {
         return (
@@ -18,5 +17,4 @@ class MyDocument extends Document {
         )
     }
 }
-
 export default MyDocument

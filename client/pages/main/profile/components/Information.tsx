@@ -1,19 +1,18 @@
 import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 // Styles
 import styles from "../../../../styles/Profile.module.scss"
 // Components
 import InformationItem from "./Information-Item"
-// Redux
-import { useDispatch, useSelector } from "react-redux"
 // Store
 import { getId } from "../../../../store/reducers/profile/profile-selectors"
 import { profileActions } from "../../../../store/reducers/profile/profile-reducer"
 // React Query
 import { useMutation } from "react-query"
-// Types
+// Typification
 import { TextProps } from "../types/profile-types"
 import { AxiosResponse } from "axios"
-// Service
+// HTTP Service
 import { ProfileService } from "../../../../services/profile-service"
 
 type PropsType = {

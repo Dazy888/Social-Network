@@ -8,7 +8,6 @@ import styles from '../styles/Authorization.module.scss'
 import { useSelector } from "react-redux"
 // Store
 import { getAvatar } from "../store/reducers/profile/profile-selectors"
-
 export function AuthorizationLayout({ children }: any) {
     const router = useRouter()
     const actions: any = useRef()

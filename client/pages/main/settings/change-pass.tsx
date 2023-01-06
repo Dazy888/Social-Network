@@ -5,7 +5,7 @@ import { SettingsLayout } from "../../../layouts/Settings-Layout"
 import { MainLayout } from "../../../layouts/Main-Layout"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
-// Types
+// Typification
 import { ChangePassInterface, ChangePassProps } from "./types/settings-types"
 // Service
 import { SettingsService } from "../../../services/settings-service"

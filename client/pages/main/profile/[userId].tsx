@@ -8,9 +8,10 @@ import { Header } from "./components/Header"
 import { Information } from "./components/Information"
 import Post from "./components/Post"
 import { Subscriptions } from "./components/Subscriptions"
+import { User } from "./components/User"
 // React Query
 import { useQuery } from "react-query"
-// Types
+// Typification
 import { UserData } from "../users/types/users-types"
 // Service
 import { UsersService } from "../../../services/users-service"
@@ -19,8 +20,7 @@ import styles from "../../../styles/Profile.module.scss"
 // Redux
 import { useSelector } from "react-redux"
 // Store
-import {getFollowers, getFollowing, getId} from "../../../store/reducers/profile/profile-selectors"
-import {User} from "./components/User";
+import { getId } from "../../../store/reducers/profile/profile-selectors"
 export default React.memo(function UserProfile() {
     const router = useRouter()
     const [user, setUser] = useState<UserData>({banner: '', avatar: '', aboutMe: '', hobbies: '', name: '', location: '', skills: '', followers: [], following: [], posts: []})

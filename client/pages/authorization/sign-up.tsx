@@ -1,10 +1,11 @@
 import React, { useState } from "react"
 import Head from "next/head"
 import { useRouter } from "next/router"
+import { useDispatch } from "react-redux"
 // Components
 import { LoginLoader } from "./components/Loader"
 import { Input } from "./components/Input"
-// Types
+// Typification
 import { AuthProps, LoginInterface } from "./types/authorization-types"
 import { AuthResponses } from "../../models/auth-responses"
 import { AxiosResponse } from "axios"
@@ -12,9 +13,7 @@ import { AxiosResponse } from "axios"
 import ReCAPTCHA from "react-google-recaptcha"
 // React Query
 import { useMutation } from "react-query"
-// Redux
-import { useDispatch } from "react-redux"
-// Service
+// HTTP Service
 import { AuthService } from "../../services/auth-service"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
@@ -22,9 +21,8 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { successfulEnter } from "./sign-in"
 // Styles
 import styles from '../../styles/Authorization.module.scss'
-// Layouts
+// Layout
 import { AuthorizationLayout } from "../../layouts/Authorization-Layout"
-
 export default React.memo(function SignUp() {
     const router = useRouter()
     const dispatch = useDispatch()

@@ -18,7 +18,7 @@ import { Loader } from "./components/Loader"
 import { useSelector } from "react-redux"
 // Store
 import { getId } from "../../../store/reducers/profile/profile-selectors"
-// Types
+// Typification
 import { UsersPreviewData } from '../../../models/users-responses'
 export default function Users() {
     const [users, setUsers] = useState<UsersPreviewData[]>([])

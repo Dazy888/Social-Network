@@ -2,14 +2,12 @@ export interface LoginInterface {
     login: string
     password: string
 }
-
-export type ErrorItemsComponent = {
+export interface ErrorItemsComponent  {
     error: string | undefined
     serverError?: string
     touched: boolean | undefined
 }
-
-export type AuthProps = {
+export interface AuthProps {
     userLogin: string
     password: string
 }

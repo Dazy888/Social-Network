@@ -10,7 +10,6 @@ type PropsType = {
     iconClass?: string
     text?: string
 }
-
 export function NavLink({ path, activeClass, className, iconClass, text, thirdPath = '', secondPath = '' }: PropsType) {
     const router = useRouter()
 
