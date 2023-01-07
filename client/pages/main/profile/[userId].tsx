@@ -9,16 +9,15 @@ import { Information } from "./components/Information"
 import Post from "./components/Post"
 import { Subscriptions } from "./components/Subscriptions"
 import { User } from "./components/User"
+import { useSelector } from "react-redux"
 // React Query
 import { useQuery } from "react-query"
 // Typification
 import { UserData } from "../users/types/users-types"
-// Service
+// HTTP Service
 import { UsersService } from "../../../services/users-service"
 // Styles
 import styles from "../../../styles/Profile.module.scss"
-// Redux
-import { useSelector } from "react-redux"
 // Store
 import { getId } from "../../../store/reducers/profile/profile-selectors"
 export default React.memo(function UserProfile() {

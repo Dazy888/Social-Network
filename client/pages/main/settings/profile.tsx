@@ -1,5 +1,6 @@
 import React from "react"
 import Head from "next/head"
+import { useDispatch, useSelector } from "react-redux"
 // Layouts
 import { MainLayout } from "../../../layouts/Main-Layout"
 import { SettingsLayout } from "../../../layouts/Settings-Layout"
@@ -16,14 +17,11 @@ import { AvatarInterface, BannerInterface, LocationInterface, NameInterface } fr
 import { TextProps } from "../profile/types/profile-types"
 // React Query
 import { useMutation } from "react-query"
-// Service
+// HTTP Service
 import { ProfileService } from "../../../services/profile-service"
 // Store
 import { profileActions } from "../../../store/reducers/profile/profile-reducer"
 import { getAvatar, getBanner, getId, getLocation, getName } from "../../../store/reducers/profile/profile-selectors"
-// Redux
-import { useDispatch, useSelector } from "react-redux"
-
 export default function Profile() {
     const dispatch = useDispatch()
 

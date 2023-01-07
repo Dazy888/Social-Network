@@ -1,5 +1,6 @@
 import Head from "next/head"
 import { useMemo, useRef, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 // Components
 import Post from "./components/Post"
 import { Header } from "./components/Header"
@@ -8,8 +9,6 @@ import { Subscriptions } from "./components/Subscriptions"
 import { User } from "./components/User"
 // Layout
 import { MainLayout } from "../../../layouts/Main-Layout"
-// Redux
-import { useDispatch, useSelector } from "react-redux"
 // Typification
 import { TextProps } from "./types/profile-types"
 import { AxiosResponse } from "axios"
@@ -18,7 +17,7 @@ import { useMutation } from "react-query"
 // Store
 import {getAboutMe, getAvatar, getBanner, getFollowers, getFollowing, getHobbies, getId, getLocation, getName, getPosts, getSkills } from "../../../store/reducers/profile/profile-selectors"
 import { profileActions } from "../../../store/reducers/profile/profile-reducer"
-// Service
+// HTTP Service
 import { ProfileService } from "../../../services/profile-service"
 // Styles
 import styles from '../../../styles/Profile.module.scss'

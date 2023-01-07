@@ -1,10 +1,9 @@
 import React, { useState } from "react"
 import Head from "next/head"
+import { useDispatch, useSelector } from "react-redux"
 // Layouts
 import { MainLayout } from "../../../layouts/Main-Layout"
 import { SettingsLayout } from "../../../layouts/Settings-Layout"
-// Redux
-import { useDispatch, useSelector } from "react-redux"
 // Store
 import { getId } from "../../../store/reducers/profile/profile-selectors"
 import { getEmail } from "../../../store/reducers/settings/settings-selectors"
@@ -12,7 +11,7 @@ import { getActivatedStatus } from "../../../store/reducers/auth/auth-selectors"
 import { settingsActions } from "../../../store/reducers/settings/settings-reducer"
 // React Query
 import { useMutation } from "react-query"
-// Service
+// HTTP Service
 import { SettingsService } from "../../../services/settings-service"
 // Typification
 import { AxiosResponse } from "axios"

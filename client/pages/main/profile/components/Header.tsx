@@ -1,4 +1,5 @@
 import { useRouter } from "next/router"
+import {useDispatch, useSelector} from "react-redux"
 // Styles
 import styles from "../../../../styles/Profile.module.scss"
 // React Query
@@ -8,8 +9,6 @@ import { SubscriptionProps } from "../types/profile-types"
 import { UserData } from "../../users/types/users-types"
 // HTTP Service
 import { ProfileService } from "../../../../services/profile-service"
-// Redux
-import {useDispatch, useSelector} from "react-redux"
 // Store
 import { getId } from "../../../../store/reducers/profile/profile-selectors"
 

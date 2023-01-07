@@ -1,6 +1,7 @@
 import Head from "next/head"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 // Layout
 import { MainLayout } from "../../../layouts/Main-Layout"
 // Paginator
@@ -9,13 +10,11 @@ import ReactPaginate from "react-paginate"
 import styles from '../../../styles/Users.module.scss'
 // React Query
 import { useQuery } from "react-query"
-// Service
+// HTTP Service
 import { UsersService } from "../../../services/users-service"
 // Components
 import { User } from "./components/User"
 import { Loader } from "./components/Loader"
-// Redux
-import { useSelector } from "react-redux"
 // Store
 import { getId } from "../../../store/reducers/profile/profile-selectors"
 // Typification

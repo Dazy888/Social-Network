@@ -1,5 +1,6 @@
 import { useState } from "react"
 import Head from "next/head"
+import { useSelector } from "react-redux"
 // Layouts
 import { SettingsLayout } from "../../../layouts/Settings-Layout"
 import { MainLayout } from "../../../layouts/Main-Layout"
@@ -7,14 +8,12 @@ import { MainLayout } from "../../../layouts/Main-Layout"
 import { SubmitHandler, useForm } from "react-hook-form"
 // Typification
 import { ChangePassInterface, ChangePassProps } from "./types/settings-types"
-// Service
+// HTTP Service
 import { SettingsService } from "../../../services/settings-service"
 // React Query
 import { useMutation } from "react-query"
 // Store
 import { getId } from "../../../store/reducers/profile/profile-selectors"
-// Redux
-import { useSelector } from "react-redux"
 // Components
 import { Input } from "../../authorization/components/Input"
 import { LoginLoader } from "../../authorization/components/Loader"
