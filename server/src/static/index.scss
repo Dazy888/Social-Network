@@ -117,39 +117,9 @@
             }
           }
 
-          .show-login {
+          .show-content {
             padding: 30px 10px;
-            height: 1430px !important;
-          }
-
-          .show-registration {
-            padding: 30px 10px;
-            height: 1000px !important;
-          }
-
-          .show-very-big {
-            padding: 30px 10px;
-            height: 760px !important;
-          }
-
-          .show-big {
-            padding: 30px 10px;
-            height: 570px !important;
-          }
-
-          .show-medium {
-            padding: 30px 10px;
-            height: 470px !important;
-          }
-
-          .show-small {
-            padding: 30px 10px;
-            height: 400px !important;
-          }
-
-          .show-very-small {
-            padding: 30px 10px;
-            height: 310px !important;
+            height: fit-content !important;
           }
 
           .post-content {
@@ -171,7 +141,6 @@
           .request-content {
             height: 0;
             overflow: hidden;
-            transition: padding 0.1s, height 1s;
 
             .content-item {
               margin-bottom: 20px;

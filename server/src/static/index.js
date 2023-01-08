@@ -1,1 +1,18 @@
-"use strict";for(var buttons=document.querySelectorAll("button"),_loop_1=function(t){var e=t.closest("div").nextElementSibling;t.onclick=function(){return 0===e.getBoundingClientRect().height?e.classList.add("show"):e.classList.remove("show")}},_i=0,buttons_1=buttons;_i<buttons_1.length;_i++){var button=buttons_1[_i];_loop_1(button)}for(var requests=document.querySelectorAll(".request-header"),_loop_2=function(t){var e=t.nextElementSibling;t.onclick=function(){0===e.getBoundingClientRect().height&&e.hasAttribute("very-big")?e.classList.add("show-very-big"):e.classList.remove("show-very-big"),0===e.getBoundingClientRect().height&&e.hasAttribute("big")?e.classList.add("show-big"):e.classList.remove("show-big"),0===e.getBoundingClientRect().height&&e.hasAttribute("medium")?e.classList.add("show-medium"):e.classList.remove("show-medium"),0===e.getBoundingClientRect().height&&e.hasAttribute("small")?e.classList.add("show-small"):e.classList.remove("show-small"),0===e.getBoundingClientRect().height&&e.hasAttribute("very-small")?e.classList.add("show-very-small"):e.classList.remove("show-very-small"),0===e.getBoundingClientRect().height&&e.hasAttribute("registration")?e.classList.add("show-registration"):e.classList.remove("show-registration"),0===e.getBoundingClientRect().height&&e.hasAttribute("login")?e.classList.add("show-login"):e.classList.remove("show-login")}},_a=0,requests_1=requests;_a<requests_1.length;_a++){var request=requests_1[_a];_loop_2(request)}
+var buttons = document.querySelectorAll('button');
+var _loop_1 = function (button) {
+    var contentBlock = button.closest('div').nextElementSibling;
+    button.onclick = function () { return (contentBlock.getBoundingClientRect().height === 0) ? contentBlock.classList.add('show') : contentBlock.classList.remove('show'); };
+};
+for (var _i = 0, buttons_1 = buttons; _i < buttons_1.length; _i++) {
+    var button = buttons_1[_i];
+    _loop_1(button);
+}
+var requests = document.querySelectorAll('.request-header');
+var _loop_2 = function (request) {
+    var content = request.nextElementSibling;
+    request.onclick = function () { return (content.getBoundingClientRect().height === 0) ? content.classList.add('show-content') : content.classList.remove('show-content'); };
+};
+for (var _a = 0, requests_1 = requests; _a < requests_1.length; _a++) {
+    var request = requests_1[_a];
+    _loop_2(request);
+}

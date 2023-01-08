@@ -26,7 +26,7 @@
                                 <p>/api/auth/registration</p>
                             </div>
                         </div>
-                        <div registration class="request-content post-content">
+                        <div class="request-content post-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
                                 <p>http://localhost:5001/api/auth/registration</p>
@@ -59,8 +59,10 @@
                                 <h1 class="post-title">Response Body (<span class="success">success</span>)</h1>
                                 <p>
                                     {
-                                        accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
-                                        refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
+                                        tokens: {
+                                            accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
+                                            refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
+                                        },
                                         user: {
                                             userLogin: 'Polly'
                                             id: '635e25e2cef7d70adff6a10e'
@@ -71,6 +73,7 @@
                                             aboutMe: ""
                                             hobbies: ""
                                             skills: ""
+                                        }
                                     }
                                 </p>
                             </div>
@@ -89,7 +92,7 @@
                                 <p>/api/auth/login</p>
                             </div>
                         </div>
-                        <div login class="request-content post-content">
+                        <div class="request-content post-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
                                 <p>http://localhost:5001/api/auth/login</p>
@@ -145,18 +148,21 @@
                                 <h1 class="post-title">Response Body (<span class="success">success</span>)</h1>
                                 <p>
                                     {
-                                        accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
-                                        refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
+                                        tokens: {
+                                            accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
+                                            refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
+                                        },
                                         user: {
-                                        userLogin: 'Polly'
-                                        id: '635e25e2cef7d70adff6a10e'
-                                        avatar: "https://i.imgur.com/b08hxPY.png"
-                                        banner: 'https://img.freepik.com/premium-vector/programming…data-streaming-digital-code_127544-778.jpg?w=2000'
-                                        name: 'User 5'
-                                        location: 'Nowhere'
-                                        aboutMe: ""
-                                        hobbies: ""
-                                        skills: ""
+                                            userLogin: 'Polly'
+                                            id: '635e25e2cef7d70adff6a10e'
+                                            avatar: "https://i.imgur.com/b08hxPY.png"
+                                            banner: 'https://img.freepik.com/premium-vector/programming…data-streaming-digital-code_127544-778.jpg?w=2000'
+                                            name: 'User 5'
+                                            location: 'Nowhere'
+                                            aboutMe: ""
+                                            hobbies: ""
+                                            skills: ""
+                                        }
                                     }
                                 </p>
                             </div>
@@ -238,7 +244,7 @@
             </div>
             <div class="module">
                 <div class="module__header flex">
-                    <h2 class="module__title">Index</h2>
+                    <h2 class="module__title">Profile</h2>
                     <button class="module__btn">Show / Hide</button>
                 </div>
                 <div class="module__content">
@@ -251,7 +257,7 @@
                                 <p>/api/profile/name</p>
                             </div>
                         </div>
-                        <div very-big class="request-content put-content">
+                        <div class="request-content put-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
                                 <p>http://localhost:5001/api/profile/name</p>
@@ -298,7 +304,7 @@
                                 <p>/api/profile/location</p>
                             </div>
                         </div>
-                        <div medium class="request-content put-content">
+                        <div class="request-content put-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
                                 <p>http://localhost:5001/api/profile/location</p>
@@ -331,7 +337,7 @@
                                 <p>/api/profile/avatar</p>
                             </div>
                         </div>
-                        <div small class="request-content post-content">
+                        <div class="request-content post-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
                                 <p>http://localhost:5001/api/profile/avatar</p>
@@ -359,7 +365,7 @@
                                 <p>/api/profile/banner</p>
                             </div>
                         </div>
-                        <div small class="request-content post-content">
+                        <div class="request-content post-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
                                 <p>http://localhost:5001/api/profile/banner</p>
@@ -387,7 +393,7 @@
                                 <p>/api/profile/about-me</p>
                             </div>
                         </div>
-                        <div medium class="request-content put-content">
+                        <div class="request-content put-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
                                 <p>http://localhost:5001/api/profile/about-me</p>
@@ -420,7 +426,7 @@
                                 <p>/api/profile/hobbies</p>
                             </div>
                         </div>
-                        <div medium class="request-content put-content">
+                        <div class="request-content put-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
                                 <p>http://localhost:5001/api/profile/hobbies</p>
@@ -453,7 +459,7 @@
                                 <p>/api/profile/skills</p>
                             </div>
                         </div>
-                        <div medium class="request-content put-content">
+                        <div class="request-content put-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
                                 <p>http://localhost:5001/api/profile/skills</p>
@@ -486,7 +492,7 @@
                                 <p>/api/profile/post</p>
                             </div>
                         </div>
-                        <div big class="request-content post-content">
+                        <div class="request-content post-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
                                 <p>http://localhost:5001/api/profile/post</p>
@@ -525,7 +531,7 @@
                                 <p>/api/profile/post/{postId}/{userId}</p>
                             </div>
                         </div>
-                        <div medium class="request-content delete-content">
+                        <div class="request-content delete-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
                                 <p>http://localhost:5001/api/profile/post/{postId}/{userId}</p>
@@ -553,7 +559,7 @@
             </div>
             <div class="module">
                 <div class="module__header flex">
-                    <h2 class="module__title">Index</h2>
+                    <h2 class="module__title">Settings</h2>
                     <button class="module__btn">Show / Hide</button>
                 </div>
                 <div class="module__content">
@@ -566,7 +572,7 @@
                                 <p>/api/settings/password</p>
                             </div>
                         </div>
-                        <div very-big class="request-content put-content">
+                        <div class="request-content put-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
                                 <p>http://localhost:5001/api/settings/password</p>
@@ -614,7 +620,7 @@
                                 <p>/api/settings/mail</p>
                             </div>
                         </div>
-                        <div big class="request-content post-content">
+                        <div class="request-content post-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
                                 <p>http://localhost:5001/api/settings/mail</p>
@@ -652,7 +658,7 @@
                                 <p>/api/settings/cancel-activation/{id}</p>
                             </div>
                         </div>
-                        <div very-small class="request-content get-content">
+                        <div class="request-content get-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
                                 <p>http://localhost:5001/api/settings/cancel-activation/{id}</p>
@@ -676,7 +682,7 @@
                                 <p>/api/settings/activate/{link}</p>
                             </div>
                         </div>
-                        <div very-small class="request-content get-content">
+                        <div class="request-content get-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
                                 <p>http://localhost:5001/api/settings/activate/{link}</p>
@@ -699,12 +705,84 @@
                     <button class="module__btn">Show / Hide</button>
                 </div>
                 <div class="module__content">
-                    <div class="module__request flex">
-                        <div class="module__request-type">
-                            <h3></h3>
+                    <div class="module__request">
+                        <div class="request-header flex">
+                            <div class="request-type get">
+                                <h3>GET</h3>
+                            </div>
+                            <div class="request-url get-url">
+                                <p>/api/users/{skip}/{id}</p>
+                            </div>
                         </div>
-                        <div class="module__url">
-                            <p class="module__text"></p>
+                        <div class="request-content get-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/users/{skip}/{id}</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>
+                                    {
+                                        users: [
+                                            {
+                                                avatar: https://i.imgur.com/b08hxPY.png,
+                                                name: User 55,
+                                                location: Nowhere,
+                                                userId: c906e4b5-6106-4a9b-af7b-7d753dd7e205,
+                                            }
+                                        ],
+                                        length: 4
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module__request">
+                        <div class="request-header flex">
+                            <div class="request-type get">
+                                <h3>GET</h3>
+                            </div>
+                            <div class="request-url get-url">
+                                <p>/api/users/{id}</p>
+                            </div>
+                        </div>
+                        <div class="request-content get-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/users/{id}</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>
+                                    {
+                                        avatar: https://img.freepik.com/premium-vector/programming-code-made-with-binary-code-coding-hacker-background-digital-binary-data-streaming-digital-code_127544-778.jpg?w=2000,
+                                        banner: user.banner,
+                                        name: User 55,
+                                        location: Nowhere,
+                                        aboutMe: This project was made by David Hutsenko,
+                                        skills: This project was made by David Hutsenko,
+                                        hobbies: This project was made by David Hutsenko,
+                                        followers: [c906e4b5-6106-4a9b-af7b-7d753dd7e205, c906e4b5-6106-4a9b-af7b-7d753dd7e205, c906e4b5-6106-4a9b-af7b-7d753dd7e205],
+                                        following: [c906e4b5-6106-4a9b-af7b-7d753dd7e205, c906e4b5-6106-4a9b-af7b-7d753dd7e205, c906e4b5-6106-4a9b-af7b-7d753dd7e205],
+                                        posts: [
+                                            {
+                                                postId: 7336f8ed-681e-4fc4-8147-c2992147eba5,
+                                                user: c68c1d0c-080a-4f8d-9500-886c7ff0279f,
+                                                text: Hello it is my first post,
+                                                date: Sun Jan 08 2023 17:56:24 GMT+0200 (Восточная Европа, стандартное время),
+                                            }
+                                        ]
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
                         </div>
                     </div>
                 </div>
