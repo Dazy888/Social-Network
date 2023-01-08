@@ -60,13 +60,6 @@ export class ProfileService {
         const user = await this.userModel.findOne({userId: id})
         return user.avatar
     }
-    async getSubscriptions(id: string) {
-        const user = await this.userModel.findOne({userId: id})
-        return {
-            followers: user.followers,
-            following: user.following
-        }
-    }
     async follow(authorizedUserId: string, openedUserId: string) {
         const openedUser = await this.userModel.findOne({userId: openedUserId})
         const authorizedUser = await this.userModel.findOne({userId: authorizedUserId})

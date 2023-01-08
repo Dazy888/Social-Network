@@ -181,7 +181,7 @@
                                 <p>/api/auth/logout</p>
                             </div>
                         </div>
-                        <div small class="request-content get-content">
+                        <div class="request-content get-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
                                 <p>http://localhost:5001/api/auth/logout</p>
@@ -210,27 +210,46 @@
                                 <p>/api/auth/refresh</p>
                             </div>
                         </div>
-                        <div big class="request-content get-content">
+                        <div class="request-content get-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
                                 <p>http://localhost:5001/api/auth/refresh</p>
                             </div>
                             <div class="content-item">
+                                <h1 class="post-title">Response Body (<span>not authorized</span>)</h1>
+                                <p>User is not authorized</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code (<span>not authorized</span>)</h1>
+                                <p>400</p>
+                            </div>
+                            <div class="content-item">
                                 <h1 class="post-title">Response Body (<span class="success">success</span>)</h1>
                                 <p>
                                     {
-                                        accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
-                                        refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
+                                        tokens: {
+                                            accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz...",
+                                            refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
+                                        }
                                         user: {
-                                        userLogin: 'Polly'
-                                        id: '635e25e2cef7d70adff6a10e'
-                                        avatar: "https://i.imgur.com/b08hxPY.png"
-                                        banner: 'https://img.freepik.com/premium-vector/programming…data-streaming-digital-code_127544-778.jpg?w=2000'
-                                        name: 'User 5'
-                                        location: 'Nowhere'
-                                        aboutMe: ""
-                                        hobbies: ""
-                                        skills: ""
+                                            userLogin: 'Polly'
+                                            id: '635e25e2cef7d70adff6a10e'
+                                            avatar: "https://i.imgur.com/b08hxPY.png"
+                                            banner: 'https://img.freepik.com/premium-vector/programming…data-streaming-digital-code_127544-778.jpg?w=2000'
+                                            name: 'User 5'
+                                            location: 'Nowhere'
+                                            aboutMe: ""
+                                            hobbies: ""
+                                            skills: ""
+                                        },
+                                        posts: [
+                                            {
+                                                postId: 7336f8ed-681e-4fc4-8147-c2992147eba5,
+                                                user: c68c1d0c-080a-4f8d-9500-886c7ff0279f,
+                                                date: Sun Jan 08 2023 17:56:24 GMT+0200 (Восточная Европа, стандартное время),
+                                                text Hello it is my first post:
+                                            }
+                                        ]
                                     }
                                 </p>
                             </div>
@@ -548,6 +567,96 @@
                                         }
                                     ]
                                 </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module__request">
+                        <div class="request-header flex">
+                            <div class="request-type get">
+                                <h3>GET</h3>
+                            </div>
+                            <div class="request-url get-url">
+                                <p>/api/profile/avatar/{id}</p>
+                            </div>
+                        </div>
+                        <div class="request-content get-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/profile/avatar/{id}</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>https://i.imgur.com/b08hxPY.png"</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module__request">
+                        <div class="request-header flex">
+                            <div class="request-type put">
+                                <h3>Follow</h3>
+                            </div>
+                            <div class="request-url put-url">
+                                <p>/api/profile/follow</p>
+                            </div>
+                        </div>
+                        <div class="request-content put-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/profile/follow</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Request Body</h1>
+                                <p>
+                                    {
+                                        authorizedUserId: string
+                                        openedUserId: string
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>None</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module__request">
+                        <div class="request-header flex">
+                            <div class="request-type put">
+                                <h3>Unfollow</h3>
+                            </div>
+                            <div class="request-url put-url">
+                                <p>/api/profile/unfollow</p>
+                            </div>
+                        </div>
+                        <div class="request-content put-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/profile/unfollow</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Request Body</h1>
+                                <p>
+                                    {
+                                        authorizedUserId: string
+                                        openedUserId: string
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>None</p>
                             </div>
                             <div class="content-item">
                                 <h1 class="post-title">Response Code</h1>

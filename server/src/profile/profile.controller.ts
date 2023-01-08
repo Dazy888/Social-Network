@@ -75,10 +75,6 @@ export class ProfileController {
     async getAvatar(@Param('id') id: string) {
         return this.profileService.getAvatar(id)
     }
-    @Get('subscriptions/:id')
-    async getSubscriptions(@Param('id') id: string) {
-        return this.profileService.getSubscriptions(id)
-    }
     @Put('follow')
     async follow(@Body() data: SubscriptionDto) {
         return this.profileService.follow(data.authorizedUserId, data.openedUserId)

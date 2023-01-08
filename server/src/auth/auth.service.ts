@@ -13,25 +13,30 @@ import { Posts, PostsDocument } from "./schemas/posts.schema"
 // DTO
 import { UserDto } from "./dto/user.dto"
 // Interfaces
-import { TokensResponse } from "./types/auth-types"
+import {
+    FindTokenResponse,
+    RegistrationResponse,
+    ITokens,
+    ValidateRefreshTokenResponse, RefreshResponse
+} from "././interfaces/auth-interfaces"
 
 dotenv.config()
 @Injectable()
 export class AuthService {
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>, @InjectModel(Tokens.name) private tokensModel: Model<TokensDocument>, @InjectModel(Posts.name) private postsModel: Model<PostsDocument>) {}
-    generateTokens(payload): TokensResponse {
+    generateTokens(payload): ITokens {
         const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {expiresIn: '30m'})
         const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {expiresIn: '30d'})
         return {accessToken, refreshToken}
     }
-    validateRefreshToken(token: string) {
+    validateRefreshToken(token: string): ValidateRefreshTokenResponse {
         try {
             return jwt.verify(token, process.env.JWT_REFRESH_SECRET)
         } catch (e) {
             return null
         }
     }
-    async saveToken(id: string, refreshToken: string) {
+    async saveToken(id: string, refreshToken: string): Promise<void> {
         const tokenData = await this.tokensModel.findOne({ user: id })
 
         if (tokenData) {
@@ -41,10 +46,10 @@ export class AuthService {
             await this.tokensModel.create({ user:id, refreshToken })
         }
     }
-    async removeToken(refreshToken: string) {
+    async deleteToken(refreshToken: string) {
         return this.tokensModel.deleteOne({refreshToken})
     }
-    async findToken(refreshToken: string) {
+    async findToken(refreshToken: string): Promise<FindTokenResponse> {
         return this.tokensModel.findOne({refreshToken})
     }
 
@@ -52,7 +57,7 @@ export class AuthService {
     //     const response = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`)
     //     return !response.data.success
     // }
-    async registration(login: string, password: string, /*token: string*/): Promise<any> {
+    async registration(login: string, password: string, /*token: string*/): Promise<RegistrationResponse | string> {
         // if (await this.humanValidation(token)) return `Don't fool us bot`
         if (await this.userModel.findOne({userLogin: login})) return 'User with this login already exists'
 
@@ -89,12 +94,10 @@ export class AuthService {
             posts
         }
     }
-    async logout(refreshToken: string): Promise<any> {
-        return this.removeToken(refreshToken)
+    async logout(refreshToken: string) {
+        return this.deleteToken(refreshToken)
     }
-    async refresh(refreshToken: string) {
-        // console.log(refreshToken)
-
+    async refresh(refreshToken: string): Promise<RefreshResponse | string> {
         if (!refreshToken) return 'User is not authorized'
 
         const userData = this.validateRefreshToken(refreshToken)
