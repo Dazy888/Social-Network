@@ -6,6 +6,7 @@ import { useMutation } from "react-query"
 import { ProfileService } from "../../../../services/profile-service"
 import { profileActions } from "../../../../store/reducers/profile/profile-reducer"
 // Styles
+// @ts-ignore
 import styles from '../../../../styles/Profile.module.scss'
 
 type PropsType = {

@@ -20,6 +20,7 @@ import { profileActions } from "../../../store/reducers/profile/profile-reducer"
 // HTTP Service
 import { ProfileService } from "../../../services/profile-service"
 // Styles
+// @ts-ignore
 import styles from '../../../styles/Profile.module.scss'
 export default function Index() {
     const dispatch = useDispatch()
@@ -42,7 +43,7 @@ export default function Index() {
 
     const { mutateAsync:addPost } = useMutation('add post', (data: TextProps) => ProfileService.addPost(data.text, data.id),
         {
-            onSuccess(response: AxiosResponse) {
+            onSuccess(response) {
                 dispatch(profileActions.addNewPost(response.data))
             }
         }

@@ -13,12 +13,7 @@ import { Posts, PostsDocument } from "./schemas/posts.schema"
 // DTO
 import { UserDto } from "./dto/user.dto"
 // Interfaces
-import {
-    FindTokenResponse,
-    RegistrationResponse,
-    ITokens,
-    ValidateRefreshTokenResponse, RefreshResponse
-} from "././interfaces/auth-interfaces"
+import { FindTokenResponse, ITokens, ValidateRefreshTokenResponse, RefreshResponse, RegistrationResponse } from "./interfaces/auth-interfaces"
 
 dotenv.config()
 @Injectable()
@@ -74,7 +69,7 @@ export class AuthService {
             user: userDto
         }
     }
-    async login(login: string, password: string, /*token: string*/): Promise<any> {
+    async login(login: string, password: string, /*token: string*/): Promise<RefreshResponse | string> {
         // if (await this.humanValidation(token)) return `Don't fool us bot`
         const user = await this.userModel.findOne({userLogin: login})
         if (!user) return `User with this login doesn't exist`

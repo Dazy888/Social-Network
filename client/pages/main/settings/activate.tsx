@@ -14,15 +14,14 @@ import { useMutation } from "react-query"
 // HTTP Service
 import { SettingsService } from "../../../services/settings-service"
 // Typification
-import { AxiosResponse } from "axios"
 import { ActivateInterface, ActivateProps, CancelActivationProps } from "./types/settings-types"
-import { SettingsResponses } from "../../../models/settings-responses"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
 // Components
 import { LoginLoader } from "../../authorization/components/Loader"
 import { Input } from "../../authorization/components/Input"
 // Styles
+// @ts-ignore
 import styles from "../../../styles/Settings.module.scss"
 export default function Activate() {
     const [serverErr, changeServerErr] = useState<string>('')
@@ -35,8 +34,8 @@ export default function Activate() {
 
     const { isLoading, mutateAsync:activate } = useMutation('activate email', (data: ActivateProps) => SettingsService.activate(data.email, data.id),
         {
-            onSuccess(response: AxiosResponse<SettingsResponses>) {
-                dispatch(settingsActions.setEmail(response.data.email))
+            onSuccess(response) {
+                dispatch(settingsActions.setEmail(response.data))
             },
             onError(error: string) {
                 changeServerErr(error)

@@ -19,6 +19,7 @@ import { Input } from "../../authorization/components/Input"
 import { LoginLoader } from "../../authorization/components/Loader"
 import { SuccessMessage } from "./components/Success-Message"
 // Styles
+// @ts-ignore
 import styles from '../../../styles/Settings.module.scss'
 export default function ChangePass() {
     const [successMessage, changeSuccessMessage] = useState<string>('')

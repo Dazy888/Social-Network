@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { MainLayout } from "../../../layouts/Main-Layout"
 import { SettingsLayout } from "../../../layouts/Settings-Layout"
 // Styles
+// @ts-ignore
 import styles from '../../../styles/Settings.module.scss'
 // Components
 import { Input } from "../../authorization/components/Input"

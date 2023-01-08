@@ -7,8 +7,6 @@ import { LoginLoader } from "./components/Loader"
 import { Input } from "./components/Input"
 // Typification
 import { AuthProps, LoginInterface } from "./types/authorization-types"
-import { AuthResponses } from "../../models/auth-responses"
-import { AxiosResponse } from "axios"
 // Recaptcha
 import ReCAPTCHA from "react-google-recaptcha"
 // React Query
@@ -20,6 +18,7 @@ import { SubmitHandler, useForm } from "react-hook-form"
 // Sign in
 import { successfulEnter } from "./sign-in"
 // Styles
+// @ts-ignore
 import styles from '../../styles/Authorization.module.scss'
 // Layout
 import { AuthorizationLayout } from "../../layouts/Authorization-Layout"
@@ -32,7 +31,7 @@ export default React.memo(function SignUp() {
     const { isLoading, mutateAsync } = useMutation('registration',
         (data: AuthProps) => AuthService.registration(data.userLogin, data.password, /*data.token*/),
         {
-            onSuccess(response: AxiosResponse<AuthResponses>) {
+            onSuccess(response) {
                 const data = response.data
                 successfulEnter(router, dispatch, data.tokens.accessToken, data.user.isActivated)
             },

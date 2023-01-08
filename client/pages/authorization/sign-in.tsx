@@ -11,8 +11,6 @@ import { useMutation } from "react-query"
 // HTTP Service
 import { AuthService } from "../../services/auth-service"
 // Typification
-import { AxiosResponse } from "axios"
-import { AuthResponses } from "../../models/auth-responses"
 import { AuthProps, LoginInterface } from "./types/authorization-types"
 // Store
 import { authActions } from "../../store/reducers/auth/auth-reducer"
@@ -22,6 +20,7 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { Input } from "./components/Input"
 import { LoginLoader } from "./components/Loader"
 // Styles
+// @ts-ignore
 import styles from '../../styles/Authorization.module.scss'
 export function successfulEnter(router: any, dispatch: any, accessToken: string, isActivated: boolean) {
     localStorage.setItem('token', accessToken)
@@ -39,7 +38,7 @@ export default React.memo(function SignIn() {
 
     const { isLoading, mutateAsync } = useMutation('login', (data: AuthProps) => AuthService.login(data.userLogin, data.password, /*data.token*/),
         {
-            onSuccess(response: AxiosResponse<AuthResponses>) {
+            onSuccess(response) {
                 const data = response.data
                 successfulEnter(router, dispatch, data.tokens.accessToken, data.user.isActivated)
             },

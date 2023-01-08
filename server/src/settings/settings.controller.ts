@@ -28,10 +28,7 @@ export class SettingsController {
             throw new BadRequestException(response)
         } else {
             await MailService.sendActivationMail(email, `${process.env.API_URL}/api/settings/activate/${link}`)
-            return {
-                isActivated: true,
-                email
-            }
+            return email
         }
     }
     @Get('/cancel-activation/:id')

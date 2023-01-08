@@ -1,6 +1,7 @@
 import { useRouter } from "next/router"
 import {useDispatch, useSelector} from "react-redux"
 // Styles
+// @ts-ignore
 import styles from "../../../../styles/Profile.module.scss"
 // React Query
 import { useMutation } from "react-query"
@@ -26,14 +27,10 @@ type PropsType = {
 }
 export function Header({ user, name, avatar, banner, location, forView = false, subscribed = false, openedUserId = '', followers = [''], setUser }: PropsType) {
     const router = useRouter()
-    const dispatch = useDispatch()
-
     const id = useSelector(getId)
-    // const authorizedUserFollowers = useSelector(getFollowers)
 
     const { isLoading:isFollowing, mutateAsync:follow } = useMutation('follow', (data: SubscriptionProps) => ProfileService.follow(data.authorizedUserId, data.openedUserId), {
         onSuccess: () => {
-            // dispatch(profileActions.addFollowing(openedUserId))
             setUser({...user, followers: [...followers, id]})
         }
     })

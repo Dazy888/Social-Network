@@ -7,6 +7,7 @@ import { MainLayout } from "../../../layouts/Main-Layout"
 // Paginator
 import ReactPaginate from "react-paginate"
 // Styles
+// @ts-ignore
 import styles from '../../../styles/Users.module.scss'
 // React Query
 import { useQuery } from "react-query"
@@ -18,9 +19,11 @@ import { Loader } from "./components/Loader"
 // Store
 import { getId } from "../../../store/reducers/profile/profile-selectors"
 // Typification
-import { UsersPreviewData } from '../../../models/users-responses'
+import { UserPreviewData, UsersResponse } from "../../../models/users-responses"
+import { AxiosResponse } from "axios"
+// Typification
 export default function Users() {
-    const [users, setUsers] = useState<UsersPreviewData[]>([])
+    const [users, setUsers] = useState<UserPreviewData[]>([])
     const [length, setLength] = useState<number>(0)
     const [skip, setSkip] = useState<number>(0)
 
@@ -28,7 +31,7 @@ export default function Users() {
     const router = useRouter()
 
     const { refetch } = useQuery('get users', () => UsersService.getUsers(skip, id), {
-        onSuccess(res) {
+        onSuccess(res: AxiosResponse<UsersResponse>) {
             setLength(res.data.length)
             setUsers(res.data.users)
         },
@@ -36,10 +39,10 @@ export default function Users() {
     })
 
     useEffect(() => {
-        setTimeout(() => {
-            refetch()
+        setTimeout(async () => {
+            await refetch()
         }, 300)
-    }, [])
+    }, [refetch])
 
     const pageCount = Math.ceil(length / 4)
     const handlePageClick = async (event: any) => {

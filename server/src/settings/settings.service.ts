@@ -19,7 +19,7 @@ export class SettingsService {
         if (await this.userModel.findOne({email})) {
             return 'User with this e-mail already exists'
         } else {
-            return this.userModel.findByIdAndUpdate({_id: id}, {email, activationLink})
+            return this.userModel.findOneAndUpdate({userId: id}, {email, activationLink})
         }
     }
     async cancelActivation(id: string): Promise<any> {
