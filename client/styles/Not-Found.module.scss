@@ -1,6 +1,6 @@
 .content {
+    height: 100vh;
     background: black;
-    padding: 407px 0;
 
     .content-container {
         width: 600px;
@@ -41,6 +41,99 @@
 
         &:hover {
             transform: translateY(-20px);
+        }
+    }
+}
+
+@media (max-width: 650px) {
+    .content {
+        .content-container {
+            width: 500px;
+
+            h1 {
+                font-size: 40px;
+            }
+
+            p {
+                font-size: 20px;
+                line-height: 30px;
+            }
+        }
+
+        button {
+            width: 170px;
+            height: 40px;
+            font-size: 18px;
+        }
+    }
+}
+
+@media (max-width: 650px) {
+    .content {
+        .content-container {
+            width: 500px;
+
+            h1 {
+                font-size: 40px;
+            }
+
+            p {
+                font-size: 20px;
+                line-height: 30px;
+            }
+        }
+
+        button {
+            width: 170px;
+            height: 40px;
+            font-size: 18px;
+        }
+    }
+}
+
+@media (max-width: 550px) {
+    .content {
+        .content-container {
+            width: 400px;
+
+            h1 {
+                font-size: 35px;
+            }
+
+            p {
+                font-size: 18px;
+                line-height: 22px;
+            }
+        }
+
+        button {
+            width: 140px;
+            height: 35px;
+            font-size: 17px;
+        }
+    }
+}
+
+@media (max-width: 430px) {
+    .content {
+        .content-container {
+            width: 300px;
+
+            h1 {
+                font-size: 30px;
+            }
+
+            p {
+                font-size: 15px;
+                line-height: 20px;
+            }
+        }
+
+        button {
+            width: 130px;
+            height: 35px;
+            font-size: 15px;
+            margin: 40px auto;
         }
     }
 }
