@@ -5,7 +5,6 @@ import { Injectable } from '@nestjs/common'
 import { InjectModel } from "@nestjs/mongoose"
 // Schema
 import { User, UserDocument } from "../auth/schemas/user.schema"
-
 @Injectable()
 export class SettingsService {
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
@@ -19,7 +18,7 @@ export class SettingsService {
         if (await this.userModel.findOne({email})) {
             return 'User with this e-mail already exists'
         } else {
-            return this.userModel.findOneAndUpdate({userId: id}, {email, activationLink})
+            await this.userModel.findOneAndUpdate({userId: id}, {email, activationLink})
         }
     }
     async cancelActivation(id: string): Promise<any> {

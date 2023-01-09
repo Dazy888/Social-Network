@@ -24,9 +24,8 @@ import { Input } from "../../authorization/components/Input"
 // @ts-ignore
 import styles from "../../../styles/Settings.module.scss"
 const Activate = () => {
-    const [serverErr, changeServerErr] = useState<string>('')
-
     const dispatch = useDispatch()
+    const [serverErr, changeServerErr] = useState<string>('')
 
     const id = useSelector(getId)
     const email = useSelector(getEmail)
@@ -74,8 +73,10 @@ const Activate = () => {
                             :   <Input required={true} type={'text'} className={'big-input'} error={errors?.email?.message} touched={touchedFields.email} register={register} name={'email'} patternValue={/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/} minLength={10} maxLength={20} placeholder={'Your email'} serverError={serverErr} changeServerError={changeServerErr}/>
                         }
                         {isActivated ? <p className={styles['text']}>Your email is activated</p> : <button className={styles['submit']} type={'submit'} disabled={isLoading || !!email}>Activate</button>}
-                        <Loader color={'rgb(102, 51, 153)'} loading={isLoading}/>
                     </form>
+                    <div className={'email'}>
+                        <Loader color={'rgb(102, 51, 153)'} loading={isLoading}/>
+                    </div>
                     {isActivated ? null :
                         <div>
                             {!!email ? <p className={styles['text']}>The activation link was send on your email</p> : null}

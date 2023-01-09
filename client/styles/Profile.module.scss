@@ -250,7 +250,7 @@
     }
 
     .subscriptions {
-      width: 300px;
+      width: 310px;
       height: fit-content;
       background: rebeccapurple;
       border-radius: 10px;
@@ -261,7 +261,6 @@
         height: 40px;
         border-radius: 50%;
         cursor: pointer;
-        margin-bottom: 10px;
       }
 
       .followers, .following {
@@ -269,9 +268,9 @@
         padding: 23px 25px 13px;
 
         .content {
-          display: flex;
-          justify-content: space-between;
+          display: inline-flex;
           flex-wrap: wrap;
+          gap: 10px;
         }
       }
     }
