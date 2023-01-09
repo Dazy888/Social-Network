@@ -80,3 +80,144 @@
     }
   }
 }
+
+@media (max-width: 768px) {
+  .auth {
+    width: 450px;
+    height: 700px;
+
+    .auth__actions {
+      width: 80px;
+    }
+
+    .auth__content {
+      input {
+        width: 250px;
+        height: 18px;
+        display: block;
+        margin: auto auto 30px;
+      }
+
+      .content__checkbox {
+        .checkbox__input {
+          width: 18px;
+          height: 18px;
+        }
+      }
+
+      .auth__submit {
+        width: 288px;
+        height: 48px;
+      }
+    }
+  }
+}
+
+@media (max-width: 425px) {
+  .auth {
+    width: 350px;
+    height: 600px;
+
+    .auth__actions {
+      width: 60px;
+
+      a {
+        font-size: 17px;
+      }
+    }
+
+    .auth__content {
+      input {
+        width: 180px;
+        height: 10px;
+        margin: auto auto 25px;
+        font-size: 12px;
+      }
+
+      .content__checkbox {
+        font-size: 14px;
+
+        .checkbox__input {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      .auth__submit {
+        width: 218px;
+        height: 40px;
+        font-size: 15px;
+      }
+    }
+  }
+}
+
+@media (max-width: 375px) {
+  .auth {
+    width: 300px;
+    height: 550px;
+
+    .auth__actions {
+      width: 60px;
+
+      a {
+        font-size: 16px;
+      }
+    }
+
+    .auth__content {
+      input {
+        width: 160px;
+        height: 8px;
+      }
+
+      .content__checkbox {
+        font-size: 13px;
+
+        .checkbox__input {
+          width: 15px;
+          height: 15px;
+        }
+      }
+
+      .auth__submit {
+        width: 198px;
+        height: 38px;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+@media (max-width: 320px) {
+  .auth {
+    width: 250px;
+    height: 500px;
+
+    .auth__actions {
+      width: 50px;
+
+      a {
+        font-size: 15px;
+      }
+    }
+
+    .auth__content {
+      input {
+        width: 120px;
+        height: 5px;
+        font-size: 11px;
+      }
+
+      .content__checkbox {
+        font-size: 12px;
+      }
+
+      .auth__submit {
+        width: 158px;
+        height: 35px;
+        font-size: 13px;
+      }
+    }
+  }
+}

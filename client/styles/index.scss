@@ -276,3 +276,32 @@ a {
     bottom: 260px;
   }
 }
+
+@media (max-width: 425px) {
+  .error-container {
+    span {
+      font-size: 14px;
+      top: -20px;
+    }
+
+    i {
+      font-size: 17px;
+      right: 10px;
+      top: 16px;
+    }
+  }
+}
+
+@media (max-width: 325px) {
+  .error-container {
+    span {
+      font-size: 13px;
+      top: -20px;
+    }
+
+    i {
+      font-size: 15px;
+      top: 14px;
+    }
+  }
+}
