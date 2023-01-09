@@ -14,16 +14,16 @@ import { useMutation } from "react-query"
 // HTTP Service
 import { SettingsService } from "../../../services/settings-service"
 // Typification
-import { ActivateInterface, ActivateProps, CancelActivationProps } from "./types/settings-types"
+import { IActivate, ActivateProps, CancelActivationProps } from "./interfaces/interfaces"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
 // Components
-import { LoginLoader } from "../../authorization/components/Loader"
+import { Loader } from "../../authorization/components/Loader"
 import { Input } from "../../authorization/components/Input"
 // Styles
 // @ts-ignore
 import styles from "../../../styles/Settings.module.scss"
-export default function Activate() {
+const Activate = () => {
     const [serverErr, changeServerErr] = useState<string>('')
 
     const dispatch = useDispatch()
@@ -51,8 +51,8 @@ export default function Activate() {
         }
     )
 
-    const { register, handleSubmit, formState: { errors, touchedFields } } = useForm<ActivateInterface>()
-    const onSubmit: SubmitHandler<ActivateInterface> = async (data) => {
+    const { register, handleSubmit, formState: { errors, touchedFields } } = useForm<IActivate>()
+    const onSubmit: SubmitHandler<IActivate> = async (data) => {
         await activate({email: data.email, id})
     }
 
@@ -74,7 +74,7 @@ export default function Activate() {
                             :   <Input required={true} type={'text'} className={'big-input'} error={errors?.email?.message} touched={touchedFields.email} register={register} name={'email'} patternValue={/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/} minLength={10} maxLength={20} placeholder={'Your email'} serverError={serverErr} changeServerError={changeServerErr}/>
                         }
                         {isActivated ? <p className={styles['text']}>Your email is activated</p> : <button className={styles['submit']} type={'submit'} disabled={isLoading || !!email}>Activate</button>}
-                        <LoginLoader color={'rgb(102, 51, 153)'} loading={isLoading}/>
+                        <Loader color={'rgb(102, 51, 153)'} loading={isLoading}/>
                     </form>
                     {isActivated ? null :
                         <div>
@@ -86,3 +86,4 @@ export default function Activate() {
         </MainLayout>
     )
 }
+export default React.memo(Activate)

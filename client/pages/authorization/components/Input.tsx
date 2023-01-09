@@ -1,8 +1,7 @@
-import { useRef } from "react"
-import { ErrorMessages } from "./ErrorMessages"
-import { ErrorIcons } from "./ErrorIcons"
-
-type PropsType = {
+import React, { useRef } from "react"
+import { Messages } from "./ErrorMessages"
+import { Icons } from "./ErrorIcons"
+interface Props {
     error: string | undefined
     touched: boolean | undefined
     register: any
@@ -18,7 +17,7 @@ type PropsType = {
     required?: boolean
     errorName?: string
 }
-export function Input({ className, error, touched, serverError, register, patternValue, maxLength, minLength, name, changeServerError, placeholder, type, required = true, errorName }: PropsType) {
+const InputComponent: React.FC<Props> = ({ className, error, touched, serverError, register, patternValue, maxLength, minLength, name, changeServerError, placeholder, type, required = true, errorName }) => {
     const inpRef: any = useRef()
     function changingServerError() {
         const input: any = document.querySelector(`input[name=${name}]`)
@@ -28,7 +27,7 @@ export function Input({ className, error, touched, serverError, register, patter
 
     return(
         <div className={`error-container`}>
-            <ErrorMessages error={error} serverError={serverError} touched={touched}/>
+            <Messages error={error} serverError={serverError} touched={touched}/>
             <input ref={inpRef} minLength={minLength} maxLength={maxLength} onClick={changingServerError} className={`${error && touched || serverError ? `red-border ${className}` : `${className}`}`} type={type} placeholder={placeholder}  {...(register(name,
                 {
                     required: {
@@ -40,7 +39,8 @@ export function Input({ className, error, touched, serverError, register, patter
                         message: `Invalid ${errorName || name}`
                     }
                 }))}/>
-            <ErrorIcons error={error} serverError={serverError} touched={touched}/>
+            <Icons error={error} serverError={serverError} touched={touched}/>
         </div>
     )
 }
+export const Input = React.memo(InputComponent)

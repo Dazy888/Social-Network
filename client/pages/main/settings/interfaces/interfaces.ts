@@ -1,21 +1,21 @@
-export interface ActivateInterface {
+export interface IActivate {
     email: string
 }
-export interface ChangePassInterface {
+export interface IChangePass {
     pass: string
     newPass: string
     confirmPass: string
 }
-export interface NameInterface {
+export interface IName {
     name: string
 }
-export interface LocationInterface {
+export interface ILocation {
     location: string
 }
-export interface AvatarInterface {
+export interface IAvatar {
     avatar: any
 }
-export interface BannerInterface {
+export interface IBanner {
     banner: any
 }
 export interface ChangePassProps {

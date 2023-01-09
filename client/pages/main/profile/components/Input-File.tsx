@@ -1,15 +1,15 @@
-import { useRef } from "react"
+import React, { useRef } from "react"
 import { SetFieldValue } from "react-hook-form"
+// @ts-ignore
 import styles from '../../../../styles/Settings.module.scss'
-
-type PropsType = {
+interface Props {
     label: string
     name: string
     register: any
     setValue: SetFieldValue<any>
     currentValue: string
 }
-export function InputFile({ name, label, register, setValue, currentValue }: PropsType) {
+export const InputFileComponent: React.FC<Props> = ({ name, label, register, setValue, currentValue }) => {
     const circleRef: any = useRef()
 
     return(
@@ -23,3 +23,4 @@ export function InputFile({ name, label, register, setValue, currentValue }: Pro
         </div>
     )
 }
+export const InputFile = React.memo(InputFileComponent)

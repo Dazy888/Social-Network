@@ -9,13 +9,13 @@ import { SettingsLayout } from "../../../layouts/Settings-Layout"
 import styles from '../../../styles/Settings.module.scss'
 // Components
 import { Input } from "../../authorization/components/Input"
-import { LoginLoader } from "../../authorization/components/Loader"
+import { Loader } from "../../authorization/components/Loader"
 import { InputFile } from "../profile/components/Input-File"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
 // Typification
-import { AvatarInterface, BannerInterface, LocationInterface, NameInterface } from "./types/settings-types"
-import { TextProps } from "../profile/types/profile-types"
+import { IAvatar, IBanner, ILocation, IName } from "./interfaces/interfaces"
+import { TextProps } from "../profile/interfaces/interfaces"
 // React Query
 import { useMutation } from "react-query"
 // HTTP Service
@@ -23,7 +23,7 @@ import { ProfileService } from "../../../services/profile-service"
 // Store
 import { profileActions } from "../../../store/reducers/profile/profile-reducer"
 import { getAvatar, getBanner, getId, getLocation, getName } from "../../../store/reducers/profile/profile-selectors"
-export default function Profile() {
+const Profile = () => {
     const dispatch = useDispatch()
 
     const id = useSelector(getId)
@@ -32,10 +32,10 @@ export default function Profile() {
     const currentAvatar = useSelector(getAvatar)
     const currentBanner = useSelector(getBanner)
 
-    const { register:nameReg, handleSubmit:nameSub, formState: { errors:nameErr, touchedFields:nameTouched } } = useForm<NameInterface>({ mode: 'onChange' })
-    const { register:locationReg, handleSubmit:locationSub, formState: { errors:locationErr, touchedFields:locationTouched } } = useForm<LocationInterface>({ mode: 'onChange' })
-    const { register:avatarReg, handleSubmit:avatarSub, setValue:setAvatar, watch:watchAvatar } = useForm<AvatarInterface>({ mode: 'onChange' })
-    const { register:bannerReg, handleSubmit:bannerSub, setValue:setBanner, watch:watchBanner } = useForm<BannerInterface>({ mode: 'onChange' })
+    const { register:nameReg, handleSubmit:nameSub, formState: { errors:nameErr, touchedFields:nameTouched } } = useForm<IName>({ mode: 'onChange' })
+    const { register:locationReg, handleSubmit:locationSub, formState: { errors:locationErr, touchedFields:locationTouched } } = useForm<ILocation>({ mode: 'onChange' })
+    const { register:avatarReg, handleSubmit:avatarSub, setValue:setAvatar, watch:watchAvatar } = useForm<IAvatar>({ mode: 'onChange' })
+    const { register:bannerReg, handleSubmit:bannerSub, setValue:setBanner, watch:watchBanner } = useForm<IBanner>({ mode: 'onChange' })
 
     const avatarValue = watchAvatar('avatar')
     const bannerValue = watchBanner('banner')
@@ -88,18 +88,18 @@ export default function Profile() {
             }
         }
     )
-    const nameSubmit: SubmitHandler<NameInterface> = async (data) => {
+    const nameSubmit: SubmitHandler<IName> = async (data) => {
         if (data.name === currentName) return
         await changeName({text: data.name, id})
     }
-    const locationSubmit: SubmitHandler<LocationInterface> = async (data) => {
+    const locationSubmit: SubmitHandler<ILocation> = async (data) => {
         if (data.location === currentLocation) return
         await changeLocation({text: data.location, id})
     }
-    const avatarSubmit: SubmitHandler<AvatarInterface> = async (data) => {
+    const avatarSubmit: SubmitHandler<IAvatar> = async (data) => {
         await sendPhoto(avatarValue, currentAvatar, changeAvatar)
     }
-    const bannerSubmit: SubmitHandler<BannerInterface> = async (data) => {
+    const bannerSubmit: SubmitHandler<IBanner> = async (data) => {
         await sendPhoto(bannerValue, currentBanner, changeBanner)
     }
     async function sendPhoto (photo: File, currentPhoto: string, changePhoto: (data: FormData) => void) {
@@ -140,10 +140,11 @@ export default function Profile() {
                                 <button className={styles['btn']}>Change banner</button>
                             </form>
                         </div>
-                        <LoginLoader color={'rebeccapurple'} loading={isLoading}/>
+                        <Loader color={'rebeccapurple'} loading={isLoading}/>
                     </div>
                 </div>
             </SettingsLayout>
         </MainLayout>
     )
 }
+export default React.memo(Profile)

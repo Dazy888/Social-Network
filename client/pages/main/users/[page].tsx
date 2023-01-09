@@ -1,6 +1,6 @@
 import Head from "next/head"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 // Layout
 import { MainLayout } from "../../../layouts/Main-Layout"
@@ -14,7 +14,7 @@ import { useQuery } from "react-query"
 // HTTP Service
 import { UsersService } from "../../../services/users-service"
 // Components
-import { User } from "./components/User"
+import { UserPreview } from "./components/User"
 import { Loader } from "./components/Loader"
 // Store
 import { getId } from "../../../store/reducers/profile/profile-selectors"
@@ -22,7 +22,7 @@ import { getId } from "../../../store/reducers/profile/profile-selectors"
 import { UserPreviewData, UsersResponse } from "../../../models/users-responses"
 import { AxiosResponse } from "axios"
 // Typification
-export default function Users() {
+const Users = () => {
     const [users, setUsers] = useState<UserPreviewData[]>([])
     const [length, setLength] = useState<number>(0)
     const [skip, setSkip] = useState<number>(0)
@@ -53,7 +53,7 @@ export default function Users() {
 
     const usersElem = users.map((user, pos) => {
         if (user.userId !== id) {
-            return <User location={user.location} avatar={user.avatar} name={user.name} id={user.userId} key={pos}/>
+            return <UserPreview location={user.location} avatar={user.avatar} name={user.name} id={user.userId} key={pos}/>
         }
     })
 
@@ -89,3 +89,4 @@ export default function Users() {
         </MainLayout>
     )
 }
+export default React.memo(Users)

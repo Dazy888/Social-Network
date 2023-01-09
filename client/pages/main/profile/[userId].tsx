@@ -6,14 +6,14 @@ import { MainLayout } from "../../../layouts/Main-Layout"
 // Components
 import { Header } from "./components/Header"
 import { Information } from "./components/Information"
-import Post from "./components/Post"
 import { Subscriptions } from "./components/Subscriptions"
 import { User } from "./components/User"
 import { useSelector } from "react-redux"
+import {editInfo, getPostsElements} from "./index"
 // React Query
 import { useQuery } from "react-query"
 // Typification
-import { UserData } from "../users/types/users-types"
+import { UserData } from "../users/interfaces/interfaces"
 import { AxiosResponse } from "axios"
 // HTTP Service
 import { UsersService } from "../../../services/users-service"
@@ -22,7 +22,7 @@ import { UsersService } from "../../../services/users-service"
 import styles from "../../../styles/Profile.module.scss"
 // Store
 import { getId } from "../../../store/reducers/profile/profile-selectors"
-export default React.memo(function UserProfile() {
+const UserProfile = () => {
     const router = useRouter()
     const [user, setUser] = useState<UserData>({banner: '', avatar: '', aboutMe: '', hobbies: '', name: '', location: '', skills: '', followers: [], following: [], posts: []})
 
@@ -40,7 +40,7 @@ export default React.memo(function UserProfile() {
         if (openedUserId) refetch()
     }, [openedUserId, refetch])
 
-    const postsElements = useMemo(() => user.posts.reverse().map((p, pos) => <Post forView={true} key={pos} userId={openedUserId} id={p.postId} avatar={user.avatar} name={user.name} date={Math.abs(new Date().getTime() - new Date(p.date).getTime())} text={p.text}/>), [openedUserId, user.avatar, user.name, user.posts])
+    const postsElements = getPostsElements(user.posts, '', user.avatar, user.name, true)
     const followingUsers: any = user.following.map((id, pos) => <User key={pos} id={id}/>)
     const followersUsers: any = user.followers.map((id, pos) => <User key={pos} id={id}/>)
 
@@ -50,9 +50,9 @@ export default React.memo(function UserProfile() {
                 <title>{user.name}</title>
             </Head>
             <div className={styles['profile']}>
-                <Header setUser={setUser} user={user} followers={user.followers} openedUserId={openedUserId} subscribed={user.followers.includes(initialUserId)} forView={true} avatar={user.avatar} banner={user.banner} location={user.location} name={user.name}/>
+                <Header id={initialUserId} setUser={setUser} user={user} followers={user.followers} openedUserId={openedUserId} subscribed={user.followers.includes(initialUserId)} forView={true} avatar={user.avatar} banner={user.banner} location={user.location} name={user.name}/>
                 <div className={`${styles['main']} flex-between`}>
-                    <Information forView={true} aboutMe={user.aboutMe} hobbies={user.hobbies} skills={user.skills}/>
+                    <Information editInfo={editInfo} forView={true} aboutMe={user.aboutMe} hobbies={user.hobbies} skills={user.skills}/>
                     <div className={styles['posts']}>
                         {postsElements}
                     </div>
@@ -61,4 +61,5 @@ export default React.memo(function UserProfile() {
             </div>
         </MainLayout>
     )
-})
+}
+export default React.memo(UserProfile)

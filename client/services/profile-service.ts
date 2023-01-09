@@ -1,6 +1,6 @@
 import { $api } from "../http"
 import { AxiosResponse } from "axios"
-import { PostType } from "../pages/main/profile/types/profile-types"
+import { PostType } from "../pages/main/profile/interfaces/interfaces"
 export class ProfileService {
     static changeName(name: string, id: string): Promise<AxiosResponse<string>> {
         return $api.put(`profile/name`, { text: name, id })

@@ -1,4 +1,4 @@
-import { CSSProperties } from "react"
+import React, { CSSProperties } from "react"
 import { FadeLoader } from "react-spinners"
 
 const override: CSSProperties = {
@@ -7,7 +7,7 @@ const override: CSSProperties = {
     margin: "400px auto",
     borderColor: "red"
 }
-export function Loader() {
+const LoaderComponent = () => {
     return(
         <div className={'users'}>
             <div className={'loader'}>
@@ -16,3 +16,4 @@ export function Loader() {
         </div>
     )
 }
+export const Loader = React.memo(LoaderComponent)

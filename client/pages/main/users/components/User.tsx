@@ -1,20 +1,18 @@
-import styles from '../../../../styles/Users.module.scss'
+import React from "react"
 import { useRouter } from "next/router"
-
-type PropsType = {
+// @ts-ignore
+import styles from '../../../../styles/Users.module.scss'
+interface Props {
     avatar: string
     name: string
     location: string
     id: string
 }
-export function User({id, name, avatar, location}: PropsType) {
+const UserPreviewComponent: React.FC<Props> = ({id, name, avatar, location}) => {
     const router = useRouter()
-    async function showProfile() {
-        await router.push(`/main/profile/${id}`)
-    }
 
     return(
-        <div onClick={() => showProfile()} id={id} className={`${styles['user']} flex-center`}>
+        <div onClick={() => router.push(`/main/profile/${id}`)} id={id} className={`${styles['user']} flex-center`}>
             <div>
                 <img alt={'Avatar'} src={avatar}/>
                 <h1>{name}</h1>
@@ -23,3 +21,4 @@ export function User({id, name, avatar, location}: PropsType) {
         </div>
     )
 }
+export const UserPreview = React.memo(UserPreviewComponent)

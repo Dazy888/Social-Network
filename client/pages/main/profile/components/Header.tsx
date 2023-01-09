@@ -1,19 +1,18 @@
+import React from "react"
 import { useRouter } from "next/router"
-import {useDispatch, useSelector} from "react-redux"
 // Styles
 // @ts-ignore
 import styles from "../../../../styles/Profile.module.scss"
 // React Query
 import { useMutation } from "react-query"
 // Typification
-import { SubscriptionProps } from "../types/profile-types"
-import { UserData } from "../../users/types/users-types"
+import { SubscriptionProps } from "../interfaces/interfaces"
+import { UserData } from "../../users/interfaces/interfaces"
 // HTTP Service
 import { ProfileService } from "../../../../services/profile-service"
 // Store
-import { getId } from "../../../../store/reducers/profile/profile-selectors"
-
-type PropsType = {
+interface Props {
+    id?: string
     user?: UserData
     setUser?: any
     avatar: string
@@ -25,9 +24,8 @@ type PropsType = {
     openedUserId?: string
     followers?: string[]
 }
-export function Header({ user, name, avatar, banner, location, forView = false, subscribed = false, openedUserId = '', followers = [''], setUser }: PropsType) {
+const HeaderComponent: React.FC<Props> = ({ user, name, avatar, banner, location, forView = false, subscribed = false, openedUserId = '', followers = [''], setUser, id= '' }) => {
     const router = useRouter()
-    const id = useSelector(getId)
 
     const { isLoading:isFollowing, mutateAsync:follow } = useMutation('follow', (data: SubscriptionProps) => ProfileService.follow(data.authorizedUserId, data.openedUserId), {
         onSuccess: () => {
@@ -68,3 +66,4 @@ export function Header({ user, name, avatar, banner, location, forView = false, 
         </div>
     )
 }
+export const Header = React.memo(HeaderComponent)

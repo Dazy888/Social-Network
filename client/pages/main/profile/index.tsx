@@ -1,8 +1,8 @@
 import Head from "next/head"
-import { useMemo, useRef, useState } from "react"
+import React, { useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 // Components
-import Post from "./components/Post"
+import { Post } from "./components/Post"
 import { Header } from "./components/Header"
 import { Information } from "./components/Information"
 import { Subscriptions } from "./components/Subscriptions"
@@ -10,7 +10,7 @@ import { User } from "./components/User"
 // Layout
 import { MainLayout } from "../../../layouts/Main-Layout"
 // Typification
-import { TextProps } from "./types/profile-types"
+import {ChangeInfo, EditInfo, PostType, TextProps} from "./interfaces/interfaces"
 import { AxiosResponse } from "axios"
 // React Query
 import { useMutation } from "react-query"
@@ -22,7 +22,48 @@ import { ProfileService } from "../../../services/profile-service"
 // Styles
 // @ts-ignore
 import styles from '../../../styles/Profile.module.scss'
-export default function Index() {
+export const getPostsElements = (posts: PostType[], id: string, avatar: string, name: string, forView: boolean) => {
+    return [...posts].reverse().map((p, pos) => {
+        const date = Math.abs(new Date().getTime() - new Date(p.date).getTime())
+        let time: string | undefined
+
+        if (Math.round(date / 1000 / 60) === 1) {
+            time = `1 minute ago`
+        } else if (Math.round(date / 1000 / 60) < 60) {
+            time = `${Math.round(date / 1000 / 60)} minutes ago`
+        } else if (Math.round(date / 1000 / 60 / 60) === 1) {
+            time = `1 hour ago`
+        } else if (Math.round(date / 1000 / 60 / 60) < 24) {
+            time = `${Math.round(date / 1000 / 60 / 60)} hours ago`
+        } else if (Math.round(date / 1000 / 60 / 60 / 24) === 1) {
+            time = `1 day ago`
+        } else if (Math.round(date / 1000 / 60 / 60 / 24) < 31) {
+            time = `${Math.round(date / 1000 / 60 / 60 / 24)} days ago`
+        }
+
+        return <Post forView={forView} key={pos} userId={id} id={p.postId} avatar={avatar} name={name} date={time} text={p.text}/>
+    })
+}
+export const editInfo: EditInfo = (event: any, changeText: ChangeInfo, value: string, textId: string, setStatus: (status: boolean) => void, setEditStatus: (status: boolean) => void, text: any, textareaRef: any, id: string) => {
+    function setStatuses(status: boolean) {
+        setEditStatus(status)
+        setStatus(status)
+    }
+
+    setStatuses(true)
+
+    setTimeout(() => {
+        const textarea = textareaRef.current
+        textarea.value = value
+        textarea.onblur = async () => {
+            await changeText({text: textarea.value, id})
+            text.innerText = textarea.value
+            document.onkeydown = null
+            setStatuses(false)
+        }
+    }, 1)
+}
+const Index = () => {
     const dispatch = useDispatch()
     const textareaPostRef: any = useRef()
     const [newPostStatus, setNewPostStatus] = useState<boolean>(false)
@@ -39,7 +80,7 @@ export default function Index() {
     const followers = useSelector(getFollowers)
     const following = useSelector(getFollowing)
 
-    const postsElements = useMemo(() => [...posts].reverse().map((p, pos) => <Post key={pos} userId={id} id={p.postId} avatar={avatar} name={name} date={Math.abs(new Date().getTime() - new Date(p.date).getTime())} text={p.text}/>), [posts])
+    const postsElements = getPostsElements(posts, id, avatar, name, false)
 
     const { mutateAsync:addPost } = useMutation('add post', (data: TextProps) => ProfileService.addPost(data.text, data.id),
         {
@@ -65,7 +106,7 @@ export default function Index() {
                 ? <div className={styles['profile']}>
                     <Header location={location} avatar={avatar} name={name} banner={banner}/>
                     <div className={`${styles['main']} flex-between`}>
-                        <Information aboutMe={aboutMe} hobbies={hobbies} skills={skills}/>
+                        <Information id={id} editInfo={editInfo} aboutMe={aboutMe} hobbies={hobbies} skills={skills}/>
                         <div className={styles['posts']}>
                             { postsElements }
                             { newPostStatus
@@ -92,3 +133,4 @@ export default function Index() {
         </MainLayout>
     )
 }
+export default React.memo(Index)

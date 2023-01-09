@@ -1,4 +1,4 @@
-import { useState } from "react"
+import React, { useState } from "react"
 import Head from "next/head"
 import { useSelector } from "react-redux"
 // Layouts
@@ -7,7 +7,7 @@ import { MainLayout } from "../../../layouts/Main-Layout"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
 // Typification
-import { ChangePassInterface, ChangePassProps } from "./types/settings-types"
+import { IChangePass, ChangePassProps } from "./interfaces/interfaces"
 // HTTP Service
 import { SettingsService } from "../../../services/settings-service"
 // React Query
@@ -16,12 +16,12 @@ import { useMutation } from "react-query"
 import { getId } from "../../../store/reducers/profile/profile-selectors"
 // Components
 import { Input } from "../../authorization/components/Input"
-import { LoginLoader } from "../../authorization/components/Loader"
-import { SuccessMessage } from "./components/Success-Message"
+import { Loader } from "../../authorization/components/Loader"
+import { Message } from "./components/Success-Message"
 // Styles
 // @ts-ignore
 import styles from '../../../styles/Settings.module.scss'
-export default function ChangePass() {
+const ChangePass = () => {
     const [successMessage, changeSuccessMessage] = useState<string>('')
     const [confirmPassErr, changeConfirmPassErr] = useState<string>('')
     const [passErr, changePassErr] = useState<string>('')
@@ -40,9 +40,9 @@ export default function ChangePass() {
     )
 
     const passExp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/
-    const { register, handleSubmit, formState: { errors, touchedFields } } = useForm<ChangePassInterface>({mode: 'onChange'})
+    const { register, handleSubmit, formState: { errors, touchedFields } } = useForm<IChangePass>({mode: 'onChange'})
 
-    const onSubmit: SubmitHandler<ChangePassInterface> = async (data) => {
+    const onSubmit: SubmitHandler<IChangePass> = async (data) => {
         if (data.confirmPass !== data.newPass) changeConfirmPassErr(`Passwords don't match`)
         await mutateAsync({pass: data.pass, newPass: data.newPass, id})
     }
@@ -63,11 +63,12 @@ export default function ChangePass() {
                             <Input errorName={'password'} changeServerError={changeConfirmPassErr} serverError={confirmPassErr} type={'password'} error={errors.confirmPass?.message} touched={touchedFields.confirmPass} register={register} name={'confirmPass'} patternValue={passExp} minLength={8} maxLength={15} placeholder={'Confirm password'}/>
                         </div>
                         <button className={styles['submit']} type={'submit'} disabled={isLoading || !!successMessage}>Change password</button>
-                        <LoginLoader color={'rebeccapurple'} loading={isLoading}/>
-                        {successMessage ? <SuccessMessage message={successMessage}/> : null}
+                        <Loader color={'rebeccapurple'} loading={isLoading}/>
+                        {successMessage ? <Message message={successMessage}/> : null}
                     </form>
                 </div>
             </SettingsLayout>
         </MainLayout>
     )
 }
+export default React.memo(ChangePass)

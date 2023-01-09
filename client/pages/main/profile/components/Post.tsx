@@ -8,39 +8,20 @@ import { profileActions } from "../../../../store/reducers/profile/profile-reduc
 // Styles
 // @ts-ignore
 import styles from '../../../../styles/Profile.module.scss'
-
-type PropsType = {
+// Typification
+import { DeletePostProps } from "../interfaces/interfaces"
+interface Props {
     avatar: string
     name: string
-    date: number
+    date: string | undefined
     text: string
     id: string
-    userId: string
+    userId?: string
     forView?: boolean
+
 }
-
-export default React.memo(function Post({ avatar, name, date, text, id, userId, forView = false }: PropsType) {
+const PostComponent: React.FC<Props> = ({ avatar, name, date, text, id, userId = '', forView = false }) => {
     const dispatch = useDispatch()
-    let time
-
-    if (Math.round(date / 1000 / 60) === 1) {
-        time = `1 minute ago`
-    } else if (Math.round(date / 1000 / 60) < 60) {
-        time = `${Math.round(date / 1000 / 60)} minutes ago`
-    } else if (Math.round(date / 1000 / 60 / 60) === 1) {
-        time = `1 hour ago`
-    } else if (Math.round(date / 1000 / 60 / 60) < 24) {
-        time = `${Math.round(date / 1000 / 60 / 60)} hours ago`
-    } else if (Math.round(date / 1000 / 60 / 60 / 24) === 1) {
-        time = `1 day ago`
-    } else if (Math.round(date / 1000 / 60 / 60 / 24) < 31) {
-        time = `${Math.round(date / 1000 / 60 / 60 / 24)} days ago`
-    }
-
-    type DeletePostProps = {
-        id: string
-        userId: string
-    }
 
     const { mutateAsync } = useMutation('delete post', (data: DeletePostProps) => ProfileService.deletePost(data.id, data.userId),
         {
@@ -57,7 +38,7 @@ export default React.memo(function Post({ avatar, name, date, text, id, userId, 
                     <img alt={'avatar'} src={avatar}/>
                     <div className={styles['post__information']}>
                         <h3 className={styles['title']}>{name}</h3>
-                        <p className={styles['text']}>{time}</p>
+                        <p className={styles['text']}>{date}</p>
                     </div>
                 </div>
                 {!forView
@@ -71,4 +52,5 @@ export default React.memo(function Post({ avatar, name, date, text, id, userId, 
             <hr className={styles['line']}/>
         </div>
     )
-})
+}
+export const Post = React.memo(PostComponent)

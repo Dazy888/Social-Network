@@ -1,4 +1,4 @@
-import { PostType } from "../../profile/types/profile-types"
+import { PostType } from "../../profile/interfaces/interfaces"
 export interface UserData {
     avatar: string
     banner: string

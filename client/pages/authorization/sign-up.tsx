@@ -3,10 +3,10 @@ import Head from "next/head"
 import { useRouter } from "next/router"
 import { useDispatch } from "react-redux"
 // Components
-import { LoginLoader } from "./components/Loader"
+import { Loader } from "./components/Loader"
 import { Input } from "./components/Input"
 // Typification
-import { AuthProps, LoginInterface } from "./types/authorization-types"
+import { AuthProps, IAuth } from "./interfaces/interfaces"
 // Recaptcha
 import ReCAPTCHA from "react-google-recaptcha"
 // React Query
@@ -22,7 +22,7 @@ import { successfulEnter } from "./sign-in"
 import styles from '../../styles/Authorization.module.scss'
 // Layout
 import { AuthorizationLayout } from "../../layouts/Authorization-Layout"
-export default React.memo(function SignUp() {
+const SignUpComponent: React.FC = () => {
     const router = useRouter()
     const dispatch = useDispatch()
 
@@ -49,8 +49,8 @@ export default React.memo(function SignUp() {
         }
     }
 
-    const { register, handleSubmit, formState: { errors, touchedFields } } = useForm<LoginInterface>({mode: 'onChange'})
-    const onSubmit: SubmitHandler<LoginInterface> = async (data) => {
+    const { register, handleSubmit, formState: { errors, touchedFields } } = useForm<IAuth>({mode: 'onChange'})
+    const onSubmit: SubmitHandler<IAuth> = async (data) => {
         // const token = await reRef.current.executeAsync()
         // reRef.current.reset()
         await mutateAsync({userLogin: data.login, password: data.password, /*token*/})
@@ -69,9 +69,10 @@ export default React.memo(function SignUp() {
                     <label className={styles['checkbox__label']}>Show password</label>
                 </div>
                 <button className={styles['auth__submit']} type={'submit'} disabled={isLoading}>Sign up</button>
-                <LoginLoader color={'rgb(249, 94, 59)'} loading={isLoading}/>
+                <Loader color={'rgb(249, 94, 59)'} loading={isLoading}/>
                 {/*<ReCAPTCHA className={'captcha'} sitekey={'6Leond0hAAAAAOCUq2naPPzgveoMehWQmYG4Vabt'} size={"invisible"} ref={reRef}/>*/}
             </form>
         </AuthorizationLayout>
     )
-})
+}
+export default React.memo(SignUpComponent)

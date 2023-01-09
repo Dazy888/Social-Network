@@ -1,4 +1,5 @@
 export type ChangeInfo = ({id, text}: TextProps) => Promise<void>
+export type EditInfo = (event: any, changeText: ChangeInfo, value: string, textId: string, setStatus: (status: boolean) => void, setEditStatus: (status: boolean) => void, text: any, textarea: any, id: string) => any
 export interface PostType {
     text: string
     date: Date
@@ -15,4 +16,8 @@ export interface SubscriptionProps {
 }
 export interface AvatarProps {
     id: string
+}
+export interface DeletePostProps {
+    id: string
+    userId: string
 }

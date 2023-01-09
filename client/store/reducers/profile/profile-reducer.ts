@@ -1,5 +1,5 @@
 import { InferActionsTypes } from '../../store'
-import { PostType } from "../../../pages/main/profile/types/profile-types"
+import { PostType } from "../../../pages/main/profile/interfaces/interfaces"
 
 let initialState = {
     userId: '',

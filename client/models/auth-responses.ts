@@ -1,4 +1,4 @@
-import { PostType } from "../pages/main/profile/types/profile-types"
+import { PostType } from "../pages/main/profile/interfaces/interfaces"
 export interface AuthUser {
     email: string
     isActivated: boolean

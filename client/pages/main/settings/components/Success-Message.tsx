@@ -1,9 +1,10 @@
+// @ts-ignore
 import styles from '../../../../styles/Settings.module.scss'
-
-type PropsType = {
+import React from "react";
+interface Props {
     message: string
 }
-export function SuccessMessage({ message }: PropsType) {
+const SuccessMessage: React.FC<Props> = ({ message }) => {
     return(
         <div>
             <span className={styles['message']}>
@@ -14,3 +15,4 @@ export function SuccessMessage({ message }: PropsType) {
         </div>
     )
 }
+export const Message = React.memo(SuccessMessage)
