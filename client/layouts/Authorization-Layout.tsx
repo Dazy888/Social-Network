@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import React, { useEffect, useRef } from "react"
 import { useRouter } from "next/router"
 // Components
 import { NavLink } from "./components/NavLink"
@@ -8,7 +8,9 @@ import styles from '../styles/Authorization.module.scss'
 import { useSelector } from "react-redux"
 // Store
 import { getAvatar } from "../store/reducers/profile/profile-selectors"
-export function AuthorizationLayout({ children }: any) {
+// Typification
+import { LayoutProps } from "./interfaces/interfaces"
+const AuthorizationLayoutComponent: React.FC<LayoutProps> = ({ children }) => {
     const router = useRouter()
     const actions: any = useRef()
     const avatar = useSelector(getAvatar)
@@ -37,3 +39,4 @@ export function AuthorizationLayout({ children }: any) {
         </div>
     )
 }
+export const AuthorizationLayout = React.memo(AuthorizationLayoutComponent)

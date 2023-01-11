@@ -105,7 +105,7 @@ const Index = () => {
             {id
                 ? <div className={styles['profile']}>
                     <Header location={location} avatar={avatar} name={name} banner={banner}/>
-                    <div className={`${styles['main']} flex-between`}>
+                    <div className={styles['main']}>
                         <Information id={id} editInfo={editInfo} aboutMe={aboutMe} hobbies={hobbies} skills={skills}/>
                         <div className={styles['posts']}>
                             { postsElements }

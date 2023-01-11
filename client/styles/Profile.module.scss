@@ -101,6 +101,10 @@
   }
 
   .main {
+    display: grid;
+    grid-template-areas: 'info posts subscriptions';
+    grid-template-columns: 1fr 2.1fr 1fr;
+    grid-gap: 50px;
     max-width: 1400px;
     margin: 60px auto auto;
     color: white;
@@ -113,7 +117,7 @@
     }
 
     .information {
-      width: 300px;
+      grid-area: info;
       background: rebeccapurple;
       border-radius: 10px;
 
@@ -123,7 +127,7 @@
 
       .information__item {
         textarea {
-          width: 250px;
+          width: 97%;
           height: 100px;
           margin-top: 10px;
           border-radius: 10px;
@@ -131,7 +135,7 @@
         }
 
         .information__title {
-          width: 250px;
+          width: 98%;
 
           h3 {
             font-size: 15px;
@@ -151,7 +155,7 @@
     }
 
     .posts {
-      width: 600px;
+      grid-area: posts;
 
       .post {
         width: 100%;
@@ -250,7 +254,7 @@
     }
 
     .subscriptions {
-      width: 310px;
+      grid-area: subscriptions;
       height: fit-content;
       background: rebeccapurple;
       border-radius: 10px;
@@ -272,6 +276,81 @@
           flex-wrap: wrap;
           gap: 10px;
         }
+      }
+    }
+  }
+}
+
+@media (max-width: 1440px) {
+  .profile {
+    max-width: 1000px;
+
+    .header {
+      .header__user {
+        left: 455px;
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .profile {
+    max-width: 760px;
+
+    .header {
+      .header__user {
+        left: 325px;
+      }
+    }
+
+    .main {
+      grid-template-areas:  'info subscriptions'
+                            'posts posts';
+      grid-template-columns: 1.2fr 1fr;
+      grid-gap: 50px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .profile {
+    max-width: 420px;
+
+    .header {
+      .header__user {
+        left: 155px;
+      }
+    }
+
+    .main {
+      grid-template-areas:  'info'
+                            'subscriptions'
+                            'posts';
+      grid-template-columns: 1fr;
+      grid-gap: 50px;
+    }
+  }
+}
+
+@media (max-width: 425px) {
+  .profile {
+    max-width: 370px;
+
+    .header {
+      .header__user {
+        left: 130px;
+      }
+    }
+  }
+}
+
+@media (max-width: 375px) {
+  .profile {
+    max-width: 315px;
+
+    .header {
+      .header__user {
+        left: 102.5px;
       }
     }
   }

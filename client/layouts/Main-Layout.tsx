@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import React, {ReactNode, useEffect, useRef, useState} from "react"
 import { useRouter } from "next/router"
 // Redux
 import { useDispatch, useSelector } from "react-redux"
@@ -9,6 +9,7 @@ import { AuthService } from "../services/auth-service"
 // Typification
 import { RefreshResponse } from "../models/auth-responses"
 import { AxiosResponse } from "axios"
+import { LayoutProps } from "./interfaces/interfaces"
 // Store
 import { authActions } from "../store/reducers/auth/auth-reducer"
 import { profileActions } from "../store/reducers/profile/profile-reducer"
@@ -16,11 +17,23 @@ import { settingsActions } from "../store/reducers/settings/settings-reducer"
 import { getAvatar } from "../store/reducers/profile/profile-selectors"
 // Components
 import { NavLink } from "./components/NavLink"
-
-export function MainLayout({ children }: any) {
+const MainLayoutComponent: React.FC<LayoutProps> = ({ children }) => {
+    const navRef: any = useRef()
     const dispatch = useDispatch()
     const router = useRouter()
+
     const avatar = useSelector(getAvatar)
+
+    const [opened, setStatus] = useState<boolean>(false)
+    function openNavigation() {
+        if (opened) {
+            setStatus(false)
+            navRef.current.classList.remove('openNav')
+        } else {
+            setStatus(true)
+            navRef.current.classList.add('openNav')
+        }
+    }
 
     const { refetch:logout } = useQuery('logout', () => AuthService.logout(),
         {
@@ -49,14 +62,17 @@ export function MainLayout({ children }: any) {
 
     useEffect(() => {
         (!localStorage.getItem('token')) ? router.push('/authorization/sign-in') : refresh()
-    }, [])
+    }, [refresh, router])
 
     return(
         <div id={'app-wrapper'}>
             <div id={'header'} className={'flex-center'}>
                 <div className={'header__content flex-between'}>
                     <img alt={'Logo'} className={'header__logo'} src={'https://user-images.githubusercontent.com/16946573/144957680-01ea405e-959b-46b1-a163-df688466ac23.png'}/>
-                    <nav>
+                    <nav ref={navRef}>
+                        <button onClick={openNavigation} className={'burger'}>
+                            {opened ? <i className="fa-solid fa-square-xmark xmark"/> : <i className="fa-solid fa-bars bars"/> }
+                        </button>
                         <ul className={'flex-between'}>
                             <NavLink text={'Profile'} path={'/main/profile'} activeClass={'active-page'}/>
                             <NavLink text={'Users'} path={'/main/users/1'} activeClass={'active-page'}/>
@@ -75,3 +91,4 @@ export function MainLayout({ children }: any) {
         </div>
     )
 }
+export const MainLayout = React.memo(MainLayoutComponent)
