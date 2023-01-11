@@ -320,6 +320,17 @@
       .header__user {
         left: 155px;
       }
+
+      .subscribe {
+        right: 30px;
+
+        button {
+          width: 65px;
+          height: 25px;
+          font-size: 12px;
+          line-height: 10px;
+        }
+      }
     }
 
     .main {
@@ -339,6 +350,10 @@
     .header {
       .header__user {
         left: 130px;
+      }
+
+      .subscribe {
+        right: 20px;
       }
     }
   }

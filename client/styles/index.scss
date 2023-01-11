@@ -54,6 +54,19 @@ input {
   }
 }
 
+.email {
+  width: 45px;
+  height: 45px;
+  position: relative;
+  margin: auto;
+
+  .loader {
+    width: 45px;
+    left: 0 !important;
+    bottom: 0 !important;
+  }
+}
+
 .avatar {
   left: 2px;
 }
@@ -208,7 +221,7 @@ a {
 }
 
 .big-input {
-  width: 713px !important;
+  width: 95% !important;
 }
 
 .error-container {
@@ -296,9 +309,43 @@ a {
   }
 }
 
+@media (max-width: 1225px) {
+  .big-input {
+    width: 94% !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .big-input {
+    width: 92% !important;
+  }
+}
+
 @media (max-width: 768px) {
+  .inputs {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .activate {
+    height: 350px !important;
+  }
+
+  .change-pass {
+    height: 450px !important;
+
+    .inputs {
+      margin-top: 25px;
+      gap: 25px !important;
+    }
+  }
+
   .burger {
     display: block;
+  }
+
+  .big-input {
+    width: 90% !important;
   }
 
   #app-wrapper {
@@ -324,6 +371,23 @@ a {
 
 
 @media (max-width: 425px) {
+  .big-input {
+    width: 88% !important;
+  }
+
+  .settings-form {
+    .error-container {
+      span {
+        font-size: 15px;
+      }
+
+      i {
+        font-size: 18px;
+        top: 18px;
+      }
+    }
+  }
+
   .error-container {
     span {
       font-size: 14px;
@@ -338,7 +402,11 @@ a {
   }
 }
 
-@media (max-width: 325px) {
+@media (max-width: 375px) {
+  .big-input {
+    width: 86% !important;
+  }
+
   .error-container {
     span {
       font-size: 13px;

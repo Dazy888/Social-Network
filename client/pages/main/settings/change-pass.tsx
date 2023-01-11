@@ -53,12 +53,12 @@ const ChangePass = () => {
                 <Head>
                     <title>Changing password</title>
                 </Head>
-                <div className={styles['settings-form']}>
+                <div className={`${styles['settings-form']} change-pass`}>
                     <h3 className={styles['title']}>Change Password</h3>
                     <hr/>
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form className={'settings-form'} onSubmit={handleSubmit(onSubmit)}>
                         <Input errorName={'password'} type={'password'} className={'big-input'} error={errors.pass?.message} touched={touchedFields.pass} serverError={passErr} register={register} name={'pass'} patternValue={passExp} minLength={4} maxLength={15} changeServerError={changePassErr} placeholder={'Current password'}/>
-                        <div className={`${styles['row']} flex-between`}>
+                        <div className={'flex-between inputs'}>
                             <Input errorName={'password'} type={'password'} error={errors.newPass?.message} touched={touchedFields.newPass} register={register} name={'newPass'} patternValue={passExp} minLength={8} maxLength={15} placeholder={'New password'}/>
                             <Input errorName={'password'} changeServerError={changeConfirmPassErr} serverError={confirmPassErr} type={'password'} error={errors.confirmPass?.message} touched={touchedFields.confirmPass} register={register} name={'confirmPass'} patternValue={passExp} minLength={8} maxLength={15} placeholder={'Confirm password'}/>
                         </div>

@@ -85,7 +85,7 @@ const MainLayoutComponent: React.FC<LayoutProps> = ({ children }) => {
                     </div>
                 </div>
             </div>
-            <div id={'content'}>
+            <div id={'content'} className={'flex-center'}>
                 {children}
             </div>
         </div>

@@ -61,7 +61,7 @@ const Activate = () => {
                 <Head>
                     <title>Email activation</title>
                 </Head>
-                <div className={styles['settings-form']}>
+                <div className={`${styles['settings-form']} activate`}>
                     <h3 className={styles['title']}>Activate Email</h3>
                     <hr/>
                     <form onSubmit={handleSubmit(onSubmit)}>

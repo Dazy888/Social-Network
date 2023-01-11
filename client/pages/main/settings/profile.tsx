@@ -120,7 +120,7 @@ const Profile = () => {
                     <h3 className={styles['title']}>Profile Settings</h3>
                     <hr/>
                     <div className={styles['form']}>
-                        <div className={`${styles['row']} flex-between`}>
+                        <div className={'flex-between inputs'}>
                             <form onSubmit={nameSub(nameSubmit)} className={styles['input-container']}>
                                 <Input type={'text'} error={nameErr.name?.message} touched={nameTouched.name} register={nameReg} name={'name'} patternValue={/^[a-z]+$/i} minLength={3} maxLength={10} placeholder={'Your new name'}/>
                                 <button disabled={isLoading} className={styles['btn']}>Change name</button>
