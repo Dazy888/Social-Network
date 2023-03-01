@@ -1,10 +1,11 @@
 import React from "react"
-// @ts-ignore
-import styles from "../../../../styles/Profile.module.scss"
+import styles from "../../styles/Profile.module.scss"
+
 interface Props {
     followers: string[]
     following: string[]
 }
+
 const SubscriptionsComponent: React.FC<Props> = ({ followers, following }) => {
      return(
         <div className={styles['subscriptions']}>
@@ -25,4 +26,5 @@ const SubscriptionsComponent: React.FC<Props> = ({ followers, following }) => {
         </div>
     )
 }
+
 export const Subscriptions = React.memo(SubscriptionsComponent)

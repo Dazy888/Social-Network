@@ -1,7 +1,7 @@
 import React from "react"
 import { useRouter } from "next/router"
-// @ts-ignore
-import styles from '../styles/Not-Found.module.scss'
+import styles from '@/styles/Not-Found.module.scss'
+
 const NoContent = () => {
     const router = useRouter()
 

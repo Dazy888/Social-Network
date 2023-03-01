@@ -2,27 +2,27 @@ import React, { useState } from "react"
 import Head from "next/head"
 import { useDispatch, useSelector } from "react-redux"
 // Layouts
-import { MainPageLayout } from "../../../layouts/MainPage-Layout"
-import { SettingsPageLayout } from "../../../layouts/SettingsPage-Layout"
+import { MainPage } from "@/layouts/MainPage-Layout"
+import { SettingsPage } from "@/layouts/SettingsPage-Layout"
 // Store
-import { getId } from "../../../store/reducers/profile/profile-selectors"
-import { getEmail } from "../../../store/reducers/settings/settings-selectors"
-import { getActivatedStatus } from "../../../store/reducers/auth/auth-selectors"
-import { settingsActions } from "../../../store/reducers/settings/settings-reducer"
+import { getId } from "@/store/reducers/profile/profile-selectors"
+import { getEmail } from "@/store/reducers/settings/settings-selectors"
+import { getActivatedStatus } from "@/store/reducers/auth/auth-selectors"
+import { settingsActions } from "@/store/reducers/settings/settings-reducer"
 // React Query
 import { useMutation } from "react-query"
 // HTTP Service
-import { SettingsService } from "../../../services/settings-service"
-// Typification
-import { IActivate, ActivateProps, CancelActivationProps } from "./interfaces/interfaces"
+import { SettingsService } from "@/services/settings-service"
+// Interfaces
+import { ActivateI, ActivatePropsI, CancelActivationPropsI } from "@/interfaces/settings-interfaces"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
 // Components
-import { Loader } from "../../../components/authorization/Loader"
-import { Input } from "../../../components/authorization/Input"
+import { Loader } from "@/components/authorization/Loader"
+import { Input } from "@/components/authorization/Input"
 // Styles
-// @ts-ignore
-import styles from "../../../styles/Settings.module.scss"
+import styles from "@/styles/Settings.module.scss"
+
 const Activate = () => {
     const dispatch = useDispatch()
     const [serverErr, changeServerErr] = useState<string>('')
@@ -31,7 +31,7 @@ const Activate = () => {
     const email = useSelector(getEmail)
     const isActivated = useSelector(getActivatedStatus)
 
-    const { isLoading, mutateAsync:activate } = useMutation('activate email', (data: ActivateProps) => SettingsService.activate(data.email, data.id),
+    const { isLoading, mutateAsync:activate } = useMutation('activate email', (data: ActivatePropsI) => SettingsService.activate(data.email, data.id),
         {
             onSuccess(response) {
                 dispatch(settingsActions.setEmail(response.data))
@@ -42,7 +42,7 @@ const Activate = () => {
         }
     )
 
-    const { mutateAsync:cancelActivation } = useMutation('cancel activation', (data: CancelActivationProps) => SettingsService.cancelActivation(data.id),
+    const { mutateAsync:cancelActivation } = useMutation('cancel activation', (data: CancelActivationPropsI) => SettingsService.cancelActivation(data.id),
         {
             onSuccess() {
                 dispatch(settingsActions.setEmail(''))
@@ -50,14 +50,15 @@ const Activate = () => {
         }
     )
 
-    const { register, handleSubmit, formState: { errors, touchedFields } } = useForm<IActivate>()
-    const onSubmit: SubmitHandler<IActivate> = async (data) => {
+    const { register, handleSubmit, formState: { errors, touchedFields } } = useForm<ActivateI>()
+
+    const onSubmit: SubmitHandler<ActivateI> = async (data) => {
         await activate({email: data.email, id})
     }
 
     return(
-        <MainPageLayout>
-            <SettingsPageLayout>
+        <MainPage>
+            <SettingsPage>
                 <Head>
                     <title>Email activation</title>
                 </Head>
@@ -83,8 +84,9 @@ const Activate = () => {
                             {!!email ? <button className={styles['cancel']} onClick={() => cancelActivation({id})}>Cancel</button> : null}
                         </div>}
                 </div>
-            </SettingsPageLayout>
-        </MainPageLayout>
+            </SettingsPage>
+        </MainPage>
     )
 }
+
 export default React.memo(Activate)

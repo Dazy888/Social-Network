@@ -1,19 +1,18 @@
 import React from "react"
 import { useRouter } from "next/router"
 // Styles
-// @ts-ignore
-import styles from "../../../../styles/Profile.module.scss"
+import styles from "@/styles/Profile.module.scss"
 // React Query
 import { useMutation } from "react-query"
-// Typification
-import { SubscriptionProps } from "../interfaces/interfaces"
-import { UserData } from "../../users/interfaces/interfaces"
+// Interfaces
+import { SubscriptionPropsI } from "@/interfaces/profile-interfaces"
+import { UserDataI } from "@/interfaces/users-interfaces"
 // HTTP Service
-import { ProfileService } from "../../../../services/profile-service"
-// Store
+import { ProfileService } from "@/services/profile-service"
+
 interface Props {
     id?: string
-    user?: UserData
+    user?: UserDataI
     setUser?: any
     avatar: string
     banner: string
@@ -24,16 +23,17 @@ interface Props {
     openedUserId?: string
     followers?: string[]
 }
+
 const HeaderComponent: React.FC<Props> = ({ user, name, avatar, banner, location, forView = false, subscribed = false, openedUserId = '', followers = [''], setUser, id= '' }) => {
     const router = useRouter()
 
-    const { isLoading:isFollowing, mutateAsync:follow } = useMutation('follow', (data: SubscriptionProps) => ProfileService.follow(data.authorizedUserId, data.openedUserId), {
+    const { isLoading:isFollowing, mutateAsync:follow } = useMutation('follow', (data: SubscriptionPropsI) => ProfileService.follow(data.authorizedUserId, data.openedUserId), {
         onSuccess: () => {
             setUser({...user, followers: [...followers, id]})
         }
     })
 
-    const { isLoading:isUnfollowing, mutateAsync:unfollow } = useMutation('unfollow', (data: SubscriptionProps) => ProfileService.unfollow(data.authorizedUserId, data.openedUserId), {
+    const { isLoading:isUnfollowing, mutateAsync:unfollow } = useMutation('unfollow', (data: SubscriptionPropsI) => ProfileService.unfollow(data.authorizedUserId, data.openedUserId), {
         onSuccess: () => {
             user?.followers.splice(user?.followers.indexOf(id), 1)
             setUser({...user, followers: user?.followers})
@@ -66,4 +66,5 @@ const HeaderComponent: React.FC<Props> = ({ user, name, avatar, banner, location
         </div>
     )
 }
+
 export const Header = React.memo(HeaderComponent)

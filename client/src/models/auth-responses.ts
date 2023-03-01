@@ -1,16 +1,20 @@
-import { PostType } from "../pages/main/profile/interfaces/interfaces"
-export interface AuthUser {
+import { PostI } from "@/interfaces/profile-interfaces"
+
+export interface AuthUserI {
     email: string
     isActivated: boolean
 }
-export interface Tokens {
+
+export interface TokensI {
     accessToken: string
     refreshToken: string
 }
+
 export interface AuthResponse {
-    tokens: Tokens
-    user: AuthUser
+    tokens: TokensI
+    user: AuthUserI
 }
+
 export interface RefreshResponse {
     user: {
         userLogin: string
@@ -27,6 +31,6 @@ export interface RefreshResponse {
         followers: string[]
         following: string[]
     },
-    tokens: Tokens
-    posts: PostType[]
+    tokens: TokensI
+    posts: PostI[]
 }

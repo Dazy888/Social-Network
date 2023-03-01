@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react"
-import { EditInfo } from "../interfaces/interfaces"
-// @ts-ignore
-import styles from '../../../../styles/Profile.module.scss'
+import { EditInfoFunc } from "@/interfaces/profile-interfaces"
+import styles from '@/styles/Profile.module.scss'
+
 interface Props {
     id?: string
     editStatus: boolean
@@ -11,10 +11,11 @@ interface Props {
     title: string
     changeText: any
     forView?: boolean
-    editInfo: EditInfo
+    editInfo: EditInfoFunc
 }
- const InformationItemComponent: React.FC<Props> = ({ editInfo, text, changeText, textId, setEditStatus, editStatus, title, forView, id= '' }) => {
-    const [status, setStatus] = useState<boolean>(false)
+
+const InformationItemComponent: React.FC<Props> = ({ editInfo, text, changeText, textId, setEditStatus, editStatus, title, forView, id= '' }) => {
+    const [status, setStatus] = useState(false)
     const textareaRef: any = useRef()
     const textRef: any = useRef()
 
@@ -33,4 +34,5 @@ interface Props {
         </div>
     )
 }
+
 export const InformationItem = React.memo(InformationItemComponent)

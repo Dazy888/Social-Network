@@ -1,27 +1,26 @@
+import React, { useEffect, useState } from "react"
 import Head from "next/head"
 import { useRouter } from "next/router"
-import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-// Layout
-import { MainPageLayout } from "../../../layouts/MainPage-Layout"
+// Layouts
+import { MainPage } from "@/layouts/MainPage-Layout"
 // Paginator
 import ReactPaginate from "react-paginate"
 // Styles
-// @ts-ignore
-import styles from '../../../styles/Users.module.scss'
+import styles from '@/styles/Users.module.scss'
 // React Query
 import { useQuery } from "react-query"
 // HTTP Service
-import { UsersService } from "../../../services/users-service"
+import { UsersService } from "@/services/users-service"
 // Components
-import { UserPreview } from "./components/User"
-import { Loader } from "./components/Loader"
+import { UserPreview } from "@/components/users/User"
+import { Loader } from "@/components/users/Loader"
 // Store
-import { getId } from "../../../store/reducers/profile/profile-selectors"
-// Typification
-import { UserPreviewData, UsersResponse } from "../../../models/users-responses"
+import { getId } from "@/store/reducers/profile/profile-selectors"
+// Interfaces
+import { UserPreviewData, UsersResponse } from "@/models/users-responses"
 import { AxiosResponse } from "axios"
-// Typification
+
 const Users = () => {
     const [users, setUsers] = useState<UserPreviewData[]>([])
     const [length, setLength] = useState<number>(0)
@@ -58,7 +57,7 @@ const Users = () => {
     })
 
     return (
-        <MainPageLayout>
+        <MainPage>
             <Head>
                 <title>Users</title>
             </Head>
@@ -86,7 +85,8 @@ const Users = () => {
                          </div>
                     :   <Loader/>}
             </div>
-        </MainPageLayout>
+        </MainPage>
     )
 }
+
 export default React.memo(Users)

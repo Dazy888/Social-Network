@@ -1,4 +1,4 @@
-import { InferActionsTypes } from '../../store'
+import { InferActionsTypes } from "@/store/store"
 
 let initialState = {
     email: '' as string | null,
@@ -6,6 +6,7 @@ let initialState = {
 
 type InitialStateType = typeof initialState
 type Actions = InferActionsTypes<typeof settingsActions>
+
 export const settingsReducer = (state = initialState, action: Actions): InitialStateType => {
     switch (action.type) {
         case 'SN/settings/ACTIVATE':
@@ -17,6 +18,7 @@ export const settingsReducer = (state = initialState, action: Actions): InitialS
             return state
     }
 }
+
 export const settingsActions = {
     setEmail: (email: string | null) => ({type: 'SN/settings/ACTIVATE', email} as const),
 }

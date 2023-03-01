@@ -2,25 +2,25 @@ import React, { useState } from "react"
 import Head from "next/head"
 import { useSelector } from "react-redux"
 // Layouts
-import { SettingsPageLayout } from "../../../layouts/SettingsPage-Layout"
-import { MainPageLayout } from "../../../layouts/MainPage-Layout"
+import { MainPage } from "@/layouts/MainPage-Layout"
+import { SettingsPage } from "@/layouts/SettingsPage-Layout"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
-// Typification
-import { IChangePass, ChangePassProps } from "./interfaces/interfaces"
+// Interfaces
+import { ChangePassI, ChangePassPropsI } from "@/interfaces/settings-interfaces"
 // HTTP Service
-import { SettingsService } from "../../../services/settings-service"
+import { SettingsService } from "@/services/settings-service"
 // React Query
 import { useMutation } from "react-query"
 // Store
-import { getId } from "../../../store/reducers/profile/profile-selectors"
+import { getId } from "@/store/reducers/profile/profile-selectors"
 // Components
-import { Input } from "../../../components/authorization/Input"
-import { Loader } from "../../../components/authorization/Loader"
-import { Message } from "./components/Success-Message"
+import { Input } from "@/components/authorization/Input"
+import { Loader } from "@/components/authorization/Loader"
+import { Message } from "@/components/settings/SuccessMessage"
 // Styles
-// @ts-ignore
-import styles from '../../../styles/Settings.module.scss'
+import styles from '@/styles/Settings.module.scss'
+
 const ChangePass = () => {
     const [successMessage, changeSuccessMessage] = useState<string>('')
     const [confirmPassErr, changeConfirmPassErr] = useState<string>('')
@@ -28,7 +28,7 @@ const ChangePass = () => {
 
     const id = useSelector(getId)
 
-    const { mutateAsync, isLoading } = useMutation('change pass', (data: ChangePassProps) => SettingsService.changePass(data.pass, data.newPass, data.id),
+    const { mutateAsync, isLoading } = useMutation('change pass', (data: ChangePassPropsI) => SettingsService.changePass(data.pass, data.newPass, data.id),
         {
             onSuccess() {
                 changeSuccessMessage('Password was successfully changed')
@@ -40,16 +40,16 @@ const ChangePass = () => {
     )
 
     const passExp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/
-    const { register, handleSubmit, formState: { errors, touchedFields } } = useForm<IChangePass>({mode: 'onChange'})
+    const { register, handleSubmit, formState: { errors, touchedFields } } = useForm<ChangePassI>({mode: 'onChange'})
 
-    const onSubmit: SubmitHandler<IChangePass> = async (data) => {
+    const onSubmit: SubmitHandler<ChangePassI> = async (data) => {
         if (data.confirmPass !== data.newPass) changeConfirmPassErr(`Passwords don't match`)
         await mutateAsync({pass: data.pass, newPass: data.newPass, id})
     }
 
     return(
-        <MainPageLayout>
-            <SettingsPageLayout>
+        <MainPage>
+            <SettingsPage>
                 <Head>
                     <title>Changing password</title>
                 </Head>
@@ -67,8 +67,8 @@ const ChangePass = () => {
                         {successMessage ? <Message message={successMessage}/> : null}
                     </form>
                 </div>
-            </SettingsPageLayout>
-        </MainPageLayout>
+            </SettingsPage>
+        </MainPage>
     )
 }
 export default React.memo(ChangePass)

@@ -7,6 +7,7 @@ const override: CSSProperties = {
     margin: "400px auto",
     borderColor: "red"
 }
+
 const LoaderComponent = () => {
     return(
         <div className={'users'}>
@@ -16,4 +17,5 @@ const LoaderComponent = () => {
         </div>
     )
 }
+
 export const Loader = React.memo(LoaderComponent)

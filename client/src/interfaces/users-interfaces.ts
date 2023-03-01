@@ -1,5 +1,6 @@
-import { PostType } from "../../profile/interfaces/interfaces"
-export interface UserData {
+import { PostI } from "@/interfaces/profile-interfaces"
+
+export interface UserDataI {
     avatar: string
     banner: string
     name: string
@@ -9,5 +10,5 @@ export interface UserData {
     hobbies: string
     followers: string[],
     following: string[],
-    posts: PostType[]
+    posts: PostI[]
 }

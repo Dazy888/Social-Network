@@ -2,27 +2,27 @@ import React from "react"
 import Head from "next/head"
 import { useDispatch, useSelector } from "react-redux"
 // Layouts
-import { MainPageLayout } from "../../../layouts/MainPage-Layout"
-import { SettingsPageLayout } from "../../../layouts/SettingsPage-Layout"
+import { MainPage } from "@/layouts/MainPage-Layout"
+import { SettingsPage } from "@/layouts/SettingsPage-Layout"
 // Styles
-// @ts-ignore
-import styles from '../../../styles/Settings.module.scss'
+import styles from '@/styles/Settings.module.scss'
 // Components
-import { Input } from "../../../components/authorization/Input"
-import { Loader } from "../../../components/authorization/Loader"
-import { InputFile } from "../profile/components/Input-File"
+import { Input } from "@/components/authorization/Input"
+import { Loader } from "@/components/authorization/Loader"
+import { InputFile } from "@/components/profile/Input-File"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
-// Typification
-import { IAvatar, IBanner, ILocation, IName } from "./interfaces/interfaces"
-import { TextProps } from "../profile/interfaces/interfaces"
+// Interfaces
+import { AvatarI, BannerI, LocationI, NameI } from "@/interfaces/settings-interfaces"
+import { TextPropsI } from "@/interfaces/profile-interfaces"
 // React Query
 import { useMutation } from "react-query"
 // HTTP Service
-import { ProfileService } from "../../../services/profile-service"
+import { ProfileService } from "@/services/profile-service"
 // Store
-import { profileActions } from "../../../store/reducers/profile/profile-reducer"
-import { getAvatar, getBanner, getId, getLocation, getName } from "../../../store/reducers/profile/profile-selectors"
+import { profileActions } from "@/store/reducers/profile/profile-reducer"
+import { getAvatar, getBanner, getId, getLocation, getName } from "@/store/reducers/profile/profile-selectors"
+
 const Profile = () => {
     const dispatch = useDispatch()
 
@@ -32,10 +32,10 @@ const Profile = () => {
     const currentAvatar = useSelector(getAvatar)
     const currentBanner = useSelector(getBanner)
 
-    const { register:nameReg, handleSubmit:nameSub, formState: { errors:nameErr, touchedFields:nameTouched } } = useForm<IName>({ mode: 'onChange' })
-    const { register:locationReg, handleSubmit:locationSub, formState: { errors:locationErr, touchedFields:locationTouched } } = useForm<ILocation>({ mode: 'onChange' })
-    const { register:avatarReg, handleSubmit:avatarSub, setValue:setAvatar, watch:watchAvatar } = useForm<IAvatar>({ mode: 'onChange' })
-    const { register:bannerReg, handleSubmit:bannerSub, setValue:setBanner, watch:watchBanner } = useForm<IBanner>({ mode: 'onChange' })
+    const { register:nameReg, handleSubmit:nameSub, formState: { errors:nameErr, touchedFields:nameTouched } } = useForm<NameI>({ mode: 'onChange' })
+    const { register:locationReg, handleSubmit:locationSub, formState: { errors:locationErr, touchedFields:locationTouched } } = useForm<LocationI>({ mode: 'onChange' })
+    const { register:avatarReg, handleSubmit:avatarSub, setValue:setAvatar, watch:watchAvatar } = useForm<AvatarI>({ mode: 'onChange' })
+    const { register:bannerReg, handleSubmit:bannerSub, setValue:setBanner, watch:watchBanner } = useForm<BannerI>({ mode: 'onChange' })
 
     const avatarValue = watchAvatar('avatar')
     const bannerValue = watchBanner('banner')
@@ -57,7 +57,7 @@ const Profile = () => {
         }
     }
 
-    const { mutateAsync:changeName, isLoading } = useMutation('change name', (data: TextProps) => ProfileService.changeName(data.text, data.id),
+    const { mutateAsync:changeName, isLoading } = useMutation('change name', (data: TextPropsI) => ProfileService.changeName(data.text, data.id),
         {
             onSuccess(response) {
                 changeTxt('input[name=name]', response.data, profileActions.setName)
@@ -65,7 +65,7 @@ const Profile = () => {
         }
     )
 
-    const { mutateAsync:changeLocation } = useMutation('change location', (data: TextProps) => ProfileService.changeLocation(data.text, data.id),
+    const { mutateAsync:changeLocation } = useMutation('change location', (data: TextPropsI) => ProfileService.changeLocation(data.text, data.id),
         {
             onSuccess(response) {
                 changeTxt('input[name=location]', response.data, profileActions.setLocation)
@@ -88,18 +88,18 @@ const Profile = () => {
             }
         }
     )
-    const nameSubmit: SubmitHandler<IName> = async (data) => {
+    const nameSubmit: SubmitHandler<NameI> = async (data) => {
         if (data.name === currentName) return
         await changeName({text: data.name, id})
     }
-    const locationSubmit: SubmitHandler<ILocation> = async (data) => {
+    const locationSubmit: SubmitHandler<LocationI> = async (data) => {
         if (data.location === currentLocation) return
         await changeLocation({text: data.location, id})
     }
-    const avatarSubmit: SubmitHandler<IAvatar> = async (data) => {
+    const avatarSubmit: SubmitHandler<AvatarI> = async (data) => {
         await sendPhoto(avatarValue, currentAvatar, changeAvatar)
     }
-    const bannerSubmit: SubmitHandler<IBanner> = async (data) => {
+    const bannerSubmit: SubmitHandler<BannerI> = async (data) => {
         await sendPhoto(bannerValue, currentBanner, changeBanner)
     }
     async function sendPhoto (photo: File, currentPhoto: string, changePhoto: (data: FormData) => void) {
@@ -111,8 +111,8 @@ const Profile = () => {
     }
 
     return(
-        <MainPageLayout>
-            <SettingsPageLayout>
+        <MainPage>
+            <SettingsPage>
                 <Head>
                     <title>Profile Settings</title>
                 </Head>
@@ -143,8 +143,8 @@ const Profile = () => {
                         <Loader color={'rebeccapurple'} loading={isLoading}/>
                     </div>
                 </div>
-            </SettingsPageLayout>
-        </MainPageLayout>
+            </SettingsPage>
+        </MainPage>
     )
 }
 export default React.memo(Profile)

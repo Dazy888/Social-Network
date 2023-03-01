@@ -1,14 +1,15 @@
 import React from "react"
 import { useRouter } from "next/router"
-// @ts-ignore
-import styles from '../../../../styles/Users.module.scss'
-interface Props {
+import styles from '@/styles/Users.module.scss'
+
+interface PropsI {
     avatar: string
     name: string
     location: string
     id: string
 }
-const UserPreviewComponent: React.FC<Props> = ({id, name, avatar, location}) => {
+
+const UserPreviewComponent: React.FC<PropsI> = ({id, name, avatar, location}) => {
     const router = useRouter()
 
     return(
@@ -21,4 +22,5 @@ const UserPreviewComponent: React.FC<Props> = ({id, name, avatar, location}) => 
         </div>
     )
 }
+
 export const UserPreview = React.memo(UserPreviewComponent)

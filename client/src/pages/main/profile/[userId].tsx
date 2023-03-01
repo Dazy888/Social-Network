@@ -1,36 +1,37 @@
-import React, {useEffect, useMemo, useState} from "react"
+import React, { useEffect, useState } from "react"
 import Head from "next/head"
 import { useRouter } from "next/router"
-// Layout
-import { MainPageLayout } from "../../../layouts/MainPage-Layout"
-// Components
-import { Header } from "./components/Header"
-import { Information } from "./components/Information"
-import { Subscriptions } from "./components/Subscriptions"
-import { User } from "./components/User"
 import { useSelector } from "react-redux"
-import {editInfo, getPostsElements} from "./index"
+// Layouts
+import { MainPage } from "@/layouts/MainPage-Layout"
+// Components
+import { Header } from "@/components/profile/Header"
+import { Information } from "@/components/profile/Information"
+import { Subscriptions } from "@/components/profile/Subscriptions"
+import { User } from "@/components/profile/User"
 // React Query
 import { useQuery } from "react-query"
-// Typification
-import { UserData } from "../users/interfaces/interfaces"
+// Interfaces
+import { UserDataI } from "@/interfaces/users-interfaces"
 import { AxiosResponse } from "axios"
 // HTTP Service
-import { UsersService } from "../../../services/users-service"
+import { UsersService } from "@/services/users-service"
 // Styles
-// @ts-ignore
-import styles from "../../../styles/Profile.module.scss"
+import styles from "@/styles/Profile.module.scss"
 // Store
-import { getId } from "../../../store/reducers/profile/profile-selectors"
+import { getId } from "@/store/reducers/profile/profile-selectors"
+// Functions
+import { editInfo, getPostsElements } from "@/pages/main/profile/index"
+
 const UserProfile = () => {
     const router = useRouter()
-    const [user, setUser] = useState<UserData>({banner: '', avatar: '', aboutMe: '', hobbies: '', name: '', location: '', skills: '', followers: [], following: [], posts: []})
+    const [user, setUser] = useState<UserDataI>({banner: '', avatar: '', aboutMe: '', hobbies: '', name: '', location: '', skills: '', followers: [], following: [], posts: []})
 
     const openedUserId: any = router.query.userId
     const initialUserId = useSelector(getId)
 
     const { refetch } = useQuery('get user', () => UsersService.getUser(openedUserId), {
-        onSuccess(res: AxiosResponse<UserData>) {
+        onSuccess(res: AxiosResponse<UserDataI>) {
             setUser(res.data)
         },
         enabled: false
@@ -45,7 +46,7 @@ const UserProfile = () => {
     const followersUsers: any = user.followers.map((id, pos) => <User key={pos} id={id}/>)
 
     return(
-        <MainPageLayout>
+        <MainPage>
             <Head>
                 <title>{user.name}</title>
             </Head>
@@ -59,7 +60,8 @@ const UserProfile = () => {
                     <Subscriptions followers={followersUsers} following={followingUsers}/>
                 </div>
             </div>
-        </MainPageLayout>
+        </MainPage>
     )
 }
+
 export default React.memo(UserProfile)

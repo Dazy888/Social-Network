@@ -3,13 +3,13 @@ import { useDispatch } from "react-redux"
 // React Query
 import { useMutation } from "react-query"
 // Store
-import { ProfileService } from "../../../../services/profile-service"
-import { profileActions } from "../../../../store/reducers/profile/profile-reducer"
+import { ProfileService } from "@/services/profile-service"
+import { profileActions } from "@/store/reducers/profile/profile-reducer"
 // Styles
-// @ts-ignore
-import styles from '../../../../styles/Profile.module.scss'
-// Typification
-import { DeletePostProps } from "../interfaces/interfaces"
+import styles from '@/styles/Profile.module.scss'
+// Interfaces
+import { DeletePostPropsI } from "@/interfaces/profile-interfaces"
+
 interface Props {
     avatar: string
     name: string
@@ -20,10 +20,11 @@ interface Props {
     forView?: boolean
 
 }
+
 const PostComponent: React.FC<Props> = ({ avatar, name, date, text, id, userId = '', forView = false }) => {
     const dispatch = useDispatch()
 
-    const { mutateAsync } = useMutation('delete post', (data: DeletePostProps) => ProfileService.deletePost(data.id, data.userId),
+    const { mutateAsync } = useMutation('delete post', (data: DeletePostPropsI) => ProfileService.deletePost(data.id, data.userId),
         {
             onSuccess(response) {
                 dispatch(profileActions.deletePost(response.data))
@@ -53,4 +54,5 @@ const PostComponent: React.FC<Props> = ({ avatar, name, date, text, id, userId =
         </div>
     )
 }
+
 export const Post = React.memo(PostComponent)

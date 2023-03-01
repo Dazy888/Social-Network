@@ -1,11 +1,12 @@
-import { InferActionsTypes } from '../../store'
+import { InferActionsTypes } from '@/store/store'
 
 let initialState = {
-    isActivated: false,
+    isActivated: false
 }
 
 type InitialStateType = typeof initialState
 type ActionsType = InferActionsTypes<typeof authActions>
+
 export const authReducer = (state = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case 'SN/auth/SET_AUTH_DATA':
@@ -17,6 +18,7 @@ export const authReducer = (state = initialState, action: ActionsType): InitialS
             return state
     }
 }
+
 export const authActions = {
     setAuthData: (isActivated: boolean) => ({type: 'SN/auth/SET_AUTH_DATA', isActivated} as const),
 }
