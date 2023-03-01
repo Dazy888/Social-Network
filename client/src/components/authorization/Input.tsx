@@ -1,7 +1,8 @@
 import React, { useRef } from "react"
-import { Messages } from "./ErrorMessages"
-import { Icons } from "./ErrorIcons"
-interface Props {
+import { ErrorMessage } from "./ErrorMessages"
+import { ErrorIcon } from "./ErrorIcons"
+
+interface PropsI {
     error: string | undefined
     touched: boolean | undefined
     register: any
@@ -17,8 +18,10 @@ interface Props {
     required?: boolean
     errorName?: string
 }
-const InputComponent: React.FC<Props> = ({ className, error, touched, serverError, register, patternValue, maxLength, minLength, name, changeServerError, placeholder, type, required = true, errorName }) => {
+
+const InputComponent: React.FC<PropsI> = ({ className, error, touched, serverError, register, patternValue, maxLength, minLength, name, changeServerError, placeholder, type, required = true, errorName }) => {
     const inpRef: any = useRef()
+
     function changingServerError() {
         const input: any = document.querySelector(`input[name=${name}]`)
         input.classList.remove('success')
@@ -27,7 +30,7 @@ const InputComponent: React.FC<Props> = ({ className, error, touched, serverErro
 
     return(
         <div className={`error-container`}>
-            <Messages error={error} serverError={serverError} touched={touched}/>
+            <ErrorMessage error={error} serverError={serverError} touched={touched}/>
             <input ref={inpRef} minLength={minLength} maxLength={maxLength} onClick={changingServerError} className={`${error && touched || serverError ? `red-border ${className}` : `${className}`}`} type={type} placeholder={placeholder}  {...(register(name,
                 {
                     required: {
@@ -39,8 +42,9 @@ const InputComponent: React.FC<Props> = ({ className, error, touched, serverErro
                         message: `Invalid ${errorName || name}`
                     }
                 }))}/>
-            <Icons error={error} serverError={serverError} touched={touched}/>
+            <ErrorIcon error={error} serverError={serverError} touched={touched}/>
         </div>
     )
 }
+
 export const Input = React.memo(InputComponent)

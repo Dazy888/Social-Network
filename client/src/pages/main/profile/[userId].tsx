@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useState} from "react"
 import Head from "next/head"
 import { useRouter } from "next/router"
 // Layout
-import { MainLayout } from "../../../layouts/Main-Layout"
+import { MainPageLayout } from "../../../layouts/MainPage-Layout"
 // Components
 import { Header } from "./components/Header"
 import { Information } from "./components/Information"
@@ -45,7 +45,7 @@ const UserProfile = () => {
     const followersUsers: any = user.followers.map((id, pos) => <User key={pos} id={id}/>)
 
     return(
-        <MainLayout>
+        <MainPageLayout>
             <Head>
                 <title>{user.name}</title>
             </Head>
@@ -59,7 +59,7 @@ const UserProfile = () => {
                     <Subscriptions followers={followersUsers} following={followingUsers}/>
                 </div>
             </div>
-        </MainLayout>
+        </MainPageLayout>
     )
 }
 export default React.memo(UserProfile)

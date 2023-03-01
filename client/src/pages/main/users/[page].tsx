@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 // Layout
-import { MainLayout } from "../../../layouts/Main-Layout"
+import { MainPageLayout } from "../../../layouts/MainPage-Layout"
 // Paginator
 import ReactPaginate from "react-paginate"
 // Styles
@@ -58,7 +58,7 @@ const Users = () => {
     })
 
     return (
-        <MainLayout>
+        <MainPageLayout>
             <Head>
                 <title>Users</title>
             </Head>
@@ -86,7 +86,7 @@ const Users = () => {
                          </div>
                     :   <Loader/>}
             </div>
-        </MainLayout>
+        </MainPageLayout>
     )
 }
 export default React.memo(Users)

@@ -1,8 +1,12 @@
 import React from "react"
-import { NavLink } from "./components/NavLink"
+// Styles
 import styles from '../styles/Settings.module.scss'
-import { LayoutProps } from "./interfaces/interfaces"
-const SettingsLayoutComponent: React.FC<LayoutProps> = ({ children }) => {
+// Components
+import { NavLink } from "../components/navigation/NavLink"
+// Interfaces
+import { LayoutPropsI } from "../interfaces/layouts-interfaces"
+
+const SettingsPageLayout: React.FC<LayoutPropsI> = ({ children }) => {
     return(
         <div className={`${styles['settings']} flex-center`}>
             <div className={`${styles['settings__container']} flex-between`}>
@@ -18,4 +22,4 @@ const SettingsLayoutComponent: React.FC<LayoutProps> = ({ children }) => {
         </div>
     )
 }
-export const SettingsLayout = React.memo(SettingsLayoutComponent)
+export const SettingsPage = React.memo(SettingsPageLayout)

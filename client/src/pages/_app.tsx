@@ -1,7 +1,8 @@
 import type { AppProps } from 'next/app'
 import { Provider } from "react-redux"
 // Styles
-import '../styles/index.scss'
+import '@/styles/main.scss'
+import '@/styles/reset.scss'
 // React Query
 import { QueryClient, QueryClientProvider } from "react-query"
 // Store

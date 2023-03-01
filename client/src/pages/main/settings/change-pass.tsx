@@ -2,8 +2,8 @@ import React, { useState } from "react"
 import Head from "next/head"
 import { useSelector } from "react-redux"
 // Layouts
-import { SettingsLayout } from "../../../layouts/Settings-Layout"
-import { MainLayout } from "../../../layouts/Main-Layout"
+import { SettingsPageLayout } from "../../../layouts/SettingsPage-Layout"
+import { MainPageLayout } from "../../../layouts/MainPage-Layout"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
 // Typification
@@ -15,8 +15,8 @@ import { useMutation } from "react-query"
 // Store
 import { getId } from "../../../store/reducers/profile/profile-selectors"
 // Components
-import { Input } from "../../authorization/components/Input"
-import { Loader } from "../../authorization/components/Loader"
+import { Input } from "../../../components/authorization/Input"
+import { Loader } from "../../../components/authorization/Loader"
 import { Message } from "./components/Success-Message"
 // Styles
 // @ts-ignore
@@ -48,8 +48,8 @@ const ChangePass = () => {
     }
 
     return(
-        <MainLayout>
-            <SettingsLayout>
+        <MainPageLayout>
+            <SettingsPageLayout>
                 <Head>
                     <title>Changing password</title>
                 </Head>
@@ -67,8 +67,8 @@ const ChangePass = () => {
                         {successMessage ? <Message message={successMessage}/> : null}
                     </form>
                 </div>
-            </SettingsLayout>
-        </MainLayout>
+            </SettingsPageLayout>
+        </MainPageLayout>
     )
 }
 export default React.memo(ChangePass)

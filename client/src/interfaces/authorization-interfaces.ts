@@ -1,13 +1,15 @@
-export interface IAuth {
+export interface AuthFormI {
     login: string
     password: string
 }
-export interface ErrorComponentProps  {
+
+export interface ErrorComponentPropsI  {
     error: string | undefined
     serverError?: string
     touched: boolean | undefined
 }
-export interface AuthProps {
+
+export interface AuthPropsI {
     userLogin: string
     password: string
 }

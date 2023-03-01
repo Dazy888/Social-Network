@@ -2,14 +2,14 @@ import React from "react"
 import Head from "next/head"
 import { useDispatch, useSelector } from "react-redux"
 // Layouts
-import { MainLayout } from "../../../layouts/Main-Layout"
-import { SettingsLayout } from "../../../layouts/Settings-Layout"
+import { MainPageLayout } from "../../../layouts/MainPage-Layout"
+import { SettingsPageLayout } from "../../../layouts/SettingsPage-Layout"
 // Styles
 // @ts-ignore
 import styles from '../../../styles/Settings.module.scss'
 // Components
-import { Input } from "../../authorization/components/Input"
-import { Loader } from "../../authorization/components/Loader"
+import { Input } from "../../../components/authorization/Input"
+import { Loader } from "../../../components/authorization/Loader"
 import { InputFile } from "../profile/components/Input-File"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
@@ -111,8 +111,8 @@ const Profile = () => {
     }
 
     return(
-        <MainLayout>
-            <SettingsLayout>
+        <MainPageLayout>
+            <SettingsPageLayout>
                 <Head>
                     <title>Profile Settings</title>
                 </Head>
@@ -143,8 +143,8 @@ const Profile = () => {
                         <Loader color={'rebeccapurple'} loading={isLoading}/>
                     </div>
                 </div>
-            </SettingsLayout>
-        </MainLayout>
+            </SettingsPageLayout>
+        </MainPageLayout>
     )
 }
 export default React.memo(Profile)

@@ -8,7 +8,7 @@ import { Information } from "./components/Information"
 import { Subscriptions } from "./components/Subscriptions"
 import { User } from "./components/User"
 // Layout
-import { MainLayout } from "../../../layouts/Main-Layout"
+import { MainPage } from "../../../layouts/MainPage-Layout"
 // Typification
 import {ChangeInfo, EditInfo, PostType, TextProps} from "./interfaces/interfaces"
 import { AxiosResponse } from "axios"
@@ -98,7 +98,7 @@ const Index = () => {
     const followersUsers: any = followers.map(async (id, pos) => <User key={pos} id={id}/>)
 
     return(
-        <MainLayout>
+        <MainPage>
             <Head>
                 <title>Profile</title>
             </Head>
@@ -130,7 +130,7 @@ const Index = () => {
                 </div>
                 : null
             }
-        </MainLayout>
+        </MainPage>
     )
 }
 export default React.memo(Index)

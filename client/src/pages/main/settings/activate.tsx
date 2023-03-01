@@ -2,8 +2,8 @@ import React, { useState } from "react"
 import Head from "next/head"
 import { useDispatch, useSelector } from "react-redux"
 // Layouts
-import { MainLayout } from "../../../layouts/Main-Layout"
-import { SettingsLayout } from "../../../layouts/Settings-Layout"
+import { MainPageLayout } from "../../../layouts/MainPage-Layout"
+import { SettingsPageLayout } from "../../../layouts/SettingsPage-Layout"
 // Store
 import { getId } from "../../../store/reducers/profile/profile-selectors"
 import { getEmail } from "../../../store/reducers/settings/settings-selectors"
@@ -18,8 +18,8 @@ import { IActivate, ActivateProps, CancelActivationProps } from "./interfaces/in
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
 // Components
-import { Loader } from "../../authorization/components/Loader"
-import { Input } from "../../authorization/components/Input"
+import { Loader } from "../../../components/authorization/Loader"
+import { Input } from "../../../components/authorization/Input"
 // Styles
 // @ts-ignore
 import styles from "../../../styles/Settings.module.scss"
@@ -56,8 +56,8 @@ const Activate = () => {
     }
 
     return(
-        <MainLayout>
-            <SettingsLayout>
+        <MainPageLayout>
+            <SettingsPageLayout>
                 <Head>
                     <title>Email activation</title>
                 </Head>
@@ -83,8 +83,8 @@ const Activate = () => {
                             {!!email ? <button className={styles['cancel']} onClick={() => cancelActivation({id})}>Cancel</button> : null}
                         </div>}
                 </div>
-            </SettingsLayout>
-        </MainLayout>
+            </SettingsPageLayout>
+        </MainPageLayout>
     )
 }
 export default React.memo(Activate)
