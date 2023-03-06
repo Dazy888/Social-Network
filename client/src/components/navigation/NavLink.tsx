@@ -4,6 +4,7 @@ import { useRouter } from "next/router"
 
 interface PropsI {
     path: string
+    pathExp?: RegExp
     secondPath?: string
     thirdPath?: string
     activeClass?: string
@@ -11,12 +12,12 @@ interface PropsI {
     text?: string
 }
 
-const NavLinkComponent: React.FC<PropsI> = ({ path, activeClass, iconClass, text, thirdPath = '', secondPath = '' }) => {
+const NavLinkComponent: React.FC<PropsI> = ({ path, activeClass, iconClass, text, thirdPath, secondPath, pathExp = /123/ }) => {
     const router = useRouter()
 
     return(
         <Link href={path} legacyBehavior={true}>
-            <a className={router.pathname === path || router.pathname === secondPath || router.pathname === thirdPath  ? `${activeClass} flex justify-center items-center` : 'flex justify-center items-center'}>
+            <a className={router.pathname === path || router.pathname === secondPath || router.pathname === thirdPath || pathExp.test(router.asPath)  ? `${activeClass} flex justify-center items-center` : 'flex justify-center items-center'}>
                 { text ? text : <i className={iconClass}/>}
             </a>
         </Link>

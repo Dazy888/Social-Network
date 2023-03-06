@@ -5,7 +5,7 @@ export interface UserPreviewDataI {
     avatar: string
 }
 
-export interface UsersResponse {
+export interface UsersResponseI {
     users: UserPreviewDataI[],
     length: number
 }

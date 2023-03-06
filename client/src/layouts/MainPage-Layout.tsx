@@ -72,11 +72,11 @@ const MainPageLayout: React.FC<LayoutPropsI> = ({ children }) => {
                     <Image width={50} height={50} alt={'Logo'} src={'/logo.png'}/>
                     <nav ref={navRef} className={'overflow-hidden duration-300'}>
                         <button onClick={openNavigation} className={'burger'}>
-                            {opened ? <i className="fa-solid fa-square-xmark xmark"/> : <i className="fa-solid fa-bars bars"/> }
+                            {opened ? <i className={'fa-solid fa-square-xmark xmark'}/> : <i className={'fa-solid fa-bars bars'}/> }
                         </button>
-                        <ul className={'flex-between text-white'}>
+                        <ul className={'flex justify-between text-white'}>
                             <NavLink text={'Profile'} path={'/main/profile'} activeClass={'active-page'}/>
-                            <NavLink text={'Users'} path={'/main/users/1'} activeClass={'active-page'}/>
+                            <NavLink pathExp={/main\/users\/\d+/} text={'Users'} path={'/main/users/1'} activeClass={'active-page'}/>
                             <NavLink thirdPath={'/main/settings/profile'} secondPath={'/main/settings/change-pass'} text={'Settings'} path={'/main/settings/activate'} activeClass={'active-page'}/>
                         </ul>
                     </nav>
@@ -86,7 +86,7 @@ const MainPageLayout: React.FC<LayoutPropsI> = ({ children }) => {
                     </div>
                 </div>
             </div>
-            <div id={'content'} className={'flex-center min-h-screen'}>
+            <div id={'content'} className={'min-h-screen'}>
                 {children}
             </div>
         </div>
