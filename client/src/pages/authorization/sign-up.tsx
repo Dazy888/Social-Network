@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 import { useDispatch } from "react-redux"
 // Components
 import { Loader } from "@/components/authorization/Loader"
-import { Input } from "@/components/authorization/Input"
+import { Input } from "@/components/common/Input"
 // Typification
 import { AuthPropsI, AuthFormI } from "@/interfaces/authorization-interfaces"
 // Recaptcha

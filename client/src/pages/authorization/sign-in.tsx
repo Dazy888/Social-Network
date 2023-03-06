@@ -17,7 +17,7 @@ import { authActions } from "@/store/reducers/auth/auth-reducer"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
 // Components
-import { Input } from "@/components/authorization/Input"
+import { Input } from "@/components/common/Input"
 import { Loader } from "@/components/authorization/Loader"
 // Styles
 import styles from '@/styles/Authorization.module.scss'

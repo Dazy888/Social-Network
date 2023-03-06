@@ -16,6 +16,7 @@ import { settingsActions } from "@/store/reducers/settings/settings-reducer"
 import { getAvatar } from "@/store/reducers/profile/profile-selectors"
 // Components
 import { NavLink } from "@/components/navigation/NavLink"
+import Image from "next/image";
 
 const MainPageLayout: React.FC<LayoutPropsI> = ({ children }) => {
     const navRef: any = useRef()
@@ -65,27 +66,27 @@ const MainPageLayout: React.FC<LayoutPropsI> = ({ children }) => {
     }, [refresh, router])
 
     return(
-        <div id={'app-wrapper'}>
+        <div id={'app-wrapper'} className={'grid'}>
             <div id={'header'} className={'flex justify-center items-center'}>
-                <div className={'header__content flex-between'}>
-                    <img alt={'Logo'} className={'header__logo'} src={'https://user-images.githubusercontent.com/16946573/144957680-01ea405e-959b-46b1-a163-df688466ac23.png'}/>
-                    <nav ref={navRef}>
+                <div className={'header__content flex justify-between items-center'}>
+                    <Image width={50} height={50} alt={'Logo'} src={'/logo.png'}/>
+                    <nav ref={navRef} className={'overflow-hidden duration-300'}>
                         <button onClick={openNavigation} className={'burger'}>
                             {opened ? <i className="fa-solid fa-square-xmark xmark"/> : <i className="fa-solid fa-bars bars"/> }
                         </button>
-                        <ul className={'flex-between'}>
+                        <ul className={'flex-between text-white'}>
                             <NavLink text={'Profile'} path={'/main/profile'} activeClass={'active-page'}/>
                             <NavLink text={'Users'} path={'/main/users/1'} activeClass={'active-page'}/>
                             <NavLink thirdPath={'/main/settings/profile'} secondPath={'/main/settings/change-pass'} text={'Settings'} path={'/main/settings/activate'} activeClass={'active-page'}/>
                         </ul>
                     </nav>
-                    <div className={'header__logout flex-between'}>
-                        <img alt={'Avatar'} src={avatar} className={'header__avatar'}/>
-                        <button onClick={() => logout()}>Logout</button>
+                    <div className={'header__logout flex justify-between items-center cursor-pointer overflow-hidden relative duration-500'}>
+                        <img alt={'Avatar'} src={avatar} className={'rounded-full w-14 h-14'}/>
+                        <button className={'text-xl absolute'} onClick={() => logout()}>Logout</button>
                     </div>
                 </div>
             </div>
-            <div id={'content'} className={'flex-center'}>
+            <div id={'content'} className={'flex-center min-h-screen'}>
                 {children}
             </div>
         </div>

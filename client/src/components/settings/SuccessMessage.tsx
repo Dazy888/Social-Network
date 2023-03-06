@@ -7,12 +7,10 @@ interface PropsI {
 
 const SuccessMessage: React.FC<PropsI> = ({ message }) => {
     return(
-        <div>
-            <span className={styles['message']}>
-                {message}
-                <br/>
-                <i className="fa-solid fa-circle-check"/>
-            </span>
+        <div className={styles['message']}>
+            {message}
+            <br/>
+            <i className={'fa-solid fa-circle-check'}/>
         </div>
     )
 }

@@ -19,7 +19,8 @@ import { ActivateI, ActivatePropsI, CancelActivationPropsI } from "@/interfaces/
 import { SubmitHandler, useForm } from "react-hook-form"
 // Components
 import { Loader } from "@/components/authorization/Loader"
-import { Input } from "@/components/authorization/Input"
+import { Input } from "@/components/common/Input"
+import { Title } from "@/components/settings/Title"
 // Styles
 import styles from "@/styles/Settings.module.scss"
 
@@ -62,28 +63,29 @@ const Activate = () => {
                 <Head>
                     <title>Email activation</title>
                 </Head>
-                <div className={`${styles['settings-form']} activate`}>
-                    <h3 className={styles['title']}>Activate Email</h3>
-                    <hr/>
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                <>
+                    <Title title={'Activate Email'}/>
+                    <hr className={'w-full h-px'}/>
+                    <form className={'py-10 px-6'} onSubmit={handleSubmit(onSubmit)}>
                         {!!email
                             ?   <div className={styles['activated-email']}>
-                                    <input className={'big-input'} disabled={true} value={email}/>
-                                    <i className="fa-solid fa-circle-check"></i>
+                                    <input className={styles['big-input']} disabled={true} value={email}/>
+                                    <i className={'absolute fa-solid fa-circle-check'}/>
                                 </div>
-                            :   <Input required={true} type={'text'} className={'big-input'} error={errors?.email?.message} touched={touchedFields.email} register={register} name={'email'} patternValue={/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/} minLength={10} maxLength={20} placeholder={'Your email'} serverError={serverErr} changeServerError={changeServerErr}/>
+                            :   <Input required={true} type={'text'} className={styles['big-input']} error={errors?.email?.message} touched={touchedFields.email} register={register} name={'email'} patternValue={/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/} minLength={10} maxLength={20} placeholder={'Your email'} serverError={serverErr} changeServerError={changeServerErr}/>
                         }
-                        {isActivated ? <p className={styles['text']}>Your email is activated</p> : <button className={styles['submit']} type={'submit'} disabled={isLoading || !!email}>Activate</button>}
+                        {isActivated ? <p className={'text-lg font-medium text-center'}>Your email is activated</p> : <button className={`${styles['submit']} w-full rounded-lg tracking-wider font-semibold`} type={'submit'} disabled={isLoading || !!email}>Activate</button>}
                     </form>
-                    <div className={'email'}>
+                    <div className={styles['loader']}>
                         <Loader color={'rgb(102, 51, 153)'} loading={isLoading}/>
                     </div>
-                    {isActivated ? null :
+                    {(!isActivated && !!email) &&
                         <div>
-                            {!!email ? <p className={styles['text']}>The activation link was send on your email</p> : null}
-                            {!!email ? <button className={styles['cancel']} onClick={() => cancelActivation({id})}>Cancel</button> : null}
-                        </div>}
-                </div>
+                            <p className={`${styles['activation-text']} text-lg font-medium text-center`}>The activation link was sent on your e-mail</p>
+                            <button className={`${styles['cancel']} rounded-2xl text-lg font-medium duration-300 my-7 mx-auto block`} onClick={() => cancelActivation({id})}>Cancel</button>
+                        </div>
+                    }
+                </>
             </SettingsPage>
         </MainPage>
     )

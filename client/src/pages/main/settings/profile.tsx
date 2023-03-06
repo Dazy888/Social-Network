@@ -7,7 +7,7 @@ import { SettingsPage } from "@/layouts/SettingsPage-Layout"
 // Styles
 import styles from '@/styles/Settings.module.scss'
 // Components
-import { Input } from "@/components/authorization/Input"
+import { Input } from "@/components/common/Input"
 import { Loader } from "@/components/authorization/Loader"
 import { InputFile } from "@/components/profile/Input-File"
 // Form
@@ -22,6 +22,7 @@ import { ProfileService } from "@/services/profile-service"
 // Store
 import { profileActions } from "@/store/reducers/profile/profile-reducer"
 import { getAvatar, getBanner, getId, getLocation, getName } from "@/store/reducers/profile/profile-selectors"
+import {Title} from "@/components/settings/Title";
 
 const Profile = () => {
     const dispatch = useDispatch()
@@ -116,33 +117,33 @@ const Profile = () => {
                 <Head>
                     <title>Profile Settings</title>
                 </Head>
-                <div className={styles['settings-form']}>
-                    <h3 className={styles['title']}>Profile Settings</h3>
-                    <hr/>
-                    <div className={styles['form']}>
-                        <div className={'flex-between inputs'}>
+                <>
+                    <Title title={'Profile Settings'}/>
+                    <hr className={'w-full h-px'}/>
+                    <div className={`${styles['forms']} py-10 px-6`}>
+                        <div className={`${styles['inputs']} flex justify-between items-center`}>
                             <form onSubmit={nameSub(nameSubmit)} className={styles['input-container']}>
                                 <Input type={'text'} error={nameErr.name?.message} touched={nameTouched.name} register={nameReg} name={'name'} patternValue={/^[a-z]+$/i} minLength={3} maxLength={10} placeholder={'Your new name'}/>
-                                <button disabled={isLoading} className={styles['btn']}>Change name</button>
+                                <button disabled={isLoading} className={'block text-sm font-semibold rounded-lg mx-auto py-1 px-4'}>Change name</button>
                             </form>
                             <form onSubmit={locationSub(locationSubmit)} className={styles['input-container']}>
                                 <Input type={'text'} error={locationErr.location?.message} touched={locationTouched.location} register={locationReg} name={'location'} patternValue={/^[a-zA-Z0-9]+$/} minLength={4} maxLength={15} placeholder={'Your new location'}/>
-                                <button className={styles['btn']}>Change location</button>
+                                <button className={'block text-sm font-semibold rounded-lg mx-auto py-1 px-4'}>Change location</button>
                             </form>
                         </div>
-                        <div className={`${styles['files']} flex-between`}>
+                        <div className={`${styles['files']} flex justify-between items-center`}>
                             <form onSubmit={avatarSub(avatarSubmit)}>
                                 <InputFile label={'Avatar'} name={'avatar'} register={avatarReg} setValue={setAvatar} currentValue={avatarValue?.name}/>
-                                <button className={styles['btn']}>Change avatar</button>
+                                <button className={'text-sm font-semibold rounded-lg mx-auto py-1 px-4'}>Change avatar</button>
                             </form>
                             <form onSubmit={bannerSub(bannerSubmit)}>
                                 <InputFile label={'Banner'} name={'banner'} register={bannerReg} setValue={setBanner} currentValue={bannerValue?.name}/>
-                                <button className={styles['btn']}>Change banner</button>
+                                <button className={'text-sm font-semibold rounded-lg mx-auto py-1 px-4'}>Change banner</button>
                             </form>
                         </div>
                         <Loader color={'rebeccapurple'} loading={isLoading}/>
                     </div>
-                </div>
+                </>
             </SettingsPage>
         </MainPage>
     )

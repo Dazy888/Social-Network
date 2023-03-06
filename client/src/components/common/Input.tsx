@@ -1,6 +1,6 @@
 import React, { useRef } from "react"
-import { ErrorMessage } from "./ErrorMessages"
-import { ErrorIcon } from "./ErrorIcons"
+import { ErrorMessage } from "../authorization/ErrorMessages"
+import { ErrorIcon } from "../authorization/ErrorIcons"
 
 interface PropsI {
     error: string | undefined

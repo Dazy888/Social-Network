@@ -2,19 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.email {
-  width: 45px;
-  height: 45px;
-  position: relative;
-  margin: auto;
-
-  .loader {
-    width: 45px;
-    left: 0 !important;
-    bottom: 0 !important;
-  }
-}
-
 .avatar {
   left: 2px;
 }
@@ -41,10 +28,8 @@
 }
 
 #app-wrapper {
-  display: grid;
-  grid-template-areas:
-          'header'
-          'content';
+  grid-template-areas:  'header'
+                        'content';
 
   #header {
     height: 100px;
@@ -54,15 +39,8 @@
     .header__content {
       width: 95%;
 
-      .header__logo {
-        width: 50px;
-        height: 50px;
-      }
-
       nav {
         height: 25px;
-        overflow: hidden;
-        transition: 0.4s;
 
         ul {
           width: 300px;
@@ -73,32 +51,19 @@
 
           a {
             font-size: 20px;
-            color: white;
           }
         }
       }
 
       .header__logout {
         width: 60px;
-        cursor: pointer;
-        overflow: hidden;
-        transition: 0.5s;
-        position: relative;
 
         &:hover {
           width: 140px;
         }
 
-        .header__avatar {
-          width: 60px;
-          height: 60px;
-          border-radius: 50%;
-        }
-
         button {
           border: 2px solid rebeccapurple;
-          font-size: 20px;
-          position: absolute;
           left: 70px;
         }
       }
@@ -106,7 +71,6 @@
   }
 
   #content {
-    min-height: 100vh;
     grid-area: content;
     background: #888da8;
   }
@@ -138,12 +102,6 @@ a {
 
 .active {
   color: rgb(249,94,59) !important;
-}
-
-.loader {
-  position: absolute;
-  bottom: -80px;
-  left: 212px;
 }
 
 .active_settings {
@@ -276,6 +234,12 @@ a {
 
   .big-input {
     width: 90% !important;
+  }
+
+  .error-container {
+    i {
+      top: 15px;
+    }
   }
 
   #app-wrapper {
