@@ -1,43 +1,16 @@
 .content {
-    height: 100vh;
     background: black;
 
-    .content-container {
+    .text {
         width: 600px;
-        margin: auto;
-
-        h1,p,button {
-            font-weight: 500;
-            color: white;
-        }
-
-        h1 {
-            font-size: 50px;
-        }
 
         hr {
-            width: 2px;
-            height: 50px;
             background: white;
-            margin: 0 30px;
-        }
-
-        p {
-            width: 400px;
-            font-size: 25px;
-            text-align: center;
-            line-height: 35px;
         }
     }
 
     button {
-        width: 200px;
-        height: 50px;
-        font-size: 20px;
-        margin: 50px auto;
-        border-radius: 10px;
         background: rebeccapurple;
-        transition: 0.4s;
 
         &:hover {
             transform: translateY(-20px);
@@ -45,18 +18,18 @@
     }
 }
 
-@media (max-width: 650px) {
+@media (max-width: 768px) {
     .content {
-        .content-container {
-            width: 500px;
+        .text {
+            width: 420px;
 
             h1 {
                 font-size: 40px;
             }
 
             p {
+                max-width: 290px;
                 font-size: 20px;
-                line-height: 30px;
             }
         }
 
@@ -68,72 +41,42 @@
     }
 }
 
-@media (max-width: 650px) {
+@media (max-width: 425px) {
     .content {
-        .content-container {
-            width: 500px;
+        .text {
+            width: 370px;
 
             h1 {
-                font-size: 40px;
+                font-size: 36px;
             }
 
             p {
-                font-size: 20px;
-                line-height: 30px;
-            }
-        }
-
-        button {
-            width: 170px;
-            height: 40px;
-            font-size: 18px;
-        }
-    }
-}
-
-@media (max-width: 550px) {
-    .content {
-        .content-container {
-            width: 400px;
-
-            h1 {
-                font-size: 35px;
-            }
-
-            p {
+                max-width: 240px;
                 font-size: 18px;
-                line-height: 22px;
             }
-        }
-
-        button {
-            width: 140px;
-            height: 35px;
-            font-size: 17px;
         }
     }
 }
 
-@media (max-width: 430px) {
+@media (max-width: 375px) {
     .content {
-        .content-container {
-            width: 300px;
+        .text {
+            width: 320px;
 
             h1 {
-                font-size: 30px;
+                font-size: 32px;
             }
 
             p {
-                font-size: 15px;
-                line-height: 20px;
+                max-width: 200px;
+                font-size: 16px;
             }
         }
 
         button {
-            width: 130px;
-            height: 35px;
-            font-size: 15px;
-            margin: 40px auto;
+            width: 120px;
+            height: 32px;
+            font-size: 16px;
         }
     }
 }

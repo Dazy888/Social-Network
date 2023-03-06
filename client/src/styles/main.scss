@@ -76,30 +76,6 @@
   }
 }
 
-.flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.flex-between {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-button {
-  display: block;
-  color: white;
-  cursor: pointer;
-  border: none;
-  background: none;
-}
-
-a {
-  text-decoration: none;
-}
-
 .active {
   color: rgb(249,94,59) !important;
 }
