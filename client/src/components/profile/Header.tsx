@@ -9,6 +9,8 @@ import { SubscriptionPropsI } from "@/interfaces/profile-interfaces"
 import { UserDataI } from "@/interfaces/users-interfaces"
 // HTTP Service
 import { ProfileService } from "@/services/profile-service"
+// Components
+import { SubscriptionBtn } from "@/components/profile/SubscriptionBtn"
 
 interface Props {
     id?: string
@@ -41,27 +43,26 @@ const HeaderComponent: React.FC<Props> = ({ user, name, avatar, banner, location
     })
 
     return(
-        <div className={styles['header']}>
-            <img alt={'Banner'} className={styles['header__banner']} src={banner}/>
-            <div className={styles['header__user']}>
-                <img alt={'Avatar'} className={styles['header__avatar']} src={avatar}/>
-                <p className={styles['header__name']}>{name}</p>
-                <p className={styles['header__location']}>{location}</p>
+        <div className={`${styles['header']} w-full h-fit relative`}>
+            <img alt={'Banner'} className={`${styles['banner']} w-full`} src={banner}/>
+            <div className={`${styles['user']} absolute z-10 text-center text-white`}>
+                <img alt={'Avatar'} className={'rounded-full'} src={avatar}/>
+                <h2 className={'text-2xl font-medium mb-1.5'}>{name}</h2>
+                <p className={'opacity-90'}>{location}</p>
             </div>
-            <div className={styles['header__tile']}></div>
-            {forView
-                ? <div className={styles['subscribe']}>
+            <div className={styles['tile']}></div>
+            {forView &&
+                <div className={`${styles['subscription']} absolute`}>
                     {subscribed
-                        ? <button onClick={async () => await unfollow({authorizedUserId: id, openedUserId })} disabled={isUnfollowing} className={styles['unfollow']}>Unfollow</button>
-                        : <button onClick={async () => await follow({authorizedUserId: id, openedUserId })} disabled={isFollowing} className={styles['follow']}>Follow</button>}
-                  </div>
-                : null
+                        ? <SubscriptionBtn text={'Unfollow'} isRequesting={isUnfollowing} className={styles['unfollow']} authorizedUserId={id} openedUserId={openedUserId} subscriptionFunc={unfollow}/>
+                        : <SubscriptionBtn text={'Follow'} isRequesting={isFollowing} className={styles['follow']} authorizedUserId={id} openedUserId={openedUserId} subscriptionFunc={follow}/>
+                    }
+                </div>
             }
-            {!forView
-                ?   <button onClick={() => router.push('settings/profile')} className={styles['header__settings']}>
-                        <i className="fa-solid fa-gear"></i>
-                    </button>
-                :   null
+            {!forView &&
+                <button onClick={() => router.push('settings/profile')} className={`${styles['settings-btn']} absolute text-3xl`}>
+                    <i className={'fa-solid fa-gear'}/>
+                </button>
             }
         </div>
     )

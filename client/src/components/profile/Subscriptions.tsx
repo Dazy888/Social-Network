@@ -1,5 +1,5 @@
 import React from "react"
-import styles from "../../styles/Profile.module.scss"
+import styles from "@/styles/Profile.module.scss"
 
 interface Props {
     followers: string[]
@@ -8,18 +8,18 @@ interface Props {
 
 const SubscriptionsComponent: React.FC<Props> = ({ followers, following }) => {
      return(
-        <div className={styles['subscriptions']}>
-            <div className={styles['followers']}>
-                <h3 className={styles['title']}>Followers {followers.length}</h3>
+        <div className={`${styles['subscriptions']} h-fit rounded-lg p-2.5`}>
+            <div className={`${styles['subscriptions__followers']} mb-12`}>
+                <h3 className={'text-lg font-medium'}>Followers {followers.length}</h3>
                 <hr/>
-                <div className={styles['content']}>
+                <div className={`${styles['subscriptions__content']} inline-flex flex-wrap gap-2.5 mt-2`}>
                     {followers}
                 </div>
             </div>
-            <div className={styles['following']}>
-                <h3 className={styles['title']}>Following {following.length}</h3>
+            <div className={`${styles['subscriptions__following']} mb-12`}>
+                <h3 className={'text-lg font-medium'}>Following {following.length}</h3>
                 <hr/>
-                <div className={styles['content']}>
+                <div className={`${styles['subscriptions__content']} inline-flex flex-wrap gap-2.5 mt-2`}>
                     {following}
                 </div>
             </div>

@@ -76,7 +76,7 @@ const MainPageLayout: React.FC<LayoutPropsI> = ({ children }) => {
                         </button>
                         <ul className={'flex justify-between text-white'}>
                             <NavLink text={'Profile'} path={'/main/profile'} activeClass={'active-page'}/>
-                            <NavLink pathExp={/main\/users\/\d+/} text={'Users'} path={'/main/users/1'} activeClass={'active-page'}/>
+                            <NavLink pathExp={/(main\/users\/\d+|main\/profile\/\w+)/} text={'Users'} path={'/main/users/1'} activeClass={'active-page'}/>
                             <NavLink thirdPath={'/main/settings/profile'} secondPath={'/main/settings/change-pass'} text={'Settings'} path={'/main/settings/activate'} activeClass={'active-page'}/>
                         </ul>
                     </nav>

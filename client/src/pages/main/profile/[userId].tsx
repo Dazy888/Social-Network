@@ -48,13 +48,13 @@ const UserProfile = () => {
     return(
         <MainPage>
             <Head>
-                <title>{user.name}</title>
+                <title>{user.name} profile</title>
             </Head>
-            <div className={styles['profile']}>
+            <div id={styles['profile']} className={'my-24 mx-auto'}>
                 <Header id={initialUserId} setUser={setUser} user={user} followers={user.followers} openedUserId={openedUserId} subscribed={user.followers.includes(initialUserId)} forView={true} avatar={user.avatar} banner={user.banner} location={user.location} name={user.name}/>
-                <div className={styles['main']}>
+                <div className={`${styles['main']} grid gap-12 mt-14 text-white`}>
                     <Information editInfo={editInfo} forView={true} aboutMe={user.aboutMe} hobbies={user.hobbies} skills={user.skills}/>
-                    <div className={styles['posts']}>
+                    <div id={styles['posts']}>
                         {postsElements}
                     </div>
                     <Subscriptions followers={followersUsers} following={followingUsers}/>

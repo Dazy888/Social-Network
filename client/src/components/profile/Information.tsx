@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux"
 // Styles
 import styles from "@/styles/Profile.module.scss"
 // Components
-import { InformationItem } from "./Information-Item"
+import { InformationItem } from "@/components/profile/Information-Item"
 // Store
 import { profileActions } from "@/store/reducers/profile/profile-reducer"
 // React Query
@@ -52,12 +52,12 @@ const InformationComponent: React.FC<Props> = ({ aboutMe, hobbies, skills, forVi
     )
 
     return(
-        <div className={styles['information']}>
-            <h3 className={styles['title']}>Profile Intro</h3>
-            <hr/>
-            <InformationItem id={id} editInfo={editInfo} forView={forView} title={'About Me:'} editStatus={editStatus} setEditStatus={setEditStatus} textId={'aboutMe'} text={aboutMe} changeText={changeAboutMe}/>
-            <InformationItem id={id} editInfo={editInfo} forView={forView} title={'Skills:'} editStatus={editStatus} setEditStatus={setEditStatus} textId={'hobbies'} text={hobbies} changeText={changeHobbies}/>
-            <InformationItem id={id} editInfo={editInfo} forView={forView} title={'Hobbies:'} editStatus={editStatus} setEditStatus={setEditStatus} textId={'skills'} text={skills} changeText={changeSkills}/>
+        <div className={`${styles['information']} rounded-lg`}>
+            <h3 className={'text-lg font-medium'}>Profile Intro</h3>
+            <hr className={'w-full h-0.5'}/>
+            <InformationItem id={id} editInfo={editInfo} forView={forView} title={'About Me'} editStatus={editStatus} setEditStatus={setEditStatus} textId={'aboutMe'} text={aboutMe} changeText={changeAboutMe}/>
+            <InformationItem id={id} editInfo={editInfo} forView={forView} title={'Skills'} editStatus={editStatus} setEditStatus={setEditStatus} textId={'hobbies'} text={hobbies} changeText={changeHobbies}/>
+            <InformationItem id={id} editInfo={editInfo} forView={forView} title={'Hobbies'} editStatus={editStatus} setEditStatus={setEditStatus} textId={'skills'} text={skills} changeText={changeSkills}/>
         </div>
     )
 }

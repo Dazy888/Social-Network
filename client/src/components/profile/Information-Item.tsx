@@ -21,16 +21,15 @@ const InformationItemComponent: React.FC<Props> = ({ editInfo, text, changeText,
 
     return(
         <div className={styles['information__item']}>
-            <div className={`${styles['information__title']} flex-between`}>
-                <h3>{title}</h3>
-                {!forView
-                    ?   <button disabled={editStatus} onClick={e => editInfo(e, changeText, text, textId, setStatus, setEditStatus, textRef.current, textareaRef, id)}>
-                            <i className="fa-solid fa-pen"></i>
-                        </button>
-                    :   null
+            <div className={`${styles['information__title']} flex justify-between items-center`}>
+                <h3 className={'tracking-wide'}>{title}:</h3>
+                {!forView &&
+                    <button className={'text-xs'} disabled={editStatus} onClick={e => editInfo(e, changeText, text, textId, setStatus, setEditStatus, textRef.current, textareaRef, id)}>
+                        <i className={'fa-solid fa-pen'}/>
+                    </button>
                 }
             </div>
-            {status ? <textarea ref={textareaRef} maxLength={100}/> : <p ref={textRef} className={styles['text']}>{text}</p>}
+            {status ? <textarea className={'mt-2.5 rounded-lg pb-2.5 pt-1'} ref={textareaRef} maxLength={100}/> : <p ref={textRef} className={'text-sm opacity-70 my-2.5'}>{text}</p>}
         </div>
     )
 }

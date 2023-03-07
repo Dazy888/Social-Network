@@ -19,7 +19,7 @@ interface Props  {
 const UserComponent: React.FC<Props> = ({ id }) => {
     const router = useRouter()
     const initialUserId = useSelector(getId)
-    const [avatar, setAvatar] = useState<string>('')
+    const [avatar, setAvatar] = useState('')
 
     const { mutateAsync} = useMutation('get avatar', (data: AvatarPropsI) => ProfileService.getAvatar(data.id), {onSuccess: (res) => setAvatar(res.data)})
 
@@ -32,8 +32,8 @@ const UserComponent: React.FC<Props> = ({ id }) => {
     }
 
     return(
-        <div onClick={() => goToProfile(id)} className={styles['user']}>
-            <img alt={'Avatar'} src={avatar}/>
+        <div onClick={() => goToProfile(id)} className={styles['subscriptions__user']}>
+            <img className={'w-10 h-10 rounded-full cursor-pointer'} alt={'Avatar'} src={avatar}/>
         </div>
     )
 }
