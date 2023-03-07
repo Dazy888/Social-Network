@@ -8,34 +8,39 @@ import { MainPage } from "@/layouts/MainPage-Layout"
 import ReactPaginate from "react-paginate"
 // Styles
 import styles from '@/styles/Users.module.scss'
-// React Query
-import { useQuery } from "react-query"
-// HTTP Service
-import { UsersService } from "@/services/users-service"
 // Components
 import { UserPreview } from "@/components/users/User"
 import { Loader } from "@/components/users/Loader"
 // Store
 import { getId } from "@/store/reducers/profile/profile-selectors"
 // Interfaces
-import { UserPreviewDataI, UsersResponseI } from "@/models/users-responses"
-import { AxiosResponse } from "axios"
+import { UserPreviewI } from "@/models/users-responses"
+// Apollo
+import { useQuery } from "@apollo/client"
+// Graphql queries
+import { GET_USERS } from "@/query/users"
 
 const Users = () => {
-    const [users, setUsers] = useState<UserPreviewDataI[]>([])
-    const [length, setLength] = useState<number>(0)
-    const [skip, setSkip] = useState<number>(0)
-
     const id = useSelector(getId)
     const router = useRouter()
 
-    const { refetch } = useQuery('get users', () => UsersService.getUsers(skip, id), {
-        onSuccess(res: AxiosResponse<UsersResponseI>) {
-            setLength(res.data.length)
-            setUsers(res.data.users)
+    const [users, setUsers] = useState<UserPreviewI[]>([])
+    const [length, setLength] = useState(0)
+    const [skip, setSkip] = useState(0)
+
+    const { data, loading, refetch } = useQuery(GET_USERS, {
+        variables: {
+            id,
+            skip
         },
-        enabled: false
     })
+
+    useEffect(() => {
+        if (!loading) {
+            setLength(data.getUsers.length)
+            setUsers(data.getUsers.users)
+        }
+    }, [data, loading])
 
     useEffect(() => {
         setTimeout(async () => refetch(), 300)
@@ -61,7 +66,7 @@ const Users = () => {
                 <title>Users</title>
             </Head>
             <div>
-                {id
+                {!loading
                     ?   <div>
                             <ReactPaginate breakLabel={"..."} nextLabel={">"} onPageChange={handlePageClick} pageRangeDisplayed={5} pageCount={pageCount} previousLabel={"<"}
                                 renderOnZeroPageCount={undefined} containerClassName={'pagination flex justify-center items-center'}
@@ -74,7 +79,8 @@ const Users = () => {
                                 {usersElem}
                             </div>
                          </div>
-                    :   <Loader/>}
+                    :    <Loader/>
+                }
             </div>
         </MainPage>
     )
