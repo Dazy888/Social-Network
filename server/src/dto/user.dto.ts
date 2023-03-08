@@ -13,6 +13,7 @@ export class UserDto {
     followers
     following
     activationLink
+
     constructor(model) {
         this.userLogin = model.userLogin
         this.userId = model.userId

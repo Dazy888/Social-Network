@@ -7,31 +7,35 @@ import { v4 } from "uuid"
 import { InjectModel } from "@nestjs/mongoose"
 import { Injectable } from "@nestjs/common"
 // Schemas
-import { User, UserDocument } from "./schemas/user.schema"
-import { Tokens, TokensDocument } from "./schemas/tokens.schema"
-import { Posts, PostsDocument } from "./schemas/posts.schema"
+import { UserDocument } from "@/schemas/user.schema"
+import { TokenDocument } from "@/schemas/token.schema"
+import { PostDocument } from "@/schemas/post.schema"
 // DTO
-import { UserDto } from "./dto/user.dto"
+import { UserDto } from "@/dto/user.dto"
 // Interfaces
-import { FindTokenResponse, ITokens, ValidateRefreshTokenResponse, RefreshResponse, RegistrationResponse } from "./interfaces/auth-interfaces"
+import { FindTokenRes, ITokens, RefreshRes, RegistrationRes } from "@/interfaces/auth.interfaces"
 
 dotenv.config()
+
 @Injectable()
 export class AuthService {
-    constructor(@InjectModel(User.name) private userModel: Model<UserDocument>, @InjectModel(Tokens.name) private tokensModel: Model<TokensDocument>, @InjectModel(Posts.name) private postsModel: Model<PostsDocument>) {}
+    constructor(@InjectModel('User') private userModel: Model<UserDocument>, @InjectModel('Token') private tokensModel: Model<TokenDocument>, @InjectModel('Post') private postsModel: Model<PostDocument>) {}
+
     generateTokens(payload): ITokens {
-        const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {expiresIn: '30m'})
-        const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {expiresIn: '30d'})
-        return {accessToken, refreshToken}
+        const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, { expiresIn: '30m' })
+        const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, { expiresIn: '30d' })
+        return { accessToken, refreshToken }
     }
-    validateRefreshToken(token: string): ValidateRefreshTokenResponse {
+
+    validateRefreshToken(token: string) {
         try {
             return jwt.verify(token, process.env.JWT_REFRESH_SECRET)
         } catch (e) {
             return null
         }
     }
-    async saveToken(id: string, refreshToken: string): Promise<void> {
+
+    async saveToken(id: string, refreshToken: string) {
         const tokenData = await this.tokensModel.findOne({ user: id })
 
         if (tokenData) {
@@ -41,10 +45,12 @@ export class AuthService {
             await this.tokensModel.create({ user:id, refreshToken })
         }
     }
+
     async deleteToken(refreshToken: string) {
         return this.tokensModel.deleteOne({refreshToken})
     }
-    async findToken(refreshToken: string): Promise<FindTokenResponse> {
+
+    async findToken(refreshToken: string): Promise<FindTokenRes> {
         return this.tokensModel.findOne({refreshToken})
     }
 
@@ -52,7 +58,7 @@ export class AuthService {
     //     const response = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`)
     //     return !response.data.success
     // }
-    async registration(login: string, password: string, /*token: string*/): Promise<RegistrationResponse | string> {
+    async registration(login: string, password: string, /*token: string*/): Promise<RegistrationRes | string> {
         // if (await this.humanValidation(token)) return `Don't fool us bot`
         if (await this.userModel.findOne({userLogin: login})) return 'User with this login already exists'
 
@@ -69,7 +75,7 @@ export class AuthService {
             user: userDto
         }
     }
-    async login(login: string, password: string, /*token: string*/): Promise<RefreshResponse | string> {
+    async login(login: string, password: string, /*token: string*/): Promise<RefreshRes | string> {
         // if (await this.humanValidation(token)) return `Don't fool us bot`
         const user = await this.userModel.findOne({userLogin: login})
         if (!user) return `User with this login doesn't exist`
@@ -92,7 +98,7 @@ export class AuthService {
     async logout(refreshToken: string) {
         return this.deleteToken(refreshToken)
     }
-    async refresh(refreshToken: string): Promise<RefreshResponse | string> {
+    async refresh(refreshToken: string): Promise<RefreshRes | string> {
         if (!refreshToken) return 'User is not authorized'
 
         const userData = this.validateRefreshToken(refreshToken)

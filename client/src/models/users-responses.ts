@@ -6,6 +6,6 @@ export interface UserPreviewI {
 }
 
 export interface UsersResponseI {
-    users: UserPreviewI[],
+    usersData: UserPreviewI[],
     length: number
 }

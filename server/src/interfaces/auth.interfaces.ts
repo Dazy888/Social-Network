@@ -1,7 +1,10 @@
+import { PostI } from "@/interfaces/users.interfaces"
+
 export interface ITokens {
     accessToken: string
     refreshToken: string
 }
+
 export interface IUser {
     userLogin: string
     userId: string
@@ -18,25 +21,18 @@ export interface IUser {
     following: string[]
     activationLink: string | null
 }
-export interface IPost {
-    user: string
-    postId: string
-    date: string
-    text: string
-}
-export interface RegistrationResponse {
+
+export interface RegistrationRes {
     tokens: ITokens
     user: IUser
 }
-export interface ValidateRefreshTokenResponse extends IUser{
-    iat: number
-    exp: number
-}
-export interface FindTokenResponse {
+
+export interface FindTokenRes {
     refreshToken: string
 }
-export interface RefreshResponse {
-    posts: IPost[]
+
+export interface RefreshRes {
+    posts: PostI[]
     user: IUser
     tokens: ITokens
 }

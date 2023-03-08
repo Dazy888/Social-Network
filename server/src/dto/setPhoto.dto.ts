@@ -1,4 +1,4 @@
-export class ChangePhotoDto {
+export class SetPhotoDto {
     readonly currentPath: string
     readonly id: string
 }

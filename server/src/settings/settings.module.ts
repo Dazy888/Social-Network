@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common'
-// Controller
-import { SettingsController } from './settings.controller'
-// Service
-import { SettingsService } from './settings.service'
-// Schema
-import { User, UserSchema } from "../auth/schemas/user.schema"
-// Module
 import { MongooseModule } from "@nestjs/mongoose"
+// Controller
+import { SettingsController } from '@/settings/settings.controller'
+// Service
+import { SettingsService } from '@/settings/settings.service'
+// Schema
+import { UserSchema } from "@/schemas/user.schema"
+
 @Module({
-  imports: [MongooseModule.forFeature([{name: User.name, schema: UserSchema}])],
+  imports: [MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])],
   controllers: [SettingsController],
   providers: [SettingsService]
 })

@@ -25,13 +25,13 @@ import { editInfo, getPostsElements } from "@/pages/main/profile/index"
 
 const UserProfile = () => {
     const router = useRouter()
-    const [user, setUser] = useState<UserDataI>({banner: '', avatar: '', aboutMe: '', hobbies: '', name: '', location: '', skills: '', followers: [], following: [], posts: []})
+    const [user, setUser] = useState<UserDataI>({banner: '', avatar: '', aboutMe: '', hobbies: '', name: '', location: '', skills: '', followers: [''], following: [''], posts: []})
 
     const openedUserId: any = router.query.userId
     const initialUserId = useSelector(getId)
 
     const { refetch } = useQuery('get user', () => UsersService.getUser(openedUserId), {
-        onSuccess(res: AxiosResponse<UserDataI>) {
+        onSuccess(res) {
             setUser(res.data)
         },
         enabled: false

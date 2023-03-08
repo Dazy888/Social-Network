@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import Head from "next/head"
 import { useRouter } from "next/router"
 import { useSelector } from "react-redux"
-// Layouts
+// Layout
 import { MainPage } from "@/layouts/MainPage-Layout"
 // Paginator
 import ReactPaginate from "react-paginate"
@@ -14,11 +14,12 @@ import { Loader } from "@/components/users/Loader"
 // Store
 import { getId } from "@/store/reducers/profile/profile-selectors"
 // Interfaces
-import { UserPreviewI } from "@/models/users-responses"
-// Apollo
-import { useQuery } from "@apollo/client"
-// Graphql queries
-import { GET_USERS } from "@/query/users"
+import { UserPreviewI, UsersResponseI } from "@/models/users-responses"
+import { AxiosResponse } from "axios"
+// HTTP Service
+import { UsersService } from "@/services/users-service"
+// React Query
+import { useQuery } from "react-query"
 
 const Users = () => {
     const id = useSelector(getId)
@@ -28,19 +29,13 @@ const Users = () => {
     const [length, setLength] = useState(0)
     const [skip, setSkip] = useState(0)
 
-    const { data, loading, refetch } = useQuery(GET_USERS, {
-        variables: {
-            id,
-            skip
-        },
-    })
 
-    useEffect(() => {
-        if (!loading) {
-            setLength(data.getUsers.length)
-            setUsers(data.getUsers.users)
+    const { refetch, isLoading } = useQuery('get users', () => UsersService.getUsers(skip, id), {
+        onSuccess(res: AxiosResponse<UsersResponseI>) {
+            setLength(res.data.length)
+            setUsers(res.data.usersData)
         }
-    }, [data, loading])
+    })
 
     useEffect(() => {
         setTimeout(async () => refetch(), 300)
@@ -66,7 +61,7 @@ const Users = () => {
                 <title>Users</title>
             </Head>
             <div>
-                {!loading
+                {!isLoading
                     ?   <div>
                             <ReactPaginate breakLabel={"..."} nextLabel={">"} onPageChange={handlePageClick} pageRangeDisplayed={5} pageCount={pageCount} previousLabel={"<"}
                                 renderOnZeroPageCount={undefined} containerClassName={'pagination flex justify-center items-center'}
