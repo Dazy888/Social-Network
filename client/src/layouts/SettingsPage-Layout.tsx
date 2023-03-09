@@ -1,12 +1,12 @@
 import React from "react"
 // Styles
-import styles from '../styles/Settings.module.scss'
+import styles from '@/styles/Settings.module.scss'
 // Components
 import { NavLink } from "@/components/navigation/NavLink"
 // Interfaces
-import { LayoutPropsI } from "@/interfaces/layouts-interfaces"
+import { LayoutProps } from "@/interfaces/layouts.interfaces"
 
-const SettingsPageLayout: React.FC<LayoutPropsI> = ({ children }) => {
+const SettingsPageLayout: React.FC<LayoutProps> = ({ children }) => {
     return(
         <div id={styles['settings']} className={'flex justify-center items-center h-full'}>
             <div className={`${styles['container']} flex justify-between items-center mx-auto`}>
@@ -18,7 +18,7 @@ const SettingsPageLayout: React.FC<LayoutPropsI> = ({ children }) => {
                     </ul>
                 </nav>
                 <div className={`${styles['content']} h-full rounded-2xl`}>
-                    {children}
+                    { children }
                 </div>
             </div>
         </div>

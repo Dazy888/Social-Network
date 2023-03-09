@@ -6,35 +6,34 @@ import styles from '@/styles/Profile.module.scss'
 // React Query
 import { useMutation } from "react-query"
 // HTTP Service
-import { ProfileService } from "@/services/profile-service"
+import { ProfileService } from "@/services/profile.service"
 // Store
-import { getId } from "@/store/reducers/profile/profile-selectors"
+import { getId } from "@/store/reducers/profile/profile.selectors"
 // Interfaces
-import { AvatarPropsI } from "@/interfaces/profile-interfaces"
+import { AvatarProps } from "@/interfaces/profile.interfaces"
 
-interface Props  {
-    id: string
+interface IProps  {
+    userId: string
 }
 
-const UserComponent: React.FC<Props> = ({ id }) => {
+const UserComponent: React.FC<IProps> = ({ userId }) => {
     const router = useRouter()
     const initialUserId = useSelector(getId)
     const [avatar, setAvatar] = useState('')
 
-    const { mutateAsync} = useMutation('get avatar', (data: AvatarPropsI) => ProfileService.getAvatar(data.id), {onSuccess: (res) => setAvatar(res.data)})
+    const { mutateAsync} = useMutation('get avatar', (data: AvatarProps) => ProfileService.getAvatar(data.userId), {onSuccess: (res) => setAvatar(res.data)})
 
     useEffect(() => {
-        mutateAsync({id})
-    }, [id, mutateAsync])
+        mutateAsync({userId})
+    }, [userId, mutateAsync])
 
-    function goToProfile(id: string) {
-        (id === initialUserId) ? router.push('/main/profile') : router.push(`/main/profile/${id}`)
-    }
+    const goToProfile = (userId: string) => (userId === initialUserId) ? router.push('/main/profile') : router.push(`/main/profile/${userId}`)
 
     return(
-        <div onClick={() => goToProfile(id)} className={styles['subscriptions__user']}>
+        <div onClick={() => goToProfile(userId)} className={styles['subscriptions__user']}>
             <img className={'w-10 h-10 rounded-full cursor-pointer'} alt={'Avatar'} src={avatar}/>
         </div>
     )
 }
+
 export const User = React.memo(UserComponent)

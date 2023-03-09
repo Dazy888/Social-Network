@@ -1,10 +1,10 @@
 import { $api, API_URL } from "@/http"
 import { AxiosResponse } from "axios"
-import { AuthResponse } from "@/models/auth-responses"
+import { AuthResponse, RefreshResponse } from "@/interfaces/auth.interfaces"
 
 export class AuthService {
     static registration(userLogin: string, password: string, /*token: string*/): Promise<AxiosResponse<AuthResponse>> {
-        return $api.post('auth/registration', {userLogin, password, /*token*/})
+        return $api.post('auth/registration', { userLogin, password, /*token*/ })
             .then(res => res)
             .catch(err => {
                 throw err.response.data.message
@@ -12,21 +12,21 @@ export class AuthService {
     }
 
     static login(userLogin: string, password: string, /*token: string*/): Promise<AxiosResponse<AuthResponse>> {
-        return $api.post('auth/login', {userLogin, password, /*token*/})
+        return $api.post('auth/login', { userLogin, password, /*token*/ })
             .then(res => res)
-            .catch((err) => {
+            .catch(err => {
                 throw err.response.data.message
             })
     }
 
-    static async logout(): Promise<void> {
+    static async logout() {
         await $api.get('auth/logout')
     }
 
-    static refresh() {
+    static refresh(): Promise<AxiosResponse<RefreshResponse>> {
         return $api.get(`${API_URL}auth/refresh`, { withCredentials: true })
             .then(res => res)
-            .catch((err) => {
+            .catch(err => {
                 throw err.response
             })
     }

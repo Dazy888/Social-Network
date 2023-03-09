@@ -3,29 +3,29 @@ import { useDispatch } from "react-redux"
 // React Query
 import { useMutation } from "react-query"
 // Store
-import { profileActions } from "@/store/reducers/profile/profile-reducer"
+import { profileActions } from "@/store/reducers/profile/profile.reducer"
 // Styles
 import styles from '@/styles/Profile.module.scss'
 // Interfaces
-import { DeletePostPropsI } from "@/interfaces/profile-interfaces"
-// Service
-import { ProfileService } from "@/services/profile-service"
+import { DeletePostProps } from "@/interfaces/profile.interfaces"
+// HTTP Service
+import { ProfileService } from "@/services/profile.service"
 
-interface Props {
+interface IProps {
     avatar: string
     name: string
     date: string | undefined
     text: string
-    id: string
+    postId: string
     userId?: string
     forView?: boolean
 
 }
 
-const PostComponent: React.FC<Props> = ({ avatar, name, date, text, id, userId = '', forView }) => {
+const PostComponent: React.FC<IProps> = ({ avatar, name, date, text, postId, userId = '', forView }) => {
     const dispatch = useDispatch()
 
-    const { mutateAsync } = useMutation('delete post', (data: DeletePostPropsI) => ProfileService.deletePost(data.id, data.userId),
+    const { mutateAsync } = useMutation('delete post', (data: DeletePostProps) => ProfileService.deletePost(data.userId, data.userId),
         {
             onSuccess(response) {
                 dispatch(profileActions.deletePost(response.data))
@@ -44,7 +44,7 @@ const PostComponent: React.FC<Props> = ({ avatar, name, date, text, id, userId =
                     </div>
                 </div>
                 {!forView &&
-                    <button className={'text-2xl'} onClick={() => mutateAsync({id, userId})}>
+                    <button className={'text-2xl'} onClick={() => mutateAsync({postId, userId})}>
                         <i className={'fa-solid fa-trash'}/>
                     </button>
                 }

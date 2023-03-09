@@ -9,7 +9,7 @@ type ActionsType = InferActionsTypes<typeof authActions>
 
 export const authReducer = (state = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case 'SN/auth/SET_AUTH_DATA':
+        case 'SOCIAL-NETWORK/AUTH/SET_AUTH_DATA':
             return {
                 ...state,
                 isActivated: action.isActivated
@@ -20,5 +20,5 @@ export const authReducer = (state = initialState, action: ActionsType): InitialS
 }
 
 export const authActions = {
-    setAuthData: (isActivated: boolean) => ({type: 'SN/auth/SET_AUTH_DATA', isActivated} as const),
+    setAuthData: (isActivated: boolean) => ({ type: 'SOCIAL-NETWORK/AUTH/SET_AUTH_DATA', isActivated } as const),
 }

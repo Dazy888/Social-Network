@@ -1,7 +1,7 @@
 import React from "react"
-import { ErrorComponentPropsI } from "@/interfaces/authorization-interfaces"
+import { ErrorComponentProps } from "@/interfaces/auth.interfaces"
 
-const ErrorIconComponent: React.FC<ErrorComponentPropsI> = ({ error, serverError, touched }) => {
+const ErrorIconComponent: React.FC<ErrorComponentProps> = ({ error, serverError, touched }) => {
     return(
         <div>
             { (error && touched) && <i className={'fa-solid fa-circle-exclamation'}/> }

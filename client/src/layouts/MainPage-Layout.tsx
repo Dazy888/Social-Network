@@ -1,47 +1,43 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { useDispatch, useSelector } from "react-redux"
+import Image from "next/image"
 // React Query
 import { useQuery } from "react-query"
 // Service
-import { AuthService } from "@/services/auth-service"
-// Interfaces
-import { RefreshResponse } from "@/models/auth-responses"
-import { AxiosResponse } from "axios"
-import { LayoutPropsI } from "@/interfaces/layouts-interfaces"
+import { AuthService } from "@/services/auth.service"
+// Interface
+import { LayoutProps } from "@/interfaces/layouts.interfaces"
 // Store
-import { authActions } from "@/store/reducers/auth/auth-reducer"
-import { profileActions } from "@/store/reducers/profile/profile-reducer"
-import { settingsActions } from "@/store/reducers/settings/settings-reducer"
-import { getAvatar } from "@/store/reducers/profile/profile-selectors"
+import { authActions } from "@/store/reducers/auth/auth.reducer"
+import { profileActions } from "@/store/reducers/profile/profile.reducer"
+import { settingsActions } from "@/store/reducers/settings/settings.reducer"
+import { getAvatar } from "@/store/reducers/profile/profile.selectors"
 // Components
 import { NavLink } from "@/components/navigation/NavLink"
-import Image from "next/image";
 
-const MainPageLayout: React.FC<LayoutPropsI> = ({ children }) => {
-    const navRef: any = useRef()
+const MainPageLayout: React.FC<LayoutProps> = ({ children }) => {
     const dispatch = useDispatch()
     const router = useRouter()
 
     const avatar = useSelector(getAvatar)
-    const [opened, setStatus] = useState(false)
 
-    function openNavigation() {
-        if (opened) {
-            setStatus(false)
-            navRef.current.classList.remove('openNav')
-        } else {
-            setStatus(true)
-            navRef.current.classList.add('openNav')
-        }
+    const [isOpened, setOpenedStatus] = useState(false)
+    const [navClass, setNavClass] = useState('')
+
+    const openNavHelper = (isOpened: boolean, navClass: string) => {
+        setOpenedStatus(isOpened)
+        setNavClass(navClass)
     }
+
+    const openNavHandler = () => (isOpened) ? openNavHelper(false, '') : openNavHelper(true, 'openNav')
 
     const { refetch:logout } = useQuery('logout', () => AuthService.logout(),
         {
             async onSuccess() {
                 localStorage.removeItem('token')
                 dispatch(authActions.setAuthData(false))
-                await router.push('/authorization/sign-in')
+                await router.push('/auth/sign-in')
             },
             enabled: false
         }
@@ -49,20 +45,21 @@ const MainPageLayout: React.FC<LayoutPropsI> = ({ children }) => {
 
     const { refetch:refresh } = useQuery('check auth', () => AuthService.refresh(),
         {
-            onSuccess(response: AxiosResponse<RefreshResponse>) {
+            onSuccess(response) {
                 const user = response.data.user
                 localStorage.setItem('token', response.data.tokens.accessToken)
+
                 dispatch(authActions.setAuthData(user.isActivated))
-                dispatch(profileActions.setUser(user.name, user.location, user.banner, user.avatar, user.aboutMe, user.skills, user.hobbies, user.userId, response.data.posts, user.email, user.followers, user.following))
+                dispatch(profileActions.setUser(user.name, user.location, user.banner, user.avatar, user.aboutMe, user.skills, user.hobbies, user.userId, response.data.posts, user.followers, user.following))
                 dispatch(settingsActions.setEmail(user.email))
             },
             async onError() {
-                await router.push('/authorization/sign-in')
+                await router.push('/auth/sign-in')
             }
         })
 
     useEffect(() => {
-        (!localStorage.getItem('token')) ? router.push('/authorization/sign-in') : refresh()
+        (!localStorage.getItem('token')) ? router.push('/auth/sign-in') : refresh()
     }, [refresh, router])
 
     return(
@@ -70,9 +67,9 @@ const MainPageLayout: React.FC<LayoutPropsI> = ({ children }) => {
             <div id={'header'} className={'flex justify-center items-center'}>
                 <div className={'header__content flex justify-between items-center'}>
                     <Image width={50} height={50} alt={'Logo'} src={'/logo.png'}/>
-                    <nav ref={navRef} className={'overflow-hidden duration-300'}>
-                        <button onClick={openNavigation} className={'burger'}>
-                            {opened ? <i className={'fa-solid fa-square-xmark xmark'}/> : <i className={'fa-solid fa-bars bars'}/> }
+                    <nav className={`overflow-hidden duration-300 ${navClass}`}>
+                        <button onClick={openNavHandler} className={'burger'}>
+                            { isOpened ? <i className={'fa-solid fa-square-xmark xmark'}/> : <i className={'fa-solid fa-bars bars'}/> }
                         </button>
                         <ul className={'flex justify-between text-white'}>
                             <NavLink text={'Profile'} path={'/main/profile'} activeClass={'active-page'}/>
@@ -87,7 +84,7 @@ const MainPageLayout: React.FC<LayoutPropsI> = ({ children }) => {
                 </div>
             </div>
             <div id={'content'} className={'min-h-screen'}>
-                {children}
+                { children }
             </div>
         </div>
     )

@@ -1,20 +1,20 @@
 import React, { useRef, useState } from "react"
-import { EditInfoFunc } from "@/interfaces/profile-interfaces"
+import { EditInfoFunc } from "@/interfaces/profile.interfaces"
 import styles from '@/styles/Profile.module.scss'
 
-interface Props {
-    id?: string
+interface IProps {
+    userId?: string
     editStatus: boolean
     setEditStatus: (status: boolean) => void
     textId: string
     text: string
     title: string
-    changeText: any
+    setText: any
     forView?: boolean
     editInfo: EditInfoFunc
 }
 
-const InformationItemComponent: React.FC<Props> = ({ editInfo, text, changeText, textId, setEditStatus, editStatus, title, forView, id= '' }) => {
+const InformationItemComponent: React.FC<IProps> = ({ editInfo, text, setText, textId, setEditStatus, editStatus, title, forView, userId = '' }) => {
     const [status, setStatus] = useState(false)
     const textareaRef: any = useRef()
     const textRef: any = useRef()
@@ -24,7 +24,7 @@ const InformationItemComponent: React.FC<Props> = ({ editInfo, text, changeText,
             <div className={`${styles['information__title']} flex justify-between items-center`}>
                 <h3 className={'tracking-wide'}>{title}:</h3>
                 {!forView &&
-                    <button className={'text-xs'} disabled={editStatus} onClick={e => editInfo(e, changeText, text, textId, setStatus, setEditStatus, textRef.current, textareaRef, id)}>
+                    <button className={'text-xs'} disabled={editStatus} onClick={(e) => editInfo(e, setText, text, textId, setStatus, setEditStatus, textRef.current, textareaRef, userId)}>
                         <i className={'fa-solid fa-pen'}/>
                     </button>
                 }

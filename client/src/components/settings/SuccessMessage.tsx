@@ -1,11 +1,11 @@
 import React from "react"
 import styles from '@/styles/Settings.module.scss'
 
-interface PropsI {
+interface IProps {
     message: string
 }
 
-const SuccessMessage: React.FC<PropsI> = ({ message }) => {
+const SuccessMessage: React.FC<IProps> = ({ message }) => {
     return(
         <div className={styles['message']}>
             {message}

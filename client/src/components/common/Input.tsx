@@ -1,8 +1,8 @@
-import React, { useRef } from "react"
-import { ErrorMessage } from "../authorization/ErrorMessages"
-import { ErrorIcon } from "../authorization/ErrorIcons"
+import React from "react"
+import { ErrorMessage } from "@/components/auth/ErrorMessages"
+import { ErrorIcon } from "@/components/auth/ErrorIcons"
 
-interface PropsI {
+interface IProps {
     error: string | undefined
     touched: boolean | undefined
     register: any
@@ -14,24 +14,22 @@ interface PropsI {
     type: 'text' | 'password'
     className?: string
     serverError?: string
-    changeServerError?: any
+    setServerError?: (error: string) => void
     required?: boolean
     errorName?: string
 }
 
-const InputComponent: React.FC<PropsI> = ({ className, error, touched, serverError, register, patternValue, maxLength, minLength, name, changeServerError, placeholder, type, required = true, errorName }) => {
-    const inpRef: any = useRef()
-
-    function changingServerError() {
+const InputComponent: React.FC<IProps> = ({ className, error, touched, serverError, register, patternValue, maxLength, minLength, name, setServerError, placeholder, type, required = true, errorName }) => {
+    const changeServerError = () => {
         const input: any = document.querySelector(`input[name=${name}]`)
         input.classList.remove('success')
-        if (changeServerError) changeServerError('')
+        if (setServerError) setServerError('')
     }
 
     return(
         <div className={`error-container`}>
             <ErrorMessage error={error} serverError={serverError} touched={touched}/>
-            <input ref={inpRef} minLength={minLength} maxLength={maxLength} onClick={changingServerError} className={`${error && touched || serverError ? `red-border ${className}` : `${className}`}`} type={type} placeholder={placeholder}  {...(register(name,
+            <input minLength={minLength} maxLength={maxLength} onClick={changeServerError} className={`${error && touched || serverError ? `red-border ${className}` : `${className}`}`} type={type} placeholder={placeholder}  {...(register(name,
                 {
                     required: {
                         value: required,

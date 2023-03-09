@@ -5,15 +5,15 @@ import styles from "@/styles/Profile.module.scss"
 // React Query
 import { useMutation } from "react-query"
 // Interfaces
-import { SubscriptionPropsI } from "@/interfaces/profile-interfaces"
-import { UserDataI } from "@/interfaces/users-interfaces"
+import { SubscriptionProps } from "@/interfaces/profile.interfaces"
+import { UserDataI } from "@/interfaces/users.interfaces"
 // HTTP Service
-import { ProfileService } from "@/services/profile-service"
+import { ProfileService } from "@/services/profile.service"
 // Components
 import { SubscriptionBtn } from "@/components/profile/SubscriptionBtn"
 
-interface Props {
-    id?: string
+interface IProps {
+    userId?: string
     user?: UserDataI
     setUser?: any
     avatar: string
@@ -26,19 +26,19 @@ interface Props {
     followers?: string[]
 }
 
-const HeaderComponent: React.FC<Props> = ({ user, name, avatar, banner, location, forView = false, subscribed = false, openedUserId = '', followers = [''], setUser, id= '' }) => {
+const HeaderComponent: React.FC<IProps> = ({ user, name, avatar, banner, location, forView, subscribed, openedUserId = '', followers = [''], setUser, userId= '' }) => {
     const router = useRouter()
 
-    const { isLoading:isFollowing, mutateAsync:follow } = useMutation('follow', (data: SubscriptionPropsI) => ProfileService.follow(data.authorizedUserId, data.openedUserId), {
-        onSuccess: () => {
-            setUser({...user, followers: [...followers, id]})
-        }
+    const { isLoading:isFollowing, mutateAsync:follow } = useMutation('follow', (data: SubscriptionProps) => ProfileService.follow(data.authorizedUserId, data.openedUserId), {
+        onSuccess() {
+            setUser({ ...user, followers: [...followers, userId] })
+        },
     })
 
-    const { isLoading:isUnfollowing, mutateAsync:unfollow } = useMutation('unfollow', (data: SubscriptionPropsI) => ProfileService.unfollow(data.authorizedUserId, data.openedUserId), {
+    const { isLoading:isUnfollowing, mutateAsync:unfollow } = useMutation('unfollow', (data: SubscriptionProps) => ProfileService.unfollow(data.authorizedUserId, data.openedUserId), {
         onSuccess: () => {
-            user?.followers.splice(user?.followers.indexOf(id), 1)
-            setUser({...user, followers: user?.followers})
+            user?.followers.splice(user?.followers.indexOf(userId), 1)
+            setUser({ ...user, followers: user?.followers })
         }
     })
 
@@ -54,8 +54,8 @@ const HeaderComponent: React.FC<Props> = ({ user, name, avatar, banner, location
             {forView &&
                 <div className={`${styles['subscription']} absolute`}>
                     {subscribed
-                        ? <SubscriptionBtn text={'Unfollow'} isRequesting={isUnfollowing} className={styles['unfollow']} authorizedUserId={id} openedUserId={openedUserId} subscriptionFunc={unfollow}/>
-                        : <SubscriptionBtn text={'Follow'} isRequesting={isFollowing} className={styles['follow']} authorizedUserId={id} openedUserId={openedUserId} subscriptionFunc={follow}/>
+                        ? <SubscriptionBtn text={'Unfollow'} isRequesting={isUnfollowing} className={styles['unfollow']} authorizedUserId={userId} openedUserId={openedUserId} subscriptionFunc={unfollow}/>
+                        : <SubscriptionBtn text={'Follow'} isRequesting={isFollowing} className={styles['follow']} authorizedUserId={userId} openedUserId={openedUserId} subscriptionFunc={follow}/>
                     }
                 </div>
             }

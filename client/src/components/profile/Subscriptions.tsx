@@ -1,12 +1,12 @@
 import React from "react"
 import styles from "@/styles/Profile.module.scss"
 
-interface Props {
+interface IProps {
     followers: string[]
     following: string[]
 }
 
-const SubscriptionsComponent: React.FC<Props> = ({ followers, following }) => {
+const SubscriptionsComponent: React.FC<IProps> = ({ followers, following }) => {
      return(
         <div className={`${styles['subscriptions']} h-fit rounded-lg p-2.5`}>
             <div className={`${styles['subscriptions__followers']} mb-12`}>

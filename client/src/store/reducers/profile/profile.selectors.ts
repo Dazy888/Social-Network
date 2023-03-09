@@ -1,5 +1,5 @@
 import { AppStateType } from "@/store/store"
-import { PostI } from "@/interfaces/profile-interfaces"
+import { IPost } from "@/interfaces/profile.interfaces"
 
 type StringAnswer = (state: AppStateType) => string
 type StringArrAnswer = (state: AppStateType) => string[]
@@ -11,7 +11,7 @@ export const getLocation: StringAnswer = (state) => state.profile.location
 export const getAboutMe: StringAnswer = (state) => state.profile.aboutMe
 export const getSkills: StringAnswer = (state) => state.profile.skills
 export const getHobbies: StringAnswer = (state) => state.profile.hobbies
-export const getId: StringAnswer = (state) => state.profile.userId
-export const getPosts: (state: AppStateType) => PostI[] = (state) => state.profile.posts
+export const getUserId: StringAnswer = (state) => state.profile.userId
+export const getPosts: (state: AppStateType) => IPost[] = (state) => state.profile.posts
 export const getFollowing: StringArrAnswer = (state) => state.profile.following
 export const getFollowers: StringArrAnswer = (state) => state.profile.followers

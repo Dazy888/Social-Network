@@ -2,7 +2,7 @@ import React from "react"
 import Link from "next/link"
 import { useRouter } from "next/router"
 
-interface PropsI {
+interface IProps {
     path: string
     pathExp?: RegExp
     secondPath?: string
@@ -12,7 +12,7 @@ interface PropsI {
     text?: string
 }
 
-const NavLinkComponent: React.FC<PropsI> = ({ path, activeClass, iconClass, text, thirdPath, secondPath, pathExp = /123/ }) => {
+const NavLinkComponent: React.FC<IProps> = ({ path, activeClass, iconClass, text, thirdPath, secondPath, pathExp = /123/ }) => {
     const router = useRouter()
 
     return(

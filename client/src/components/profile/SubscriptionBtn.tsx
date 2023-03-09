@@ -1,7 +1,8 @@
 import React from "react"
+import { SubscriptionFunc } from "@/interfaces/profile.interfaces"
 
-interface PropsI {
-    subscriptionFunc: any
+interface IProps {
+    subscriptionFunc: SubscriptionFunc
     authorizedUserId: string
     openedUserId: string
     isRequesting: boolean
@@ -9,7 +10,7 @@ interface PropsI {
     text: string
 }
 
-const SubscriptionBtnComponent: React.FC<PropsI> = ({ subscriptionFunc, openedUserId, authorizedUserId, isRequesting, className, text }) => {
+const SubscriptionBtnComponent: React.FC<IProps> = ({ subscriptionFunc, openedUserId, authorizedUserId, isRequesting, className, text }) => {
     return <button className={`${className} text-sm tracking-wide font-semibold rounded-md`} disabled={isRequesting} onClick={() => subscriptionFunc({ authorizedUserId, openedUserId })}>{text}</button>
 }
 

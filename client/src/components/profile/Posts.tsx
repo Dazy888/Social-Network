@@ -5,23 +5,23 @@ import styles from "@/styles/Profile.module.scss"
 // React Query
 import { useMutation } from "react-query"
 // Interfaces
-import { TextPropsI} from "@/interfaces/profile-interfaces"
-// Service
-import { ProfileService } from "@/services/profile-service"
+import { IPost, TextProps } from "@/interfaces/profile.interfaces"
+// HTTP Service
+import { ProfileService } from "@/services/profile.service"
 // Store
-import { profileActions } from "@/store/reducers/profile/profile-reducer"
+import { profileActions } from "@/store/reducers/profile/profile.reducer"
 
-interface PropsI {
-    id: string
-    posts: any
+interface IProps {
+    userId: string
+    posts: IPost[] | any
 }
 
-const PostsComponent: React.FC<PropsI> = ({ id, posts }) => {
+const PostsComponent: React.FC<IProps> = ({ userId, posts }) => {
     const dispatch = useDispatch()
     const textareaPostRef: any = useRef()
     const [newPostStatus, setNewPostStatus] = useState(false)
 
-    const { mutateAsync:addPost } = useMutation('add post', (data: TextPropsI) => ProfileService.addPost(data.text, data.id),
+    const { mutateAsync:addPost } = useMutation('add post', (data: TextProps) => ProfileService.addPost(data.text, data.userId),
         {
             onSuccess(response) {
                 dispatch(profileActions.addNewPost(response.data))
@@ -29,8 +29,8 @@ const PostsComponent: React.FC<PropsI> = ({ id, posts }) => {
         }
     )
 
-    async function addNewPost(setStatus: (status: boolean) => void) {
-        await addPost({text: textareaPostRef.current.value, id})
+    const addNewPost = async (setStatus: (status: boolean) => void) => {
+        await addPost({ text: textareaPostRef.current.value, userId })
         setStatus(false)
     }
 

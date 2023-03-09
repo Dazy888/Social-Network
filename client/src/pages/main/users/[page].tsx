@@ -12,26 +12,25 @@ import styles from '@/styles/Users.module.scss'
 import { UserPreview } from "@/components/users/User"
 import { Loader } from "@/components/users/Loader"
 // Store
-import { getId } from "@/store/reducers/profile/profile-selectors"
+import { getUserId } from "@/store/reducers/profile/profile.selectors"
 // Interfaces
-import { UserPreviewI, UsersResponseI } from "@/models/users-responses"
-import { AxiosResponse } from "axios"
+import { IUserPreview } from "@/interfaces/users.interfaces"
 // HTTP Service
-import { UsersService } from "@/services/users-service"
+import { UsersService } from "@/services/users.service"
 // React Query
 import { useQuery } from "react-query"
 
 const Users = () => {
-    const id = useSelector(getId)
+    const userId = useSelector(getUserId)
     const router = useRouter()
 
-    const [users, setUsers] = useState<UserPreviewI[]>([])
+    const [users, setUsers] = useState<IUserPreview[]>([])
     const [length, setLength] = useState(0)
     const [skip, setSkip] = useState(0)
 
 
-    const { refetch, isLoading } = useQuery('get users', () => UsersService.getUsers(skip, id), {
-        onSuccess(res: AxiosResponse<UsersResponseI>) {
+    const { refetch, isLoading } = useQuery('get users', () => UsersService.getUsers(skip, userId), {
+        onSuccess(res) {
             setLength(res.data.length)
             setUsers(res.data.usersData)
         }
@@ -50,8 +49,8 @@ const Users = () => {
     }
 
     const usersElem = users.map((user, pos) => {
-        if (user.userId !== id) {
-            return <UserPreview location={user.location} avatar={user.avatar} name={user.name} id={user.userId} key={pos}/>
+        if (user.userId !== userId) {
+            return <UserPreview location={user.location} avatar={user.avatar} name={user.name} userId={user.userId} key={pos}/>
         }
     })
 

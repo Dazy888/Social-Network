@@ -5,20 +5,20 @@ import { useDispatch, useSelector } from "react-redux"
 import { MainPage } from "@/layouts/MainPage-Layout"
 import { SettingsPage } from "@/layouts/SettingsPage-Layout"
 // Store
-import { getId } from "@/store/reducers/profile/profile-selectors"
-import { getEmail } from "@/store/reducers/settings/settings-selectors"
-import { getActivatedStatus } from "@/store/reducers/auth/auth-selectors"
-import { settingsActions } from "@/store/reducers/settings/settings-reducer"
+import { getUserId } from "@/store/reducers/profile/profile.selectors"
+import { getEmail } from "@/store/reducers/settings/settings.selectors"
+import { getActivatedStatus } from "@/store/reducers/auth/auth.selectors"
+import { settingsActions } from "@/store/reducers/settings/settings.reducer"
 // React Query
 import { useMutation } from "react-query"
 // HTTP Service
-import { SettingsService } from "@/services/settings-service"
+import { SettingsService } from "@/services/settings.service"
 // Interfaces
-import { ActivateI, ActivatePropsI, CancelActivationPropsI } from "@/interfaces/settings-interfaces"
+import { IActivate, ActivateProps, CancelActivationProps } from "@/interfaces/settings.interfaces"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
 // Components
-import { Loader } from "@/components/authorization/Loader"
+import { Loader } from "@/components/auth/Loader"
 import { Input } from "@/components/common/Input"
 import { Title } from "@/components/settings/Title"
 // Styles
@@ -26,24 +26,24 @@ import styles from "@/styles/Settings.module.scss"
 
 const Activate = () => {
     const dispatch = useDispatch()
-    const [serverErr, changeServerErr] = useState<string>('')
+    const [serverErr, setServerErr] = useState('')
 
-    const id = useSelector(getId)
+    const userId = useSelector(getUserId)
     const email = useSelector(getEmail)
     const isActivated = useSelector(getActivatedStatus)
 
-    const { isLoading, mutateAsync:activate } = useMutation('activate email', (data: ActivatePropsI) => SettingsService.activate(data.email, data.id),
+    const { isLoading, mutateAsync:activate } = useMutation('activate email', (data: ActivateProps) => SettingsService.activateMail(data.email, data.userId),
         {
-            onSuccess(response) {
-                dispatch(settingsActions.setEmail(response.data))
+            onSuccess(res) {
+                dispatch(settingsActions.setEmail(res.data))
             },
             onError(error: string) {
-                changeServerErr(error)
+                setServerErr(error)
             }
         }
     )
 
-    const { mutateAsync:cancelActivation } = useMutation('cancel activation', (data: CancelActivationPropsI) => SettingsService.cancelActivation(data.id),
+    const { mutateAsync:cancelActivation } = useMutation('cancel activation', (data: CancelActivationProps) => SettingsService.cancelActivation(data.userId),
         {
             onSuccess() {
                 dispatch(settingsActions.setEmail(''))
@@ -51,10 +51,10 @@ const Activate = () => {
         }
     )
 
-    const { register, handleSubmit, formState: { errors, touchedFields } } = useForm<ActivateI>()
+    const { register, handleSubmit, formState: { errors, touchedFields } } = useForm<IActivate>()
 
-    const onSubmit: SubmitHandler<ActivateI> = async (data) => {
-        await activate({email: data.email, id})
+    const onSubmit: SubmitHandler<IActivate> = async (data) => {
+        await activate({email: data.email, userId})
     }
 
     return(
@@ -72,7 +72,7 @@ const Activate = () => {
                                     <input className={styles['big-input']} disabled={true} value={email}/>
                                     <i className={'absolute fa-solid fa-circle-check'}/>
                                 </div>
-                            :   <Input required={true} type={'text'} className={styles['big-input']} error={errors?.email?.message} touched={touchedFields.email} register={register} name={'email'} patternValue={/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/} minLength={10} maxLength={20} placeholder={'Your email'} serverError={serverErr} changeServerError={changeServerErr}/>
+                            :   <Input required={true} type={'text'} className={styles['big-input']} error={errors?.email?.message} touched={touchedFields.email} register={register} name={'email'} patternValue={/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/} minLength={10} maxLength={20} placeholder={'Your email'} serverError={serverErr} setServerError={setServerErr}/>
                         }
                         {isActivated ? <p className={'text-lg font-medium text-center'}>Your email is activated</p> : <button className={`${styles['submit']} w-full rounded-lg tracking-wider font-semibold`} type={'submit'} disabled={isLoading || !!email}>Activate</button>}
                     </form>
@@ -82,7 +82,7 @@ const Activate = () => {
                     {(!isActivated && !!email) &&
                         <div>
                             <p className={`${styles['activation-text']} text-lg font-medium text-center`}>The activation link was sent on your e-mail</p>
-                            <button className={`${styles['cancel']} rounded-2xl text-lg font-medium duration-300 my-7 mx-auto block`} onClick={() => cancelActivation({id})}>Cancel</button>
+                            <button className={`${styles['cancel']} rounded-2xl text-lg font-medium duration-300 my-7 mx-auto block`} onClick={() => cancelActivation({ userId })}>Cancel</button>
                         </div>
                     }
                 </>

@@ -1,12 +1,12 @@
 import React from "react"
 import ScaleLoader from "react-spinners/ScaleLoader"
 
-interface Props {
+interface IProps {
     loading: boolean
     color: string
 }
 
-const LoginLoaderComponent: React.FC<Props> = ({ loading, color }) => {
+const LoginLoaderComponent: React.FC<IProps> = ({ loading, color }) => {
     return(
         <div className={'loader'}>
             <ScaleLoader color={color} loading={loading}/>
