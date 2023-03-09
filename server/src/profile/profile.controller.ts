@@ -3,9 +3,9 @@ import { diskStorage } from "multer"
 import { Body, Controller, Delete, Post, Put, Param, UseInterceptors, UploadedFiles, Get } from '@nestjs/common'
 import { FilesInterceptor } from "@nestjs/platform-express"
 // DTO
-import { SetTextDto } from "@/dto/setText.dto"
-import { SetPhotoDto } from "@/dto/setPhoto.dto"
-import { SubscriptionDto } from "@/dto/subscription.dto"
+import { TextDto } from "@/dto/settings/text.dto"
+import { PhotoDto } from "@/dto/settings/photo.dto"
+import { SubscriptionDto } from "@/dto/profile/subscription.dto"
 // Service
 import { ProfileService } from "./profile.service"
 
@@ -14,15 +14,15 @@ export class ProfileController {
     constructor(private readonly profileService: ProfileService) {}
 
     @Put('name')
-    async setName(@Body() data: SetTextDto) {
-        const { text, id } = data
-        return this.profileService.setName(text, id)
+    async setName(@Body() data: TextDto) {
+        const { text, userId } = data
+        return this.profileService.setName(text, userId)
     }
 
     @Put('location')
-    async setLocation(@Body() data: SetTextDto) {
-        const { text, id } = data
-        return this.profileService.setLocation(text, id)
+    async setLocation(@Body() data: TextDto) {
+        const { text, userId } = data
+        return this.profileService.setLocation(text, userId)
     }
 
     @Post('avatar')
@@ -34,9 +34,9 @@ export class ProfileController {
                 }
             })
         }))
-    async setAvatar(@Body() data, @UploadedFiles() file) {
-        const { id, currentPath } = data
-        return this.profileService.setAvatar(file[0].path, id, currentPath)
+    async setAvatar(@Body() data: PhotoDto, @UploadedFiles() file) {
+        const { userId, currentPath } = data
+        return this.profileService.setAvatar(file[0].path, userId, currentPath)
     }
 
     @Post('banner')
@@ -48,33 +48,33 @@ export class ProfileController {
                 }
             })
         }))
-    async setBanner(@Body() data: SetPhotoDto, @UploadedFiles() file) {
-        const { id, currentPath } = data
-        return this.profileService.setBanner(file[0].path, id, currentPath)
+    async setBanner(@Body() data: PhotoDto, @UploadedFiles() file) {
+        const { userId, currentPath } = data
+        return this.profileService.setBanner(file[0].path, userId, currentPath)
     }
 
     @Put('about-me')
-    async setAboutMeText(@Body() data: SetTextDto) {
-        const { text, id } = data
-        return this.profileService.setAboutMeText(text, id)
-    }
-
-    @Put('hobbies')
-    async setHobbiesText(@Body() data: SetTextDto) {
-        const { text, id } = data
-        return this.profileService.setHobbiesText(text, id)
+    async setAboutMeText(@Body() data: TextDto) {
+        const { text, userId } = data
+        return this.profileService.setAboutMe(text, userId)
     }
 
     @Put('skills')
-    async setSkillsText(@Body() data: SetTextDto) {
-        const { text, id } = data
-        return this.profileService.setSkillsText(text, id)
+    async setSkillsText(@Body() data: TextDto) {
+        const { text, userId } = data
+        return this.profileService.setSkills(text, userId)
+    }
+
+    @Put('hobbies')
+    async setHobbiesText(@Body() data: TextDto) {
+        const { text, userId } = data
+        return this.profileService.setHobbies(text, userId)
     }
 
     @Post('post')
-    async createPost(@Body() data: SetTextDto) {
-        const { text, id } = data
-        return this.profileService.createPost(text, id)
+    async createPost(@Body() data: TextDto) {
+        const { text, userId } = data
+        return this.profileService.createPost(text, userId)
     }
 
     @Delete('post/:postId/:userId')
@@ -82,9 +82,9 @@ export class ProfileController {
         return this.profileService.deletePost(postId, userId)
     }
 
-    @Get('avatar/:id')
-    async getAvatar(@Param('id') id: string) {
-        return this.profileService.getAvatar(id)
+    @Get('avatar/:userId')
+    async getAvatar(@Param('userId') userId: string) {
+        return this.profileService.getAvatar(userId)
     }
 
     @Put('follow')

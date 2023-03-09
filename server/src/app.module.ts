@@ -16,10 +16,7 @@ import { UsersModule } from "@/users/users.module"
 @Module({
   imports: [
       MongooseModule.forRoot('mongodb+srv://David:28032006@nodejs.rgylxul.mongodb.net/social-network?retryWrites=true&w=majority'),
-      ServeStaticModule.forRoot({
-          rootPath: join(__dirname, '..', 'src/static'),
-          renderPath: '/api'
-      }),
+      ServeStaticModule.forRoot({ rootPath: join(__dirname, '..', 'src/static'), renderPath: '/api' }),
       AuthModule, ProfileModule, SettingsModule, UsersModule
   ],
   controllers: [AppController],

@@ -1,23 +1,23 @@
-export interface UserPreviewI {
+export interface IUserPreview {
     userId: string
     name: string
     location: string
     avatar: string
 }
 
-export interface GetUsersResI {
-    usersData: UserPreviewI[],
+export interface GetUsersResponse {
+    usersData: IUserPreview[],
     length: number
 }
 
-export interface PostI {
+export interface IPost {
     userId: string
     date: string
     text: string
     postId: string
 }
 
-export interface GetUserResI {
+export interface GetUserResponse {
     avatar: string
     banner: string
     name: string
@@ -27,5 +27,5 @@ export interface GetUserResI {
     hobbies: string
     followers: string[]
     following: string[]
-    posts: PostI[]
+    posts: IPost[]
 }

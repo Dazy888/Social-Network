@@ -13,11 +13,7 @@ async function bootstrap() {
 
   app.use(cookieParser())
   app.use('/uploads', express.static('./uploads'))
-
-  app.use(cors({
-    credentials: true,
-    origin: process.env.CLIENT_URL
-  }))
+  app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }))
 
   await app.listen(5000)
 }

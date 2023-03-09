@@ -1,4 +1,4 @@
-import { PostI } from "@/interfaces/users.interfaces"
+import { IPost } from "@/interfaces/users.interfaces"
 
 export interface ITokens {
     accessToken: string
@@ -7,6 +7,7 @@ export interface ITokens {
 
 export interface IUser {
     userLogin: string
+    password: string
     userId: string
     isActivated: boolean
     name: string
@@ -22,17 +23,17 @@ export interface IUser {
     activationLink: string | null
 }
 
-export interface RegistrationRes {
+export interface RegistrationResponse {
     tokens: ITokens
     user: IUser
 }
 
-export interface FindTokenRes {
+export interface FindTokenResponse {
     refreshToken: string
 }
 
-export interface RefreshRes {
-    posts: PostI[]
+export interface RefreshResponse {
+    posts: IPost[]
     user: IUser
     tokens: ITokens
 }

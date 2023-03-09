@@ -5,13 +5,13 @@ import { UsersService } from "@/users/users.service"
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
 
-    @Get('/:skip/:id')
-    getUsers(@Param('skip') skip: string, @Param('id') id: string) {
-        return this.usersService.getUsers(Number(skip), id)
+    @Get('/:skip/:userId')
+    getUsers(@Param('skip') skip: string, @Param('userId') userId: string) {
+        return this.usersService.getUsers(Number(skip), userId)
     }
 
-    @Get('/:id')
-    getUser(@Param('id') id: string) {
-        return this.usersService.getUser(id)
+    @Get('/:userId')
+    getUser(@Param('userId') userId: string) {
+        return this.usersService.getUser(userId)
     }
 }

@@ -8,74 +8,83 @@ import { InjectModel } from "@nestjs/mongoose"
 import { UserDocument } from "@/schemas/user.schema"
 import { PostDocument } from "@/schemas/post.schema"
 // DTO
-import { PostDto } from "@/dto/post.dto"
+import { PostDto } from "@/dto/profile/post.dto"
 
 @Injectable()
 export class ProfileService {
-    constructor(@InjectModel('User') private userModel: Model<UserDocument>, @InjectModel('Post') private postsModel: Model<PostDocument>) {}
+    constructor(@InjectModel('User') private userModel: Model<UserDocument>, @InjectModel('Post') private postModel: Model<PostDocument>) {}
 
-    async setPhoto(path: string, field: string, model: any, id: string) {
-        (field === 'avatar') ? await model.findOneAndUpdate({ userId: id }, { avatar: `http://localhost:5000/${path}` }) : await model.findOneAndUpdate({ userId: id }, { banner: `http://localhost:5000/${path}` })
-        return `http://localhost:5000/${path}`
+    async setPhoto(newPath: string, field: string, model: any, userId: string) {
+        (field === 'avatar') ? await model.findOneAndUpdate({ userId }, { avatar: `http://localhost:5000/${newPath}` }) : await model.findOneAndUpdate({ userId }, { banner: `http://localhost:5000/${newPath}` })
+        return `http://localhost:5000/${newPath}`
     }
 
-    async setName(name: string, id: string) {
-        await this.userModel.findOneAndUpdate({ userId: id }, { name })
+    async setName(name: string, userId: string) {
+        await this.userModel.findOneAndUpdate({ userId }, { name })
         return name
     }
 
-    async setLocation(location: string, id: string) {
-        await this.userModel.findOneAndUpdate({ userId: id }, { location })
+    async setLocation(location: string, userId: string) {
+        await this.userModel.findOneAndUpdate({ userId }, { location })
         return location
     }
 
-    async setAvatar(path: string, id: string, currentPath: string) {
-        if (!/uploads/.test(currentPath)) return this.setPhoto(path, 'avatar', this.userModel, id)
-        const lastPath = `uploads${currentPath.split('uploads')[1]}`
-        fs.unlink(lastPath, (err) => err ? console.log(err) : console.log('File was deleted'))
-        return this.setPhoto(path, 'avatar', this.userModel, id)
+    async setAvatar(newPath: string, userId: string, currentPath: string) {
+        if (!/uploads/.test(currentPath)) {
+            return this.setPhoto(newPath, 'avatar', this.userModel, userId)
+        } else {
+            const previousPath = `uploads${currentPath.split('uploads')[1]}`
+            fs.unlink(previousPath, (err) => err ? console.log(err) : console.log('File was deleted'))
+
+            return this.setPhoto(newPath, 'avatar', this.userModel, userId)
+        }
     }
 
-    async setBanner(path: string, id: string, currentPath: string) {
-        if (!/uploads/.test(currentPath)) return this.setPhoto(path, 'banner', this.userModel, id)
-        const lastPath = `uploads${currentPath.split('uploads')[1]}`
-        fs.unlink(lastPath, (err) => err ? console.log(err) : console.log('File was deleted'))
-        return this.setPhoto(path, 'banner', this.userModel, id)
+    async setBanner(newPath: string, userId: string, currentPath: string) {
+        if (!/uploads/.test(currentPath)) {
+            return this.setPhoto(newPath, 'banner', this.userModel, userId)
+        } else {
+            const lastPath = `uploads${currentPath.split('uploads')[1]}`
+            fs.unlink(lastPath, (err) => err ? console.log(err) : console.log('File was deleted'))
+
+            return this.setPhoto(newPath, 'banner', this.userModel, userId)
+        }
     }
 
-    async setAboutMeText(text: string, id: string) {
-        await this.userModel.findOneAndUpdate({ userId: id }, { aboutMe: text })
+    async setAboutMe(text: string, userId: string) {
+        await this.userModel.findOneAndUpdate({ userId }, { aboutMe: text })
         return text
     }
 
-    async setHobbiesText(text: string, id: string) {
-        await this.userModel.findOneAndUpdate({ userId: id }, { hobbies: text })
+    async setSkills(text: string, userId: string) {
+        await this.userModel.findOneAndUpdate({ userId }, { skills: text })
         return text
     }
 
-    async setSkillsText(text: string, id: string) {
-        await this.userModel.findOneAndUpdate({ userId: id }, { skills: text })
+    async setHobbies(text: string, userId: string) {
+        await this.userModel.findOneAndUpdate({ userId }, { hobbies: text })
         return text
     }
 
-    async createPost(text: string, id: string) {
-        const postModel = await this.postsModel.create({ text, date: new Date(), userId: id, postId: v4() })
+    async createPost(text: string, userId: string) {
+        const postModel = await this.postModel.create({ text, date: new Date(), userId, postId: v4() })
         return new PostDto(postModel)
     }
 
     async deletePost(postId: string, userId: string) {
-        await this.postsModel.findOneAndDelete({ postId: postId })
-        return this.postsModel.find({ user: userId })
+        await this.postModel.findOneAndDelete({ postId })
+        return this.postModel.find({ userId })
     }
 
-    async getAvatar(id: string) {
-        const user = await this.userModel.findOne({ userId: id })
+    async getAvatar(userId: string) {
+        const user = await this.userModel.findOne({ userId })
         return user.avatar
     }
 
     async follow(authorizedUserId: string, openedUserId: string) {
         const openedUser = await this.userModel.findOne({ userId: openedUserId })
         const authorizedUser = await this.userModel.findOne({ userId: authorizedUserId })
+
         await this.userModel.findOneAndUpdate({ userId: openedUserId }, { followers: [...openedUser.followers, authorizedUserId] })
         await this.userModel.findOneAndUpdate({ userId: authorizedUserId }, { following: [...authorizedUser.following, openedUserId] })
     }
@@ -86,6 +95,7 @@ export class ProfileService {
 
         const openedUserFollowers = openedUser.followers
         const authorizedUserFollowing = authorizedUser.following
+
         openedUserFollowers.splice(openedUserFollowers.indexOf(authorizedUserId), 1)
         authorizedUserFollowing.splice(authorizedUserFollowing.indexOf(openedUserId), 1)
 

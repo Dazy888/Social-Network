@@ -15,10 +15,10 @@ export class User {
     isActivated: boolean
 
     @Prop()
-    activationLink: string
+    activationLink: string | null
 
     @Prop()
-    email: string
+    email: string | null
 
     @Prop()
     name: string

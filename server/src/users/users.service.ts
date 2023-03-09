@@ -6,15 +6,15 @@ import { Model } from "mongoose"
 import { UserDocument } from "@/schemas/user.schema"
 import { PostDocument } from "@/schemas/post.schema"
 // Interfaces
-import { GetUserResI, GetUsersResI, UserPreviewI } from "@/interfaces/users.interfaces"
+import { GetUserResponse, GetUsersResponse, IUserPreview } from "@/interfaces/users.interfaces"
 
 @Injectable()
 export class UsersService {
-    constructor(@InjectModel('User') private userModel: Model<UserDocument>, @InjectModel('Post') private postsModel: Model<PostDocument>) {}
+    constructor(@InjectModel('User') private userModel: Model<UserDocument>, @InjectModel('Post') private postModel: Model<PostDocument>) {}
 
-    async getUser(id: string): Promise<GetUserResI> {
-        const user = await this.userModel.findOne({ userId: id })
-        const posts = await this.postsModel.find({ userId: id })
+    async getUser(userId: string): Promise<GetUserResponse> {
+        const user = await this.userModel.findOne({ userId })
+        const posts = await this.postModel.find({ userId })
 
         return {
             avatar: user.avatar,
@@ -30,10 +30,10 @@ export class UsersService {
         }
     }
 
-    async getUsers(skip: number, id: string): Promise<GetUsersResI> {
+    async getUsers(skip: number, id: string): Promise<GetUsersResponse> {
         const length = await this.userModel.count()
         const users = await this.userModel.find({ userId: { $ne: id } }).skip(skip).limit(4)
-        const usersData: UserPreviewI[] = []
+        const usersData: IUserPreview[] = []
 
         for (const user of users) {
             usersData.push(
@@ -46,9 +46,6 @@ export class UsersService {
             )
         }
 
-        return {
-            usersData,
-            length
-        }
+        return { usersData, length }
     }
 }

@@ -10,20 +10,22 @@ import { UserDocument } from "@/schemas/user.schema"
 export class SettingsService {
     constructor(@InjectModel('User') private userModel: Model<UserDocument>) {}
 
-    async changePass(pass: string, id: string, newPass: string) {
-        const user = await this.userModel.findOne({ userId: id })
+    async changePass(currentPass: string, newPass: string, userId: string) {
+        const user = await this.userModel.findOne({ userId })
+        const isPassEquals = await bcrypt.compare(currentPass, user.password)
 
-        const isPassEquals = await bcrypt.compare(pass, user.password)
-        if (!isPassEquals) return 'Wrong password'
-
-        await this.userModel.findOneAndUpdate({ userId: id }, { password: await bcrypt.hash(newPass, 3) })
+        if (!isPassEquals) {
+            return 'Wrong password'
+        } else {
+            await this.userModel.findOneAndUpdate({ userId }, { password: await bcrypt.hash(newPass, 3) })
+        }
     }
 
-    async sendMail(email: string, activationLink: string, id: string) {
+    async sendMail(email: string, activationLink: string, userId: string) {
         if (await this.userModel.findOne({email})) {
             return 'User with this e-mail already exists'
         } else {
-            await this.userModel.findOneAndUpdate({ userId: id }, { email, activationLink })
+            await this.userModel.findOneAndUpdate({ userId }, { email, activationLink })
         }
     }
 
