@@ -21,6 +21,7 @@ import { Input } from "@/components/common/Input"
 import { Loader } from "@/components/auth/Loader"
 // Styles
 import styles from '@/styles/Authorization.module.scss'
+import {SubmitBtn} from "@/components/auth/SubmitBtn";
 
 export const successfulEnter = (router: any, dispatch: any, accessToken: string, isActivated: boolean) => {
     localStorage.setItem('token', accessToken)
@@ -64,7 +65,7 @@ const SignIn = () => {
             <form onSubmit={handleSubmit(onSubmit)} className={'w-9/12'}>
                 <Input type={'text'} error={errors.login?.message} touched={touchedFields.login} serverError={loginError} register={register} name={'login'} patternValue={/^[a-zA-Z0-9]+$/} minLength={4} maxLength={10} setServerError={setLoginError} placeholder={'Login'}/>
                 <Input type={'password'} error={errors.password?.message} touched={touchedFields.password} serverError={passwordError} register={register} name={'password'} patternValue={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/} minLength={8} maxLength={15} setServerError={setPasswordError} placeholder={'Password'}/>
-                <button className={`${styles['auth__submit']} font-semibold`} type={'submit'} disabled={isLoading}>Sign in</button>
+                <SubmitBtn isLoading={isLoading} value={'in'}/>
                 <Loader color={'rgb(249, 94, 59)'} loading={isLoading}/>
                 {/*<ReCAPTCHA className={'captcha'} sitekey={'6Leond0hAAAAAOCUq2naPPzgveoMehWQmYG4Vabt'} size={"invisible"} ref={reRef}/>*/}
             </form>
@@ -72,4 +73,4 @@ const SignIn = () => {
     )
 }
 
-export default SignIn
+export default React.memo(SignIn)

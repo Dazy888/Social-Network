@@ -1,9 +1,13 @@
 import { v4 as uuidv4 } from "uuid"
+import { diskStorage } from "multer"
 // NestJS
-import { BadRequestException, Body, Controller, Get, Param, Post, Put, Res } from '@nestjs/common'
+import { BadRequestException, Body, Controller, Get, Param, Post, Put, Res, UploadedFiles, UseInterceptors } from '@nestjs/common'
+import { FilesInterceptor } from "@nestjs/platform-express"
 // DTO
 import { PasswordDto } from "@/dto/settings/password.dto"
 import { MailDto } from "@/dto/settings/mail.dto"
+import { TextDto } from "@/dto/settings/text.dto"
+import { PhotoDto } from "@/dto/settings/photo.dto"
 // Services
 import { SettingsService } from "@/settings/settings.service"
 import MailService from "@/settings/mail"
@@ -46,5 +50,45 @@ export class SettingsController {
         } else {
             res.redirect(`${process.env.CLIENT_URL}/main/settings/activate`)
         }
+    }
+
+    @Put('name')
+    async setName(@Body() data: TextDto) {
+        const { text, userId } = data
+        return this.settingsService.setName(text, userId)
+    }
+
+    @Put('location')
+    async setLocation(@Body() data: TextDto) {
+        const { text, userId } = data
+        return this.settingsService.setLocation(text, userId)
+    }
+
+    @Post('avatar')
+    @UseInterceptors(FilesInterceptor('image', null,
+        {
+            storage: diskStorage({
+                destination: './uploads/avatars', filename: (req, file, callback) => {
+                    callback(null, Date.now() + "--" + file.originalname)
+                }
+            })
+        }))
+    async setAvatar(@Body() data: PhotoDto, @UploadedFiles() file) {
+        const { userId, currentPath } = data
+        return this.settingsService.setAvatar(file[0].path, userId, currentPath)
+    }
+
+    @Post('banner')
+    @UseInterceptors(FilesInterceptor('image', 100,
+        {
+            storage: diskStorage({
+                destination: './uploads/banners', filename: (req, file, callback) => {
+                    callback(null, Date.now() + "--" + file.originalname)
+                }
+            })
+        }))
+    async setBanner(@Body() data: PhotoDto, @UploadedFiles() file) {
+        const { userId, currentPath } = data
+        return this.settingsService.setBanner(file[0].path, userId, currentPath)
     }
 }

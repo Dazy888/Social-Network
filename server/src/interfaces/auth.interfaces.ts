@@ -6,8 +6,6 @@ export interface ITokens {
 }
 
 export interface IUser {
-    userLogin: string
-    password: string
     userId: string
     isActivated: boolean
     name: string

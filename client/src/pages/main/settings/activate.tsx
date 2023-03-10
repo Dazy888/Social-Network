@@ -82,7 +82,7 @@ const Activate = () => {
                     {(!isActivated && !!email) &&
                         <div>
                             <p className={`${styles['activation-text']} text-lg font-medium text-center`}>The activation link was sent on your e-mail</p>
-                            <button className={`${styles['cancel']} rounded-2xl text-lg font-medium duration-300 my-7 mx-auto block`} onClick={() => cancelActivation({ userId })}>Cancel</button>
+                            <button className={`${styles['cancel']} rounded-2xl text-lg font-medium duration-300 my-7 mx-auto block text-white`} onClick={() => cancelActivation({ userId })}>Cancel</button>
                         </div>
                     }
                 </>

@@ -9,16 +9,16 @@
 </head>
 <body>
     <div class="container">
-        <h1>Social network api documentation</h1>
+        <h1>Social network API documentation</h1>
         <div class="content">
             <div class="module">
-                <div class="module__header flex">
+                <div class="module__header flex-between">
                     <h2>Authorization</h2>
                     <button>Show / Hide</button>
                 </div>
                 <div class="module__content">
                     <div class="module__request">
-                        <div class="request-header flex">
+                        <div class="request-header flex-between">
                             <div class="request-type post">
                                 <h3>POST</h3>
                             </div>
@@ -29,13 +29,13 @@
                         <div class="request-content post-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
-                                <p>http://localhost:5001/api/auth/registration</p>
+                                <p>http://localhost:5000/api/auth/registration</p>
                             </div>
                             <div class="content-item">
                                 <h1 class="post-title">Request Body</h1>
                                 <p>
                                     {
-                                        userLogin: string
+                                        login: string
                                         password: string
                                         token: string
                                     }
@@ -62,17 +62,21 @@
                                         tokens: {
                                             accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
                                             refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
-                                        },
+                                        }
                                         user: {
-                                            userLogin: 'Polly'
-                                            id: '635e25e2cef7d70adff6a10e'
+                                            aboutMe: "This project was made by David Hutsenko"
+                                            activationLink: null
                                             avatar: "https://i.imgur.com/b08hxPY.png"
-                                            banner: 'https://img.freepik.com/premium-vector/programming…data-streaming-digital-code_127544-778.jpg?w=2000'
-                                            name: 'User 5'
+                                            banner: "https://img.freepik.com/premium-vector/programming…data-streaming-digital-code_127544-778.jpg?w=2000"
+                                            email: null
+                                            followers: []
+                                            following: []
+                                            hobbies: "This project was made by David Hutsenko"
+                                            isActivated: false
                                             location: 'Nowhere'
-                                            aboutMe: ""
-                                            hobbies: ""
-                                            skills: ""
+                                            name: "User 5"
+                                            skills: "This project was made by David Hutsenko"
+                                            userId: "29fd7567-6ebc-40d1-8585-13636a6bf1a4"
                                         }
                                     }
                                 </p>
@@ -84,7 +88,7 @@
                         </div>
                     </div>
                     <div class="module__request">
-                        <div class="request-header flex">
+                        <div class="request-header flex-between">
                             <div class="request-type post">
                                 <h3>POST</h3>
                             </div>
@@ -95,24 +99,15 @@
                         <div class="request-content post-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
-                                <p>http://localhost:5001/api/auth/login</p>
+                                <p>http://localhost:5000/api/auth/login</p>
                             </div>
                             <div class="content-item">
                                 <h1 class="post-title">Request Body</h1>
                                 <p>
                                     {
-                                        userLogin: string
+                                        login: string
                                         password: string
                                         token: string
-                                    }
-                                </p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Headers</h1>
-                                <p>
-                                    {
-                                        content-length : "88"
-                                        content-type : "application/json; charset=utf-8"
                                     }
                                 </p>
                             </div>
@@ -148,20 +143,32 @@
                                 <h1 class="post-title">Response Body (<span class="success">success</span>)</h1>
                                 <p>
                                     {
+                                        posts: [
+                                            {
+                                                date: "Fri Mar 10 2023 17:49:04 GMT+0200 (East Europe, standard time)"
+                                                postId : "b9bfd603-6edb-464c-a3d1-6dbbefb8444d"
+                                                text : "Hello"
+                                                userId : "1cbac348-b9d4-4fe7-92a0-779bfed9d7ce"
+                                            }
+                                        ]
                                         tokens: {
                                             accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
                                             refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
-                                        },
+                                        }
                                         user: {
-                                            userLogin: 'Polly'
-                                            id: '635e25e2cef7d70adff6a10e'
+                                            aboutMe: "This project was made by David Hutsenko"
+                                            activationLink: null
                                             avatar: "https://i.imgur.com/b08hxPY.png"
-                                            banner: 'https://img.freepik.com/premium-vector/programming…data-streaming-digital-code_127544-778.jpg?w=2000'
-                                            name: 'User 5'
+                                            banner: "https://img.freepik.com/premium-vector/programming…data-streaming-digital-code_127544-778.jpg?w=2000"
+                                            email: null
+                                            followers: []
+                                            following: []
+                                            hobbies: "This project was made by David Hutsenko"
+                                            isActivated: false
                                             location: 'Nowhere'
-                                            aboutMe: ""
-                                            hobbies: ""
-                                            skills: ""
+                                            name: "User 5"
+                                            skills: "This project was made by David Hutsenko"
+                                            userId: "29fd7567-6ebc-40d1-8585-13636a6bf1a4"
                                         }
                                     }
                                 </p>
@@ -173,7 +180,7 @@
                         </div>
                     </div>
                     <div class="module__request">
-                        <div class="request-header flex">
+                        <div class="request-header flex-between">
                             <div class="request-type get">
                                 <h3>GET</h3>
                             </div>
@@ -184,7 +191,7 @@
                         <div class="request-content get-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
-                                <p>http://localhost:5001/api/auth/logout</p>
+                                <p>http://localhost:5000/api/auth/logout</p>
                             </div>
                             <div class="content-item">
                                 <h1 class="post-title">Response Body</h1>
@@ -202,7 +209,7 @@
                         </div>
                     </div>
                     <div class="module__request">
-                        <div class="request-header flex">
+                        <div class="request-header flex-between">
                             <div class="request-type get">
                                 <h3>GET</h3>
                             </div>
@@ -213,7 +220,7 @@
                         <div class="request-content get-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
-                                <p>http://localhost:5001/api/auth/refresh</p>
+                                <p>http://localhost:5000/api/auth/refresh</p>
                             </div>
                             <div class="content-item">
                                 <h1 class="post-title">Response Body (<span>not authorized</span>)</h1>
@@ -227,29 +234,33 @@
                                 <h1 class="post-title">Response Body (<span class="success">success</span>)</h1>
                                 <p>
                                     {
+                                        posts: [
+                                            {
+                                                date: "Fri Mar 10 2023 17:49:04 GMT+0200 (East Europe, standard time)"
+                                                postId : "b9bfd603-6edb-464c-a3d1-6dbbefb8444d"
+                                                text : "Hello"
+                                                userId : "1cbac348-b9d4-4fe7-92a0-779bfed9d7ce"
+                                            }
+                                        ]
                                         tokens: {
-                                            accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz...",
+                                            accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
                                             refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTG9naW4iOiJQb2xseSIsImlkIjoiNjM1ZTI1ZTJjZWY3ZDcwYWRmZjZhMTBlIiwibmFtZSI6IlVzZXIgNSIsImxvY2F0aW9uIjoiTm93aGVyZSIsImJhbm5lciI6Imh0dHBz..."
                                         }
                                         user: {
-                                            userLogin: 'Polly'
-                                            id: '635e25e2cef7d70adff6a10e'
+                                            aboutMe: "This project was made by David Hutsenko"
+                                            activationLink: null
                                             avatar: "https://i.imgur.com/b08hxPY.png"
-                                            banner: 'https://img.freepik.com/premium-vector/programming…data-streaming-digital-code_127544-778.jpg?w=2000'
-                                            name: 'User 5'
+                                            banner: "https://img.freepik.com/premium-vector/programming…data-streaming-digital-code_127544-778.jpg?w=2000"
+                                            email: null
+                                            followers: []
+                                            following: []
+                                            hobbies: "This project was made by David Hutsenko"
+                                            isActivated: false
                                             location: 'Nowhere'
-                                            aboutMe: ""
-                                            hobbies: ""
-                                            skills: ""
-                                        },
-                                        posts: [
-                                            {
-                                                postId: 7336f8ed-681e-4fc4-8147-c2992147eba5,
-                                                user: c68c1d0c-080a-4f8d-9500-886c7ff0279f,
-                                                date: Sun Jan 08 2023 17:56:24 GMT+0200 (Восточная Европа, стандартное время),
-                                                text HelloLa it is my first post:
-                                            }
-                                        ]
+                                            name: "User 5"
+                                            skills: "This project was made by David Hutsenko"
+                                            userId: "29fd7567-6ebc-40d1-8585-13636a6bf1a4"
+                                        }
                                     }
                                 </p>
                             </div>
@@ -262,13 +273,397 @@
                 </div>
             </div>
             <div class="module">
-                <div class="module__header flex">
+                <div class="module__header flex-between">
                     <h2 class="module__title">Profile</h2>
                     <button class="module__btn">Show / Hide</button>
                 </div>
                 <div class="module__content">
                     <div class="module__request">
-                        <div class="request-header flex">
+                        <div class="request-header flex-between">
+                            <div class="request-type put">
+                                <h3>PUT</h3>
+                            </div>
+                            <div class="request-url put-url">
+                                <p>/api/profile/about-me</p>
+                            </div>
+                        </div>
+                        <div class="request-content put-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5001/api/profile/about-me</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Request Body</h1>
+                                <p>
+                                    {
+                                        text: string
+                                        userId: string
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>"New text"</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module__request">
+                        <div class="request-header flex-between">
+                            <div class="request-type put">
+                                <h3>PUT</h3>
+                            </div>
+                            <div class="request-url put-url">
+                                <p>/api/profile/hobbies</p>
+                            </div>
+                        </div>
+                        <div class="request-content put-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5000/api/profile/hobbies</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Request Body</h1>
+                                <p>
+                                    {
+                                        text: string
+                                        userId: string
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>"New text"</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module__request">
+                        <div class="request-header flex-between">
+                            <div class="request-type put">
+                                <h3>PUT</h3>
+                            </div>
+                            <div class="request-url put-url">
+                                <p>/api/profile/skills</p>
+                            </div>
+                        </div>
+                        <div class="request-content put-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5000/api/profile/skills</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Request Body</h1>
+                                <p>
+                                    {
+                                        text: string
+                                        userId: string
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>"New text"</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module__request">
+                        <div class="request-header flex-between">
+                            <div class="request-type post">
+                                <h3>POST</h3>
+                            </div>
+                            <div class="request-url post-url">
+                                <p>/api/profile/post</p>
+                            </div>
+                        </div>
+                        <div class="request-content post-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5000/api/profile/post</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Request Body</h1>
+                                <p>
+                                    {
+                                        text: string
+                                        userId: string
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>
+                                    {
+                                        date: "Sun Oct 30 2022 16:12:07 GMT+0300 (East Europe, standard time)"
+                                        postId: "30bf36ab-c08c-4d6a-ae85-55991a0a6202"
+                                        text: "New text"
+                                        userId : "1cbac348-b9d4-4fe7-92a0-779bfed9d7ce"
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>201</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module__request">
+                        <div class="request-header flex-between">
+                            <div class="request-type delete">
+                                <h3>DELETE</h3>
+                            </div>
+                            <div class="request-url delete-url">
+                                <p>/api/profile/post/{postId}/{userId}</p>
+                            </div>
+                        </div>
+                        <div class="request-content delete-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5000/api/profile/post/{postId}/{userId}</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>
+                                    [
+                                        {
+                                            date: "Sun Oct 30 2022 16:12:07 GMT+0300 (East Europe, standard time)"
+                                            postId: "30bf36ab-c08c-4d6a-ae85-55991a0a6202"
+                                            text: "New text"
+                                            userId : "1cbac348-b9d4-4fe7-92a0-779bfed9d7ce"
+                                        }
+                                    ]
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module__request">
+                        <div class="request-header flex-between">
+                            <div class="request-type get">
+                                <h3>GET</h3>
+                            </div>
+                            <div class="request-url get-url">
+                                <p>/api/profile/avatar/{id}</p>
+                            </div>
+                        </div>
+                        <div class="request-content get-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5000/api/profile/avatar/{id}</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>https://i.imgur.com/b08hxPY.png"</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module__request">
+                        <div class="request-header flex-between">
+                            <div class="request-type put">
+                                <h3>Follow</h3>
+                            </div>
+                            <div class="request-url put-url">
+                                <p>/api/profile/follow</p>
+                            </div>
+                        </div>
+                        <div class="request-content put-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5000/api/profile/follow</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Request Body</h1>
+                                <p>
+                                    {
+                                        authorizedUserId: string
+                                        openedUserId: string
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module__request">
+                        <div class="request-header flex-between">
+                            <div class="request-type put">
+                                <h3>Unfollow</h3>
+                            </div>
+                            <div class="request-url put-url">
+                                <p>/api/profile/unfollow</p>
+                            </div>
+                        </div>
+                        <div class="request-content put-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5000/api/profile/unfollow</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Request Body</h1>
+                                <p>
+                                    {
+                                        authorizedUserId: string
+                                        openedUserId: string
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="module">
+                <div class="module__header flex-between">
+                    <h2 class="module__title">Settings</h2>
+                    <button class="module__btn">Show / Hide</button>
+                </div>
+                <div class="module__content">
+                    <div class="module__request">
+                        <div class="request-header flex-between">
+                            <div class="request-type put">
+                                <h3>PUT</h3>
+                            </div>
+                            <div class="request-url put-url">
+                                <p>/api/settings/password</p>
+                            </div>
+                        </div>
+                        <div class="request-content put-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5000/api/settings/password</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Request Body</h1>
+                                <p>
+                                    {
+                                        currentPass: string
+                                        newPass: string
+                                        userId: string
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body (<span>wrong password</span>)</h1>
+                                <p>
+                                    {
+                                        error: "Bad Request"
+                                        message: "Wrong password"
+                                        statusCode: 400
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code (<span>wrong name</span>)</h1>
+                                <p>400</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code (<span class="success">success</span>)</h1>
+                                <p>200</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module__request">
+                        <div class="request-header flex-between">
+                            <div class="request-type post">
+                                <h3>POST</h3>
+                            </div>
+                            <div class="request-url post-url">
+                                <p>/api/settings/mail</p>
+                            </div>
+                        </div>
+                        <div class="request-content post-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5000/api/settings/mail</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Request Body</h1>
+                                <p>
+                                    {
+                                        email: string
+                                        userId: string
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Body</h1>
+                                <p>
+                                    {
+                                        isActivated: true
+                                        email: "example@gmail.com"
+                                    }
+                                </p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module__request">
+                        <div class="request-header flex-between">
+                            <div class="request-type get">
+                                <h3>GET</h3>
+                            </div>
+                            <div class="request-url get-url">
+                                <p>/api/settings/cancel-activation/{id}</p>
+                            </div>
+                        </div>
+                        <div class="request-content get-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5000/api/settings/cancel-activation/{id}</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module__request">
+                        <div class="request-header flex-between">
+                            <div class="request-type get">
+                                <h3>GET</h3>
+                            </div>
+                            <div class="request-url get-url">
+                                <p>/api/settings/activate/{link}</p>
+                            </div>
+                        </div>
+                        <div class="request-content get-content">
+                            <div class="content-item">
+                                <h1 class="post-title">Request URL</h1>
+                                <p>http://localhost:5000/api/settings/activate/{link}</p>
+                            </div>
+                            <div class="content-item">
+                                <h1 class="post-title">Response Code</h1>
+                                <p>200</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="module__request">
+                        <div class="request-header flex-between">
                             <div class="request-type put">
                                 <h3>PUT</h3>
                             </div>
@@ -279,14 +674,14 @@
                         <div class="request-content put-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
-                                <p>http://localhost:5001/api/profile/name</p>
+                                <p>http://localhost:5000/api/profile/name</p>
                             </div>
                             <div class="content-item">
                                 <h1 class="post-title">Request Body</h1>
                                 <p>
                                     {
                                         text: string
-                                        id: string
+                                        userId: string
                                     }
                                 </p>
                             </div>
@@ -315,7 +710,7 @@
                         </div>
                     </div>
                     <div class="module__request">
-                        <div class="request-header flex">
+                        <div class="request-header flex-between">
                             <div class="request-type put">
                                 <h3>PUT</h3>
                             </div>
@@ -326,14 +721,14 @@
                         <div class="request-content put-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
-                                <p>http://localhost:5001/api/profile/location</p>
+                                <p>http://localhost:5000/api/profile/location</p>
                             </div>
                             <div class="content-item">
                                 <h1 class="post-title">Request Body</h1>
                                 <p>
                                     {
                                         text: string
-                                        id: string
+                                        userId: string
                                     }
                                 </p>
                             </div>
@@ -348,7 +743,7 @@
                         </div>
                     </div>
                     <div class="module__request">
-                        <div class="request-header flex">
+                        <div class="request-header flex-between">
                             <div class="request-type post">
                                 <h3>POST</h3>
                             </div>
@@ -359,7 +754,7 @@
                         <div class="request-content post-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
-                                <p>http://localhost:5001/api/profile/avatar</p>
+                                <p>http://localhost:5000/api/profile/avatar</p>
                             </div>
                             <div class="content-item">
                                 <h1 class="post-title">Request Body</h1>
@@ -367,7 +762,7 @@
                             </div>
                             <div class="content-item">
                                 <h1 class="post-title">Response Body</h1>
-                                <p>"http://localhost:5001/uploads\\avatars\\1667134616768--Ð¸Ð·Ð¾Ð±ÑÐ°Ð¶ÐµÐ½Ð¸Ðµ_viber_2022-10-21_22-24-28-018.jpg"</p>
+                                <p>"http://localhost:5000/uploads\\avatars\\1667134616768--Ð¸Ð·Ð¾Ð±ÑÐ°Ð¶ÐµÐ½Ð¸Ðµ_viber_2022-10-21_22-24-28-018.jpg"</p>
                             </div>
                             <div class="content-item">
                                 <h1 class="post-title">Response Code</h1>
@@ -376,7 +771,7 @@
                         </div>
                     </div>
                     <div class="module__request">
-                        <div class="request-header flex">
+                        <div class="request-header flex-between">
                             <div class="request-type post">
                                 <h3>POST</h3>
                             </div>
@@ -387,7 +782,7 @@
                         <div class="request-content post-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
-                                <p>http://localhost:5001/api/profile/banner</p>
+                                <p>http://localhost:5000/api/profile/banner</p>
                             </div>
                             <div class="content-item">
                                 <h1 class="post-title">Request Body</h1>
@@ -395,7 +790,7 @@
                             </div>
                             <div class="content-item">
                                 <h1 class="post-title">Response Body</h1>
-                                <p>"http://localhost:5001/uploads\\banners\\1667134616768--Ð¸Ð·Ð¾Ð±ÑÐ°Ð¶ÐµÐ½Ð¸Ðµ_viber_2022-10-21_22-24-28-018.jpg"</p>
+                                <p>"http://localhost:5000/uploads\\banners\\1667134616768--Ð¸Ð·Ð¾Ð±ÑÐ°Ð¶ÐµÐ½Ð¸Ðµ_viber_2022-10-21_22-24-28-018.jpg"</p>
                             </div>
                             <div class="content-item">
                                 <h1 class="post-title">Response Code</h1>
@@ -403,419 +798,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="module__request">
-                        <div class="request-header flex">
-                            <div class="request-type put">
-                                <h3>PUT</h3>
-                            </div>
-                            <div class="request-url put-url">
-                                <p>/api/profile/about-me</p>
-                            </div>
-                        </div>
-                        <div class="request-content put-content">
-                            <div class="content-item">
-                                <h1 class="post-title">Request URL</h1>
-                                <p>http://localhost:5001/api/profile/about-me</p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Request Body</h1>
-                                <p>
-                                    {
-                                        text: string
-                                        id: string
-                                    }
-                                </p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Body</h1>
-                                <p>"New text"</p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Code</h1>
-                                <p>200</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="module__request">
-                        <div class="request-header flex">
-                            <div class="request-type put">
-                                <h3>PUT</h3>
-                            </div>
-                            <div class="request-url put-url">
-                                <p>/api/profile/hobbies</p>
-                            </div>
-                        </div>
-                        <div class="request-content put-content">
-                            <div class="content-item">
-                                <h1 class="post-title">Request URL</h1>
-                                <p>http://localhost:5001/api/profile/hobbies</p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Request Body</h1>
-                                <p>
-                                    {
-                                        text: string
-                                        id: string
-                                    }
-                                </p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Body</h1>
-                                <p>"New text"</p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Code</h1>
-                                <p>200</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="module__request">
-                        <div class="request-header flex">
-                            <div class="request-type put">
-                                <h3>PUT</h3>
-                            </div>
-                            <div class="request-url put-url">
-                                <p>/api/profile/skills</p>
-                            </div>
-                        </div>
-                        <div class="request-content put-content">
-                            <div class="content-item">
-                                <h1 class="post-title">Request URL</h1>
-                                <p>http://localhost:5001/api/profile/skills</p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Request Body</h1>
-                                <p>
-                                    {
-                                        text: string
-                                        id: string
-                                    }
-                                </p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Body</h1>
-                                <p>"New text"</p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Code</h1>
-                                <p>200</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="module__request">
-                        <div class="request-header flex">
-                            <div class="request-type post">
-                                <h3>POST</h3>
-                            </div>
-                            <div class="request-url post-url">
-                                <p>/api/profile/post</p>
-                            </div>
-                        </div>
-                        <div class="request-content post-content">
-                            <div class="content-item">
-                                <h1 class="post-title">Request URL</h1>
-                                <p>http://localhost:5001/api/profile/post</p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Request Body</h1>
-                                <p>
-                                    {
-                                        text: string
-                                        id: string
-                                    }
-                                </p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Body</h1>
-                                <p>
-                                    {
-                                        date: "Sun Oct 30 2022 16:12:07 GMT+0300 (Москва, стандартное время)"
-                                        id: "635e782706078894b4b8243f"
-                                        text: "dasdas"
-                                    }
-                                </p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Code</h1>
-                                <p>201</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="module__request">
-                        <div class="request-header flex">
-                            <div class="request-type delete">
-                                <h3>DELETE</h3>
-                            </div>
-                            <div class="request-url delete-url">
-                                <p>/api/profile/post/{postId}/{userId}</p>
-                            </div>
-                        </div>
-                        <div class="request-content delete-content">
-                            <div class="content-item">
-                                <h1 class="post-title">Request URL</h1>
-                                <p>http://localhost:5001/api/profile/post/{postId}/{userId}</p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Body</h1>
-                                <p>
-                                    [
-                                        {
-                                            date: "Sun Oct 30 2022 15:24:04 GMT+0200 (Центральная Африка)"
-                                            text: "HelloLa it is my first post"
-                                            user: "635e42dacef7d70adff6a36f"
-                                            _id: "635e7af4341f38faac0f3513"
-                                        }
-                                    ]
-                                </p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Code</h1>
-                                <p>200</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="module__request">
-                        <div class="request-header flex">
-                            <div class="request-type get">
-                                <h3>GET</h3>
-                            </div>
-                            <div class="request-url get-url">
-                                <p>/api/profile/avatar/{id}</p>
-                            </div>
-                        </div>
-                        <div class="request-content get-content">
-                            <div class="content-item">
-                                <h1 class="post-title">Request URL</h1>
-                                <p>http://localhost:5001/api/profile/avatar/{id}</p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Body</h1>
-                                <p>https://i.imgur.com/b08hxPY.png"</p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Code</h1>
-                                <p>200</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="module__request">
-                        <div class="request-header flex">
-                            <div class="request-type put">
-                                <h3>Follow</h3>
-                            </div>
-                            <div class="request-url put-url">
-                                <p>/api/profile/follow</p>
-                            </div>
-                        </div>
-                        <div class="request-content put-content">
-                            <div class="content-item">
-                                <h1 class="post-title">Request URL</h1>
-                                <p>http://localhost:5001/api/profile/follow</p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Request Body</h1>
-                                <p>
-                                    {
-                                        authorizedUserId: string
-                                        openedUserId: string
-                                    }
-                                </p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Body</h1>
-                                <p>None</p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Code</h1>
-                                <p>200</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="module__request">
-                        <div class="request-header flex">
-                            <div class="request-type put">
-                                <h3>Unfollow</h3>
-                            </div>
-                            <div class="request-url put-url">
-                                <p>/api/profile/unfollow</p>
-                            </div>
-                        </div>
-                        <div class="request-content put-content">
-                            <div class="content-item">
-                                <h1 class="post-title">Request URL</h1>
-                                <p>http://localhost:5001/api/profile/unfollow</p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Request Body</h1>
-                                <p>
-                                    {
-                                        authorizedUserId: string
-                                        openedUserId: string
-                                    }
-                                </p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Body</h1>
-                                <p>None</p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Code</h1>
-                                <p>200</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="module">
-                <div class="module__header flex">
-                    <h2 class="module__title">Settings</h2>
-                    <button class="module__btn">Show / Hide</button>
-                </div>
-                <div class="module__content">
-                    <div class="module__request">
-                        <div class="request-header flex">
-                            <div class="request-type put">
-                                <h3>PUT</h3>
-                            </div>
-                            <div class="request-url put-url">
-                                <p>/api/settings/password</p>
-                            </div>
-                        </div>
-                        <div class="request-content put-content">
-                            <div class="content-item">
-                                <h1 class="post-title">Request URL</h1>
-                                <p>http://localhost:5001/api/settings/password</p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Request Body</h1>
-                                <p>
-                                    {
-                                        pass: string
-                                        newPass: string
-                                        id: string
-                                    }
-                                </p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Body (<span>wrong password</span>)</h1>
-                                <p>
-                                    {
-                                        error: "Bad Request"
-                                        message: "Wrong password"
-                                        statusCode: 400
-                                    }
-                                </p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Code (<span>wrong name</span>)</h1>
-                                <p>400</p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Body (<span class="success">success</span>)</h1>
-                                <p>"Ok"</p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Code (<span class="success">success</span>)</h1>
-                                <p>200</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="module__request">
-                        <div class="request-header flex">
-                            <div class="request-type post">
-                                <h3>POST</h3>
-                            </div>
-                            <div class="request-url post-url">
-                                <p>/api/settings/mail</p>
-                            </div>
-                        </div>
-                        <div class="request-content post-content">
-                            <div class="content-item">
-                                <h1 class="post-title">Request URL</h1>
-                                <p>http://localhost:5001/api/settings/mail</p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Request Body</h1>
-                                <p>
-                                    {
-                                        email: string
-                                        id: string
-                                    }
-                                </p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Body</h1>
-                                <p>
-                                    {
-                                        isActivated: true
-                                        email: "example@gmail.com"
-                                    }
-                                </p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Code</h1>
-                                <p>200</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="module__request">
-                        <div class="request-header flex">
-                            <div class="request-type get">
-                                <h3>GET</h3>
-                            </div>
-                            <div class="request-url get-url">
-                                <p>/api/settings/cancel-activation/{id}</p>
-                            </div>
-                        </div>
-                        <div class="request-content get-content">
-                            <div class="content-item">
-                                <h1 class="post-title">Request URL</h1>
-                                <p>http://localhost:5001/api/settings/cancel-activation/{id}</p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Body</h1>
-                                <p>Ok</p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Code</h1>
-                                <p>200</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="module__request">
-                        <div class="request-header flex">
-                            <div class="request-type get">
-                                <h3>GET</h3>
-                            </div>
-                            <div class="request-url get-url">
-                                <p>/api/settings/activate/{link}</p>
-                            </div>
-                        </div>
-                        <div class="request-content get-content">
-                            <div class="content-item">
-                                <h1 class="post-title">Request URL</h1>
-                                <p>http://localhost:5001/api/settings/activate/{link}</p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Body</h1>
-                                <p>Redirect</p>
-                            </div>
-                            <div class="content-item">
-                                <h1 class="post-title">Response Code</h1>
-                                <p>200</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="module">
-                <div class="module__header flex">
+                <div class="module__header flex-between">
                     <h2 class="module__title">Users</h2>
                     <button class="module__btn">Show / Hide</button>
                 </div>
                 <div class="module__content">
                     <div class="module__request">
-                        <div class="request-header flex">
+                        <div class="request-header flex-between">
                             <div class="request-type get">
                                 <h3>GET</h3>
                             </div>
@@ -826,7 +818,7 @@
                         <div class="request-content get-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
-                                <p>http://localhost:5001/api/users/{skip}/{id}</p>
+                                <p>http://localhost:5000/api/users/{skip}/{id}</p>
                             </div>
                             <div class="content-item">
                                 <h1 class="post-title">Response Body</h1>
@@ -834,13 +826,13 @@
                                     {
                                         users: [
                                             {
-                                                avatar: https://i.imgur.com/b08hxPY.png,
-                                                name: User 55,
-                                                location: Nowhere,
-                                                userId: c906e4b5-6106-4a9b-af7b-7d753dd7e205,
+                                                avatar: "https://i.imgur.com/b08hxPY.png",
+                                                name: "User 55",
+                                                location: "Nowhere",
+                                                userId: "c906e4b5-6106-4a9b-af7b-7d753dd7e205",
                                             }
                                         ],
-                                        length: 4
+                                        length: 1
                                     }
                                 </p>
                             </div>
@@ -851,7 +843,7 @@
                         </div>
                     </div>
                     <div class="module__request">
-                        <div class="request-header flex">
+                        <div class="request-header flex-between">
                             <div class="request-type get">
                                 <h3>GET</h3>
                             </div>
@@ -862,27 +854,27 @@
                         <div class="request-content get-content">
                             <div class="content-item">
                                 <h1 class="post-title">Request URL</h1>
-                                <p>http://localhost:5001/api/users/{id}</p>
+                                <p>http://localhost:5000/api/users/{id}</p>
                             </div>
                             <div class="content-item">
                                 <h1 class="post-title">Response Body</h1>
                                 <p>
                                     {
-                                        avatar: https://img.freepik.com/premium-vector/programming-code-made-with-binary-code-coding-hacker-background-digital-binary-data-streaming-digital-code_127544-778.jpg?w=2000,
-                                        banner: user.banner,
-                                        name: User 55,
-                                        location: Nowhere,
-                                        aboutMe: This project was made by David Hutsenko,
-                                        skills: This project was made by David Hutsenko,
-                                        hobbies: This project was made by David Hutsenko,
-                                        followers: [c906e4b5-6106-4a9b-af7b-7d753dd7e205, c906e4b5-6106-4a9b-af7b-7d753dd7e205, c906e4b5-6106-4a9b-af7b-7d753dd7e205],
-                                        following: [c906e4b5-6106-4a9b-af7b-7d753dd7e205, c906e4b5-6106-4a9b-af7b-7d753dd7e205, c906e4b5-6106-4a9b-af7b-7d753dd7e205],
+                                        aboutMe: "This project was made by David Hutsenko"
+                                        avatar: "https://i.imgur.com/b08hxPY.png"
+                                        banner: "https://img.freepik.com/premium-vector/programming…data-streaming-digital-code_127544-778.jpg?w=2000"
+                                        followers: ["1cbac348-b9d4-4fe7-92a0-779bfed9d7ce", "1cbac348-b9d4-4fe7-92a0-779bfed9d7ce"]
+                                        following: ["1cbac348-b9d4-4fe7-92a0-779bfed9d7ce", "1cbac348-b9d4-4fe7-92a0-779bfed9d7ce"]
+                                        hobbies: "This project was made by David Hutsenko"
+                                        location: 'Nowhere'
+                                        name: "User 5"
+                                        skills: "This project was made by David Hutsenko"
                                         posts: [
                                             {
-                                                postId: 7336f8ed-681e-4fc4-8147-c2992147eba5,
-                                                user: c68c1d0c-080a-4f8d-9500-886c7ff0279f,
-                                                text: HelloLa it is my first post,
-                                                date: Sun Jan 08 2023 17:56:24 GMT+0200 (Восточная Европа, стандартное время),
+                                                date: "Fri Mar 10 2023 17:49:04 GMT+0200 (East Europe, standard time)"
+                                                postId : "b9bfd603-6edb-464c-a3d1-6dbbefb8444d"
+                                                text : "Hello"
+                                                userId : "1cbac348-b9d4-4fe7-92a0-779bfed9d7ce"
                                             }
                                         ]
                                     }

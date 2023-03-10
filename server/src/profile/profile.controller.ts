@@ -1,10 +1,6 @@
-import { diskStorage } from "multer"
-// NestJS
-import { Body, Controller, Delete, Post, Put, Param, UseInterceptors, UploadedFiles, Get } from '@nestjs/common'
-import { FilesInterceptor } from "@nestjs/platform-express"
+import { Body, Controller, Delete, Post, Put, Param, Get } from '@nestjs/common'
 // DTO
 import { TextDto } from "@/dto/settings/text.dto"
-import { PhotoDto } from "@/dto/settings/photo.dto"
 import { SubscriptionDto } from "@/dto/profile/subscription.dto"
 // Service
 import { ProfileService } from "./profile.service"
@@ -12,46 +8,6 @@ import { ProfileService } from "./profile.service"
 @Controller('profile')
 export class ProfileController {
     constructor(private readonly profileService: ProfileService) {}
-
-    @Put('name')
-    async setName(@Body() data: TextDto) {
-        const { text, userId } = data
-        return this.profileService.setName(text, userId)
-    }
-
-    @Put('location')
-    async setLocation(@Body() data: TextDto) {
-        const { text, userId } = data
-        return this.profileService.setLocation(text, userId)
-    }
-
-    @Post('avatar')
-    @UseInterceptors(FilesInterceptor('image', null,
-        {
-            storage: diskStorage({
-                destination: './uploads/avatars', filename: (req, file, callback) => {
-                    callback(null, Date.now() + "--" + file.originalname)
-                }
-            })
-        }))
-    async setAvatar(@Body() data: PhotoDto, @UploadedFiles() file) {
-        const { userId, currentPath } = data
-        return this.profileService.setAvatar(file[0].path, userId, currentPath)
-    }
-
-    @Post('banner')
-    @UseInterceptors(FilesInterceptor('image', 100,
-        {
-            storage: diskStorage({
-                destination: './uploads/banners', filename: (req, file, callback) => {
-                    callback(null, Date.now() + "--" + file.originalname)
-                }
-            })
-        }))
-    async setBanner(@Body() data: PhotoDto, @UploadedFiles() file) {
-        const { userId, currentPath } = data
-        return this.profileService.setBanner(file[0].path, userId, currentPath)
-    }
 
     @Put('about-me')
     async setAboutMeText(@Body() data: TextDto) {

@@ -8,7 +8,7 @@ import { useMutation } from "react-query"
 // HTTP Service
 import { ProfileService } from "@/services/profile.service"
 // Store
-import { getId } from "@/store/reducers/profile/profile.selectors"
+import { getUserId } from "@/store/reducers/profile/profile.selectors"
 // Interfaces
 import { AvatarProps } from "@/interfaces/profile.interfaces"
 
@@ -18,7 +18,7 @@ interface IProps  {
 
 const UserComponent: React.FC<IProps> = ({ userId }) => {
     const router = useRouter()
-    const initialUserId = useSelector(getId)
+    const initialUserId = useSelector(getUserId)
     const [avatar, setAvatar] = useState('')
 
     const { mutateAsync} = useMutation('get avatar', (data: AvatarProps) => ProfileService.getAvatar(data.userId), {onSuccess: (res) => setAvatar(res.data)})

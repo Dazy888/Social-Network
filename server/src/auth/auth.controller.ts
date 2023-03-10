@@ -8,8 +8,8 @@ export class AuthController {
 
     @Post('registration')
     async registration(@Body() user: AuthDto, @Response({ passthrough: true }) res) {
-        const { userLogin, password, /*token*/ } = user
-        const response = await this.authService.registration(userLogin, password, /*token*/)
+        const { login, password, /*token*/ } = user
+        const response = await this.authService.registration(login, password, /*token*/)
 
         if (typeof response === "string") {
             throw new BadRequestException(response)
@@ -21,8 +21,8 @@ export class AuthController {
 
     @Post('login')
     async login(@Body() user: AuthDto, @Response({ passthrough: true }) res) {
-        const { userLogin, password, /*token*/ } = user
-        const response = await this.authService.login(userLogin, password, /*token*/)
+        const { login, password, /*token*/ } = user
+        const response = await this.authService.login(login, password, /*token*/)
 
         if (typeof response === "string") {
             throw new BadRequestException(response)

@@ -1,5 +1,5 @@
 export class AuthDto {
-    readonly userLogin: string
+    readonly login: string
     readonly password: string
     // readonly token: string
 }

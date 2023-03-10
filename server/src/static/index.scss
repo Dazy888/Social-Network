@@ -12,7 +12,7 @@
     margin-bottom: 50px;
   }
 
-  .flex {
+  .flex-between {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -37,8 +37,6 @@
           color: #5ab9ea;
           font-weight: 600;
           font-size: 20px;
-          cursor: pointer;
-
           background: linear-gradient(to left, #8860d0 50%, #5ab9ea 50%) right;
           background-size: 300%;
           transition: .6s ease-out;

@@ -79,7 +79,7 @@ const MainPageLayout: React.FC<LayoutProps> = ({ children }) => {
                     </nav>
                     <div className={'header__logout flex justify-between items-center cursor-pointer overflow-hidden relative duration-500'}>
                         <img alt={'Avatar'} src={avatar} className={'rounded-full w-14 h-14'}/>
-                        <button className={'text-xl absolute'} onClick={() => logout()}>Logout</button>
+                        <button className={'text-xl absolute text-white'} onClick={() => logout()}>Logout</button>
                     </div>
                 </div>
             </div>

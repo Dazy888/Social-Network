@@ -1,5 +1,4 @@
 import { Model } from "mongoose"
-import * as fs from "fs"
 import { v4 } from "uuid"
 // NestJS
 import { Injectable } from '@nestjs/common'
@@ -13,43 +12,6 @@ import { PostDto } from "@/dto/profile/post.dto"
 @Injectable()
 export class ProfileService {
     constructor(@InjectModel('User') private userModel: Model<UserDocument>, @InjectModel('Post') private postModel: Model<PostDocument>) {}
-
-    async setPhoto(newPath: string, field: string, model: any, userId: string) {
-        (field === 'avatar') ? await model.findOneAndUpdate({ userId }, { avatar: `http://localhost:5000/${newPath}` }) : await model.findOneAndUpdate({ userId }, { banner: `http://localhost:5000/${newPath}` })
-        return `http://localhost:5000/${newPath}`
-    }
-
-    async setName(name: string, userId: string) {
-        await this.userModel.findOneAndUpdate({ userId }, { name })
-        return name
-    }
-
-    async setLocation(location: string, userId: string) {
-        await this.userModel.findOneAndUpdate({ userId }, { location })
-        return location
-    }
-
-    async setAvatar(newPath: string, userId: string, currentPath: string) {
-        if (!/uploads/.test(currentPath)) {
-            return this.setPhoto(newPath, 'avatar', this.userModel, userId)
-        } else {
-            const previousPath = `uploads${currentPath.split('uploads')[1]}`
-            fs.unlink(previousPath, (err) => err ? console.log(err) : console.log('File was deleted'))
-
-            return this.setPhoto(newPath, 'avatar', this.userModel, userId)
-        }
-    }
-
-    async setBanner(newPath: string, userId: string, currentPath: string) {
-        if (!/uploads/.test(currentPath)) {
-            return this.setPhoto(newPath, 'banner', this.userModel, userId)
-        } else {
-            const lastPath = `uploads${currentPath.split('uploads')[1]}`
-            fs.unlink(lastPath, (err) => err ? console.log(err) : console.log('File was deleted'))
-
-            return this.setPhoto(newPath, 'banner', this.userModel, userId)
-        }
-    }
 
     async setAboutMe(text: string, userId: string) {
         await this.userModel.findOneAndUpdate({ userId }, { aboutMe: text })

@@ -13,7 +13,7 @@ import { PostDocument } from "@/schemas/post.schema"
 // DTO
 import { UserDto } from "@/dto/auth/user.dto"
 // Interfaces
-import { FindTokenResponse, ITokens, RefreshResponse, RegistrationResponse } from "@/interfaces/auth.interfaces"
+import { FindTokenResponse, ITokens, IUser, RefreshResponse, RegistrationResponse } from "@/interfaces/auth.interfaces"
 
 dotenv.config()
 
@@ -50,6 +50,24 @@ export class AuthService {
         return this.tokenModel.findOne({ refreshToken })
     }
 
+    createUser(userDto: IUser) {
+        return {
+            userId: userDto.userId,
+            isActivated: userDto.isActivated,
+            name: userDto.name,
+            location: userDto.location,
+            avatar: userDto.avatar,
+            banner: userDto.banner,
+            aboutMe: userDto.aboutMe,
+            skills: userDto.skills,
+            hobbies: userDto.hobbies,
+            email: userDto.email,
+            followers: userDto.followers,
+            following: userDto.following,
+            activationLink: userDto.activationLink
+        }
+    }
+
     // async humanValidation(token: string) {
     //     const response = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`)
     //     return !response.data.success
@@ -57,7 +75,7 @@ export class AuthService {
 
     async registration(login: string, password: string, /*token: string*/): Promise<RegistrationResponse | string> {
         // if (await this.humanValidation(token)) return `Don't fool us bot`
-        const existingUser = await this.userModel.findOne({ userLogin: login })
+        const existingUser = await this.userModel.findOne({ login })
 
         if (existingUser) {
             return 'User with this login already exists'
@@ -65,19 +83,19 @@ export class AuthService {
             const hashPassword = await bcrypt.hash(password, 3)
             const userNumber = Math.floor(Math.random() * 100)
 
-            const user = await this.userModel.create({ userLogin: login, password: hashPassword, name: `User ${userNumber}`, location: 'Nowhere', banner: 'https://img.freepik.com/premium-vector/programming-code-made-with-binary-code-coding-hacker-background-digital-binary-data-streaming-digital-code_127544-778.jpg?w=2000', avatar: 'https://i.imgur.com/b08hxPY.png', aboutMe: 'This project was made by David Hutsenko', skills: 'This project was made by David Hutsenko', hobbies: 'This project was made by David Hutsenko', isActivated: false, userId: v4(), email: null, followers: [], following: [], activationLink: null })
+            const user = await this.userModel.create({ login: login, password: hashPassword, name: `User ${userNumber}`, location: 'Nowhere', banner: 'https://img.freepik.com/premium-vector/programming-code-made-with-binary-code-coding-hacker-background-digital-binary-data-streaming-digital-code_127544-778.jpg?w=2000', avatar: 'https://i.imgur.com/b08hxPY.png', aboutMe: 'This project was made by David Hutsenko', skills: 'This project was made by David Hutsenko', hobbies: 'This project was made by David Hutsenko', isActivated: false, userId: v4(), email: null, followers: [], following: [], activationLink: null })
             const userDto = new UserDto(user)
 
             const tokens = this.generateTokens({ ...userDto })
             await this.saveToken(userDto.userId, tokens.refreshToken)
 
-            return { tokens, user: userDto }
+            return { tokens, user: this.createUser(userDto) }
         }
     }
 
     async login(login: string, password: string, /*token: string*/): Promise<RefreshResponse | string> {
         // if (await this.humanValidation(token)) return `Don't fool us bot`
-        const existingUser = await this.userModel.findOne({ userLogin: login })
+        const existingUser = await this.userModel.findOne({ login })
 
         if (!existingUser) {
             return "User with this login doesn't exist"

@@ -1,12 +1,12 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
-import mongoose, { Document } from "mongoose"
+import { Document } from "mongoose"
 
 export type TokenDocument = Token & Document
 
 @Schema()
 export class Token {
     @Prop()
-    userId: mongoose.Schema.Types.ObjectId
+    userId: string
 
     @Prop()
     refreshToken: string

@@ -6,7 +6,7 @@ import styles from "@/styles/Profile.module.scss"
 import { useMutation } from "react-query"
 // Interfaces
 import { SubscriptionProps } from "@/interfaces/profile.interfaces"
-import { UserDataI } from "@/interfaces/users.interfaces"
+import { IUserData } from "@/interfaces/users.interfaces"
 // HTTP Service
 import { ProfileService } from "@/services/profile.service"
 // Components
@@ -14,7 +14,7 @@ import { SubscriptionBtn } from "@/components/profile/SubscriptionBtn"
 
 interface IProps {
     userId?: string
-    user?: UserDataI
+    user?: IUserData
     setUser?: any
     avatar: string
     banner: string

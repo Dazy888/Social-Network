@@ -6,10 +6,10 @@ export type UserDocument = User & Document
 @Schema()
 export class User {
     @Prop()
-    password: string
+    login: string
 
     @Prop()
-    userLogin: string
+    password: string
 
     @Prop()
     isActivated: boolean

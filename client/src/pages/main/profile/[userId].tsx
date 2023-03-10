@@ -32,6 +32,7 @@ const UserProfile = () => {
     const { refetch } = useQuery('get user', () => UsersService.getUser(openedUserId), {
         onSuccess(res) {
             setUser(res.data)
+            console.log(user)
         },
         enabled: false
     })

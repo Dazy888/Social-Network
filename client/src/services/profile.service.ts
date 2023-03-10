@@ -3,22 +3,6 @@ import { AxiosResponse } from "axios"
 import { IPost } from "@/interfaces/profile.interfaces"
 
 export class ProfileService {
-    static setName(name: string, userId: string) {
-        return $api.put('profile/name', { text: name, userId })
-    }
-
-    static setLocation(location: string, userId: string) {
-        return $api.put('profile/location', { text: location, userId })
-    }
-
-    static setAvatar(data: FormData) {
-        return $api.post('profile/avatar', data)
-    }
-
-    static setBanner(data: FormData) {
-        return $api.post('profile/banner', data)
-    }
-
     static setAboutMe(text: string, userId: string) {
         return $api.put('profile/about-me', { text, userId })
     }

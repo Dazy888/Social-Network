@@ -3,16 +3,16 @@ import { AxiosResponse } from "axios"
 import { AuthResponse, RefreshResponse } from "@/interfaces/auth.interfaces"
 
 export class AuthService {
-    static registration(userLogin: string, password: string, /*token: string*/): Promise<AxiosResponse<AuthResponse>> {
-        return $api.post('auth/registration', { userLogin, password, /*token*/ })
+    static registration(login: string, password: string, /*token: string*/): Promise<AxiosResponse<AuthResponse>> {
+        return $api.post('auth/registration', { login, password, /*token*/ })
             .then(res => res)
             .catch(err => {
                 throw err.response.data.message
             })
     }
 
-    static login(userLogin: string, password: string, /*token: string*/): Promise<AxiosResponse<AuthResponse>> {
-        return $api.post('auth/login', { userLogin, password, /*token*/ })
+    static login(login: string, password: string, /*token: string*/): Promise<AxiosResponse<AuthResponse>> {
+        return $api.post('auth/login', { login, password, /*token*/ })
             .then(res => res)
             .catch(err => {
                 throw err.response.data.message

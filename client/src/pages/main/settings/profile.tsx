@@ -19,10 +19,11 @@ import { TextProps } from "@/interfaces/profile.interfaces"
 // React Query
 import { useMutation } from "react-query"
 // HTTP Service
-import { ProfileService } from "@/services/profile.service"
+import { SettingsService } from "@/services/settings.service"
 // Store
 import { profileActions } from "@/store/reducers/profile/profile.reducer"
 import { getAvatar, getBanner, getUserId, getLocation, getName } from "@/store/reducers/profile/profile.selectors"
+import {SubmitBtn} from "@/components/settings/SubmitBtn";
 
 const Profile = () => {
     const dispatch = useDispatch()
@@ -35,8 +36,8 @@ const Profile = () => {
 
     const { register:nameReg, handleSubmit:nameSub, formState: { errors:nameErr, touchedFields:nameTouched } } = useForm<INameForm>({ mode: 'onChange' })
     const { register:locationReg, handleSubmit:locationSub, formState: { errors:locationErr, touchedFields:locationTouched } } = useForm<ILocationForm>({ mode: 'onChange' })
-    const { register:avatarReg, handleSubmit:avatarSub, setValue:setAvatar, watch:watchAvatar } = useForm<IAvatarForm>({ mode: 'onChange' })
-    const { register:bannerReg, handleSubmit:bannerSub, setValue:setBanner, watch:watchBanner } = useForm<IBannerForm>({ mode: 'onChange' })
+    const { register:avatarReg, handleSubmit:avatarSub, setValue:setAvatarValue, watch:watchAvatar } = useForm<IAvatarForm>({ mode: 'onChange' })
+    const { register:bannerReg, handleSubmit:bannerSub, setValue:setBannerValue, watch:watchBanner } = useForm<IBannerForm>({ mode: 'onChange' })
 
     const avatarValue = watchAvatar('avatar')
     const bannerValue = watchBanner('banner')
@@ -53,7 +54,7 @@ const Profile = () => {
         (value === 'avatar') ? dispatch(profileActions.setAvatar(link)) : dispatch(profileActions.setBanner(link))
     }
 
-    const { mutateAsync:changeName, isLoading } = useMutation('change name', (data: TextProps) => ProfileService.setName(data.text, data.userId),
+    const { mutateAsync:setName, isLoading:isSettingName } = useMutation('set name', (data: TextProps) => SettingsService.setName(data.text, data.userId),
         {
             onSuccess(res) {
                 setText('input[name=name]', res.data, profileActions.setName)
@@ -61,7 +62,7 @@ const Profile = () => {
         }
     )
 
-    const { mutateAsync:changeLocation } = useMutation('change location', (data: TextProps) => ProfileService.setLocation(data.text, data.userId),
+    const { mutateAsync:setLocation, isLoading:isSettingLocation } = useMutation('set location', (data: TextProps) => SettingsService.setLocation(data.text, data.userId),
         {
             onSuccess(res) {
                 setText('input[name=location]', res.data, profileActions.setLocation)
@@ -69,7 +70,7 @@ const Profile = () => {
         }
     )
 
-    const { mutateAsync:changeAvatar } = useMutation('change avatar', (data: FormData) => ProfileService.setAvatar(data),
+    const { mutateAsync:setAvatar, isLoading:isSettingAvatar } = useMutation('set avatar', (data: FormData) => SettingsService.setAvatar(data),
         {
             onSuccess(res) {
                 setPhoto('div[data-name=avatar]', res.data, 'avatar')
@@ -77,7 +78,7 @@ const Profile = () => {
         }
     )
 
-    const { mutateAsync:changeBanner } = useMutation('change banner', (data: FormData) => ProfileService.setBanner(data),
+    const { mutateAsync:setBanner, isLoading:isSettingBanner } = useMutation('set banner', (data: FormData) => SettingsService.setBanner(data),
         {
             onSuccess(res) {
                 setPhoto('div[data-name=banner]', res.data, 'banner')
@@ -85,10 +86,10 @@ const Profile = () => {
         }
     )
 
-    const nameSubmit: SubmitHandler<INameForm> = async (data) => (data.name !== currentName) && await changeName({ text: data.name, userId })
-    const locationSubmit: SubmitHandler<ILocationForm> = async (data) => (data.location !== currentLocation) && await changeLocation({text: data.location, userId})
-    const avatarSubmit: SubmitHandler<IAvatarForm> = async () => await sendPhoto(avatarValue, currentAvatar, changeAvatar)
-    const bannerSubmit: SubmitHandler<IBannerForm> = async () => await sendPhoto(bannerValue, currentBanner, changeBanner)
+    const nameSubmit: SubmitHandler<INameForm> = async (data) => (data.name !== currentName) && await setName({ text: data.name, userId })
+    const locationSubmit: SubmitHandler<ILocationForm> = async (data) => (data.location !== currentLocation) && await setLocation({ text: data.location, userId })
+    const avatarSubmit: SubmitHandler<IAvatarForm> = async () => await sendPhoto(avatarValue, currentAvatar, setAvatar)
+    const bannerSubmit: SubmitHandler<IBannerForm> = async () => await sendPhoto(bannerValue, currentBanner, setBanner)
 
     const sendPhoto = async (photo: File, currentPath: string, setPhoto: (data: FormData) => void) => {
         let data = new FormData()
@@ -111,24 +112,24 @@ const Profile = () => {
                         <div className={`${styles['inputs']} flex justify-between items-center`}>
                             <form onSubmit={nameSub(nameSubmit)} className={styles['input-container']}>
                                 <Input type={'text'} error={nameErr.name?.message} touched={nameTouched.name} register={nameReg} name={'name'} patternValue={/^[a-z]+$/i} minLength={3} maxLength={10} placeholder={'Your new name'}/>
-                                <button disabled={isLoading} className={'block text-sm font-semibold rounded-lg mx-auto py-1 px-4'}>Change name</button>
+                                <SubmitBtn isLoading={isSettingName}/>
                             </form>
                             <form onSubmit={locationSub(locationSubmit)} className={styles['input-container']}>
                                 <Input type={'text'} error={locationErr.location?.message} touched={locationTouched.location} register={locationReg} name={'location'} patternValue={/^[a-zA-Z0-9]+$/} minLength={4} maxLength={15} placeholder={'Your new location'}/>
-                                <button className={'block text-sm font-semibold rounded-lg mx-auto py-1 px-4'}>Change location</button>
+                                <SubmitBtn isLoading={isSettingLocation}/>
                             </form>
                         </div>
                         <div className={`${styles['files']} flex justify-between items-center`}>
                             <form onSubmit={avatarSub(avatarSubmit)}>
-                                <FileInput label={'Avatar'} name={'avatar'} register={avatarReg} setValue={setAvatar} currentValue={avatarValue?.name}/>
-                                <button className={'text-sm font-semibold rounded-lg mx-auto py-1 px-4'}>Change avatar</button>
+                                <FileInput label={'Avatar'} name={'avatar'} register={avatarReg} setValue={setAvatarValue} currentValue={avatarValue?.name}/>
+                                <SubmitBtn isLoading={isSettingAvatar}/>
                             </form>
                             <form onSubmit={bannerSub(bannerSubmit)}>
-                                <FileInput label={'Banner'} name={'banner'} register={bannerReg} setValue={setBanner} currentValue={bannerValue?.name}/>
-                                <button className={'text-sm font-semibold rounded-lg mx-auto py-1 px-4'}>Change banner</button>
+                                <FileInput label={'Banner'} name={'banner'} register={bannerReg} setValue={setBannerValue} currentValue={bannerValue?.name}/>
+                                <SubmitBtn isLoading={isSettingBanner}/>
                             </form>
                         </div>
-                        <Loader color={'rebeccapurple'} loading={isLoading}/>
+                        <Loader color={'rebeccapurple'} loading={isSettingName || isSettingLocation || isSettingAvatar || isSettingBanner}/>
                     </div>
                 </>
             </SettingsPage>

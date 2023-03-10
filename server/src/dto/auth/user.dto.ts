@@ -1,5 +1,5 @@
 export class UserDto {
-    userLogin
+    login
     password
     userId
     isActivated
@@ -16,7 +16,7 @@ export class UserDto {
     activationLink
 
     constructor(model) {
-        this.userLogin = model.userLogin
+        this.login = model.login
         this.password = model.password
         this.userId = model.userId
         this.isActivated = model.isActivated

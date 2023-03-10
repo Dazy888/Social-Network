@@ -21,6 +21,7 @@ import { successfulEnter } from "@/pages/auth/sign-in"
 import styles from '@/styles/Authorization.module.scss'
 // Layout
 import { AuthPage } from "@/layouts/AuthPage-Layout"
+import {SubmitBtn} from "@/components/auth/SubmitBtn";
 
 const SignUp = () => {
     const router = useRouter()
@@ -69,7 +70,7 @@ const SignUp = () => {
                     <input onClick={showPassword} name={'show-password'} type={'checkbox'}/>
                     <label>Show password</label>
                 </div>
-                <button className={`${styles['auth__submit']} font-semibold`} type={'submit'} disabled={isLoading}>Sign up</button>
+                <SubmitBtn isLoading={isLoading} value={'up'}/>
                 <Loader color={'rgb(249, 94, 59)'} loading={isLoading}/>
                 {/*<ReCAPTCHA className={'captcha'} sitekey={'6Leond0hAAAAAOCUq2naPPzgveoMehWQmYG4Vabt'} size={"invisible"} ref={reRef}/>*/}
             </form>
