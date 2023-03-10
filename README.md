@@ -23,7 +23,7 @@ API documentation can be accessed on http://localhost:5000
 
 ## Technology stack
 
-Front-end: ReactTS + Redux, NextJS, React Query, React-Hook-Form, SCSS
+Front-end: NextJS(TypeScript) + Redux, React Query, React-Hook-Form, Tailwind
 
 Back-end: NodeJS + Express, MongoDB, Typescript, NestJS  
 
