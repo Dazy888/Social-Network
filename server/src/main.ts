@@ -1,6 +1,7 @@
 import * as cookieParser from 'cookie-parser'
 import * as cors from "cors"
 import * as express from "express"
+import * as process from "process"
 // NestJS
 import { NestFactory } from '@nestjs/core'
 // Module
@@ -13,9 +14,10 @@ async function bootstrap() {
 
   app.use(cookieParser())
   app.use('/uploads', express.static('./uploads'))
-  app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }))
+  app.use('/', express.static('./public'))
+  // app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }))
 
-  await app.listen(5000)
+  await app.listen(process.env.PORT || 5000)
 }
 
 bootstrap()
