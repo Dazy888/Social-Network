@@ -45,19 +45,5 @@
       "src": "/(.+)",
       "dest": "uploads/$1"
     }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" }
-      ]
-    },
-    {
-      "source": "/https://social-network-api-alpha.vercel.app/(.*)",
-      "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" }
-      ]
-    }
   ]
 }
