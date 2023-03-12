@@ -16,6 +16,7 @@ async function bootstrap() {
   app.use('/uploads', express.static('./uploads'))
   app.use('/', express.static('./public'))
   app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }))
+  app.enableCors()
 
   await app.listen(process.env.PORT || 5000)
 }
