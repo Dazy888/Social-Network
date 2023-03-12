@@ -5,7 +5,7 @@ export const API_URL = 'https://social-network-api-alpha.vercel.app/api/'
 export const $api = axios.create({
     withCredentials: true,
     baseURL: API_URL,
-    headers: { "Access-Control-Allow-Origin": "*" }
+    headers: { "Access-Control-Allow-Origin": "https://social-network-api-alpha.vercel.app/" }
 })
 
 $api.interceptors.request.use((config: any) => {
