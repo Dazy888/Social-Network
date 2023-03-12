@@ -16,7 +16,13 @@ async function bootstrap() {
   app.use('/uploads', express.static('./uploads'))
   app.use('/', express.static('./public'))
   app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }))
-  app.enableCors()
+  app.enableCors({
+    origin: [
+      'https://social-network-api-alpha.vercel.app',
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
 
   await app.listen(process.env.PORT || 5000)
 }
