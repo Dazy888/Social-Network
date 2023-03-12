@@ -1,9 +1,15 @@
-This is a Social Network made with NextJS + NestJS
+This is a Social Network
 
 ## Getting Started
 
 Firstly, run the client server:
 
+1)
+```bash
+cd client
+```
+
+2)
 ```bash
 npm run dev
 # or
@@ -13,6 +19,12 @@ Open http://localhost:3000 with your browser to see the result
 
 Secondly, run the backend server:
 
+1)
+```bash
+cd client
+```
+
+2)
 ```bash
 npm run start:dev
 # or
