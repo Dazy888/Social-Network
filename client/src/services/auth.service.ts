@@ -1,6 +1,6 @@
 import { $api, API_URL } from "@/http"
 import { AxiosResponse } from "axios"
-import { AuthResponse, RefreshResponse } from "@/interfaces/auth.interfaces"
+import { AuthResponse, RefreshResponse } from "@/models/auth"
 
 export class AuthService {
     static registration(login: string, password: string, /*token: string*/): Promise<AxiosResponse<AuthResponse>> {

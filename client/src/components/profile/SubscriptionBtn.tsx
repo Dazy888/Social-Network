@@ -1,5 +1,5 @@
 import React from "react"
-import { SubscriptionFunc } from "@/interfaces/profile.interfaces"
+import { SubscriptionFunc } from "@/models/profile"
 
 interface IProps {
     subscriptionFunc: SubscriptionFunc

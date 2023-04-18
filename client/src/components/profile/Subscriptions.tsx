@@ -8,7 +8,7 @@ interface IProps {
 
 const SubscriptionsComponent: React.FC<IProps> = ({ followers, following }) => {
      return(
-        <div className={`${styles['subscriptions']} h-fit rounded-lg p-2.5`}>
+        <div className={`${styles.subscriptions} h-fit rounded-lg p-2.5`}>
             <div className={`${styles['subscriptions__followers']} mb-12`}>
                 <h3 className={'text-lg font-medium'}>Followers {followers.length}</h3>
                 <hr/>

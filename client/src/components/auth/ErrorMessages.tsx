@@ -1,5 +1,5 @@
 import React from "react"
-import { ErrorComponentProps } from "@/interfaces/auth.interfaces"
+import { ErrorComponentProps } from "@/models/auth"
 
 const ErrorMessageComponent: React.FC<ErrorComponentProps> = ({ serverError, error, touched }) => {
     return(
@@ -9,4 +9,5 @@ const ErrorMessageComponent: React.FC<ErrorComponentProps> = ({ serverError, err
         </div>
     )
 }
+
 export const ErrorMessage = React.memo(ErrorMessageComponent)

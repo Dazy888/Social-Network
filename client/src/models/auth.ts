@@ -1,4 +1,4 @@
-import { IPost } from "@/interfaces/profile.interfaces"
+import { IPost } from "@/models/profile"
 
 export interface IAuthForm {
     login: string

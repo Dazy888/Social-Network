@@ -6,9 +6,9 @@ const NoContent = () => {
     const router = useRouter()
 
     return(
-        <div className={`${styles['content']} flex justify-center items-center h-screen text-white font-medium`}>
+        <div className={`${styles.content} flex justify-center items-center h-screen text-white font-medium`}>
             <div>
-                <div className={`${styles['text']} flex justify-between items-center`}>
+                <div className={`${styles.text} flex justify-between items-center`}>
                     <h1 className={'text-5xl'}>404</h1>
                     <hr className={'w-0.5 h-12'}/>
                     <p className={'text-2xl max-w-sm'}>Something went wrong, go back to the main page</p>

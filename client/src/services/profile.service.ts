@@ -1,6 +1,6 @@
 import { $api } from "@/http"
 import { AxiosResponse } from "axios"
-import { IPost } from "@/interfaces/profile.interfaces"
+import { IPost } from "@/models/profile"
 
 export class ProfileService {
     static setAboutMe(text: string, userId: string) {

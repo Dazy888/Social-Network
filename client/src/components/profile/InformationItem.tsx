@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react"
-import { EditInfoFunc } from "@/interfaces/profile.interfaces"
+import { EditInfoFunc } from "@/models/profile"
 import styles from '@/styles/Profile.module.scss'
 
 interface IProps {

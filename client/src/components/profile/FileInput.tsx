@@ -1,7 +1,5 @@
 import React, { useRef } from "react"
-// Form
 import { SetFieldValue, UseFormRegister } from "react-hook-form"
-// Styles
 import styles from '@/styles/Settings.module.scss'
 
 interface Props {
@@ -16,7 +14,7 @@ export const FileInputComponent: React.FC<Props> = ({ name, label, register, set
     const circleRef: any = useRef()
 
     return(
-        <div className={styles['box']}>
+        <div className={styles.box}>
             <label className={name}>{label}</label>
             <input onClick={() => circleRef.current.classList.remove('success-image')} {...(register(name))} type={'file'} onChange={(event: any) => {setValue(name, event.currentTarget.files[0])}}/>
             <div ref={circleRef} data-name={name} className={`${styles['circle']} flex justify-center items-center`}>

@@ -1,15 +1,16 @@
 import React, { useRef, useState } from "react"
-import { useDispatch } from "react-redux"
 // Styles
 import styles from "@/styles/Profile.module.scss"
 // React Query
 import { useMutation } from "react-query"
-// Interfaces
-import { IPost, TextProps } from "@/interfaces/profile.interfaces"
+// Models
+import { IPost, TextProps } from "@/models/profile"
 // HTTP Service
 import { ProfileService } from "@/services/profile.service"
 // Store
-import { profileActions } from "@/store/reducers/profile/profile.reducer"
+import { addUserPost } from "@/store/reducers/ProfileSlice"
+// Hooks
+import { useAppDispatch } from "@/hooks/redux"
 
 interface IProps {
     userId: string
@@ -17,14 +18,14 @@ interface IProps {
 }
 
 const PostsComponent: React.FC<IProps> = ({ userId, posts }) => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const textareaPostRef: any = useRef()
     const [newPostStatus, setNewPostStatus] = useState(false)
 
     const { mutateAsync:addPost } = useMutation('add post', (data: TextProps) => ProfileService.addPost(data.text, data.userId),
         {
             onSuccess(response) {
-                dispatch(profileActions.addNewPost(response.data))
+                dispatch(addUserPost(response.data))
             }
         }
     )
@@ -35,7 +36,7 @@ const PostsComponent: React.FC<IProps> = ({ userId, posts }) => {
     }
 
     return(
-        <div className={styles['posts']}>
+        <div className={styles.posts}>
             { posts }
             { newPostStatus
                 ?   <div className={`${styles['posts__creation']} mb-24`}>

@@ -6,7 +6,7 @@ import '@/styles/reset.scss'
 // React Query
 import { QueryClient, QueryClientProvider } from "react-query"
 // Store
-import store from "@/store/store"
+import { store } from "@/store/store"
 
 const queryClient = new QueryClient({
   defaultOptions: {

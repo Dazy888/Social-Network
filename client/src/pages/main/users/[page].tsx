@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import Head from "next/head"
 import { useRouter } from "next/router"
-import { useSelector } from "react-redux"
 // Layout
 import { MainPage } from "@/layouts/MainPage-Layout"
 // Paginator
@@ -11,17 +10,17 @@ import styles from '@/styles/Users.module.scss'
 // Components
 import { UserPreview } from "@/components/users/User"
 import { Loader } from "@/components/users/Loader"
-// Store
-import { getUserId } from "@/store/reducers/profile/profile.selectors"
-// Interfaces
-import { IUserPreview } from "@/interfaces/users.interfaces"
+// Models
+import { IUserPreview } from "@/models/users"
 // HTTP Service
 import { UsersService } from "@/services/users.service"
 // React Query
 import { useQuery } from "react-query"
+// Hooks
+import { useAppSelector } from "@/hooks/redux"
 
 const Users = () => {
-    const userId = useSelector(getUserId)
+    const userId = useAppSelector(state => state.profileReducer.userId)
     const router = useRouter()
 
     const [users, setUsers] = useState<IUserPreview[]>([])
@@ -69,7 +68,7 @@ const Users = () => {
                                 nextLinkClassName={'page-num flex justify-center items-center paginator-btn right'} activeClassName={'active'}
                                 initialPage={Number(router.query.page) - 1}
                             />
-                            <div className={`${styles['content']} w-96 flex justify-between flex-wrap my-44 mx-auto`}>
+                            <div className={`${styles.content} w-96 flex justify-between flex-wrap my-44 mx-auto`}>
                                 {usersElem}
                             </div>
                          </div>

@@ -10,28 +10,28 @@ import ReCAPTCHA from "react-google-recaptcha"
 import { useMutation } from "react-query"
 // HTTP Service
 import { AuthService } from "@/services/auth.service"
-// Interfaces
-import { AuthProps, IAuthForm } from "@/interfaces/auth.interfaces"
+// Models
+import { AuthProps, IAuthForm } from "@/models/auth"
 // Store
-import { authActions } from "@/store/reducers/auth/auth.reducer"
+import { setAuthData } from "@/store/reducers/AuthSlice"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
 // Components
 import { Input } from "@/components/common/Input"
 import { Loader } from "@/components/auth/Loader"
-// Styles
-import styles from '@/styles/Authorization.module.scss'
-import {SubmitBtn} from "@/components/auth/SubmitBtn";
+import { SubmitBtn } from "@/components/auth/SubmitBtn"
+// Hooks
+import { useAppDispatch } from "@/hooks/redux"
 
 export const successfulEnter = (router: any, dispatch: any, accessToken: string, isActivated: boolean) => {
     localStorage.setItem('token', accessToken)
-    dispatch(authActions.setAuthData(isActivated))
+    dispatch(setAuthData(isActivated))
     router.push('/main/profile')
 }
 
 const SignIn = () => {
     const router = useRouter()
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const [loginError, setLoginError] = useState('')
     const [passwordError, setPasswordError] = useState('')

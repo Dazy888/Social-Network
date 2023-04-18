@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import Head from "next/head"
 import { useRouter } from "next/router"
-import { useSelector } from "react-redux"
 // Layouts
 import { MainPage } from "@/layouts/MainPage-Layout"
 // Components
@@ -11,28 +10,27 @@ import { Subscriptions } from "@/components/profile/Subscriptions"
 import { User } from "@/components/profile/User"
 // React Query
 import { useQuery } from "react-query"
-// Interfaces
-import { IUserData } from "@/interfaces/users.interfaces"
+// Models
+import { IUserData } from "@/models/users"
 // HTTP Service
 import { UsersService } from "@/services/users.service"
 // Styles
 import styles from "@/styles/Profile.module.scss"
-// Store
-import { getUserId } from "@/store/reducers/profile/profile.selectors"
+// Hooks
+import { useAppSelector } from "@/hooks/redux"
 // Functions
 import { editInfo, getPostsElements } from "@/pages/main/profile/index"
 
 const UserProfile = () => {
     const router = useRouter()
-    const [user, setUser] = useState<IUserData>({banner: '', avatar: '', aboutMe: '', hobbies: '', name: '', location: '', skills: '', followers: [''], following: [''], posts: []})
+    const [user, setUser] = useState<IUserData>({ banner: '', avatar: '', aboutMe: '', hobbies: '', name: '', location: '', skills: '', followers: [''], following: [''], posts: [] })
 
     const openedUserId: any = router.query.userId
-    const initialUserId = useSelector(getUserId)
+    const initialUserId = useAppSelector(state => state.profileReducer.userId)
 
     const { refetch } = useQuery('get user', () => UsersService.getUser(openedUserId), {
         onSuccess(res) {
             setUser(res.data)
-            console.log(user)
         },
         enabled: false
     })
@@ -50,11 +48,11 @@ const UserProfile = () => {
             <Head>
                 <title>{user.name} profile</title>
             </Head>
-            <div id={styles['profile']} className={'my-24 mx-auto'}>
+            <div id={styles.profile} className={'my-24 mx-auto'}>
                 <Header userId={initialUserId} setUser={setUser} user={user} followers={user.followers} openedUserId={openedUserId} subscribed={user.followers.includes(initialUserId)} forView={true} avatar={user.avatar} banner={user.banner} location={user.location} name={user.name}/>
-                <div className={`${styles['main']} grid gap-12 mt-14 text-white`}>
+                <div className={`${styles.main} grid gap-12 mt-14 text-white`}>
                     <Information editInfo={editInfo} forView={true} aboutMe={user.aboutMe} hobbies={user.hobbies} skills={user.skills}/>
-                    <div id={styles['posts']}>
+                    <div id={styles.posts}>
                         {postsElements}
                     </div>
                     <Subscriptions followers={followersUsers} following={followingUsers}/>

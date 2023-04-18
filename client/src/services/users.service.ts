@@ -1,6 +1,6 @@
 import { $api } from "@/http"
 import { AxiosResponse } from "axios"
-import { IUserData, UsersResponse } from "@/interfaces/users.interfaces"
+import { IUserData, UsersResponse } from "@/models/users"
 
 export class UsersService {
     static getUsers(skip: number, userId: string): Promise<AxiosResponse<UsersResponse>> {

@@ -7,7 +7,7 @@ interface IProps {
 
 const SuccessMessage: React.FC<IProps> = ({ message }) => {
     return(
-        <div className={styles['message']}>
+        <div className={styles.message}>
             {message}
             <br/>
             <i className={'fa-solid fa-circle-check'}/>

@@ -7,7 +7,7 @@ import { useQuery } from "react-query"
 // Service
 import { AuthService } from "@/services/auth.service"
 // Interface
-import { LayoutProps } from "@/interfaces/layouts.interfaces"
+import { LayoutProps } from "@/models/layouts"
 // Store
 import { authActions } from "@/store/reducers/auth/auth.reducer"
 import { profileActions } from "@/store/reducers/profile/profile.reducer"

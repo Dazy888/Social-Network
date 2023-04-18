@@ -4,9 +4,9 @@ import { useRouter } from "next/router"
 import styles from "@/styles/Profile.module.scss"
 // React Query
 import { useMutation } from "react-query"
-// Interfaces
-import { SubscriptionProps } from "@/interfaces/profile.interfaces"
-import { IUserData } from "@/interfaces/users.interfaces"
+// Models
+import { SubscriptionProps } from "@/models/profile"
+import { IUserData } from "@/models/users"
 // HTTP Service
 import { ProfileService } from "@/services/profile.service"
 // Components
@@ -43,19 +43,19 @@ const HeaderComponent: React.FC<IProps> = ({ user, name, avatar, banner, locatio
     })
 
     return(
-        <div className={`${styles['header']} w-full h-fit relative`}>
-            <img alt={'Banner'} className={`${styles['banner']} w-full`} src={banner}/>
-            <div className={`${styles['user']} absolute z-10 text-center text-white`}>
+        <div className={`${styles.header} w-full h-fit relative`}>
+            <img alt={'Banner'} className={`${styles.banner} w-full`} src={banner}/>
+            <div className={`${styles.user} absolute z-10 text-center text-white`}>
                 <img alt={'Avatar'} className={'rounded-full'} src={avatar}/>
                 <h2 className={'text-2xl font-medium mb-1.5'}>{name}</h2>
                 <p className={'opacity-90'}>{location}</p>
             </div>
-            <div className={styles['tile']}></div>
+            <div className={styles.tile}></div>
             {forView &&
-                <div className={`${styles['subscription']} absolute`}>
+                <div className={`${styles.subscription} absolute`}>
                     {subscribed
-                        ? <SubscriptionBtn text={'Unfollow'} isRequesting={isUnfollowing} className={styles['unfollow']} authorizedUserId={userId} openedUserId={openedUserId} subscriptionFunc={unfollow}/>
-                        : <SubscriptionBtn text={'Follow'} isRequesting={isFollowing} className={styles['follow']} authorizedUserId={userId} openedUserId={openedUserId} subscriptionFunc={follow}/>
+                        ? <SubscriptionBtn text={'Unfollow'} isRequesting={isUnfollowing} className={styles.unfollow} authorizedUserId={userId} openedUserId={openedUserId} subscriptionFunc={unfollow}/>
+                        : <SubscriptionBtn text={'Follow'} isRequesting={isFollowing} className={styles.follow} authorizedUserId={userId} openedUserId={openedUserId} subscriptionFunc={follow}/>
                     }
                 </div>
             }

@@ -7,10 +7,10 @@ import { Header } from "@/components/profile/Header"
 import { Main } from "@/components/profile/Main"
 // Layout
 import { MainPage } from "@/layouts/MainPage-Layout"
-// Interfaces
-import { SetInfoFunc, EditInfoFunc, IPost } from "@/interfaces/profile.interfaces"
-// Store
-import { getAvatar, getBanner, getLocation, getName, getUserId } from "@/store/reducers/profile/profile.selectors"
+// Models
+import { SetInfoFunc, EditInfoFunc, IPost } from "@/models/profile"
+// Hooks
+import { useAppSelector } from "@/hooks/redux"
 // Styles
 import styles from '@/styles/Profile.module.scss'
 
@@ -61,11 +61,11 @@ export const editInfo: EditInfoFunc = (event: any, changeText: SetInfoFunc, valu
 }
 
 const Index = () => {
-    const userId = useSelector(getUserId)
-    const avatar = useSelector(getAvatar)
-    const banner = useSelector(getBanner)
-    const location = useSelector(getLocation)
-    const name = useSelector(getName)
+    const userId = useAppSelector(state => state.profileReducer.userId)
+    const banner = useAppSelector(state => state.profileReducer.banner)
+    const avatar = useAppSelector(state => state.profileReducer.avatar)
+    const name = useAppSelector(state => state.profileReducer.name)
+    const location = useAppSelector(state => state.profileReducer.location)
 
     return(
         <MainPage>
@@ -73,7 +73,7 @@ const Index = () => {
                 <title>Profile</title>
             </Head>
             {userId &&
-                <div id={styles['profile']} className={'my-24 mx-auto'}>
+                <div id={styles.profile} className={'my-24 mx-auto'}>
                     <Header location={location} avatar={avatar} name={name} banner={banner}/>
                     <Main userId={userId}/>
                 </div>

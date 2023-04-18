@@ -21,7 +21,7 @@ Secondly, run the backend server:
 
 1)
 ```bash
-cd client
+cd server
 ```
 
 2)

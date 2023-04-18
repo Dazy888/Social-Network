@@ -4,7 +4,7 @@ import styles from '@/styles/Settings.module.scss'
 // Components
 import { NavLink } from "@/components/navigation/NavLink"
 // Interfaces
-import { LayoutProps } from "@/interfaces/layouts.interfaces"
+import { LayoutProps } from "@/models/layouts"
 
 const SettingsPageLayout: React.FC<LayoutProps> = ({ children }) => {
     return(

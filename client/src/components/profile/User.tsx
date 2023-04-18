@@ -7,10 +7,10 @@ import styles from '@/styles/Profile.module.scss'
 import { useMutation } from "react-query"
 // HTTP Service
 import { ProfileService } from "@/services/profile.service"
-// Store
-import { getUserId } from "@/store/reducers/profile/profile.selectors"
-// Interfaces
-import { AvatarProps } from "@/interfaces/profile.interfaces"
+// Models
+import { AvatarProps } from "@/models/profile"
+// Hooks
+import { useAppSelector } from "@/hooks/redux"
 
 interface IProps  {
     userId: string
@@ -18,7 +18,7 @@ interface IProps  {
 
 const UserComponent: React.FC<IProps> = ({ userId }) => {
     const router = useRouter()
-    const initialUserId = useSelector(getUserId)
+    const initialUserId = useAppSelector(state => state.profileReducer.userId)
     const [avatar, setAvatar] = useState('')
 
     const { mutateAsync} = useMutation('get avatar', (data: AvatarProps) => ProfileService.getAvatar(data.userId), {onSuccess: (res) => setAvatar(res.data)})

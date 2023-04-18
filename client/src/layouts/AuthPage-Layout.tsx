@@ -8,7 +8,7 @@ import styles from '@/styles/Authorization.module.scss'
 // Store
 import { getAvatar } from "@/store/reducers/profile/profile.selectors"
 // Interfaces
-import { LayoutProps } from "@/interfaces/layouts.interfaces"
+import { LayoutProps } from "@/models/layouts"
 
 const AuthPageLayout: React.FC<LayoutProps> = ({ children }) => {
     const router = useRouter()

@@ -1,6 +1,5 @@
 import React from "react"
 import Head from "next/head"
-import { useDispatch, useSelector } from "react-redux"
 // Layouts
 import { MainPage } from "@/layouts/MainPage-Layout"
 import { SettingsPage } from "@/layouts/SettingsPage-Layout"
@@ -11,28 +10,29 @@ import { Input } from "@/components/common/Input"
 import { Loader } from "@/components/auth/Loader"
 import { FileInput } from "@/components/profile/FileInput"
 import { Title } from "@/components/settings/Title"
+import { SubmitBtn } from "@/components/settings/SubmitBtn"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
-// Interfaces
-import { IAvatarForm, IBannerForm, ILocationForm, INameForm } from "@/interfaces/settings.interfaces"
-import { TextProps } from "@/interfaces/profile.interfaces"
+// Models
+import { IAvatarForm, IBannerForm, ILocationForm, INameForm } from "@/models/settings"
+import { TextProps } from "@/models/profile"
 // React Query
 import { useMutation } from "react-query"
 // HTTP Service
 import { SettingsService } from "@/services/settings.service"
+// Hooks
+import { useAppDispatch, useAppSelector } from "@/hooks/redux"
 // Store
-import { profileActions } from "@/store/reducers/profile/profile.reducer"
-import { getAvatar, getBanner, getUserId, getLocation, getName } from "@/store/reducers/profile/profile.selectors"
-import {SubmitBtn} from "@/components/settings/SubmitBtn";
+import {setAvatarSrc, setBannerSrc, setUserLocation, setUserName} from "@/store/reducers/ProfileSlice"
 
 const Profile = () => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
-    const userId = useSelector(getUserId)
-    const currentName = useSelector(getName)
-    const currentLocation = useSelector(getLocation)
-    const currentAvatar = useSelector(getAvatar)
-    const currentBanner = useSelector(getBanner)
+    const userId = useAppSelector(state => state.profileReducer.userId) 
+    const currentName = useAppSelector(state => state.profileReducer.name)
+    const currentLocation = useAppSelector(state => state.profileReducer.location)
+    const currentAvatar = useAppSelector(state => state.profileReducer.avatar)
+    const currentBanner = useAppSelector(state => state.profileReducer.banner)
 
     const { register:nameReg, handleSubmit:nameSub, formState: { errors:nameErr, touchedFields:nameTouched } } = useForm<INameForm>({ mode: 'onChange' })
     const { register:locationReg, handleSubmit:locationSub, formState: { errors:locationErr, touchedFields:locationTouched } } = useForm<ILocationForm>({ mode: 'onChange' })
@@ -51,13 +51,13 @@ const Profile = () => {
     const setPhoto = (selector: string, link: string, value: string) => {
         const circle: any = document.querySelector(selector)
         circle.classList.add('success-image')
-        (value === 'avatar') ? dispatch(profileActions.setAvatar(link)) : dispatch(profileActions.setBanner(link))
+        (value === 'avatar') ? dispatch(setAvatarSrc(link)) : dispatch(setBannerSrc(link))
     }
 
     const { mutateAsync:setName, isLoading:isSettingName } = useMutation('set name', (data: TextProps) => SettingsService.setName(data.text, data.userId),
         {
             onSuccess(res) {
-                setText('input[name=name]', res.data, profileActions.setName)
+                setText('input[name=name]', res.data, setUserName)
             }
         }
     )
@@ -65,7 +65,7 @@ const Profile = () => {
     const { mutateAsync:setLocation, isLoading:isSettingLocation } = useMutation('set location', (data: TextProps) => SettingsService.setLocation(data.text, data.userId),
         {
             onSuccess(res) {
-                setText('input[name=location]', res.data, profileActions.setLocation)
+                setText('input[name=location]', res.data, setUserLocation)
             }
         }
     )
@@ -108,8 +108,8 @@ const Profile = () => {
                 <>
                     <Title title={'Profile Settings'}/>
                     <hr className={'w-full h-px'}/>
-                    <div className={`${styles['forms']} py-10 px-6`}>
-                        <div className={`${styles['inputs']} flex justify-between items-center`}>
+                    <div className={`${styles.forms} py-10 px-6`}>
+                        <div className={`${styles.inputs} flex justify-between items-center`}>
                             <form onSubmit={nameSub(nameSubmit)} className={styles['input-container']}>
                                 <Input type={'text'} error={nameErr.name?.message} touched={nameTouched.name} register={nameReg} name={'name'} patternValue={/^[a-z]+$/i} minLength={3} maxLength={10} placeholder={'Your new name'}/>
                                 <SubmitBtn isLoading={isSettingName}/>
@@ -119,7 +119,7 @@ const Profile = () => {
                                 <SubmitBtn isLoading={isSettingLocation}/>
                             </form>
                         </div>
-                        <div className={`${styles['files']} flex justify-between items-center`}>
+                        <div className={`${styles.files} flex justify-between items-center`}>
                             <form onSubmit={avatarSub(avatarSubmit)}>
                                 <FileInput label={'Avatar'} name={'avatar'} register={avatarReg} setValue={setAvatarValue} currentValue={avatarValue?.name}/>
                                 <SubmitBtn isLoading={isSettingAvatar}/>

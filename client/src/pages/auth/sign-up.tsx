@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import Head from "next/head"
 import { useRouter } from "next/router"
-import { useDispatch } from "react-redux"
 // Components
 import { Loader } from "@/components/auth/Loader"
 import { Input } from "@/components/common/Input"
-// Interfaces
-import { AuthProps, IAuthForm } from "@/interfaces/auth.interfaces"
+import { SubmitBtn } from "@/components/auth/SubmitBtn"
+// Models
+import { AuthProps, IAuthForm } from "@/models/auth"
 // Recaptcha
 import ReCAPTCHA from "react-google-recaptcha"
 // React Query
@@ -21,11 +21,12 @@ import { successfulEnter } from "@/pages/auth/sign-in"
 import styles from '@/styles/Authorization.module.scss'
 // Layout
 import { AuthPage } from "@/layouts/AuthPage-Layout"
-import {SubmitBtn} from "@/components/auth/SubmitBtn";
+// Hooks
+import { useAppDispatch } from "@/hooks/redux"
 
 const SignUp = () => {
     const router = useRouter()
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const [loginError, setLoginError] = useState('')
 
