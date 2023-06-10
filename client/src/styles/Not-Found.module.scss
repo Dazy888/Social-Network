@@ -42,18 +42,16 @@
 }
 
 @media (max-width: 425px) {
-    .content {
-        .text {
-            width: 370px;
+    .content .text {
+        width: 370px;
 
-            h1 {
-                font-size: 36px;
-            }
+        h1 {
+            font-size: 36px;
+        }
 
-            p {
-                max-width: 240px;
-                font-size: 18px;
-            }
+        p {
+            max-width: 240px;
+            font-size: 18px;
         }
     }
 }

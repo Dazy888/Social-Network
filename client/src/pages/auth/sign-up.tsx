@@ -1,79 +1,54 @@
-import React, { useState } from "react"
-import Head from "next/head"
+import React, { useRef, useState } from "react"
 import { useRouter } from "next/router"
+import { AuthForm, AuthProps } from "@/models/auth"
+import ReCAPTCHA from "react-google-recaptcha"
+import { useMutation } from "react-query"
+import { AuthService } from "@/services/auth.service"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { notify, successfulEnter } from "@/pages/auth/sign-in"
+import styles from '@/styles/Authorization.module.scss'
+import { useAppDispatch } from "@/hooks/redux"
 // Components
 import { Loader } from "@/components/auth/Loader"
 import { Input } from "@/components/common/Input"
 import { SubmitBtn } from "@/components/auth/SubmitBtn"
-// Models
-import { AuthProps, IAuthForm } from "@/models/auth"
-// Recaptcha
-import ReCAPTCHA from "react-google-recaptcha"
-// React Query
-import { useMutation } from "react-query"
-// HTTP Service
-import { AuthService } from "@/services/auth.service"
-// Form
-import { SubmitHandler, useForm } from "react-hook-form"
-// Functions
-import { successfulEnter } from "@/pages/auth/sign-in"
-// Styles
-import styles from '@/styles/Authorization.module.scss'
-// Layout
 import { AuthPage } from "@/layouts/AuthPage-Layout"
-// Hooks
-import { useAppDispatch } from "@/hooks/redux"
 
 const SignUp = () => {
+    const reRef: any = useRef<ReCAPTCHA>()
+    const [captchaToken, setCaptchaToken] = useState<string | null>('')
+
+    const [passInpType, setPassInpType] = useState<'password' | 'text'>('password')
+
     const router = useRouter()
     const dispatch = useAppDispatch()
 
-    const [loginError, setLoginError] = useState('')
-
-    const { isLoading, mutateAsync } = useMutation('registration', (data: AuthProps) => AuthService.registration(data.userLogin, data.password, /*data.token*/),
+    const { isLoading, mutateAsync:signUp } = useMutation('sign up', (data: AuthProps) => AuthService.registration(data.login, data.pass),
         {
-            onSuccess(response) {
-                const data = response.data
-                successfulEnter(router, dispatch, data.tokens.accessToken, data.user.isActivated)
-            },
-            onError() {
-                setLoginError('User with this login already exists')
-            }
+            onSuccess: (res) => successfulEnter(router, dispatch, res.data.tokens.accessToken, res.data.user.isActivated),
+            onError: (err: string): any => notify(err, 'warning')
         })
 
-    const showPassword = () => {
-        const input: any = document.querySelector('input[name=password]')
+    const { register, handleSubmit, formState: { errors, touchedFields } } = useForm<AuthForm>({ mode: 'onChange' })
 
-        if (input.getAttribute('type') === 'password') {
-            input.setAttribute('type', 'text')
-        } else {
-            input.setAttribute('type', 'password')
-        }
-    }
-
-    const { register, handleSubmit, formState: { errors, touchedFields } } = useForm<IAuthForm>({ mode: 'onChange' })
-
-    const onSubmit: SubmitHandler<IAuthForm> = async (data) => {
-        // const token = await reRef.current.executeAsync()
-        // reRef.current.reset()
-        await mutateAsync({ userLogin: data.login, password: data.password, /*token*/ })
+    const onSubmit: SubmitHandler<AuthForm> = async (data) => {
+        if (isLoading) notify('Too many requests', 'warning')
+        if (!captchaToken) return notify('Please confirm that you are not a robot', 'warning')
+        await signUp({ login: data.login, pass: data.pass })
     }
 
     return(
-        <AuthPage>
-            <Head>
-                <title>Sign up</title>
-            </Head>
+        <AuthPage title={'up'}>
             <form onSubmit={handleSubmit(onSubmit)} className={'w-9/12'}>
-                <Input type={'text'} error={errors.login?.message} touched={touchedFields.login} serverError={loginError} register={register} name={'login'} patternValue={/^[a-zA-Z0-9]+$/} minLength={4} maxLength={10} setServerError={setLoginError} placeholder={'Login'}/>
-                <Input type={'password'} error={errors.password?.message} touched={touchedFields.password} register={register} name={'password'} patternValue={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/} minLength={8} maxLength={15} placeholder={'Password'}/>
+                <Input type={'text'} error={errors.login?.message} touched={touchedFields.login} register={register} name={'login'} patternValue={/^[a-zA-Z0-9]+$/} minLength={4} maxLength={10} placeholder={'Login'}/>
+                <Input type={'password'} error={errors.pass?.message} touched={touchedFields.pass} register={register} name={'pass'} patternValue={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/} minLength={8} maxLength={15} placeholder={'Password'}/>
                 <div className={`${styles['auth__checkbox']} flex items-center mb-7`}>
-                    <input onClick={showPassword} name={'show-password'} type={'checkbox'}/>
+                    <input className={'w-5 h-5 mr-2.5'} onClick={() => ((passInpType === 'password') ? setPassInpType('text') : setPassInpType('password'))} name={'show-pass'} type={'checkbox'}/>
                     <label>Show password</label>
                 </div>
+                <ReCAPTCHA ref={reRef} sitekey={'6LfPBogmAAAAAJ8cP0kTqqd1q2n1RFvIRaTstbMN'} onChange={(value) => setCaptchaToken(value)} className={'my-6'} />
                 <SubmitBtn isLoading={isLoading} value={'up'}/>
                 <Loader color={'rgb(249, 94, 59)'} loading={isLoading}/>
-                {/*<ReCAPTCHA className={'captcha'} sitekey={'6Leond0hAAAAAOCUq2naPPzgveoMehWQmYG4Vabt'} size={"invisible"} ref={reRef}/>*/}
             </form>
         </AuthPage>
     )

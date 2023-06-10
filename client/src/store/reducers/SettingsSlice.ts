@@ -2,10 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 interface SettingsState {
     email: string
+    isActivated: boolean
 }
 
 let initialState: SettingsState = {
-    email: ''
+    email: '',
+    isActivated: false
 }
 
 export const settingsSlice = createSlice({

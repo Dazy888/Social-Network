@@ -64,23 +64,18 @@ export class AuthService {
 
     async login(login: string, password: string) {
         const existingUser = await this.userModel.findOne({ login })
+        if (!existingUser) throw new UnauthorizedException('Invalid login or password')
 
-        if (!existingUser) {
-            throw new UnauthorizedException("User with this login doesn't exist")
-        } else {
-            const userDto = new UserDto(existingUser)
-            const isPassEquals = await bcrypt.compare(password, existingUser.password)
+        const userDto = new UserDto(existingUser)
 
-            if (!isPassEquals) {
-                throw new UnauthorizedException('Wrong password')
-            } else {
-                const posts = await this.postModel.find({ userId: existingUser.id })
-                const tokens = this.generateTokens({ ...userDto })
+        const isPassEquals = await bcrypt.compare(password, existingUser.password)
+        if (!isPassEquals) throw new UnauthorizedException('Invalid login or password')
 
-                await this.saveToken(existingUser.id, tokens.refreshToken)
-                return { tokens, user: userDto, posts }
-            }
-        }
+        const posts = await this.postModel.find({ userId: existingUser.id })
+        const tokens = this.generateTokens({ ...userDto })
+
+        await this.saveToken(existingUser.id, tokens.refreshToken)
+        return { tokens, user: userDto, posts }
     }
 
     async logout(refreshToken: string) {

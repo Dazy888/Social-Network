@@ -1,13 +1,12 @@
+import React from "react"
 import type { AppProps } from 'next/app'
 import { Provider } from "react-redux"
-import { Analytics } from '@vercel/analytics/react';
-// Styles
+import { Analytics } from '@vercel/analytics/react'
+import { ToastContainer } from "react-toastify"
+import { QueryClient, QueryClientProvider } from "react-query"
+import { store } from "@/store/store"
 import '@/styles/main.scss'
 import '@/styles/reset.scss'
-// React Query
-import { QueryClient, QueryClientProvider } from "react-query"
-// Store
-import { store } from "@/store/store"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,13 +14,14 @@ const queryClient = new QueryClient({
   }
 })
 
-export default function App({ Component, pageProps }: AppProps) {
-  return (
-      <QueryClientProvider client={queryClient}>
-          <Provider store={store}>
-              <Component {...pageProps} />
-          </Provider>
-          <Analytics />
-      </QueryClientProvider>
-  )
-}
+const App: React.FC<AppProps> = ({ Component, pageProps }) => (
+    <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+            <Component {...pageProps} />
+        </Provider>
+        <Analytics />
+        <ToastContainer />
+    </QueryClientProvider>
+)
+
+export default React.memo(App)

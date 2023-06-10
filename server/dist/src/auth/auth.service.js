@@ -67,22 +67,16 @@ let AuthService = class AuthService {
     }
     async login(login, password) {
         const existingUser = await this.userModel.findOne({ login });
-        if (!existingUser) {
-            throw new common_1.UnauthorizedException("User with this login doesn't exist");
-        }
-        else {
-            const userDto = new user_dto_1.UserDto(existingUser);
-            const isPassEquals = await bcrypt.compare(password, existingUser.password);
-            if (!isPassEquals) {
-                throw new common_1.UnauthorizedException('Wrong password');
-            }
-            else {
-                const posts = await this.postModel.find({ userId: existingUser.id });
-                const tokens = this.generateTokens(Object.assign({}, userDto));
-                await this.saveToken(existingUser.id, tokens.refreshToken);
-                return { tokens, user: userDto, posts };
-            }
-        }
+        if (!existingUser)
+            throw new common_1.UnauthorizedException('Invalid login or password');
+        const userDto = new user_dto_1.UserDto(existingUser);
+        const isPassEquals = await bcrypt.compare(password, existingUser.password);
+        if (!isPassEquals)
+            throw new common_1.UnauthorizedException('Invalid login or password');
+        const posts = await this.postModel.find({ userId: existingUser.id });
+        const tokens = this.generateTokens(Object.assign({}, userDto));
+        await this.saveToken(existingUser.id, tokens.refreshToken);
+        return { tokens, user: userDto, posts };
     }
     async logout(refreshToken) {
         return this.tokenModel.deleteOne({ refreshToken });

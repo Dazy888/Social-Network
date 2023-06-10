@@ -1,8 +1,8 @@
 import { IPost } from "@/models/profile"
 
-export interface IAuthForm {
+export interface AuthForm {
     login: string
-    password: string
+    pass: string
 }
 
 export interface ErrorComponentProps  {
@@ -12,23 +12,21 @@ export interface ErrorComponentProps  {
 }
 
 export interface AuthProps {
-    userLogin: string
-    password: string
+    login: string
+    pass: string
 }
 
-export interface IAuthUser {
-    email: string
-    isActivated: boolean
-}
-
-export interface ITokens {
+export interface Tokens {
     accessToken: string
     refreshToken: string
 }
 
 export interface AuthResponse {
-    tokens: ITokens
-    user: IAuthUser
+    tokens: Tokens
+    user: {
+        email: string
+        isActivated: boolean
+    }
 }
 
 export interface RefreshResponse {
@@ -49,6 +47,6 @@ export interface RefreshResponse {
         followers: string[]
         following: string[]
     },
-    tokens: ITokens
+    tokens: Tokens
     posts: IPost[]
 }
