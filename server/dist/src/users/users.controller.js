@@ -15,30 +15,35 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
+const profile_controller_1 = require("../profile/profile.controller");
 let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
     }
-    getUsers(skip, userId) {
-        return this.usersService.getUsers(Number(skip), userId);
+    getUsers(skip, id, accessToken) {
+        (0, profile_controller_1.checkAccessToken)(accessToken);
+        return this.usersService.getUsers(Number(skip), id);
     }
-    getUser(userId) {
-        return this.usersService.getUser(userId);
+    getUser(id, accessToken) {
+        (0, profile_controller_1.checkAccessToken)(accessToken);
+        return this.usersService.getUser(id);
     }
 };
 __decorate([
-    (0, common_1.Get)('/:skip/:userId'),
+    (0, common_1.Get)('/:skip/:id/:accessToken'),
     __param(0, (0, common_1.Param)('skip')),
-    __param(1, (0, common_1.Param)('userId')),
+    __param(1, (0, common_1.Param)('id')),
+    __param(2, (0, common_1.Param)('accessToken')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "getUsers", null);
 __decorate([
-    (0, common_1.Get)('/:userId'),
-    __param(0, (0, common_1.Param)('userId')),
+    (0, common_1.Get)('/:id/:accessToken'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Param)('accessToken')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "getUser", null);
 UsersController = __decorate([

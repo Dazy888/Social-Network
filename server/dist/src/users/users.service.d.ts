@@ -1,6 +1,7 @@
 import { Model } from "mongoose";
-import { UserDocument } from "@/schemas/user.schema";
-import { PostDocument } from "@/schemas/post.schema";
+import { UserPreview } from "../interfaces/users.interfaces";
+import { UserDocument } from "../schemas/user.schema";
+import { PostDocument } from "../schemas/post.schema";
 export declare class UsersService {
     private userModel;
     private postModel;
@@ -15,12 +16,12 @@ export declare class UsersService {
         hobbies: string;
         followers: string[];
         following: string[];
-        posts: (import("@/schemas/post.schema").Post & import("mongoose").Document<any, any, any> & {
+        posts: (import("../schemas/post.schema").Post & import("mongoose").Document<any, any, any> & {
             _id: import("mongoose").Types.ObjectId;
         })[];
     }>;
     getUsers(skip: number, id: string): Promise<{
-        usersData: IUserPreview[];
+        usersData: UserPreview[];
         length: number;
     }>;
 }

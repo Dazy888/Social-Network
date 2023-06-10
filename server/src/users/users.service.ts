@@ -1,12 +1,10 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from "@nestjs/mongoose"
-// Mongoose
 import { Model } from "mongoose"
+import { UserPreview } from "../interfaces/users.interfaces"
 // Schemas
-import { UserDocument } from "@/schemas/user.schema"
-import { PostDocument } from "@/schemas/post.schema"
-// Interfaces
-import { IUserPreview } from "@/interfaces/users.interfaces"
+import { UserDocument } from "../schemas/user.schema"
+import { PostDocument } from "../schemas/post.schema"
 
 @Injectable()
 export class UsersService {
@@ -33,7 +31,7 @@ export class UsersService {
     async getUsers(skip: number, id: string) {
         const length = await this.userModel.count()
         const users = await this.userModel.find({ userId: { $ne: id } }).skip(skip).limit(4)
-        const usersData: IUserPreview[] = []
+        const usersData: UserPreview[] = []
 
         for (const user of users) {
             usersData.push(
