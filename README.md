@@ -11,6 +11,13 @@ cd client
 
 2)
 ```bash
+npm install
+# or
+yarn
+```
+
+3)
+```bash
 npm run dev
 # or
 yarn dev
@@ -25,6 +32,13 @@ cd server
 ```
 
 2)
+```bash
+npm install
+# or
+yarn
+```
+
+3)
 ```bash
 npm run start:dev
 # or

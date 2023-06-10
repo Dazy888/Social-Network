@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app'
 import { Provider } from "react-redux"
+import { Analytics } from '@vercel/analytics/react';
 // Styles
 import '@/styles/main.scss'
 import '@/styles/reset.scss'
@@ -20,6 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <Provider store={store}>
               <Component {...pageProps} />
           </Provider>
+          <Analytics />
       </QueryClientProvider>
   )
 }
