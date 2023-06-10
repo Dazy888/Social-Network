@@ -14,86 +14,67 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SettingsController = void 0;
 const uuid_1 = require("uuid");
-const multer_1 = require("multer");
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
+const profile_controller_1 = require("../profile/profile.controller");
+const settings_service_1 = require("./settings.service");
 const password_dto_1 = require("./dto/password.dto");
 const mail_dto_1 = require("./dto/mail.dto");
 const text_dto_1 = require("./dto/text.dto");
 const photo_dto_1 = require("./dto/photo.dto");
-const settings_service_1 = require("./settings.service");
-const mail_1 = require("./mail");
 let SettingsController = class SettingsController {
     constructor(settingsService) {
         this.settingsService = settingsService;
     }
-    async changePass(data) {
-        const { currentPass, newPass, userId } = data;
-        const response = await this.settingsService.changePass(currentPass, newPass, userId);
-        if (response)
-            throw new common_1.BadRequestException(response);
+    async changePass(data, accessToken) {
+        (0, profile_controller_1.checkAccessToken)(accessToken);
+        return this.settingsService.changePass(data.currentPass, data.newPass, data.id);
     }
-    async sendMail(data) {
-        const { email, userId } = data;
-        const link = (0, uuid_1.v4)();
-        const response = await this.settingsService.sendMail(email, link, userId);
-        if (response) {
-            throw new common_1.BadRequestException(response);
-        }
-        else {
-            await mail_1.default.sendActivationMail(email, `${process.env.API_URL}/api/settings/activate/${link}`);
-        }
-    }
-    async cancelActivation(userId) {
-        await this.settingsService.cancelActivation(userId);
+    async sendMail(data, accessToken) {
+        (0, profile_controller_1.checkAccessToken)(accessToken);
+        return this.settingsService.sendMail(data.email, `${process.env.API_URL}/api/settings/activate/${(0, uuid_1.v4)()}`, data.id);
     }
     async activate(link, res) {
-        const response = await this.settingsService.activate(link);
-        if (response) {
-            throw new common_1.BadRequestException(response);
-        }
-        else {
-            res.redirect(`${process.env.CLIENT_URL}/main/settings/activate`);
-        }
+        await this.settingsService.activate(link);
+        res.redirect(`${process.env.CLIENT_URL}/main/settings/activate`);
     }
-    async setName(data) {
-        const { text, userId } = data;
-        return this.settingsService.setName(text, userId);
+    async cancelActivation(id, accessToken) {
+        (0, profile_controller_1.checkAccessToken)(accessToken);
+        await this.settingsService.cancelActivation(id);
     }
-    async setLocation(data) {
-        const { text, userId } = data;
-        return this.settingsService.setLocation(text, userId);
+    async setName(data, accessToken) {
+        (0, profile_controller_1.checkAccessToken)(accessToken);
+        return this.settingsService.setName(data.text, data.id);
     }
-    async setAvatar(data, file) {
-        const { userId, currentPath } = data;
-        return this.settingsService.setAvatar(file[0].path, userId, currentPath);
+    async setLocation(data, accessToken) {
+        (0, profile_controller_1.checkAccessToken)(accessToken);
+        return this.settingsService.setLocation(data.text, data.id);
     }
-    async setBanner(data, file) {
-        const { userId, currentPath } = data;
-        return this.settingsService.setBanner(file[0].path, userId, currentPath);
+    async setAvatar(data, image, accessToken) {
+        (0, profile_controller_1.checkAccessToken)(accessToken);
+        return this.settingsService.uploadImage(image, 'avatar', data.id);
+    }
+    async setBanner(data, image, accessToken) {
+        (0, profile_controller_1.checkAccessToken)(accessToken);
+        return this.settingsService.uploadImage(image, 'banner', data.id);
     }
 };
 __decorate([
-    (0, common_1.Put)('/password'),
+    (0, common_1.Put)('/pass/:accessToken'),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Param)('accessToken')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [password_dto_1.PasswordDto]),
+    __metadata("design:paramtypes", [password_dto_1.PasswordDto, String]),
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "changePass", null);
 __decorate([
-    (0, common_1.Post)('/mail'),
+    (0, common_1.Post)('/mail/:accessToken'),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Param)('accessToken')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [mail_dto_1.MailDto]),
+    __metadata("design:paramtypes", [mail_dto_1.MailDto, String]),
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "sendMail", null);
-__decorate([
-    (0, common_1.Get)('/cancel-activation/:userId'),
-    __param(0, (0, common_1.Param)('userId')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], SettingsController.prototype, "cancelActivation", null);
 __decorate([
     (0, common_1.Get)('/activate/:link'),
     __param(0, (0, common_1.Param)('link')),
@@ -103,47 +84,47 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "activate", null);
 __decorate([
-    (0, common_1.Put)('name'),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.Get)('/cancel-activation/:id/:accessToken'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Param)('accessToken')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [text_dto_1.TextDto]),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", Promise)
+], SettingsController.prototype, "cancelActivation", null);
+__decorate([
+    (0, common_1.Put)('name/:accessToken'),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Param)('accessToken')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [text_dto_1.TextDto, String]),
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "setName", null);
 __decorate([
-    (0, common_1.Put)('location'),
+    (0, common_1.Put)('location/:accessToken'),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Param)('accessToken')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [text_dto_1.TextDto]),
+    __metadata("design:paramtypes", [text_dto_1.TextDto, String]),
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "setLocation", null);
 __decorate([
-    (0, common_1.Post)('avatar'),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('image', null, {
-        storage: (0, multer_1.diskStorage)({
-            destination: './uploads/avatars', filename: (req, file, callback) => {
-                callback(null, Date.now() + "--" + file.originalname);
-            }
-        })
-    })),
+    (0, common_1.Post)('avatar/:accessToken'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image')),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.UploadedFiles)()),
+    __param(1, (0, common_1.UploadedFile)()),
+    __param(2, (0, common_1.Param)('accessToken')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [photo_dto_1.PhotoDto, Object]),
+    __metadata("design:paramtypes", [photo_dto_1.PhotoDto, Object, String]),
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "setAvatar", null);
 __decorate([
-    (0, common_1.Post)('banner'),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('image', 100, {
-        storage: (0, multer_1.diskStorage)({
-            destination: './uploads/banners', filename: (req, file, callback) => {
-                callback(null, Date.now() + "--" + file.originalname);
-            }
-        })
-    })),
+    (0, common_1.Post)('banner/:accessToken'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image')),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.UploadedFiles)()),
+    __param(1, (0, common_1.UploadedFile)()),
+    __param(2, (0, common_1.Param)('accessToken')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [photo_dto_1.PhotoDto, Object]),
+    __metadata("design:paramtypes", [photo_dto_1.PhotoDto, Object, String]),
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "setBanner", null);
 SettingsController = __decorate([

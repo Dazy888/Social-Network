@@ -13,14 +13,18 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SettingsService = void 0;
+const path = require("path");
 const bcrypt = require("bcrypt");
 const mongoose_1 = require("mongoose");
-const fs_1 = require("fs");
+const uuid_1 = require("uuid");
+const mailer_1 = require("@nestjs-modules/mailer");
 const common_1 = require("@nestjs/common");
 const mongoose_2 = require("@nestjs/mongoose");
+const storage_1 = require("@google-cloud/storage");
 let SettingsService = class SettingsService {
-    constructor(userModel) {
+    constructor(userModel, mailerService) {
         this.userModel = userModel;
+        this.mailerService = mailerService;
     }
     async changePass(currentPass, newPass, userId) {
         const user = await this.userModel.findOne({ userId });
@@ -32,58 +36,65 @@ let SettingsService = class SettingsService {
             await this.userModel.findOneAndUpdate({ userId }, { password: await bcrypt.hash(newPass, 3) });
         }
     }
-    async sendMail(email, activationLink, userId) {
-        if (await this.userModel.findOne({ email })) {
-            return 'User with this e-mail already exists';
-        }
-        else {
-            await this.userModel.findOneAndUpdate({ userId }, { email, activationLink });
-        }
-    }
-    async cancelActivation(id) {
-        await this.userModel.findOneAndUpdate({ userId: id }, { email: '' });
+    async sendMail(email, activationLink, _id) {
+        if (await this.userModel.findOne({ email }))
+            throw new common_1.BadRequestException('User with this e-mail already exists');
+        await this.userModel.findOneAndUpdate({ _id }, { email, activationLink });
+        await this.mailerService.sendMail({
+            from: process.env.SMTP_EMAIL,
+            to: email,
+            subject: 'Thank you for contacting us!',
+            html: `
+                    <div>
+                        <h1>To activate follow the link</h1>
+                        <a href="${activationLink}">${activationLink}</a>
+                    </div>
+                `
+        });
     }
     async activate(activationLink) {
         if (!await this.userModel.findOneAndUpdate({ activationLink }, { isActivated: true }))
-            return 'Invalid activation link';
+            throw new common_1.BadRequestException('Invalid activation link');
+    }
+    async cancelActivation(_id) {
+        await this.userModel.findOneAndUpdate({ _id }, { email: '' });
     }
     async setPhoto(newPath, field, model, userId) {
         (field === 'avatar') ? await model.findOneAndUpdate({ userId }, { avatar: `http://localhost:5000/${newPath}` }) : await model.findOneAndUpdate({ userId }, { banner: `http://localhost:5000/${newPath}` });
         return `http://localhost:5000/${newPath}`;
     }
-    async setName(name, userId) {
-        await this.userModel.findOneAndUpdate({ userId }, { name });
-        return name;
+    async setName(name, _id) {
+        await this.userModel.findOneAndUpdate({ _id }, { name });
     }
-    async setLocation(location, userId) {
-        await this.userModel.findOneAndUpdate({ userId }, { location });
-        return location;
+    async setLocation(location, _id) {
+        await this.userModel.findOneAndUpdate({ _id }, { location });
     }
-    async setAvatar(newPath, userId, currentPath) {
-        if (!/uploads/.test(currentPath)) {
-            return this.setPhoto(newPath, 'avatar', this.userModel, userId);
-        }
-        else {
-            const previousPath = `uploads${currentPath.split('uploads')[1]}`;
-            fs_1.default.unlink(previousPath, (err) => err ? console.log(err) : console.log('File was deleted'));
-            return this.setPhoto(newPath, 'avatar', this.userModel, userId);
-        }
+    async uploadFile(file) {
+        const storage = new storage_1.Storage({ projectId: 'central-courier-389415', keyFilename: path.join(__dirname, '..', '..', 'src', 'config', 'key.json') });
+        const bucketName = 'social-network_dazy';
+        const uniqueFilename = (0, uuid_1.v4)() + '-' + file.originalname;
+        const blob = storage.bucket(bucketName).file(uniqueFilename);
+        const stream = blob.createWriteStream({
+            resumable: false,
+            metadata: { contentType: file.mimetype }
+        });
+        await new Promise((resolve, reject) => {
+            stream.on('error', reject).on('finish', resolve);
+            stream.end(file.buffer);
+        });
+        const [metadata] = await blob.getMetadata();
+        return metadata.mediaLink;
     }
-    async setBanner(newPath, userId, currentPath) {
-        if (!/uploads/.test(currentPath)) {
-            return this.setPhoto(newPath, 'banner', this.userModel, userId);
-        }
-        else {
-            const lastPath = `uploads${currentPath.split('uploads')[1]}`;
-            fs_1.default.unlink(lastPath, (err) => err ? console.log(err) : console.log('File was deleted'));
-            return this.setPhoto(newPath, 'banner', this.userModel, userId);
-        }
+    async uploadImage(image, field, _id) {
+        const imageUrl = await this.uploadFile(image);
+        const updateObject = { [field]: imageUrl };
+        await this.userModel.findOneAndUpdate({ _id }, updateObject);
     }
 };
 SettingsService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_2.InjectModel)('User')),
-    __metadata("design:paramtypes", [mongoose_1.Model])
+    __metadata("design:paramtypes", [mongoose_1.Model, mailer_1.MailerService])
 ], SettingsService);
 exports.SettingsService = SettingsService;
 //# sourceMappingURL=settings.service.js.map

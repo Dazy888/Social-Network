@@ -1,94 +1,65 @@
-import { v4 as uuidv4 } from "uuid"
-import { diskStorage } from "multer"
-// NestJS
-import { BadRequestException, Body, Controller, Get, Param, Post, Put, Res, UploadedFiles, UseInterceptors } from '@nestjs/common'
-import { FilesInterceptor } from "@nestjs/platform-express"
+import { v4 } from "uuid"
+import { Body, Controller, Get, Param, Post, Put, Res, UploadedFile, UseInterceptors } from '@nestjs/common'
+import { FileInterceptor } from "@nestjs/platform-express"
+import { checkAccessToken } from "../profile/profile.controller"
+import { SettingsService } from "./settings.service"
 // DTO
-import { PasswordDto } from "@/settings/dto/password.dto"
-import { MailDto } from "@/settings/dto/mail.dto"
-import { TextDto } from "@/settings/dto/text.dto"
-import { PhotoDto } from "@/settings/dto/photo.dto"
-// Services
-import { SettingsService } from "@/settings/settings.service"
-import MailService from "@/settings/mail"
+import { PasswordDto } from "./dto/password.dto"
+import { MailDto } from "./dto/mail.dto"
+import { TextDto } from "./dto/text.dto"
+import { PhotoDto } from "./dto/photo.dto"
 
 @Controller('settings')
 export class SettingsController {
     constructor(private readonly settingsService: SettingsService) {}
 
-    @Put('/password')
-    async changePass(@Body() data: PasswordDto) {
-        const { currentPass, newPass, userId } = data
-        const response = await this.settingsService.changePass(currentPass, newPass, userId)
-        if (response) throw new BadRequestException(response)
+    @Put('/pass/:accessToken')
+    async changePass(@Body() data: PasswordDto, @Param('accessToken') accessToken: string) {
+        checkAccessToken(accessToken)
+        return this.settingsService.changePass(data.currentPass, data.newPass, data.id)
     }
 
-    @Post('/mail')
-    async sendMail(@Body() data: MailDto) {
-        const { email, userId } = data
-        const link = uuidv4()
-        const response = await this.settingsService.sendMail(email, link, userId)
-
-        if (response) {
-            throw new BadRequestException(response)
-        } else {
-            await MailService.sendActivationMail(email, `${process.env.API_URL}/api/settings/activate/${link}`)
-        }
-    }
-
-    @Get('/cancel-activation/:userId')
-    async cancelActivation(@Param('userId') userId: string) {
-        await this.settingsService.cancelActivation(userId)
+    @Post('/mail/:accessToken')
+    async sendMail(@Body() data: MailDto, @Param('accessToken') accessToken: string) {
+        checkAccessToken(accessToken)
+        return this.settingsService.sendMail(data.email, `${process.env.API_URL}/api/settings/activate/${v4()}`, data.id)
     }
 
     @Get('/activate/:link')
     async activate(@Param('link') link: string, @Res({ passthrough: true }) res) {
-        const response = await this.settingsService.activate(link)
-
-        if (response) {
-            throw new BadRequestException(response)
-        } else {
-            res.redirect(`${process.env.CLIENT_URL}/main/settings/activate`)
-        }
+        await this.settingsService.activate(link)
+        res.redirect(`${process.env.CLIENT_URL}/main/settings/activate`)
     }
 
-    @Put('name')
-    async setName(@Body() data: TextDto) {
-        const { text, userId } = data
-        return this.settingsService.setName(text, userId)
+    @Get('/cancel-activation/:id/:accessToken')
+    async cancelActivation(@Param('id') id: string, @Param('accessToken') accessToken: string) {
+        checkAccessToken(accessToken)
+        await this.settingsService.cancelActivation(id)
     }
 
-    @Put('location')
-    async setLocation(@Body() data: TextDto) {
-        const { text, userId } = data
-        return this.settingsService.setLocation(text, userId)
+    @Put('name/:accessToken')
+    async setName(@Body() data: TextDto, @Param('accessToken') accessToken: string) {
+        checkAccessToken(accessToken)
+        return this.settingsService.setName(data.text, data.id)
     }
 
-    @Post('avatar')
-    @UseInterceptors(FilesInterceptor('image', null,
-        {
-            storage: diskStorage({
-                destination: './uploads/avatars', filename: (req, file, callback) => {
-                    callback(null, Date.now() + "--" + file.originalname)
-                }
-            })
-        }))
-    async setAvatar(@Body() data: PhotoDto, @UploadedFiles() file) {
-        const { userId, currentPath } = data
-        return this.settingsService.setAvatar(file[0].path, userId, currentPath)
+    @Put('location/:accessToken')
+    async setLocation(@Body() data: TextDto, @Param('accessToken') accessToken: string) {
+        checkAccessToken(accessToken)
+        return this.settingsService.setLocation(data.text, data.id)
     }
 
-    @Post('banner')
-    @UseInterceptors(FilesInterceptor('image', 100,
-        {
-            storage: diskStorage({
-                destination: './uploads/banners', filename: (req, file, callback) => {
-                    callback(null, Date.now() + "--" + file.originalname)
-                }
-            })
-        }))
-    async setBanner(@Body() data: PhotoDto, @UploadedFiles() file) {
-        const { userId, currentPath } = data
-        return this.settingsService.setBanner(file[0].path, userId, currentPath)
+    @Post('avatar/:accessToken')
+    @UseInterceptors(FileInterceptor('image'))
+    async setAvatar(@Body() data: PhotoDto, @UploadedFile() image, @Param('accessToken') accessToken: string) {
+        checkAccessToken(accessToken)
+        return this.settingsService.uploadImage(image, 'avatar', data.id)
+    }
+
+    @Post('banner/:accessToken')
+    @UseInterceptors(FileInterceptor('image'))
+    async setBanner(@Body() data: PhotoDto, @UploadedFile() image, @Param('accessToken') accessToken: string) {
+        checkAccessToken(accessToken)
+        return this.settingsService.uploadImage(image, 'banner', data.id)
     }
 }

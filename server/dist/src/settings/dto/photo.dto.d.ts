@@ -1,4 +1,3 @@
 export declare class PhotoDto {
-    readonly currentPath: string;
-    readonly userId: string;
+    readonly id: string;
 }

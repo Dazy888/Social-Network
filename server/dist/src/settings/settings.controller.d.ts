@@ -1,17 +1,17 @@
-import { PasswordDto } from "@/settings/dto/password.dto";
-import { MailDto } from "@/settings/dto/mail.dto";
-import { TextDto } from "@/settings/dto/text.dto";
-import { PhotoDto } from "@/settings/dto/photo.dto";
-import { SettingsService } from "@/settings/settings.service";
+import { SettingsService } from "./settings.service";
+import { PasswordDto } from "./dto/password.dto";
+import { MailDto } from "./dto/mail.dto";
+import { TextDto } from "./dto/text.dto";
+import { PhotoDto } from "./dto/photo.dto";
 export declare class SettingsController {
     private readonly settingsService;
     constructor(settingsService: SettingsService);
-    changePass(data: PasswordDto): Promise<void>;
-    sendMail(data: MailDto): Promise<void>;
-    cancelActivation(userId: string): Promise<void>;
+    changePass(data: PasswordDto, accessToken: string): Promise<string>;
+    sendMail(data: MailDto, accessToken: string): Promise<void>;
     activate(link: string, res: any): Promise<void>;
-    setName(data: TextDto): Promise<string>;
-    setLocation(data: TextDto): Promise<string>;
-    setAvatar(data: PhotoDto, file: any): Promise<string>;
-    setBanner(data: PhotoDto, file: any): Promise<string>;
+    cancelActivation(id: string, accessToken: string): Promise<void>;
+    setName(data: TextDto, accessToken: string): Promise<void>;
+    setLocation(data: TextDto, accessToken: string): Promise<void>;
+    setAvatar(data: PhotoDto, image: any, accessToken: string): Promise<void>;
+    setBanner(data: PhotoDto, image: any, accessToken: string): Promise<void>;
 }
