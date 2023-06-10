@@ -1,6 +1,7 @@
 import axios from "axios"
 
-export const API_URL = 'https://social-network-api-alpha.vercel.app/api/'
+// export const API_URL = 'https://social-network-api-alpha.vercel.app/api/'
+export const API_URL = 'http://localhost:5000/api/'
 
 export const $api = axios.create({
     withCredentials: true,

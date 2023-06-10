@@ -1,14 +1,12 @@
 import { Module } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
-// Controller
-import { AppController } from '@/app.controller'
-// Service
-import { AppService } from '@/app.service'
+import { AppController } from './app.controller'
+import { AppService } from './app.service'
 // Modules
-import { AuthModule } from '@/auth/auth.module'
-import { ProfileModule } from '@/profile/profile.module'
-import { SettingsModule } from '@/settings/settings.module'
-import { UsersModule } from "@/users/users.module"
+import { AuthModule } from './auth/auth.module'
+import { ProfileModule } from './profile/profile.module'
+import { SettingsModule } from './settings/settings.module'
+import { UsersModule } from "./users/users.module"
 
 @Module({
   imports: [

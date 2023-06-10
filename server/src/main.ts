@@ -1,26 +1,19 @@
-import * as cookieParser from 'cookie-parser'
-import * as express from "express"
+// import * as express from "express"
 import * as process from "process"
-// NestJS
 import { NestFactory } from '@nestjs/core'
-// Module
 import { AppModule } from '@/app.module'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true })
-
+  const app = await NestFactory.create(AppModule)
   app.setGlobalPrefix('api')
 
-  app.use(cookieParser())
-  app.use('/uploads', express.static('./uploads'))
-  app.use('/', express.static('./public'))
+  // app.use('/uploads', express.static('./uploads'))
+  // app.use('/', express.static('./public'))
 
   app.enableCors({
-    origin: [
-      'https://social-network-api-alpha.vercel.app',
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
+    origin: ['https://social-network-dazy888.vercel.app', 'http://localhost:3000'],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true
   })
 
   await app.listen(process.env.PORT || 5000)

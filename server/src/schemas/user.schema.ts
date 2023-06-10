@@ -42,9 +42,6 @@ export class User {
     hobbies: string
 
     @Prop()
-    userId: string
-
-    @Prop()
     followers: string[]
 
     @Prop()

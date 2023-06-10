@@ -1,7 +1,6 @@
 export class UserDto {
     login
     password
-    userId
     isActivated
     name
     location
@@ -18,7 +17,6 @@ export class UserDto {
     constructor(model) {
         this.login = model.login
         this.password = model.password
-        this.userId = model.userId
         this.isActivated = model.isActivated
         this.name = model.name
         this.location = model.location

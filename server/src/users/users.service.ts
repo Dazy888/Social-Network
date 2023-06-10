@@ -12,7 +12,7 @@ import { GetUserResponse, GetUsersResponse, IUserPreview } from "@/interfaces/us
 export class UsersService {
     constructor(@InjectModel('User') private userModel: Model<UserDocument>, @InjectModel('Post') private postModel: Model<PostDocument>) {}
 
-    async getUser(userId: string): Promise<GetUserResponse> {
+    async getUser(userId: string) {
         const user = await this.userModel.findOne({ userId })
         const posts = await this.postModel.find({ userId })
 
@@ -30,7 +30,7 @@ export class UsersService {
         }
     }
 
-    async getUsers(skip: number, id: string): Promise<GetUsersResponse> {
+    async getUsers(skip: number, id: string) {
         const length = await this.userModel.count()
         const users = await this.userModel.find({ userId: { $ne: id } }).skip(skip).limit(4)
         const usersData: IUserPreview[] = []
@@ -38,7 +38,7 @@ export class UsersService {
         for (const user of users) {
             usersData.push(
                 {
-                    userId: user.userId,
+                    userId: user.id,
                     name: user.name,
                     location: user.location,
                     avatar: user.avatar,

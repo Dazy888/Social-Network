@@ -1,12 +1,4 @@
-import { IPost } from "@/interfaces/users.interfaces"
-
-export interface ITokens {
-    accessToken: string
-    refreshToken: string
-}
-
-export interface IUser {
-    userId: string
+export interface User {
     isActivated: boolean
     name: string
     location: string
@@ -19,19 +11,4 @@ export interface IUser {
     followers: string[]
     following: string[]
     activationLink: string | null
-}
-
-export interface RegistrationResponse {
-    tokens: ITokens
-    user: IUser
-}
-
-export interface FindTokenResponse {
-    refreshToken: string
-}
-
-export interface RefreshResponse {
-    posts: IPost[]
-    user: IUser
-    tokens: ITokens
 }

@@ -5,15 +5,14 @@ import { useSelector } from "react-redux"
 import { NavLink } from "@/components/navigation/NavLink"
 // Styles
 import styles from '@/styles/Authorization.module.scss'
-// Store
-import { getAvatar } from "@/store/reducers/profile/profile.selectors"
 // Interfaces
 import { LayoutProps } from "@/models/layouts"
+import {useAppSelector} from "@/hooks/redux";
 
 const AuthPageLayout: React.FC<LayoutProps> = ({ children }) => {
     const router = useRouter()
     const actions: any = useRef()
-    const avatar = useSelector(getAvatar)
+    const avatar = useAppSelector(state => state.profileReducer.avatar)
 
     useEffect(() => {
         if (localStorage.getItem('token') && avatar) router.push('/main/profile')

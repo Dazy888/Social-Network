@@ -2,142 +2,104 @@ import * as bcrypt from 'bcrypt'
 import * as jwt from "jsonwebtoken"
 import * as dotenv from "dotenv"
 import { Model } from "mongoose"
-import { v4 } from "uuid"
-// NestJS
 import { InjectModel } from "@nestjs/mongoose"
-import { Injectable } from "@nestjs/common"
+import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common"
+import { UserDto } from "../dto/auth/user.dto"
+import { User } from "../interfaces/auth.interfaces"
 // Schemas
-import { UserDocument } from "@/schemas/user.schema"
-import { TokenDocument } from "@/schemas/token.schema"
-import { PostDocument } from "@/schemas/post.schema"
-// DTO
-import { UserDto } from "@/dto/auth/user.dto"
-// Interfaces
-import { FindTokenResponse, ITokens, IUser, RefreshResponse, RegistrationResponse } from "@/interfaces/auth.interfaces"
+import { UserDocument } from "../schemas/user.schema"
+import { TokenDocument } from "../schemas/token.schema"
+import { PostDocument } from "../schemas/post.schema"
 
 dotenv.config()
+
+export const validateToken = (token: string, secret: string) => jwt.verify(token, secret)
 
 @Injectable()
 export class AuthService {
     constructor(@InjectModel('User') private userModel: Model<UserDocument>, @InjectModel('Token') private tokenModel: Model<TokenDocument>, @InjectModel('Post') private postModel: Model<PostDocument>) {}
 
-    generateTokens(payload): ITokens {
-        const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, { expiresIn: '30m' })
+    generateTokens(payload) {
+        const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, { expiresIn: '15m' })
         const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, { expiresIn: '30d' })
         return { accessToken, refreshToken }
     }
 
-    validateRefreshToken(token: string) {
-        return jwt.verify(token, process.env.JWT_REFRESH_SECRET)
-    }
-
     async saveToken(userId: string, refreshToken: string) {
-        const tokenData = await this.tokenModel.findOne({ userId })
-
-        if (tokenData) {
-            tokenData.refreshToken = refreshToken
-            tokenData.save()
-        } else {
-            await this.tokenModel.create({ userId, refreshToken })
-        }
+        await this.tokenModel.create({ userId, refreshToken })
     }
 
-    async deleteToken(refreshToken: string) {
-        return this.tokenModel.deleteOne({ refreshToken })
-    }
-
-    async findToken(refreshToken: string): Promise<FindTokenResponse> {
-        return this.tokenModel.findOne({ refreshToken })
-    }
-
-    createUser(userDto: IUser) {
+    createUser(user: User) {
         return {
-            userId: userDto.userId,
-            isActivated: userDto.isActivated,
-            name: userDto.name,
-            location: userDto.location,
-            avatar: userDto.avatar,
-            banner: userDto.banner,
-            aboutMe: userDto.aboutMe,
-            skills: userDto.skills,
-            hobbies: userDto.hobbies,
-            email: userDto.email,
-            followers: userDto.followers,
-            following: userDto.following,
-            activationLink: userDto.activationLink
+            isActivated: user.isActivated,
+            name: user.name,
+            location: user.location,
+            avatar: user.avatar,
+            banner: user.banner,
+            aboutMe: user.aboutMe,
+            skills: user.skills,
+            hobbies: user.hobbies,
+            email: user.email,
+            followers: user.followers,
+            following: user.following,
+            activationLink: user.activationLink
         }
     }
 
-    // async humanValidation(token: string) {
-    //     const response = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`)
-    //     return !response.data.success
-    // }
-
-    async registration(login: string, password: string, /*token: string*/): Promise<RegistrationResponse | string> {
-        // if (await this.humanValidation(token)) return `Don't fool us bot`
+    async registration(login: string, password: string) {
         const existingUser = await this.userModel.findOne({ login })
+        if (existingUser) throw new BadRequestException('User with this login already exists')
 
-        if (existingUser) {
-            return 'User with this login already exists'
-        } else {
-            const hashPassword = await bcrypt.hash(password, 3)
-            const userNumber = Math.floor(Math.random() * 100)
+        const hashPassword = await bcrypt.hash(password, 10)
+        const userNumber = Math.floor(Math.random() * 100)
 
-            const user = await this.userModel.create({ login: login, password: hashPassword, name: `User ${userNumber}`, location: 'Nowhere', banner: 'https://img.freepik.com/premium-vector/programming-code-made-with-binary-code-coding-hacker-background-digital-binary-data-streaming-digital-code_127544-778.jpg?w=2000', avatar: 'https://i.imgur.com/b08hxPY.png', aboutMe: 'This project was made by David Hutsenko', skills: 'This project was made by David Hutsenko', hobbies: 'This project was made by David Hutsenko', isActivated: false, userId: v4(), email: null, followers: [], following: [], activationLink: null })
-            const userDto = new UserDto(user)
+        const user = await this.userModel.create({ login, password: hashPassword, name: `User ${userNumber}`, location: 'Nowhere', banner: 'https://img.freepik.com/premium-vector/programming-code-made-with-binary-code-coding-hacker-background-digital-binary-data-streaming-digital-code_127544-778.jpg?w=2000', avatar: 'https://i.imgur.com/b08hxPY.png', aboutMe: 'This project was made by David Hutsenko', skills: 'This project was made by David Hutsenko', hobbies: 'This project was made by David Hutsenko', isActivated: false, email: null, followers: [], following: [], activationLink: null })
+        const userDto: any = new UserDto(user)
 
-            const tokens = this.generateTokens({ ...userDto })
-            await this.saveToken(userDto.userId, tokens.refreshToken)
+        const tokens = this.generateTokens({ ...userDto })
+        await this.saveToken(user.id, tokens.refreshToken)
 
-            return { tokens, user: this.createUser(userDto) }
-        }
+        return { tokens, user: this.createUser(userDto) }
     }
 
-    async login(login: string, password: string, /*token: string*/): Promise<RefreshResponse | string> {
-        // if (await this.humanValidation(token)) return `Don't fool us bot`
+    async login(login: string, password: string) {
         const existingUser = await this.userModel.findOne({ login })
 
         if (!existingUser) {
-            return "User with this login doesn't exist"
+            throw new UnauthorizedException("User with this login doesn't exist")
         } else {
             const userDto = new UserDto(existingUser)
             const isPassEquals = await bcrypt.compare(password, existingUser.password)
 
             if (!isPassEquals) {
-                return 'Wrong password'
+                throw new UnauthorizedException('Wrong password')
             } else {
-                const posts = await this.postModel.find({ userId: existingUser.userId })
+                const posts = await this.postModel.find({ userId: existingUser.id })
                 const tokens = this.generateTokens({ ...userDto })
 
-                await this.saveToken(userDto.userId, tokens.refreshToken)
-
+                await this.saveToken(existingUser.id, tokens.refreshToken)
                 return { tokens, user: userDto, posts }
             }
         }
     }
 
     async logout(refreshToken: string) {
-        return this.deleteToken(refreshToken)
+        return this.tokenModel.deleteOne({ refreshToken })
     }
 
-    async refresh(refreshToken: string): Promise<RefreshResponse | string> {
-        if (!refreshToken) {
-            return 'User is not authorized'
-        } else {
-            const userData = this.validateRefreshToken(refreshToken)
-            const tokenFromDb = await this.findToken(refreshToken)
+    async refresh(refreshToken: string) {
+        const userData: any = validateToken(refreshToken, process.env.JWT_REFRESH_SECRET)
+        const tokenFromDb = await this.tokenModel.findOne({ refreshToken })
+        if (!userData || !tokenFromDb) throw new BadRequestException('User is not authorized')
 
-            if (!userData || !tokenFromDb) {
-                return 'User is not authorized'
-            } else {
-                const user = await this.userModel.findOne({ userId: userData.userId })
-                const posts = await this.postModel.find({ userId: userData.userId })
+        const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+        await this.tokenModel.deleteMany({ createdAt: { $lt: thirtyDaysAgo } })
 
-                const userDto = new UserDto(user)
-                const tokens = this.generateTokens({ ...userDto })
+        const user = await this.userModel.findOne({ userId: userData.id })
+        const posts = await this.postModel.find({ userId: userData.id })
+        const userDto = new UserDto(user)
+        const tokens = this.generateTokens({ ...userDto })
 
-                return { tokens, user: userDto, posts }
-            }
-        }
+        return { tokens, user: userDto, posts }
     }
 }
