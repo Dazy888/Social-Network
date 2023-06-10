@@ -6,7 +6,7 @@ import { Model } from "mongoose"
 import { UserDocument } from "@/schemas/user.schema"
 import { PostDocument } from "@/schemas/post.schema"
 // Interfaces
-import { GetUserResponse, GetUsersResponse, IUserPreview } from "@/interfaces/users.interfaces"
+import { IUserPreview } from "@/interfaces/users.interfaces"
 
 @Injectable()
 export class UsersService {

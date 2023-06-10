@@ -21,10 +21,6 @@ __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Post.prototype, "text", void 0);
-__decorate([
-    (0, mongoose_1.Prop)(),
-    __metadata("design:type", String)
-], Post.prototype, "postId", void 0);
 Post = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true })
 ], Post);

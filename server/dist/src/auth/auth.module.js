@@ -20,7 +20,7 @@ AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [mongoose_1.MongooseModule.forFeature([{ name: 'User', schema: user_schema_1.UserSchema }, { name: 'Token', schema: token_schema_1.TokenSchema }, { name: 'Post', schema: post_schema_1.PostSchema }])],
         controllers: [auth_controller_1.AuthController],
-        providers: [auth_service_1.AuthService]
+        providers: [auth_service_1.AuthService],
     })
 ], AuthModule);
 exports.AuthModule = AuthModule;

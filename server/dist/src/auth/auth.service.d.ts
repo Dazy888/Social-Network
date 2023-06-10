@@ -1,5 +1,5 @@
 import { Model } from "mongoose";
-import { UserDto } from "../dto/auth/user.dto";
+import { UserDto } from "./dto/user.dto";
 import { User } from "../interfaces/auth.interfaces";
 import { UserDocument } from "../schemas/user.schema";
 import { TokenDocument } from "../schemas/token.schema";

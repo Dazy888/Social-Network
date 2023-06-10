@@ -9,15 +9,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProfileModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
-const user_schema_1 = require("../schemas/user.schema");
-const post_schema_1 = require("../schemas/post.schema");
 const profile_controller_1 = require("./profile.controller");
 const profile_service_1 = require("./profile.service");
+const user_schema_1 = require("../schemas/user.schema");
+const post_schema_1 = require("../schemas/post.schema");
 let ProfileModule = class ProfileModule {
 };
 ProfileModule = __decorate([
     (0, common_1.Module)({
-        imports: [mongoose_1.MongooseModule.forFeature([{ name: 'User', schema: user_schema_1.UserSchema }, { name: 'Post', schema: post_schema_1.PostSchema }]),],
+        imports: [mongoose_1.MongooseModule.forFeature([{ name: 'User', schema: user_schema_1.UserSchema }, { name: 'Post', schema: post_schema_1.PostSchema }])],
         controllers: [profile_controller_1.ProfileController],
         providers: [profile_service_1.ProfileService]
     })

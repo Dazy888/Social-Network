@@ -1,5 +1,5 @@
 import { Body, Controller, Post, Get, Param, UnauthorizedException } from '@nestjs/common'
-import { AuthDto } from "../dto/auth/auth.dto"
+import { AuthDto } from "./dto/auth.dto"
 import { AuthService} from "./auth.service"
 
 export function checkToken(token: string) {

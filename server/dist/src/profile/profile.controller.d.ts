@@ -1,42 +1,16 @@
-/// <reference types="mongoose/types/aggregate" />
-/// <reference types="mongoose/types/callback" />
-/// <reference types="mongoose/types/collection" />
-/// <reference types="mongoose/types/connection" />
-/// <reference types="mongoose/types/cursor" />
-/// <reference types="mongoose/types/document" />
-/// <reference types="mongoose/types/error" />
-/// <reference types="mongoose/types/expressions" />
-/// <reference types="mongoose/types/helpers" />
-/// <reference types="mongoose/types/middlewares" />
-/// <reference types="mongoose/types/indexes" />
-/// <reference types="mongoose/types/models" />
-/// <reference types="mongoose/types/mongooseoptions" />
-/// <reference types="mongoose/types/pipelinestage" />
-/// <reference types="mongoose/types/populate" />
-/// <reference types="mongoose/types/query" />
-/// <reference types="mongoose/types/schemaoptions" />
-/// <reference types="mongoose/types/schematypes" />
-/// <reference types="mongoose/types/session" />
-/// <reference types="mongoose/types/types" />
-/// <reference types="mongoose/types/utility" />
-/// <reference types="mongoose/types/validation" />
-/// <reference types="mongoose/types/virtuals" />
-/// <reference types="mongoose" />
-/// <reference types="mongoose/types/inferschematype" />
-import { TextDto } from "@/dto/settings/text.dto";
-import { SubscriptionDto } from "@/dto/profile/subscription.dto";
 import { ProfileService } from "./profile.service";
+import { TextDto } from "../settings/dto/text.dto";
+import { SubscriptionDto } from "./dto/subscription.dto";
+export declare function checkAccessToken(token: string): void;
 export declare class ProfileController {
     private readonly profileService;
     constructor(profileService: ProfileService);
-    setAboutMeText(data: TextDto): Promise<string>;
-    setSkillsText(data: TextDto): Promise<string>;
-    setHobbiesText(data: TextDto): Promise<string>;
-    createPost(data: TextDto): Promise<import("../dto/profile/post.dto").PostDto>;
-    deletePost(userId: string, postId: string): Promise<(import("../schemas/post.schema").Post & import("mongoose").Document<any, any, any> & {
-        _id: import("mongoose").Types.ObjectId;
-    })[]>;
-    getAvatar(userId: string): Promise<string>;
-    follow(data: SubscriptionDto): Promise<void>;
-    unfollow(data: SubscriptionDto): Promise<void>;
+    setAboutMe(data: TextDto, accessToken: string): Promise<void>;
+    setSkillsText(data: TextDto, accessToken: string): Promise<void>;
+    setHobbiesText(data: TextDto, accessToken: string): Promise<void>;
+    createPost(data: TextDto, accessToken: string): Promise<void>;
+    deletePost(id: string, postId: string, accessToken: string): Promise<void>;
+    getAvatar(id: string, accessToken: string): Promise<string>;
+    follow(data: SubscriptionDto, accessToken: string): Promise<void>;
+    unfollow(data: SubscriptionDto, accessToken: string): Promise<void>;
 }

@@ -19,7 +19,7 @@ const dotenv = require("dotenv");
 const mongoose_1 = require("mongoose");
 const mongoose_2 = require("@nestjs/mongoose");
 const common_1 = require("@nestjs/common");
-const user_dto_1 = require("../dto/auth/user.dto");
+const user_dto_1 = require("./dto/user.dto");
 dotenv.config();
 const validateToken = (token, secret) => jwt.verify(token, secret);
 exports.validateToken = validateToken;

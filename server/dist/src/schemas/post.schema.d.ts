@@ -27,6 +27,5 @@ export declare type PostDocument = Post & Document;
 export declare class Post {
     userId: string;
     text: string;
-    postId: string;
 }
 export declare const PostSchema: import("mongoose").Schema<Post, import("mongoose").Model<Post, any, any, any, any>, {}, {}, {}, {}, "type", Post>;

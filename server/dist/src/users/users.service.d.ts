@@ -1,7 +1,6 @@
 import { Model } from "mongoose";
 import { UserDocument } from "@/schemas/user.schema";
 import { PostDocument } from "@/schemas/post.schema";
-import { IUserPreview } from "@/interfaces/users.interfaces";
 export declare class UsersService {
     private userModel;
     private postModel;

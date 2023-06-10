@@ -4,10 +4,10 @@ import { diskStorage } from "multer"
 import { BadRequestException, Body, Controller, Get, Param, Post, Put, Res, UploadedFiles, UseInterceptors } from '@nestjs/common'
 import { FilesInterceptor } from "@nestjs/platform-express"
 // DTO
-import { PasswordDto } from "@/dto/settings/password.dto"
-import { MailDto } from "@/dto/settings/mail.dto"
-import { TextDto } from "@/dto/settings/text.dto"
-import { PhotoDto } from "@/dto/settings/photo.dto"
+import { PasswordDto } from "@/settings/dto/password.dto"
+import { MailDto } from "@/settings/dto/mail.dto"
+import { TextDto } from "@/settings/dto/text.dto"
+import { PhotoDto } from "@/settings/dto/photo.dto"
 // Services
 import { SettingsService } from "@/settings/settings.service"
 import MailService from "@/settings/mail"

@@ -1,7 +1,7 @@
-import { PasswordDto } from "@/dto/settings/password.dto";
-import { MailDto } from "@/dto/settings/mail.dto";
-import { TextDto } from "@/dto/settings/text.dto";
-import { PhotoDto } from "@/dto/settings/photo.dto";
+import { PasswordDto } from "@/settings/dto/password.dto";
+import { MailDto } from "@/settings/dto/mail.dto";
+import { TextDto } from "@/settings/dto/text.dto";
+import { PhotoDto } from "@/settings/dto/photo.dto";
 import { SettingsService } from "@/settings/settings.service";
 export declare class SettingsController {
     private readonly settingsService;

@@ -10,7 +10,7 @@ import { PostSchema } from "../schemas/post.schema"
 @Module({
     imports: [MongooseModule.forFeature([{ name: 'User', schema: UserSchema }, { name: 'Token', schema: TokenSchema }, { name: 'Post', schema: PostSchema }])],
     controllers: [AuthController],
-    providers: [AuthService]
+    providers: [AuthService],
 })
 
 export class AuthModule {}

@@ -14,54 +14,39 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProfileService = void 0;
 const mongoose_1 = require("mongoose");
-const uuid_1 = require("uuid");
 const common_1 = require("@nestjs/common");
 const mongoose_2 = require("@nestjs/mongoose");
-const post_dto_1 = require("../dto/profile/post.dto");
 let ProfileService = class ProfileService {
     constructor(userModel, postModel) {
         this.userModel = userModel;
         this.postModel = postModel;
     }
-    async setAboutMe(text, userId) {
-        await this.userModel.findOneAndUpdate({ userId }, { aboutMe: text });
-        return text;
+    async setAboutMe(aboutMe, _id) {
+        await this.userModel.findOneAndUpdate({ _id }, { aboutMe });
     }
-    async setSkills(text, userId) {
-        await this.userModel.findOneAndUpdate({ userId }, { skills: text });
-        return text;
+    async setSkills(skills, _id) {
+        await this.userModel.findOneAndUpdate({ _id }, { skills });
     }
-    async setHobbies(text, userId) {
-        await this.userModel.findOneAndUpdate({ userId }, { hobbies: text });
-        return text;
+    async setHobbies(hobbies, _id) {
+        await this.userModel.findOneAndUpdate({ _id }, { hobbies });
     }
-    async createPost(text, userId) {
-        const postModel = await this.postModel.create({ text, date: new Date(), userId, postId: (0, uuid_1.v4)() });
-        return new post_dto_1.PostDto(postModel);
+    async createPost(text, id) {
+        await this.postModel.create({ text, userId: id });
     }
-    async deletePost(postId, userId) {
+    async deletePost(postId) {
         await this.postModel.findOneAndDelete({ postId });
-        return this.postModel.find({ userId });
     }
-    async getAvatar(userId) {
-        const user = await this.userModel.findOne({ userId });
+    async getAvatar(_id) {
+        const user = await this.userModel.findOne({ _id });
         return user.avatar;
     }
     async follow(authorizedUserId, openedUserId) {
-        const openedUser = await this.userModel.findOne({ userId: openedUserId });
-        const authorizedUser = await this.userModel.findOne({ userId: authorizedUserId });
-        await this.userModel.findOneAndUpdate({ userId: openedUserId }, { followers: [...openedUser.followers, authorizedUserId] });
-        await this.userModel.findOneAndUpdate({ userId: authorizedUserId }, { following: [...authorizedUser.following, openedUserId] });
+        await this.userModel.updateOne({ _id: openedUserId }, { $push: { followers: authorizedUserId } });
+        await this.userModel.updateOne({ _id: authorizedUserId }, { $push: { following: openedUserId } });
     }
     async unfollow(authorizedUserId, openedUserId) {
-        const openedUser = await this.userModel.findOne({ userId: openedUserId });
-        const authorizedUser = await this.userModel.findOne({ userId: authorizedUserId });
-        const openedUserFollowers = openedUser.followers;
-        const authorizedUserFollowing = authorizedUser.following;
-        openedUserFollowers.splice(openedUserFollowers.indexOf(authorizedUserId), 1);
-        authorizedUserFollowing.splice(authorizedUserFollowing.indexOf(openedUserId), 1);
-        await this.userModel.findOneAndUpdate({ userId: openedUserId }, { followers: openedUser.followers });
-        await this.userModel.findOneAndUpdate({ userId: authorizedUserId }, { following: authorizedUser.following });
+        await this.userModel.updateOne({ _id: openedUserId }, { $pull: { followers: authorizedUserId } });
+        await this.userModel.updateOne({ _id: authorizedUserId }, { $pull: { following: openedUserId } });
     }
 };
 ProfileService = __decorate([
