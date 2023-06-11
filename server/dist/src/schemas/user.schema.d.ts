@@ -26,7 +26,7 @@ import { Document } from "mongoose";
 export declare type UserDocument = User & Document;
 export declare class User {
     login: string;
-    password: string;
+    pass: string;
     isActivated: boolean;
     activationLink: string | null;
     email: string | null;

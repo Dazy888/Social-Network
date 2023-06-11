@@ -19,7 +19,6 @@ const dotenv = require("dotenv");
 const mongoose_1 = require("mongoose");
 const mongoose_2 = require("@nestjs/mongoose");
 const common_1 = require("@nestjs/common");
-const user_dto_1 = require("./dto/user.dto");
 dotenv.config();
 const validateToken = (token, secret) => jwt.verify(token, secret);
 exports.validateToken = validateToken;
@@ -39,44 +38,43 @@ let AuthService = class AuthService {
     }
     createUser(user) {
         return {
+            id: user.id,
             isActivated: user.isActivated,
+            activationLink: user.activationLink,
+            email: user.email,
             name: user.name,
             location: user.location,
-            avatar: user.avatar,
             banner: user.banner,
+            avatar: user.avatar,
             aboutMe: user.aboutMe,
             skills: user.skills,
             hobbies: user.hobbies,
-            email: user.email,
             followers: user.followers,
             following: user.following,
-            activationLink: user.activationLink
         };
     }
-    async registration(login, password) {
+    async registration(login, pass) {
         const existingUser = await this.userModel.findOne({ login });
         if (existingUser)
             throw new common_1.BadRequestException('User with this login already exists');
-        const hashPassword = await bcrypt.hash(password, 10);
+        const hashPassword = await bcrypt.hash(pass, 10);
         const userNumber = Math.floor(Math.random() * 100);
         const user = await this.userModel.create({ login, password: hashPassword, name: `User ${userNumber}`, location: 'Nowhere', banner: 'https://img.freepik.com/premium-vector/programming-code-made-with-binary-code-coding-hacker-background-digital-binary-data-streaming-digital-code_127544-778.jpg?w=2000', avatar: 'https://i.imgur.com/b08hxPY.png', aboutMe: 'This project was made by David Hutsenko', skills: 'This project was made by David Hutsenko', hobbies: 'This project was made by David Hutsenko', isActivated: false, email: null, followers: [], following: [], activationLink: null });
-        const userDto = new user_dto_1.UserDto(user);
-        const tokens = this.generateTokens(Object.assign({}, userDto));
+        const tokens = this.generateTokens(Object.assign({}, user));
         await this.saveToken(user.id, tokens.refreshToken);
-        return { tokens, user: this.createUser(userDto) };
+        return { tokens, user: this.createUser(user) };
     }
     async login(login, password) {
         const existingUser = await this.userModel.findOne({ login });
         if (!existingUser)
             throw new common_1.UnauthorizedException('Invalid login or password');
-        const userDto = new user_dto_1.UserDto(existingUser);
-        const isPassEquals = await bcrypt.compare(password, existingUser.password);
+        const isPassEquals = await bcrypt.compare(password, existingUser.pass);
         if (!isPassEquals)
             throw new common_1.UnauthorizedException('Invalid login or password');
         const posts = await this.postModel.find({ userId: existingUser.id });
-        const tokens = this.generateTokens(Object.assign({}, userDto));
+        const tokens = this.generateTokens(Object.assign({}, existingUser));
         await this.saveToken(existingUser.id, tokens.refreshToken);
-        return { tokens, user: userDto, posts };
+        return { tokens, user: this.createUser(existingUser), posts };
     }
     async logout(refreshToken) {
         return this.tokenModel.deleteOne({ refreshToken });
@@ -90,9 +88,8 @@ let AuthService = class AuthService {
         await this.tokenModel.deleteMany({ createdAt: { $lt: thirtyDaysAgo } });
         const user = await this.userModel.findOne({ userId: userData.id });
         const posts = await this.postModel.find({ userId: userData.id });
-        const userDto = new user_dto_1.UserDto(user);
-        const tokens = this.generateTokens(Object.assign({}, userDto));
-        return { tokens, user: userDto, posts };
+        const tokens = this.generateTokens(Object.assign({}, user));
+        return { tokens, user: this.createUser(user), posts };
     }
 };
 AuthService = __decorate([

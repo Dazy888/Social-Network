@@ -1,6 +1,5 @@
 import React from "react"
 import Head from "next/head"
-import { useSelector } from "react-redux"
 // Components
 import { Post } from "@/components/profile/Post"
 import { Header } from "@/components/profile/Header"
@@ -60,7 +59,7 @@ export const editInfo: EditInfoFunc = (event: any, changeText: SetInfoFunc, valu
     }, 1)
 }
 
-const Index = () => {
+const Profile = () => {
     const userId = useAppSelector(state => state.profileReducer.userId)
     const banner = useAppSelector(state => state.profileReducer.banner)
     const avatar = useAppSelector(state => state.profileReducer.avatar)
@@ -82,4 +81,4 @@ const Index = () => {
     )
 }
 
-export default React.memo(Index)
+export default React.memo(Profile)

@@ -29,53 +29,50 @@ export class AuthService {
         await this.tokenModel.create({ userId, refreshToken })
     }
 
-    createUser(user: User) {
+    createUser(user: UserDocument) {
         return {
+            id: user.id,
             isActivated: user.isActivated,
+            activationLink: user.activationLink,
+            email: user.email,
             name: user.name,
             location: user.location,
-            avatar: user.avatar,
             banner: user.banner,
+            avatar: user.avatar,
             aboutMe: user.aboutMe,
             skills: user.skills,
             hobbies: user.hobbies,
-            email: user.email,
             followers: user.followers,
             following: user.following,
-            activationLink: user.activationLink
         }
     }
 
-    async registration(login: string, password: string) {
+    async registration(login: string, pass: string) {
         const existingUser = await this.userModel.findOne({ login })
         if (existingUser) throw new BadRequestException('User with this login already exists')
 
-        const hashPassword = await bcrypt.hash(password, 10)
+        const hashPassword = await bcrypt.hash(pass, 10)
         const userNumber = Math.floor(Math.random() * 100)
-
         const user = await this.userModel.create({ login, password: hashPassword, name: `User ${userNumber}`, location: 'Nowhere', banner: 'https://img.freepik.com/premium-vector/programming-code-made-with-binary-code-coding-hacker-background-digital-binary-data-streaming-digital-code_127544-778.jpg?w=2000', avatar: 'https://i.imgur.com/b08hxPY.png', aboutMe: 'This project was made by David Hutsenko', skills: 'This project was made by David Hutsenko', hobbies: 'This project was made by David Hutsenko', isActivated: false, email: null, followers: [], following: [], activationLink: null })
-        const userDto: any = new UserDto(user)
 
-        const tokens = this.generateTokens({ ...userDto })
+        const tokens = this.generateTokens({ ...user })
         await this.saveToken(user.id, tokens.refreshToken)
 
-        return { tokens, user: this.createUser(userDto) }
+        return { tokens, user: this.createUser(user) }
     }
 
     async login(login: string, password: string) {
         const existingUser = await this.userModel.findOne({ login })
         if (!existingUser) throw new UnauthorizedException('Invalid login or password')
 
-        const userDto = new UserDto(existingUser)
-
-        const isPassEquals = await bcrypt.compare(password, existingUser.password)
+        const isPassEquals = await bcrypt.compare(password, existingUser.pass)
         if (!isPassEquals) throw new UnauthorizedException('Invalid login or password')
 
         const posts = await this.postModel.find({ userId: existingUser.id })
-        const tokens = this.generateTokens({ ...userDto })
+        const tokens = this.generateTokens({ ...existingUser })
 
         await this.saveToken(existingUser.id, tokens.refreshToken)
-        return { tokens, user: userDto, posts }
+        return { tokens, user: this.createUser(existingUser), posts }
     }
 
     async logout(refreshToken: string) {
@@ -92,9 +89,8 @@ export class AuthService {
 
         const user = await this.userModel.findOne({ userId: userData.id })
         const posts = await this.postModel.find({ userId: userData.id })
-        const userDto = new UserDto(user)
-        const tokens = this.generateTokens({ ...userDto })
+        const tokens = this.generateTokens({ ...user })
 
-        return { tokens, user: userDto, posts }
+        return { tokens, user: this.createUser(user), posts }
     }
 }

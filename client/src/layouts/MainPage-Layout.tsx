@@ -1,49 +1,33 @@
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
-import { useDispatch, useSelector } from "react-redux"
 import Image from "next/image"
-// React Query
+import { useDispatch } from "react-redux"
 import { useQuery } from "react-query"
-// Service
 import { AuthService } from "@/services/auth.service"
-// Interface
 import { LayoutProps } from "@/models/layouts"
-// Store
-import { authActions } from "@/store/reducers/auth/auth.reducer"
-import { profileActions } from "@/store/reducers/profile/profile.reducer"
-import { settingsActions } from "@/store/reducers/settings/settings.reducer"
-import { getAvatar } from "@/store/reducers/profile/profile.selectors"
-// Components
 import { NavLink } from "@/components/navigation/NavLink"
+import { useAppSelector } from "@/hooks/redux"
+import {createCookie} from "@/layouts/AuthPage-Layout";
 
 const MainPageLayout: React.FC<LayoutProps> = ({ children }) => {
     const dispatch = useDispatch()
     const router = useRouter()
 
-    const avatar = useSelector(getAvatar)
+    const avatar = useAppSelector(state => state.profileReducer.avatar)
 
-    const [isOpened, setOpenedStatus] = useState(false)
-    const [navClass, setNavClass] = useState('')
-
-    const openNavHelper = (isOpened: boolean, navClass: string) => {
-        setOpenedStatus(isOpened)
-        setNavClass(navClass)
-    }
-
-    const openNavHandler = () => (isOpened) ? openNavHelper(false, '') : openNavHelper(true, 'openNav')
+    const [isNavOpened, setNavState] = useState(false)
 
     const { refetch:logout } = useQuery('logout', () => AuthService.logout(),
         {
-            async onSuccess() {
-                localStorage.removeItem('token')
-                dispatch(authActions.setAuthData(false))
-                await router.push('/auth/sign-in')
+            onSuccess() {
+                createCookie('refreshToken', '', -1)
+                router.push('/auth/sign-in')
             },
             enabled: false
         }
     )
 
-    const { refetch:refresh } = useQuery('check auth', () => AuthService.refresh(),
+    const { refetch:refresh } = useQuery('refresh', () => AuthService.refresh(),
         {
             onSuccess(response) {
                 const user = response.data.user
@@ -67,9 +51,9 @@ const MainPageLayout: React.FC<LayoutProps> = ({ children }) => {
             <div id={'header'} className={'flex justify-center items-center'}>
                 <div className={'header__content flex justify-between items-center'}>
                     <Image width={50} height={50} alt={'Logo'} src={'/logo.png'}/>
-                    <nav className={`overflow-hidden duration-300 ${navClass}`}>
-                        <button onClick={openNavHandler} className={'burger'}>
-                            { isOpened ? <i className={'fa-solid fa-square-xmark xmark'}/> : <i className={'fa-solid fa-bars bars'}/> }
+                    <nav className={`overflow-hidden duration-300 ${isNavOpened ? 'openNav' : ''}`}>
+                        <button onClick={() => (isNavOpened) ? setNavState(false) : setNavState(true)} className={'burger'}>
+                            <i className={`fa-solid fa-${isNavOpened ? 'square-xmark xmark' : 'bars bars'}`}/>
                         </button>
                         <ul className={'flex justify-between text-white'}>
                             <NavLink text={'Profile'} path={'/main/profile'} activeClass={'active-page'}/>

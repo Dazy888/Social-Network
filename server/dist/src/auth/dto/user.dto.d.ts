@@ -1,6 +1,6 @@
 export declare class UserDto {
     login: any;
-    password: any;
+    pass: any;
     isActivated: any;
     name: any;
     location: any;

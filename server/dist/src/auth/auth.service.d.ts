@@ -1,6 +1,4 @@
 import { Model } from "mongoose";
-import { UserDto } from "./dto/user.dto";
-import { User } from "../interfaces/auth.interfaces";
 import { UserDocument } from "../schemas/user.schema";
 import { TokenDocument } from "../schemas/token.schema";
 import { PostDocument } from "../schemas/post.schema";
@@ -15,38 +13,40 @@ export declare class AuthService {
         refreshToken: any;
     };
     saveToken(userId: string, refreshToken: string): Promise<void>;
-    createUser(user: User): {
+    createUser(user: UserDocument): {
+        id: any;
         isActivated: boolean;
+        activationLink: string;
+        email: string;
         name: string;
         location: string;
-        avatar: string;
         banner: string;
+        avatar: string;
         aboutMe: string;
         skills: string;
         hobbies: string;
-        email: string;
         followers: string[];
         following: string[];
-        activationLink: string;
     };
-    registration(login: string, password: string): Promise<{
+    registration(login: string, pass: string): Promise<{
         tokens: {
             accessToken: any;
             refreshToken: any;
         };
         user: {
+            id: any;
             isActivated: boolean;
+            activationLink: string;
+            email: string;
             name: string;
             location: string;
-            avatar: string;
             banner: string;
+            avatar: string;
             aboutMe: string;
             skills: string;
             hobbies: string;
-            email: string;
             followers: string[];
             following: string[];
-            activationLink: string;
         };
     }>;
     login(login: string, password: string): Promise<{
@@ -54,7 +54,21 @@ export declare class AuthService {
             accessToken: any;
             refreshToken: any;
         };
-        user: UserDto;
+        user: {
+            id: any;
+            isActivated: boolean;
+            activationLink: string;
+            email: string;
+            name: string;
+            location: string;
+            banner: string;
+            avatar: string;
+            aboutMe: string;
+            skills: string;
+            hobbies: string;
+            followers: string[];
+            following: string[];
+        };
         posts: (import("../schemas/post.schema").Post & import("mongoose").Document<any, any, any> & {
             _id: import("mongoose").Types.ObjectId;
         })[];
@@ -65,7 +79,21 @@ export declare class AuthService {
             accessToken: any;
             refreshToken: any;
         };
-        user: UserDto;
+        user: {
+            id: any;
+            isActivated: boolean;
+            activationLink: string;
+            email: string;
+            name: string;
+            location: string;
+            banner: string;
+            avatar: string;
+            aboutMe: string;
+            skills: string;
+            hobbies: string;
+            followers: string[];
+            following: string[];
+        };
         posts: (import("../schemas/post.schema").Post & import("mongoose").Document<any, any, any> & {
             _id: import("mongoose").Types.ObjectId;
         })[];

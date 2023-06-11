@@ -11,42 +11,38 @@ export interface ErrorComponentProps  {
     touched: boolean | undefined
 }
 
-export interface AuthProps {
-    login: string
-    pass: string
-}
-
 export interface Tokens {
     accessToken: string
     refreshToken: string
 }
 
-export interface AuthResponse {
+export interface User {
+    id: string
+    isActivated: boolean
+    email: string | null
+    activationLink: string | null
+    name: string
+    location: string
+    banner: string
+    avatar: string
+    aboutMe: string
+    skills: string
+    hobbies: string
+    followers: string[]
+    following: string[]
+}
+
+export interface SignUpResponse {
     tokens: Tokens
-    user: {
-        email: string
-        isActivated: boolean
-    }
+    user: User
+}
+
+export interface SignInResponse extends SignUpResponse{
+    posts: IPost[]
 }
 
 export interface RefreshResponse {
-    user: {
-        userLogin: string
-        password: string
-        isActivated: boolean
-        email: string | null
-        activationLink: string | null
-        name: string
-        location: string
-        banner: string
-        avatar: string
-        aboutMe: string
-        skills: string
-        hobbies: string
-        userId: string
-        followers: string[]
-        following: string[]
-    },
-    tokens: Tokens
+    user: User
+    accessToken: string
     posts: IPost[]
 }

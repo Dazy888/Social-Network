@@ -1,19 +1,20 @@
-import { $api, API_URL } from "@/http"
+import { $api } from "@/http"
 import { AxiosResponse } from "axios"
-import { AuthResponse, RefreshResponse } from "@/models/auth"
+import { RefreshResponse, SignInResponse, SignUpResponse } from "@/models/auth"
+import { getCookie } from "@/layouts/AuthPage-Layout"
 
 export class AuthService {
-    static registration(login: string, password: string, /*token: string*/): Promise<AxiosResponse<AuthResponse>> {
-        return $api.post('auth/registration', { login, password, /*token*/ })
-            .then(res => res)
+    static registration(login: string, pass: string) {
+        return $api.post('auth/registration', { login, pass })
+            .then((res: AxiosResponse<SignUpResponse>) => res.data)
             .catch(err => {
                 throw err.response.data.message
             })
     }
 
-    static login(login: string, password: string, /*token: string*/): Promise<AxiosResponse<AuthResponse>> {
-        return $api.post('auth/login', { login, password, /*token*/ })
-            .then(res => res)
+    static login(login: string, pass: string) {
+        return $api.post('auth/login', { login, pass, })
+            .then((res: AxiosResponse<SignInResponse>) => res.data)
             .catch(err => {
                 throw err.response.data.message
             })
@@ -23,9 +24,9 @@ export class AuthService {
         await $api.get('auth/logout')
     }
 
-    static refresh(): Promise<AxiosResponse<RefreshResponse>> {
-        return $api.get(`${API_URL}auth/refresh`, { withCredentials: true })
-            .then(res => res)
+    static refresh() {
+        return $api.get(`auth/refresh/${getCookie('refreshToken')}`)
+            .then((res: AxiosResponse<RefreshResponse>) => res.data)
             .catch(err => {
                 throw err.response
             })

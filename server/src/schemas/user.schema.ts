@@ -9,7 +9,7 @@ export class User {
     login: string
 
     @Prop()
-    password: string
+    pass: string
 
     @Prop()
     isActivated: boolean

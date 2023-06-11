@@ -26,12 +26,10 @@ let AuthController = class AuthController {
         this.authService = authService;
     }
     async registration(user) {
-        const { login, password } = user;
-        return this.authService.registration(login, password);
+        return this.authService.registration(user.login, user.pass);
     }
     async login(user) {
-        const { login, password } = user;
-        return this.authService.login(login, password);
+        return this.authService.login(user.login, user.pass);
     }
     async logout(refreshToken) {
         checkToken(refreshToken);

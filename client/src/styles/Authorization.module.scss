@@ -33,7 +33,7 @@ $authColor: rgb(249,94,59);
       width: 100%;
       height: 50px;
       border: 1px solid #e6ecf5;
-      padding: 1.5rem 1.1rem 0.5rem;
+      padding: 1rem 1.1rem 0.5rem;
       line-height: 1.75;
       border-radius: 5px;
       margin-bottom: 30px;
@@ -42,6 +42,12 @@ $authColor: rgb(249,94,59);
         color: #212529;
         border-color: #ffc6ba;
       }
+    }
+
+    input[type=checkbox] {
+      width: 20px;
+      height: 20px;
+      margin-bottom: 0;
     }
 
     .auth__submit {
@@ -75,7 +81,7 @@ $authColor: rgb(249,94,59);
         margin: auto auto 30px;
       }
 
-      .content__checkbox input {
+      input[type=checkbox] {
         width: 18px;
         height: 18px;
       }

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react"
 import { useRouter } from "next/router"
-import { AuthForm, AuthProps } from "@/models/auth"
+import { AuthForm } from "@/models/auth"
 import ReCAPTCHA from "react-google-recaptcha"
 import { useMutation } from "react-query"
 import { AuthService } from "@/services/auth.service"
@@ -23,9 +23,9 @@ const SignUp = () => {
     const router = useRouter()
     const dispatch = useAppDispatch()
 
-    const { isLoading, mutateAsync:signUp } = useMutation('sign up', (data: AuthProps) => AuthService.registration(data.login, data.pass),
+    const { isLoading, mutateAsync:signUp } = useMutation('sign up', (data: AuthForm) => AuthService.registration(data.login, data.pass),
         {
-            onSuccess: (res) => successfulEnter(router, dispatch, res.data.tokens.accessToken, res.data.user.isActivated),
+            onSuccess: (res) => successfulEnter(router, dispatch, res.tokens, res.user, []),
             onError: (err: string): any => notify(err, 'warning')
         })
 
@@ -43,10 +43,10 @@ const SignUp = () => {
                 <Input type={'text'} error={errors.login?.message} touched={touchedFields.login} register={register} name={'login'} patternValue={/^[a-zA-Z0-9]+$/} minLength={4} maxLength={10} placeholder={'Login'}/>
                 <Input type={'password'} error={errors.pass?.message} touched={touchedFields.pass} register={register} name={'pass'} patternValue={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/} minLength={8} maxLength={15} placeholder={'Password'}/>
                 <div className={`${styles['auth__checkbox']} flex items-center mb-7`}>
-                    <input className={'w-5 h-5 mr-2.5'} onClick={() => ((passInpType === 'password') ? setPassInpType('text') : setPassInpType('password'))} name={'show-pass'} type={'checkbox'}/>
+                    <input className={'mr-2.5'} onClick={() => ((passInpType === 'password') ? setPassInpType('text') : setPassInpType('password'))} name={'show-pass'} type={'checkbox'}/>
                     <label>Show password</label>
                 </div>
-                <ReCAPTCHA ref={reRef} sitekey={'6LfPBogmAAAAAJ8cP0kTqqd1q2n1RFvIRaTstbMN'} onChange={(value) => setCaptchaToken(value)} className={'my-6'} />
+                <ReCAPTCHA ref={reRef} sitekey={'6LfPBogmAAAAAJ8cP0kTqqd1q2n1RFvIRaTstbMN'} onChange={(value) => setCaptchaToken(value)} style={{ transform: 'scale(0.77)', transformOrigin: '0 0' }} />
                 <SubmitBtn isLoading={isLoading} value={'up'}/>
                 <Loader color={'rgb(249, 94, 59)'} loading={isLoading}/>
             </form>

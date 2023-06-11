@@ -22,7 +22,7 @@ const AuthPageLayout: React.FC<LayoutProps> = ({ children, title }) => {
     const router = useRouter()
 
     useEffect(() => {
-        if (getCookie('refreshToken')) router.push('/main/profile')
+        // if (getCookie('refreshToken')) router.push('/main/profile')
     }, [])
 
     return(

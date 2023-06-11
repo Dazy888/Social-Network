@@ -4,7 +4,7 @@ exports.UserDto = void 0;
 class UserDto {
     constructor(model) {
         this.login = model.login;
-        this.password = model.password;
+        this.pass = model.pass;
         this.isActivated = model.isActivated;
         this.name = model.name;
         this.location = model.location;

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { IPost } from "@/models/profile"
 
 interface ProfileState {
-    userId: string,
+    id: string,
     banner: string,
     avatar: string,
     name: string,
@@ -16,7 +16,7 @@ interface ProfileState {
 }
 
 let initialState: ProfileState = {
-    userId: '',
+    id: '',
     banner: '',
     avatar: '',
     name: '',
@@ -34,7 +34,7 @@ export const profileSlice = createSlice({
     initialState,
     reducers: {
         setUser(state, action: PayloadAction<ProfileState>) {
-            state.userId = action.payload.userId
+            state.id = action.payload.id
             state.banner = action.payload.banner
             state.avatar = action.payload.avatar
             state.name = action.payload.name
