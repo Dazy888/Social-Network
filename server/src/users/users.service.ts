@@ -10,9 +10,9 @@ import { PostDocument } from "../schemas/post.schema"
 export class UsersService {
     constructor(@InjectModel('User') private userModel: Model<UserDocument>, @InjectModel('Post') private postModel: Model<PostDocument>) {}
 
-    async getUser(userId: string) {
-        const user = await this.userModel.findOne({ userId })
-        const posts = await this.postModel.find({ userId })
+    async getUser(_id: string) {
+        const user = await this.userModel.findOne({ _id })
+        const posts = await this.postModel.find({ userId: _id })
 
         return {
             avatar: user.avatar,
@@ -24,7 +24,7 @@ export class UsersService {
             hobbies: user.hobbies,
             followers: user.followers,
             following: user.following,
-            posts: [...posts]
+            posts
         }
     }
 

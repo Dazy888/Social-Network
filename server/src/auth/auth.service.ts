@@ -49,7 +49,7 @@ export class AuthService {
 
     async registration(login: string, pass: string) {
         const existingUser = await this.userModel.findOne({ login })
-        if (existingUser) throw new BadRequestException('User with this login already exists')
+        if (existingUser) throw new BadRequestException('UserInfo with this login already exists')
 
         const hashPassword = await bcrypt.hash(pass, 10)
         const userNumber = Math.floor(Math.random() * 100)
@@ -82,7 +82,7 @@ export class AuthService {
     async refresh(refreshToken: string) {
         const userData: any = validateToken(refreshToken, process.env.JWT_REFRESH_SECRET)
         const tokenFromDb = await this.tokenModel.findOne({ refreshToken })
-        if (!userData || !tokenFromDb) throw new BadRequestException('User is not authorized')
+        if (!userData || !tokenFromDb) throw new BadRequestException('UserInfo is not authorized')
 
         const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
         await this.tokenModel.deleteMany({ createdAt: { $lt: thirtyDaysAgo } })

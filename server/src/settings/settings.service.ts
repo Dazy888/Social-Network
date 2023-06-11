@@ -24,7 +24,7 @@ export class SettingsService {
     }
 
     async sendMail(email: string, activationLink: string, _id: string) {
-        if (await this.userModel.findOne({ email })) throw new BadRequestException('User with this e-mail already exists')
+        if (await this.userModel.findOne({ email })) throw new BadRequestException('UserInfo with this e-mail already exists')
 
         await this.userModel.findOneAndUpdate({ _id }, { email, activationLink })
         await this.mailerService.sendMail({

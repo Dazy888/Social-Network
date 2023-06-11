@@ -28,7 +28,7 @@ export class AuthService {
         return $api.get(`auth/refresh/${getCookie('refreshToken')}`)
             .then((res: AxiosResponse<RefreshResponse>) => res.data)
             .catch(err => {
-                throw err.response
+                throw err.response.data.message
             })
     }
 }

@@ -1,80 +1,55 @@
 import React from "react"
-import Head from "next/head"
+import { MainPage } from "@/layouts/MainPage-Layout"
+import { SetInfoFunc, IPost } from "@/models/profile"
+import { useAppSelector } from "@/hooks/redux"
+import styles from '@/styles/Profile.module.scss'
+import { v4 } from 'uuid'
 // Components
 import { Post } from "@/components/profile/Post"
-import { Header } from "@/components/profile/Header"
+import { Header } from "@/components/profile/header/Header"
 import { Main } from "@/components/profile/Main"
-// Layout
-import { MainPage } from "@/layouts/MainPage-Layout"
-// Models
-import { SetInfoFunc, EditInfoFunc, IPost } from "@/models/profile"
-// Hooks
-import { useAppSelector } from "@/hooks/redux"
-// Styles
-import styles from '@/styles/Profile.module.scss'
 
-export const getPostsElements = (posts: IPost[], userId: string, avatar: string, name: string, forView: boolean) => {
-    return [...posts].reverse().map((p, pos) => {
-        const date = Math.abs(new Date().getTime() - new Date(p.date).getTime())
+export const getPostsElements = (posts: IPost[], id: string, avatar: string, name: string, forView: boolean) => {
+    return [...posts].reverse().map(({ postId, id, text, createdAt}) => {
+        const date = Math.abs(new Date().getTime() - new Date(createdAt).getTime())
+        const minutes = Math.round(date / 1000 / 60)
+        const hours = Math.round(date / 1000 / 60 / 60)
+        const days = Math.round(date / 1000 / 60 / 60 / 24)
+        const months = Math.round(date / 1000 / 60 / 60 / 24 / 12)
+
         let time = ''
 
-        if (Math.round(date / 1000 / 60) === 1) {
+        if (minutes === 1) {
             time = '1 minute ago'
-        } else if (Math.round(date / 1000 / 60) < 60) {
-            time = `${Math.round(date / 1000 / 60)} minutes ago`
-        } else if (Math.round(date / 1000 / 60 / 60) === 1) {
+        } else if (minutes < 60) {
+            time = `${minutes} minutes ago`;
+        } else if (hours === 1) {
             time = '1 hour ago'
-        } else if (Math.round(date / 1000 / 60 / 60) < 24) {
-            time = `${Math.round(date / 1000 / 60 / 60)} hours ago`
-        } else if (Math.round(date / 1000 / 60 / 60 / 24) === 1) {
+        } else if (hours < 24) {
+            time = `${hours} hours ago`;
+        } else if (days === 1) {
             time = '1 day ago'
-        } else if (Math.round(date / 1000 / 60 / 60 / 24) < 31) {
-            time = `${Math.round(date / 1000 / 60 / 60 / 24)} days ago`
-        } else if (Math.round(date / 1000 / 60 / 60 / 24 / 12) === 1) {
+        } else if (days < 31) {
+            time = `${days} days ago`;
+        } else if (months === 1) {
             time = '1 month ago'
-        } else if (Math.round(date / 1000 / 60 / 60 / 24 / 12) < 12) {
-            time = `${Math.round(date / 1000 / 60 / 60 / 24 / 12)} months ago`
+        } else {
+            time = `${months} months ago`
         }
 
-        return <Post forView={forView} key={pos} userId={userId} postId={p.postId} avatar={avatar} name={name} date={time} text={p.text}/>
+        return <Post forView={forView} key={v4()} id={id} postId={postId} avatar={avatar} name={name} createdAt={time} text={text}/>
     })
-}
-export const editInfo: EditInfoFunc = (event: any, changeText: SetInfoFunc, value: string, textId: string, setStatus: (status: boolean) => void, setEditStatus: (status: boolean) => void, text: any, textareaRef: any, userId: string) => {
-    function setStatuses(status: boolean) {
-        setEditStatus(status)
-        setStatus(status)
-    }
-
-    setStatuses(true)
-
-    setTimeout(() => {
-        const textarea = textareaRef.current
-        textarea.value = value
-        textarea.onblur = async () => {
-            await changeText({ text: textarea.value, userId })
-            text.innerText = textarea.value
-            document.onkeydown = null
-            setStatuses(false)
-        }
-    }, 1)
 }
 
 const Profile = () => {
-    const userId = useAppSelector(state => state.profileReducer.userId)
-    const banner = useAppSelector(state => state.profileReducer.banner)
-    const avatar = useAppSelector(state => state.profileReducer.avatar)
-    const name = useAppSelector(state => state.profileReducer.name)
-    const location = useAppSelector(state => state.profileReducer.location)
+    const id = useAppSelector(state => state.profileReducer.id)
 
     return(
-        <MainPage>
-            <Head>
-                <title>Profile</title>
-            </Head>
-            {userId &&
+        <MainPage title={'Profile'}>
+            {id &&
                 <div id={styles.profile} className={'my-24 mx-auto'}>
-                    <Header location={location} avatar={avatar} name={name} banner={banner}/>
-                    <Main userId={userId}/>
+                    <Header />
+                    <Main />
                 </div>
             }
         </MainPage>

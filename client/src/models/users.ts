@@ -1,15 +1,7 @@
+import { User } from "@/models/auth"
 import { IPost } from "@/models/profile"
 
-export interface IUserData {
-    avatar: string
-    banner: string
-    name: string
-    location: string
-    aboutMe: string
-    skills: string
-    hobbies: string
-    followers: string[],
-    following: string[],
+export interface PublicUserData extends Omit<User, 'email' | 'isActivated' | 'id' | 'activationLink'>{
     posts: IPost[]
 }
 
@@ -21,6 +13,6 @@ export interface IUserPreview {
 }
 
 export interface UsersResponse {
-    usersData: IUserPreview[],
+    usersData: Pick<User, 'id' | 'name' | 'location' | 'avatar'>[],
     length: number
 }

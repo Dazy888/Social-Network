@@ -1,5 +1,4 @@
 export type SetInfoFunc = ({ userId, text }: TextProps) => Promise<void>
-export type EditInfoFunc = (event: any, changeText: SetInfoFunc, value: string, textId: string, setStatus: (status: boolean) => void, setEditStatus: (status: boolean) => void, text: any, textarea: any, id: string) => any
 export type SubscriptionFunc = ({ authorizedUserId, openedUserId }: SubscriptionFuncProps) => void
 
 interface SubscriptionFuncProps {
@@ -8,8 +7,8 @@ interface SubscriptionFuncProps {
 }
 
 export interface IPost {
-    userId: string
-    date: Date
+    id: string
+    createdAt: Date
     text: string
     postId: string
 }
@@ -24,11 +23,7 @@ export interface SubscriptionProps {
     openedUserId: string
 }
 
-export interface AvatarProps {
-    userId: string
-}
-
 export interface DeletePostProps {
     postId: string
-    userId: string
+    id: string
 }

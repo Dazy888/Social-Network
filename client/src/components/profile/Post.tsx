@@ -1,36 +1,30 @@
 import React from "react"
-// React Query
 import { useMutation } from "react-query"
-// Store
 import { deletePost } from "@/store/reducers/ProfileSlice"
-// Styles
 import styles from '@/styles/Profile.module.scss'
-// Models
 import { DeletePostProps } from "@/models/profile"
-// HTTP Service
 import { ProfileService } from "@/services/profile.service"
-// Hooks
 import { useAppDispatch } from "@/hooks/redux"
+import { notify } from "@/pages/auth/sign-in"
 
-interface IProps {
+interface Props {
     avatar: string
     name: string
-    date: string | undefined
+    createdAt: string | undefined
     text: string
     postId: string
-    userId?: string
+    id?: string
     forView?: boolean
 
 }
 
-const PostComponent: React.FC<IProps> = ({ avatar, name, date, text, postId, userId = '', forView }) => {
+const PostComponent: React.FC<Props> = ({ avatar, name, createdAt, text, postId, id = '', forView }) => {
     const dispatch = useAppDispatch()
 
-    const { mutateAsync } = useMutation('delete post', (data: DeletePostProps) => ProfileService.deletePost(data.userId, data.userId),
+    const { mutateAsync } = useMutation('delete post', (data: DeletePostProps) => ProfileService.deletePost(data.postId, data.id),
         {
-            onSuccess(response) {
-                dispatch(deletePost(response.data))
-            }
+            onSuccess: (res): any => dispatch(deletePost(res.data)),
+            onError: (err: string): any => notify(err, 'error')
         }
     )
 
@@ -41,11 +35,11 @@ const PostComponent: React.FC<IProps> = ({ avatar, name, date, text, postId, use
                     <img className={'w-10 h-10 mr-3 rounded-full'} alt={'avatar'} src={avatar}/>
                     <div className={styles['post__information']}>
                         <h3 className={'text-lg font-medium'}>{name}</h3>
-                        <p className={'text-sm'}>{date}</p>
+                        <p className={'text-sm'}>{createdAt}</p>
                     </div>
                 </div>
                 {!forView &&
-                    <button className={'text-2xl'} onClick={() => mutateAsync({postId, userId})}>
+                    <button className={'text-2xl'} onClick={() => mutateAsync({postId, id})}>
                         <i className={'fa-solid fa-trash'}/>
                     </button>
                 }

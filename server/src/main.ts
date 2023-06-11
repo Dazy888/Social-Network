@@ -1,4 +1,3 @@
-// import * as express from "express"
 import * as process from "process"
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from '@/app.module'
@@ -6,9 +5,6 @@ import { AppModule } from '@/app.module'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
   app.setGlobalPrefix('api')
-
-  // app.use('/uploads', express.static('./uploads'))
-  // app.use('/', express.static('./public'))
 
   app.enableCors({
     origin: ['https://social-network-dazy888.vercel.app', 'http://localhost:3000'],

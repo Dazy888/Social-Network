@@ -1,13 +1,21 @@
 import { $api } from "@/http"
 import { AxiosResponse } from "axios"
-import { IUserData, UsersResponse } from "@/models/users"
+import { PublicUserData, UsersResponse } from "@/models/users"
 
 export class UsersService {
-    static getUsers(skip: number, userId: string): Promise<AxiosResponse<UsersResponse>> {
-        return $api.get(`users/${skip}/${userId}`)
+    static getUsers(skip: number, id: string) {
+        return $api.get(`users/${skip}/${id}`)
+            .then((res: AxiosResponse<UsersResponse>) => res.data)
+            .catch(err => {
+                throw err.response.data.message
+            })
     }
 
-    static getUser(userId: string): Promise<AxiosResponse<IUserData>> {
+    static getUser(userId: string) {
         return $api.get(`users/${userId}`)
+            .then((res: AxiosResponse<PublicUserData>) => res.data)
+            .catch(err => {
+                throw err.response.data.message
+            })
     }
 }

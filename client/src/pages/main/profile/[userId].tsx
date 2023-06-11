@@ -1,57 +1,75 @@
-import React, { useEffect, useState } from "react"
-import Head from "next/head"
+import React, { useEffect } from "react"
 import { useRouter } from "next/router"
-// Layouts
 import { MainPage } from "@/layouts/MainPage-Layout"
+import { useMutation, useQuery } from "react-query"
+import styles from "@/styles/Profile.module.scss"
+import { useAppDispatch, useAppSelector } from "@/hooks/redux"
+import { getPostsElements } from "@/pages/main/profile/index"
+import { v4 } from "uuid"
+import { notify } from "@/pages/auth/sign-in"
+import { setOpenedUser } from "@/store/reducers/UsersSlice"
+import { SubscriptionProps } from "@/models/profile"
 // Components
-import { Header } from "@/components/profile/Header"
 import { Information } from "@/components/profile/Information"
 import { Subscriptions } from "@/components/profile/Subscriptions"
 import { User } from "@/components/profile/User"
-// React Query
-import { useQuery } from "react-query"
-// Models
-import { IUserData } from "@/models/users"
-// HTTP Service
+import { SubscriptionBtn } from "@/components/profile/SubscriptionBtn"
+import { UserInfo } from "@/components/profile/header/UserInfo"
+// Services
+import { ProfileService } from "@/services/profile.service"
 import { UsersService } from "@/services/users.service"
-// Styles
-import styles from "@/styles/Profile.module.scss"
-// Hooks
-import { useAppSelector } from "@/hooks/redux"
-// Functions
-import { editInfo, getPostsElements } from "@/pages/main/profile/index"
 
 const UserProfile = () => {
     const router = useRouter()
-    const [user, setUser] = useState<IUserData>({ banner: '', avatar: '', aboutMe: '', hobbies: '', name: '', location: '', skills: '', followers: [''], following: [''], posts: [] })
+    const dispatch = useAppDispatch()
+
+    const openedUser = useAppSelector(state => state.usersReducer.openedUser)
 
     const openedUserId: any = router.query.userId
-    const initialUserId = useAppSelector(state => state.profileReducer.userId)
+    const initialUserId = useAppSelector(state => state.profileReducer.id)
 
-    const { refetch } = useQuery('get user', () => UsersService.getUser(openedUserId), {
-        onSuccess(res) {
-            setUser(res.data)
-        },
+    const { refetch:getUser } = useQuery('get user', () => UsersService.getUser(openedUserId), {
+        onSuccess: (res) => dispatch(setOpenedUser(res)),
+        onError: (err: string) => notify(err, 'error'),
         enabled: false
     })
 
     useEffect(() => {
-        if (openedUserId) refetch()
-    }, [openedUserId, refetch])
+        if (openedUserId) getUser()
+    }, [openedUserId])
 
-    const postsElements = getPostsElements(user.posts, '', user.avatar, user.name, true)
-    const followingUsers: any = user.following.map((userId, pos) => <User key={pos} userId={userId}/>)
-    const followersUsers: any = user.followers.map((userId, pos) => <User key={pos} userId={userId}/>)
+    const postsElements = getPostsElements(openedUser.posts, '', openedUser.avatar, openedUser.name, true)
+    const followingUsers = openedUser.following.map((id) => <User key={v4()} id={id}/>)
+    const followersUsers = openedUser.followers.map((id) => <User key={v4()} id={id}/>)
+
+    const { isLoading:isFollowing, mutateAsync:follow } = useMutation('follow', (data: SubscriptionProps) => ProfileService.follow(data.authorizedUserId, data.openedUserId), {
+        onSuccess: (): any => dispatch(setOpenedUser({ ...openedUser, followers: [...openedUser.followers, initialUserId] })),
+        onError: (err: string): any => notify(err, 'error')
+    })
+
+    const { isLoading:isUnfollowing, mutateAsync:unfollow } = useMutation('unfollow', (data: SubscriptionProps) => ProfileService.unfollow(data.authorizedUserId, data.openedUserId), {
+        onSuccess: () => {
+            dispatch(setOpenedUser({ ...openedUser, followers: openedUser.followers.filter(id => id !== initialUserId) }))
+        },
+        onError: (err: string): any => notify(err, 'error')
+    })
 
     return(
-        <MainPage>
-            <Head>
-                <title>{user.name} profile</title>
-            </Head>
+        <MainPage title={`${openedUser.name} profile`}>
             <div id={styles.profile} className={'my-24 mx-auto'}>
-                <Header userId={initialUserId} setUser={setUser} user={user} followers={user.followers} openedUserId={openedUserId} subscribed={user.followers.includes(initialUserId)} forView={true} avatar={user.avatar} banner={user.banner} location={user.location} name={user.name}/>
+                <div className={`${styles.header} w-full h-fit relative`}>
+                    <img alt={'Banner'} className={`${styles.banner} w-full`} src={openedUser.banner}/>
+                    <UserInfo name={openedUser.name} location={openedUser.location} avatar={openedUser.avatar} />
+                    <div className={styles.tile}></div>
+                    <div className={`${styles.subscription} absolute`}>
+                        {openedUser.followers.includes(initialUserId)
+                            ? <SubscriptionBtn text={'Unfollow'} isRequesting={isUnfollowing} className={styles.unfollow} authorizedUserId={initialUserId} openedUserId={openedUserId} subscriptionFunc={unfollow}/>
+                            : <SubscriptionBtn text={'Follow'} isRequesting={isFollowing} className={styles.follow} authorizedUserId={initialUserId} openedUserId={openedUserId} subscriptionFunc={follow}/>
+                        }
+                    </div>
+                </div>
                 <div className={`${styles.main} grid gap-12 mt-14 text-white`}>
-                    <Information editInfo={editInfo} forView={true} aboutMe={user.aboutMe} hobbies={user.hobbies} skills={user.skills}/>
+                    <Information forView={true} aboutMe={openedUser.aboutMe} hobbies={openedUser.hobbies} skills={openedUser.skills}/>
                     <div id={styles.posts}>
                         {postsElements}
                     </div>

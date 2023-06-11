@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react"
-import { EditInfoFunc } from "@/models/profile"
+import { SetInfoFunc } from "@/models/profile"
 import styles from '@/styles/Profile.module.scss'
 
 interface IProps {
@@ -11,10 +11,29 @@ interface IProps {
     title: string
     setText: any
     forView?: boolean
-    editInfo: EditInfoFunc
 }
 
-const InformationItemComponent: React.FC<IProps> = ({ editInfo, text, setText, textId, setEditStatus, editStatus, title, forView, userId = '' }) => {
+function editInfo(event: any, changeText: SetInfoFunc, value: string, textId: string, setStatus: (status: boolean) => void, setEditStatus: (status: boolean) => void, text: any, textareaRef: any, userId: string) {
+    function setStatuses(status: boolean) {
+        setEditStatus(status)
+        setStatus(status)
+    }
+
+    setStatuses(true)
+
+    setTimeout(() => {
+        const textarea = textareaRef.current
+        textarea.value = value
+        textarea.onblur = async () => {
+            await changeText({ text: textarea.value, userId })
+            text.innerText = textarea.value
+            document.onkeydown = null
+            setStatuses(false)
+        }
+    }, 1)
+}
+
+const InformationItemComponent: React.FC<IProps> = ({ text, setText, textId, setEditStatus, editStatus, title, forView, userId = '' }) => {
     const [status, setStatus] = useState(false)
     const textareaRef: any = useRef()
     const textRef: any = useRef()

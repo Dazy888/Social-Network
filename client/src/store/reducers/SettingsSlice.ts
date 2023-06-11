@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 interface SettingsState {
-    email: string | null
+    email: string | nulla
     isActivated: boolean
 }
 

@@ -1,37 +1,69 @@
 import { $api } from "@/http"
 import { AxiosResponse } from "axios"
-import { IPost } from "@/models/profile"
+import { getCookie } from "@/layouts/AuthPage-Layout"
 
 export class ProfileService {
-    static setAboutMe(text: string, userId: string) {
-        return $api.put('profile/about-me', { text, userId })
+    static setAboutMe(text: string, id: string) {
+        return $api.put(`profile/about-me/${getCookie('accessToken')}`, { text, id })
+            .then((res) => res.data)
+            .catch(err => {
+                throw err.response.data.message
+            })
     }
 
-    static setSkills(text: string, userId: string) {
-        return $api.put('profile/skills', { text, userId })
+    static setSkills(text: string, id: string) {
+        return $api.put(`profile/skills/${getCookie('accessToken')}`, { text, id })
+        .then((res) => res.data)
+        .catch(err => {
+            throw err.response.data.message
+        })
     }
 
-    static setHobbies(text: string, userId: string) {
-        return $api.put('profile/hobbies', { text, userId })
+    static setHobbies(text: string, id: string) {
+        return $api.put(`profile/hobbies/${getCookie('accessToken')}`, { text, id })
+        .then((res) => res.data)
+        .catch(err => {
+            throw err.response.data.message
+        })
     }
 
-    static addPost(text: string, userId: string): Promise<AxiosResponse<IPost>> {
-        return $api.post('profile/post', { text, userId })
+    static addPost(text: string, id: string) {
+        return $api.post(`profile/post/${getCookie('accessToken')}`, { text, id })
+        .then((res) => res.data)
+        .catch(err => {
+            throw err.response.data.message
+        })
     }
 
-    static deletePost(postId: string, userId: string): Promise<AxiosResponse<IPost[]>> {
-        return $api.delete(`profile/post/${postId}/${userId}`)
+    static deletePost(postId: string, id: string) {
+        return $api.delete(`profile/post/${postId}/${id}/${getCookie('accessToken')}`)
+        .then((res) => res.data)
+        .catch(err => {
+            throw err.response.data.message
+        })
     }
 
-    static getAvatar(userId: string) {
-        return $api.get(`profile/avatar/${userId}`)
+    static getAvatar(id: string) {
+        return $api.get(`profile/avatar/${id}/${getCookie('accessToken')}`)
+        .then((res: AxiosResponse<string>) => res.data)
+        .catch(err => {
+            throw err.response.data.message
+        })
     }
 
     static follow(authorizedUserId: string, openedUserId: string) {
-        return $api.put(`profile/follow`, { authorizedUserId, openedUserId })
+        return $api.put(`profile/follow/${getCookie('accessToken')}`, { authorizedUserId, openedUserId })
+        .then((res) => res.data)
+        .catch(err => {
+            throw err.response.data.message
+        })
     }
 
     static unfollow(authorizedUserId: string, openedUserId: string) {
-        return $api.put(`profile/unfollow`, { authorizedUserId, openedUserId })
+        return $api.put(`profile/unfollow/${getCookie('accessToken')}`, { authorizedUserId, openedUserId })
+        .then((res) => res.data)
+        .catch(err => {
+        throw err.response.data.message
+        })
     }
 }

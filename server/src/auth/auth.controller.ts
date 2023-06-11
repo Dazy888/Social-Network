@@ -3,7 +3,7 @@ import { AuthDto } from "./dto/auth.dto"
 import { AuthService} from "./auth.service"
 
 export function checkToken(token: string) {
-    if (!token) throw new UnauthorizedException('User is not authorized')
+    if (!token) throw new UnauthorizedException('UserInfo is not authorized')
 }
 
 @Controller('auth')

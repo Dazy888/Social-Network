@@ -2,8 +2,8 @@ import React from "react"
 import styles from "@/styles/Profile.module.scss"
 
 interface IProps {
-    followers: string[]
-    following: string[]
+    followers: React.JSX.Element[]
+    following: React.JSX.Element[]
 }
 
 const SubscriptionsComponent: React.FC<IProps> = ({ followers, following }) => {

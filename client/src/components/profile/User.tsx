@@ -1,36 +1,29 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { useRouter } from "next/router"
-import { useSelector } from "react-redux"
-// Styles
 import styles from '@/styles/Profile.module.scss'
-// React Query
-import { useMutation } from "react-query"
-// HTTP Service
+import { useQuery } from "react-query"
 import { ProfileService } from "@/services/profile.service"
-// Models
-import { AvatarProps } from "@/models/profile"
-// Hooks
 import { useAppSelector } from "@/hooks/redux"
+import { notify } from "@/pages/auth/sign-in"
 
-interface IProps  {
-    userId: string
+interface Props  {
+    id: string
 }
 
-const UserComponent: React.FC<IProps> = ({ userId }) => {
+const UserComponent: React.FC<Props> = ({ id }) => {
     const router = useRouter()
-    const initialUserId = useAppSelector(state => state.profileReducer.userId)
+    const initialUserId = useAppSelector(state => state.profileReducer.id)
     const [avatar, setAvatar] = useState('')
 
-    const { mutateAsync} = useMutation('get avatar', (data: AvatarProps) => ProfileService.getAvatar(data.userId), {onSuccess: (res) => setAvatar(res.data)})
+    const {} = useQuery('get avatar', () => ProfileService.getAvatar(id), {
+        onSuccess: (res) => setAvatar(res),
+        onError: (err: string) => notify(err, 'error')
+    })
 
-    useEffect(() => {
-        mutateAsync({userId})
-    }, [userId, mutateAsync])
-
-    const goToProfile = (userId: string) => (userId === initialUserId) ? router.push('/main/profile') : router.push(`/main/profile/${userId}`)
+    const goToProfile = (id: string) => (id === initialUserId) ? router.push('/main/profile') : router.push(`/main/profile/${id}`)
 
     return(
-        <div onClick={() => goToProfile(userId)} className={styles['subscriptions__user']}>
+        <div onClick={() => goToProfile(id)} className={styles['subscriptions__user']}>
             <img className={'w-10 h-10 rounded-full cursor-pointer'} alt={'Avatar'} src={avatar}/>
         </div>
     )

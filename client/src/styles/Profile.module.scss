@@ -117,10 +117,8 @@
         }
       }
 
-      .posts__new-post {
-        button {
-          color: rebeccapurple;
-        }
+      .posts__new-post button {
+        color: rebeccapurple;
       }
     }
 
@@ -139,10 +137,8 @@
   #profile {
     max-width: 1000px;
 
-    .header {
-      .user {
-        left: 455px;
-      }
+    .header .user {
+      left: 455px;
     }
   }
 }
@@ -151,10 +147,8 @@
   #profile {
     max-width: 760px;
 
-    .header {
-      .user {
-        left: 325px;
-      }
+    .header .user {
+      left: 325px;
     }
 
     .main {
