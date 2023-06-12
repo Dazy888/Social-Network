@@ -1,7 +1,8 @@
 import axios from "axios"
+import { getCookie } from "@/layouts/AuthPage-Layout"
 
-// export const API_URL = 'https://social-network-api-alpha.vercel.app/api/'
-export const API_URL = 'http://localhost:5000/api/'
+export const API_URL = 'https://social-network-api-alpha.vercel.app/api/'
+// export const API_URL = 'http://localhost:5000/api/'
 
 export const $api = axios.create({
     withCredentials: true,
@@ -14,6 +15,6 @@ export const $api = axios.create({
 })
 
 $api.interceptors.request.use((config: any) => {
-    config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+    config.headers.Authorization = `Bearer ${getCookie('accessToken')}`
     return config
 })

@@ -1,32 +1,28 @@
 import { $api } from "@/http"
 
 export class SettingsService {
-    static setPassword(currentPass: string, newPass: string, userId: string) {
-        return $api.put('settings/password', { currentPass, newPass, userId })
+    static setPassword(currentPass: string, newPass: string, id: string) {
+        return $api.put('settings/password', { currentPass, newPass, id })
             .then(res => res)
-            .catch(err => {
-                throw err.response.data.message
-            })
+            .catch(err => { throw err.response.data.message })
     }
 
-    static activateMail(email: string, userId: string) {
-        return $api.post('settings/mail', { email, userId })
+    static activateMail(email: string, id: string) {
+        return $api.post('settings/mail', { email, id })
             .then(res => res)
-            .catch(err => {
-                throw err.response.data.message
-            })
+            .catch(err => { throw err.response.data.message })
     }
 
-    static async cancelActivation(userId: string) {
-        return $api.get(`settings/cancel-activation/${userId}`)
+    static async cancelActivation(id: string) {
+        return $api.get(`settings/cancel-activation/${id}`)
     }
 
-    static setName(name: string, userId: string) {
-        return $api.put('settings/name', { text: name, userId })
+    static setName(name: string, id: string) {
+        return $api.put('settings/name', { text: name, id })
     }
 
-    static setLocation(location: string, userId: string) {
-        return $api.put('settings/location', { text: location, userId })
+    static setLocation(location: string, id: string) {
+        return $api.put('settings/location', { text: location, id })
     }
 
     static setAvatar(data: FormData) {
