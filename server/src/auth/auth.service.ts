@@ -4,8 +4,8 @@ import * as dotenv from "dotenv"
 import { Model } from "mongoose"
 import { InjectModel } from "@nestjs/mongoose"
 import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common"
-import { UserDto } from "./dto/user.dto"
 import { User } from "../interfaces/auth.interfaces"
+import { UserDto } from "./dto/user.dto"
 // Schemas
 import { UserDocument } from "../schemas/user.schema"
 import { TokenDocument } from "../schemas/token.schema"
@@ -53,7 +53,9 @@ export class AuthService {
 
         const hashPassword = await bcrypt.hash(pass, 10)
         const userNumber = Math.floor(Math.random() * 100)
+
         const user = await this.userModel.create({ login, password: hashPassword, name: `User ${userNumber}`, location: 'Nowhere', banner: 'https://img.freepik.com/premium-vector/programming-code-made-with-binary-code-coding-hacker-background-digital-binary-data-streaming-digital-code_127544-778.jpg?w=2000', avatar: 'https://i.imgur.com/b08hxPY.png', aboutMe: 'This project was made by David Hutsenko', skills: 'This project was made by David Hutsenko', hobbies: 'This project was made by David Hutsenko', isActivated: false, email: null, followers: [], following: [], activationLink: null })
+        // const userDto = new UserDto(user)
 
         const tokens = this.generateTokens({ ...user })
         await this.saveToken(user.id, tokens.refreshToken)

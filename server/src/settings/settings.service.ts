@@ -12,15 +12,11 @@ import { UserDocument } from "../schemas/user.schema"
 export class SettingsService {
     constructor(@InjectModel('User') private userModel: Model<UserDocument>, private readonly mailerService: MailerService,) {}
 
-    async changePass(currentPass: string, newPass: string, userId: string) {
-        const user = await this.userModel.findOne({ userId })
-        const isPassEquals = await bcrypt.compare(currentPass, user.password)
-
-        if (!isPassEquals) {
-            return 'Wrong password'
-        } else {
-            await this.userModel.findOneAndUpdate({ userId }, { password: await bcrypt.hash(newPass, 3) })
-        }
+    async changePass(currentPass: string, newPass: string, _id: string) {
+        const user = await this.userModel.findOne({ _id })
+        const isPassEquals = await bcrypt.compare(currentPass, user.pass)
+        if (!isPassEquals) throw new BadRequestException('Wrong password')
+        await this.userModel.findOneAndUpdate({ _id }, { pass: await bcrypt.hash(newPass, 10) })
     }
 
     async sendMail(email: string, activationLink: string, _id: string) {
@@ -48,10 +44,6 @@ export class SettingsService {
     async cancelActivation(_id: string) {
         await this.userModel.findOneAndUpdate({ _id }, { email: '' })
     }
-    async setPhoto(newPath: string, field: string, model: any, userId: string) {
-        (field === 'avatar') ? await model.findOneAndUpdate({ userId }, { avatar: `http://localhost:5000/${newPath}` }) : await model.findOneAndUpdate({ userId }, { banner: `http://localhost:5000/${newPath}` })
-        return `http://localhost:5000/${newPath}`
-    }
 
     async setName(name: string, _id: string) {
         await this.userModel.findOneAndUpdate({ _id }, { name })
@@ -61,14 +53,13 @@ export class SettingsService {
         await this.userModel.findOneAndUpdate({ _id }, { location })
     }
 
-    async uploadFile(file) {
+    async uploadFile(file, car?: string) {
         const storage = new Storage({ projectId: 'central-courier-389415', keyFilename: path.join(__dirname, '..', '..', 'src', 'config', 'key.json') })
         const bucketName = 'social-network_dazy'
-        const uniqueFilename = v4() + '-' + file.originalname
+        const uniqueFilename = v4() + '-' + car ? car : file.originalname
         const blob = storage.bucket(bucketName).file(uniqueFilename)
 
         const stream = blob.createWriteStream({
-            resumable: false,
             metadata: { contentType: file.mimetype }
         })
 
@@ -81,8 +72,22 @@ export class SettingsService {
         return metadata.mediaLink
     }
 
-    async uploadImage(image: Express.Multer.File, field: string, _id: string) {
-        const imageUrl = await this.uploadFile(image)
+    async deleteFiles(files: string[]) {
+        const storage = new Storage({ projectId: 'central-courier-389415', keyFilename: path.join(__dirname, '..', '..', 'src', 'config', 'key.json') })
+        const bucketName = 'social-network_dazy'
+
+        const bucket = await storage.bucket(bucketName)
+        await Promise.all(files.map(async (value) => {
+            if (value) {
+                const fileName = value.match(/(?<=o\/)[^/?]+(?=\?generation)/)?.[0]
+                const file = await bucket.file(fileName)
+                await file.delete()
+            }
+        }))
+    }
+
+    async uploadImage(image: Express.Multer.File, field: 'avatar' | 'banner', _id: string) {
+        const imageUrl = await this.uploadFile(image, field)
         const updateObject = { [field]: imageUrl }
         await this.userModel.findOneAndUpdate({ _id }, updateObject)
     }

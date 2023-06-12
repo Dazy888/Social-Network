@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Post, Put, Param, Get } from '@nestjs/common'
+import { Body, Controller, Delete, Post, Put, Param, Get, Headers } from '@nestjs/common'
 import { ProfileService } from "./profile.service"
 import { TextDto } from "../settings/dto/text.dto"
 import { SubscriptionDto } from "./dto/subscription.dto"
@@ -14,50 +14,58 @@ export function checkAccessToken(token: string) {
 export class ProfileController {
     constructor(private readonly profileService: ProfileService) {}
 
-    @Put('about-me/:accessToken')
-    async setAboutMe(@Body() data: TextDto, @Param('accessToken') accessToken: string) {
+    @Put('about-me')
+    async setAboutMe(@Body() data: TextDto, @Headers('authorization') authorization: string) {
+        const accessToken = authorization.split(' ')[1]
         checkAccessToken(accessToken)
         return this.profileService.setAboutMe(data.text, data.id)
     }
 
-    @Put('skills/:accessToken')
-    async setSkillsText(@Body() data: TextDto, @Param('accessToken') accessToken: string) {
+    @Put('skills')
+    async setSkillsText(@Body() data: TextDto, @Headers('authorization') authorization: string) {
+        const accessToken = authorization.split(' ')[1]
         checkAccessToken(accessToken)
         return this.profileService.setSkills(data.text, data.id)
     }
 
-    @Put('hobbies/:accessToken')
-    async setHobbiesText(@Body() data: TextDto, @Param('accessToken') accessToken: string) {
+    @Put('hobbies')
+    async setHobbiesText(@Body() data: TextDto, @Headers('authorization') authorization: string) {
+        const accessToken = authorization.split(' ')[1]
         checkAccessToken(accessToken)
         return this.profileService.setHobbies(data.text, data.id)
     }
 
-    @Post('post/:accessToken')
-    async createPost(@Body() data: TextDto, @Param('accessToken') accessToken: string) {
+    @Post('post')
+    async createPost(@Body() data: TextDto, @Headers('authorization') authorization: string) {
+        const accessToken = authorization.split(' ')[1]
         checkAccessToken(accessToken)
         return this.profileService.createPost(data.text, data.id)
     }
 
-    @Delete('post/:postId/:id/:accessToken')
-    async deletePost(@Param('id') id: string, @Param('postId') postId: string, @Param('accessToken') accessToken: string) {
+    @Delete('post/:postId/:id')
+    async deletePost(@Param('id') id: string, @Param('postId') postId: string, @Headers('authorization') authorization: string) {
+        const accessToken = authorization.split(' ')[1]
         checkAccessToken(accessToken)
         return this.profileService.deletePost(postId)
     }
 
-    @Get('avatar/:id/:accessToken')
-    async getAvatar(@Param('id') id: string, @Param('accessToken') accessToken: string) {
+    @Get('avatar/:id')
+    async getAvatar(@Param('id') id: string, @Headers('authorization') authorization: string) {
+        const accessToken = authorization.split(' ')[1]
         checkAccessToken(accessToken)
         return this.profileService.getAvatar(id)
     }
 
-    @Put('follow/:accessToken')
-    async follow(@Body() data: SubscriptionDto, @Param('accessToken') accessToken: string) {
+    @Put('follow')
+    async follow(@Body() data: SubscriptionDto, @Headers('authorization') authorization: string) {
+        const accessToken = authorization.split(' ')[1]
         checkAccessToken(accessToken)
         return this.profileService.follow(data.authorizedUserId, data.openedUserId)
     }
 
-    @Put('unfollow/:accessToken')
-    async unfollow(@Body() data: SubscriptionDto, @Param('accessToken') accessToken: string) {
+    @Put('unfollow')
+    async unfollow(@Body() data: SubscriptionDto, @Headers('authorization') authorization: string) {
+        const accessToken = authorization.split(' ')[1]
         checkAccessToken(accessToken)
         return this.profileService.unfollow(data.authorizedUserId, data.openedUserId)
     }
