@@ -27,7 +27,7 @@ const MainComponent = () => {
     return(
         <div className={`${styles.main} grid gap-12 mt-14 text-white`}>
             <Information id={id} aboutMe={aboutMe} hobbies={hobbies} skills={skills}/>
-            <Posts posts={postsElements} userId={id}/>
+            <Posts posts={postsElements} id={id}/>
             <Subscriptions following={followingUsers} followers={followersUsers}/>
         </div>
     )
