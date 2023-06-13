@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react"
-import Head from "next/head"
 import { useRouter } from "next/router"
-// Layout
-import { MainPage } from "@/layouts/MainPage-Layout"
+import { useQuery } from "react-query"
+import { useAppSelector } from "@/hooks/redux"
+import { UsersService } from "@/services/users.service"
+import { IUserPreview } from "@/models/users"
+import { v4 } from "uuid"
 // Paginator
 import ReactPaginate from "react-paginate"
 // Styles
@@ -10,17 +12,10 @@ import styles from '@/styles/Users.module.scss'
 // Components
 import { UserPreview } from "@/components/users/User"
 import { Loader } from "@/components/users/Loader"
-// Models
-import { IUserPreview } from "@/models/users"
-// HTTP Service
-import { UsersService } from "@/services/users.service"
-// React Query
-import { useQuery } from "react-query"
-// Hooks
-import { useAppSelector } from "@/hooks/redux"
+import { MainPage } from "@/layouts/MainPage-Layout"
 
 const Users = () => {
-    const userId = useAppSelector(state => state.profileReducer.userId)
+    const id = useAppSelector(state => state.profileReducer.id)
     const router = useRouter()
 
     const [users, setUsers] = useState<IUserPreview[]>([])
@@ -28,10 +23,10 @@ const Users = () => {
     const [skip, setSkip] = useState(0)
 
 
-    const { refetch, isLoading } = useQuery('get users', () => UsersService.getUsers(skip, userId), {
+    const { refetch, isLoading } = useQuery('get users', () => UsersService.getUsers(skip, id), {
         onSuccess(res) {
-            setLength(res.data.length)
-            setUsers(res.data.usersData)
+            setLength(res.length)
+            setUsers(res.usersData)
         }
     })
 
@@ -47,32 +42,27 @@ const Users = () => {
         await refetch()
     }
 
-    const usersElem = users.map((user, pos) => {
-        if (user.userId !== userId) {
-            return <UserPreview location={user.location} avatar={user.avatar} name={user.name} userId={user.userId} key={pos}/>
-        }
+    const usersElem = users.map((user) => {
+        if (user.id !== id) return <UserPreview location={user.location} avatar={user.avatar} name={user.name} userId={user.id} key={v4()}/>
     })
 
     return (
-        <MainPage>
-            <Head>
-                <title>Users</title>
-            </Head>
+        <MainPage title={'Users'}>
             <div>
-                {!isLoading
-                    ?   <div>
+                {isLoading
+                    ?   <Loader/>
+                    :   <div>
                             <ReactPaginate breakLabel={"..."} nextLabel={">"} onPageChange={handlePageClick} pageRangeDisplayed={5} pageCount={pageCount} previousLabel={"<"}
-                                renderOnZeroPageCount={undefined} containerClassName={'pagination flex justify-center items-center'}
-                                pageLinkClassName={'page-num flex justify-center items-center'}
-                                previousLinkClassName={'page-num flex justify-center items-center paginator-btn left'}
-                                nextLinkClassName={'page-num flex justify-center items-center paginator-btn right'} activeClassName={'active'}
-                                initialPage={Number(router.query.page) - 1}
+                                           renderOnZeroPageCount={undefined} containerClassName={'pagination flex justify-center items-center'}
+                                           pageLinkClassName={'page-num flex justify-center items-center'}
+                                           previousLinkClassName={'page-num flex justify-center items-center paginator-btn left'}
+                                           nextLinkClassName={'page-num flex justify-center items-center paginator-btn right'} activeClassName={'active'}
+                                           initialPage={Number(router.query.page) - 1}
                             />
                             <div className={`${styles.content} w-96 flex justify-between flex-wrap my-44 mx-auto`}>
                                 {usersElem}
                             </div>
-                         </div>
-                    :    <Loader/>
+                        </div>
                 }
             </div>
         </MainPage>
