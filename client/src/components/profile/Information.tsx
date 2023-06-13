@@ -45,9 +45,9 @@ const InformationComponent: React.FC<Props> = ({ aboutMe, hobbies, skills, forVi
         <div className={`${styles.information} rounded-lg`}>
             <h3 className={'text-lg font-medium'}>Profile Intro</h3>
             <hr className={'w-full h-0.5'}/>
-            <InformationItem userId={id} forView={forView} title={'About Me'} editStatus={editStatus} setEditStatus={setEditStatus} textId={'aboutMe'} text={aboutMe} setText={setAboutMe}/>
-            <InformationItem userId={id} forView={forView} title={'Skills'} editStatus={editStatus} setEditStatus={setEditStatus} textId={'hobbies'} text={hobbies} setText={setHobbies}/>
-            <InformationItem userId={id} forView={forView} title={'Hobbies'} editStatus={editStatus} setEditStatus={setEditStatus} textId={'skills'} text={skills} setText={setSkills}/>
+            <InformationItem id={id} forView={forView} title={'About Me'} editStatus={editStatus} setEditStatus={setEditStatus} textId={'aboutMe'} text={aboutMe} setText={setAboutMe}/>
+            <InformationItem id={id} forView={forView} title={'Skills'} editStatus={editStatus} setEditStatus={setEditStatus} textId={'hobbies'} text={hobbies} setText={setHobbies}/>
+            <InformationItem id={id} forView={forView} title={'Hobbies'} editStatus={editStatus} setEditStatus={setEditStatus} textId={'skills'} text={skills} setText={setSkills}/>
         </div>
     )
 }
