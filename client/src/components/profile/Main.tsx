@@ -9,7 +9,6 @@ import { Subscriptions } from "@/components/profile/Subscriptions"
 import { User } from "@/components/profile/User"
 import { Posts } from "@/components/profile/Posts"
 
-
 const MainComponent = () => {
     const id = useAppSelector(state => state.profileReducer.id)
     const aboutMe = useAppSelector(state => state.profileReducer.aboutMe)

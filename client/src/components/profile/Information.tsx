@@ -20,21 +20,21 @@ const InformationComponent: React.FC<Props> = ({ aboutMe, hobbies, skills, forVi
     const dispatch = useAppDispatch()
     const [editStatus, setEditStatus] = useState(false)
 
-    const { mutateAsync:setAboutMe } = useMutation('set about me', (data: TextProps) => ProfileService.setAboutMe(data.text, data.userId),
+    const { mutateAsync:setAboutMe } = useMutation('set about me', (data: TextProps) => ProfileService.setAboutMe(data.text, data.id),
         {
             onSuccess: (res): any => dispatch(setAboutMeText(res.data)),
             onError: (err: string): any => notify(err, 'error')
         }
     )
 
-    const { mutateAsync:setHobbies } = useMutation('set hobbies', (data: TextProps) => ProfileService.setHobbies(data.text, data.userId),
+    const { mutateAsync:setHobbies } = useMutation('set hobbies', (data: TextProps) => ProfileService.setHobbies(data.text, data.id),
         {
             onSuccess: (res): any => dispatch(setHobbiesText(res.data)),
             onError: (err: string): any => notify(err, 'error')
         }
     )
 
-    const { mutateAsync:setSkills } = useMutation('set skills', (data: TextProps) => ProfileService.setSkills(data.text, data.userId),
+    const { mutateAsync:setSkills } = useMutation('set skills', (data: TextProps) => ProfileService.setSkills(data.text, data.id),
         {
             onSuccess: (res): any => dispatch(setSkillsText(res.data)),
             onError: (err: string): any => notify(err, 'error')

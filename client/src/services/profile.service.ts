@@ -1,5 +1,6 @@
 import { $api } from "@/http"
 import { AxiosResponse } from "axios"
+import {IPost} from "@/models/profile";
 
 export class ProfileService {
     static setAboutMe(text: string, id: string) {
@@ -22,7 +23,7 @@ export class ProfileService {
 
     static addPost(text: string, id: string) {
         return $api.post('profile/post', { text, id })
-        .then((res) => res.data)
+        .then((res: AxiosResponse<IPost>) => res.data)
         .catch(err => { throw err.response.data.message })
     }
 

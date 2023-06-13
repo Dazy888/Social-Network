@@ -3,7 +3,7 @@ import { SetInfoFunc } from "@/models/profile"
 import styles from '@/styles/Profile.module.scss'
 
 interface IProps {
-    userId?: string
+    id?: string
     editStatus: boolean
     setEditStatus: (status: boolean) => void
     textId: string
@@ -13,7 +13,7 @@ interface IProps {
     forView?: boolean
 }
 
-function editInfo(event: any, changeText: SetInfoFunc, value: string, textId: string, setStatus: (status: boolean) => void, setEditStatus: (status: boolean) => void, text: any, textareaRef: any, userId: string) {
+function editInfo(event: any, changeText: SetInfoFunc, value: string, textId: string, setStatus: (status: boolean) => void, setEditStatus: (status: boolean) => void, text: any, textareaRef: any, id: string) {
     function setStatuses(status: boolean) {
         setEditStatus(status)
         setStatus(status)
@@ -25,7 +25,7 @@ function editInfo(event: any, changeText: SetInfoFunc, value: string, textId: st
         const textarea = textareaRef.current
         textarea.value = value
         textarea.onblur = async () => {
-            await changeText({ text: textarea.value, userId })
+            await changeText({ text: textarea.value, id })
             text.innerText = textarea.value
             document.onkeydown = null
             setStatuses(false)
@@ -33,7 +33,7 @@ function editInfo(event: any, changeText: SetInfoFunc, value: string, textId: st
     }, 1)
 }
 
-const InformationItemComponent: React.FC<IProps> = ({ text, setText, textId, setEditStatus, editStatus, title, forView, userId = '' }) => {
+const InformationItemComponent: React.FC<IProps> = ({ text, setText, textId, setEditStatus, editStatus, title, forView, id = '' }) => {
     const [status, setStatus] = useState(false)
     const textareaRef: any = useRef()
     const textRef: any = useRef()
@@ -43,7 +43,7 @@ const InformationItemComponent: React.FC<IProps> = ({ text, setText, textId, set
             <div className={`${styles['information__title']} flex justify-between items-center`}>
                 <h3 className={'tracking-wide'}>{title}:</h3>
                 {!forView &&
-                    <button className={'text-xs'} disabled={editStatus} onClick={(e) => editInfo(e, setText, text, textId, setStatus, setEditStatus, textRef.current, textareaRef, userId)}>
+                    <button className={'text-xs'} disabled={editStatus} onClick={(e) => editInfo(e, setText, text, textId, setStatus, setEditStatus, textRef.current, textareaRef, id)}>
                         <i className={'fa-solid fa-pen'}/>
                     </button>
                 }

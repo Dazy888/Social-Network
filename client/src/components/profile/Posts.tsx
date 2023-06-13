@@ -1,37 +1,34 @@
 import React, { useRef, useState } from "react"
-// Styles
 import styles from "@/styles/Profile.module.scss"
-// React Query
 import { useMutation } from "react-query"
-// Models
 import { IPost, TextProps } from "@/models/profile"
-// HTTP Service
 import { ProfileService } from "@/services/profile.service"
-// Store
 import { addUserPost } from "@/store/reducers/ProfileSlice"
-// Hooks
 import { useAppDispatch } from "@/hooks/redux"
+import {notify} from "@/pages/auth/sign-in";
 
 interface IProps {
-    userId: string
+    id: string
     posts: IPost[] | any
 }
 
-const PostsComponent: React.FC<IProps> = ({ userId, posts }) => {
+const PostsComponent: React.FC<IProps> = ({ id, posts }) => {
     const dispatch = useAppDispatch()
     const textareaPostRef: any = useRef()
     const [newPostStatus, setNewPostStatus] = useState(false)
 
-    const { mutateAsync:addPost } = useMutation('add post', (data: TextProps) => ProfileService.addPost(data.text, data.userId),
+    const { mutateAsync:addPost } = useMutation('add post', (data: TextProps) => ProfileService.addPost(data.text, data.id),
         {
-            onSuccess(response) {
-                dispatch(addUserPost(response.data))
-            }
+            onSuccess(res) {
+                dispatch(addUserPost(res))
+                notify('Post was created successfully', 'success')
+            },
+            onError: (): any => notify('Post was not created, try again', 'error')
         }
     )
 
     const addNewPost = async (setStatus: (status: boolean) => void) => {
-        await addPost({ text: textareaPostRef.current.value, userId })
+        await addPost({ text: textareaPostRef.current.value, id })
         setStatus(false)
     }
 
