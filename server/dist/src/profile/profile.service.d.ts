@@ -8,7 +8,7 @@ export declare class ProfileService {
     setAboutMe(aboutMe: string, _id: string): Promise<void>;
     setSkills(skills: string, _id: string): Promise<void>;
     setHobbies(hobbies: string, _id: string): Promise<void>;
-    createPost(text: string, id: string): Promise<void>;
+    createPost(text: string, userId: string): Promise<void>;
     deletePost(postId: string): Promise<void>;
     getAvatar(_id: string): Promise<string>;
     follow(authorizedUserId: string, openedUserId: string): Promise<void>;

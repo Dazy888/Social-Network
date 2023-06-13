@@ -26,19 +26,16 @@ let SettingsService = class SettingsService {
         this.userModel = userModel;
         this.mailerService = mailerService;
     }
-    async changePass(currentPass, newPass, userId) {
-        const user = await this.userModel.findOne({ userId });
-        const isPassEquals = await bcrypt.compare(currentPass, user.password);
-        if (!isPassEquals) {
-            return 'Wrong password';
-        }
-        else {
-            await this.userModel.findOneAndUpdate({ userId }, { password: await bcrypt.hash(newPass, 3) });
-        }
+    async changePass(currentPass, newPass, _id) {
+        const user = await this.userModel.findOne({ _id });
+        const isPassEquals = await bcrypt.compare(currentPass, user.pass);
+        if (!isPassEquals)
+            throw new common_1.BadRequestException('Wrong password');
+        await this.userModel.findOneAndUpdate({ _id }, { pass: await bcrypt.hash(newPass, 10) });
     }
     async sendMail(email, activationLink, _id) {
         if (await this.userModel.findOne({ email }))
-            throw new common_1.BadRequestException('User with this e-mail already exists');
+            throw new common_1.BadRequestException('UserInfo with this e-mail already exists');
         await this.userModel.findOneAndUpdate({ _id }, { email, activationLink });
         await this.mailerService.sendMail({
             from: process.env.SMTP_EMAIL,
@@ -59,23 +56,18 @@ let SettingsService = class SettingsService {
     async cancelActivation(_id) {
         await this.userModel.findOneAndUpdate({ _id }, { email: '' });
     }
-    async setPhoto(newPath, field, model, userId) {
-        (field === 'avatar') ? await model.findOneAndUpdate({ userId }, { avatar: `http://localhost:5000/${newPath}` }) : await model.findOneAndUpdate({ userId }, { banner: `http://localhost:5000/${newPath}` });
-        return `http://localhost:5000/${newPath}`;
-    }
     async setName(name, _id) {
         await this.userModel.findOneAndUpdate({ _id }, { name });
     }
     async setLocation(location, _id) {
         await this.userModel.findOneAndUpdate({ _id }, { location });
     }
-    async uploadFile(file) {
+    async uploadFile(file, car) {
         const storage = new storage_1.Storage({ projectId: 'central-courier-389415', keyFilename: path.join(__dirname, '..', '..', 'src', 'config', 'key.json') });
         const bucketName = 'social-network_dazy';
-        const uniqueFilename = (0, uuid_1.v4)() + '-' + file.originalname;
+        const uniqueFilename = (0, uuid_1.v4)() + '-' + car ? car : file.originalname;
         const blob = storage.bucket(bucketName).file(uniqueFilename);
         const stream = blob.createWriteStream({
-            resumable: false,
             metadata: { contentType: file.mimetype }
         });
         await new Promise((resolve, reject) => {
@@ -85,8 +77,21 @@ let SettingsService = class SettingsService {
         const [metadata] = await blob.getMetadata();
         return metadata.mediaLink;
     }
+    async deleteFiles(files) {
+        const storage = new storage_1.Storage({ projectId: 'central-courier-389415', keyFilename: path.join(__dirname, '..', '..', 'src', 'config', 'key.json') });
+        const bucketName = 'social-network_dazy';
+        const bucket = await storage.bucket(bucketName);
+        await Promise.all(files.map(async (value) => {
+            var _a;
+            if (value) {
+                const fileName = (_a = value.match(/(?<=o\/)[^/?]+(?=\?generation)/)) === null || _a === void 0 ? void 0 : _a[0];
+                const file = await bucket.file(fileName);
+                await file.delete();
+            }
+        }));
+    }
     async uploadImage(image, field, _id) {
-        const imageUrl = await this.uploadFile(image);
+        const imageUrl = await this.uploadFile(image, field);
         const updateObject = { [field]: imageUrl };
         await this.userModel.findOneAndUpdate({ _id }, updateObject);
     }

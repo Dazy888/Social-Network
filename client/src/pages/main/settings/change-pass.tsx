@@ -1,42 +1,26 @@
-import React, { useState } from "react"
-import Head from "next/head"
-// Layouts
-import { MainPage } from "@/layouts/MainPage-Layout"
-import { SettingsPage } from "@/layouts/SettingsPage-Layout"
-// Form
+import React from "react"
+import { useAppSelector } from "@/hooks/redux"
 import { SubmitHandler, useForm } from "react-hook-form"
-// Models
 import { ISetPass, SetPassProps } from "@/models/settings"
-// HTTP Service
 import { SettingsService } from "@/services/settings.service"
-// React Query
 import { useMutation } from "react-query"
-// Store
+import { notify } from "@/pages/auth/sign-in"
+// Styles
+import styles from '@/styles/Settings.module.scss'
 // Components
 import { Input } from "@/components/common/Input"
 import { Loader } from "@/components/auth/Loader"
-import { Message } from "@/components/settings/SuccessMessage"
 import { Title } from "@/components/settings/Title"
-// Styles
-import styles from '@/styles/Settings.module.scss'
-// Hooks
-import { useAppSelector } from "@/hooks/redux"
+import { MainPage } from "@/layouts/MainPage-Layout"
+import { SettingsPage } from "@/layouts/SettingsPage-Layout"
 
 const ChangePass = () => {
-    const [successMessage, setSuccessMessage] = useState('')
-    const [confirmPassErr, setConfirmPassErr] = useState('')
-    const [passErr, setPassErr] = useState('')
+    const id = useAppSelector(state => state.profileReducer.id)
 
-    const userId = useAppSelector(state => state.profileReducer.userId)
-
-    const { mutateAsync, isLoading } = useMutation('set pass', (data: SetPassProps) => SettingsService.setPassword(data.currentPass, data.newPass, data.userId),
+    const { mutateAsync, isLoading } = useMutation('set pass', (data: SetPassProps) => SettingsService.setPassword(data.currentPass, data.newPass, data.id),
         {
-            onSuccess() {
-                setSuccessMessage('Password was successfully changed')
-            },
-            onError(err: string) {
-                setPassErr(err)
-            }
+            onSuccess: (): any => notify('Password was successfully changed', 'success'),
+            onError: (err: string): any => notify(err, 'error')
         }
     )
 
@@ -44,30 +28,33 @@ const ChangePass = () => {
     const { register, handleSubmit, formState: { errors, touchedFields } } = useForm<ISetPass>({ mode: 'onChange' })
 
     const onSubmit: SubmitHandler<ISetPass> = async (data) => {
-        if (data.confirmPass !== data.newPass) setConfirmPassErr(`Passwords don't match`)
-        await mutateAsync({ currentPass: data.currentPass, newPass: data.newPass, userId })
+        if (isLoading) notify('Too many requests, try later', 'warning')
+        if (data.confirmPass !== data.newPass) notify(`Passwords don't match`, 'warning')
+        await mutateAsync({ currentPass: data.currentPass, newPass: data.newPass, id })
     }
 
     return(
-        <MainPage>
+        <MainPage title={'Password change'}>
             <SettingsPage>
-                <Head>
-                    <title>Changing password</title>
-                </Head>
                 <>
                     <Title title={'Change Password'}/>
                     <hr className={'w-full h-px'}/>
                     <form className={'py-10 px-6'} onSubmit={handleSubmit(onSubmit)}>
-                        <Input errorName={'password'} type={'password'} className={styles['big-input']} error={errors.currentPass?.message} touched={touchedFields.currentPass} serverError={passErr} register={register} name={'currentPass'} patternValue={passExp} minLength={4} maxLength={15} setServerError={setPassErr} placeholder={'Current password'}/>
+                        <Input errorName={'password'} type={'password'} className={styles['big-input']} error={errors.currentPass?.message} register={register}
+                               touched={touchedFields.currentPass} name={'currentPass'} patternValue={passExp} minLength={4} maxLength={15} placeholder={'Current password'}
+                        />
                         <div className={`${styles['pass-inputs']} flex justify-between items-center mt-6`}>
-                            <Input errorName={'password'} type={'password'} error={errors.newPass?.message} touched={touchedFields.newPass} register={register} name={'newPass'} patternValue={passExp} minLength={8} maxLength={15} placeholder={'New password'}/>
-                            <Input errorName={'password'} setServerError={setConfirmPassErr} serverError={confirmPassErr} type={'password'} error={errors.confirmPass?.message} touched={touchedFields.confirmPass} register={register} name={'confirmPass'} patternValue={passExp} minLength={8} maxLength={15} placeholder={'Confirm password'}/>
+                            <Input errorName={'password'} type={'password'} error={errors.newPass?.message} touched={touchedFields.newPass} register={register}
+                                   name={'newPass'} patternValue={passExp} minLength={8} maxLength={15} placeholder={'New password'}
+                            />
+                            <Input errorName={'password'} type={'password'} error={errors.confirmPass?.message} touched={touchedFields.confirmPass} register={register}
+                                   name={'confirmPass'} patternValue={passExp} minLength={8} maxLength={15} placeholder={'Confirm password'}
+                            />
                         </div>
-                        <button className={`${styles.submit} w-full rounded-lg tracking-wider font-semibold text-white`} type={'submit'} disabled={isLoading || !!successMessage}>Change password</button>
+                        <button className={`${styles.submit} w-full rounded-lg tracking-wider font-semibold text-white`} type={'submit'}>Change password</button>
                         <div className={styles.loader}>
                             <Loader color={'rebeccapurple'} loading={isLoading}/>
                         </div>
-                        { successMessage && <Message message={successMessage}/> }
                     </form>
                 </>
             </SettingsPage>

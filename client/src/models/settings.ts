@@ -27,14 +27,10 @@ export interface IBannerForm {
 export interface SetPassProps {
     currentPass: string
     newPass: string
-    userId: string
+    id: string
 }
 
 export interface ActivateProps {
     email: string
-    userId: string
-}
-
-export interface CancelActivationProps {
-    userId: string
+    id: string
 }

@@ -6,7 +6,7 @@ import { NavLink } from "@/components/navigation/NavLink"
 // Interfaces
 import { LayoutProps } from "@/models/layouts"
 
-const SettingsPageLayout: React.FC<LayoutProps> = ({ children }) => {
+const SettingsPageLayout: React.FC<Omit<LayoutProps, 'title'>> = ({ children }) => {
     return(
         <div id={styles['settings']} className={'flex justify-center items-center h-full'}>
             <div className={`${styles['container']} flex justify-between items-center mx-auto`}>

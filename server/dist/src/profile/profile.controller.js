@@ -28,100 +28,108 @@ let ProfileController = class ProfileController {
     constructor(profileService) {
         this.profileService = profileService;
     }
-    async setAboutMe(data, accessToken) {
+    async setAboutMe(data, authorization) {
+        const accessToken = authorization.split(' ')[1];
         checkAccessToken(accessToken);
         return this.profileService.setAboutMe(data.text, data.id);
     }
-    async setSkillsText(data, accessToken) {
+    async setSkillsText(data, authorization) {
+        const accessToken = authorization.split(' ')[1];
         checkAccessToken(accessToken);
         return this.profileService.setSkills(data.text, data.id);
     }
-    async setHobbiesText(data, accessToken) {
+    async setHobbiesText(data, authorization) {
+        const accessToken = authorization.split(' ')[1];
         checkAccessToken(accessToken);
         return this.profileService.setHobbies(data.text, data.id);
     }
-    async createPost(data, accessToken) {
+    async createPost(data, authorization) {
+        const accessToken = authorization.split(' ')[1];
         checkAccessToken(accessToken);
         return this.profileService.createPost(data.text, data.id);
     }
-    async deletePost(id, postId, accessToken) {
+    async deletePost(id, postId, authorization) {
+        const accessToken = authorization.split(' ')[1];
         checkAccessToken(accessToken);
         return this.profileService.deletePost(postId);
     }
-    async getAvatar(id, accessToken) {
+    async getAvatar(id, authorization) {
+        const accessToken = authorization.split(' ')[1];
         checkAccessToken(accessToken);
         return this.profileService.getAvatar(id);
     }
-    async follow(data, accessToken) {
+    async follow(data, authorization) {
+        const accessToken = authorization.split(' ')[1];
         checkAccessToken(accessToken);
         return this.profileService.follow(data.authorizedUserId, data.openedUserId);
     }
-    async unfollow(data, accessToken) {
+    async unfollow(data, authorization) {
+        const accessToken = authorization.split(' ')[1];
         checkAccessToken(accessToken);
         return this.profileService.unfollow(data.authorizedUserId, data.openedUserId);
     }
 };
 __decorate([
-    (0, common_1.Put)('about-me/:accessToken'),
+    (0, common_1.Put)('about-me'),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Param)('accessToken')),
+    __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [text_dto_1.TextDto, String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "setAboutMe", null);
 __decorate([
-    (0, common_1.Put)('skills/:accessToken'),
+    (0, common_1.Put)('skills'),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Param)('accessToken')),
+    __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [text_dto_1.TextDto, String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "setSkillsText", null);
 __decorate([
-    (0, common_1.Put)('hobbies/:accessToken'),
+    (0, common_1.Put)('hobbies'),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Param)('accessToken')),
+    __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [text_dto_1.TextDto, String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "setHobbiesText", null);
 __decorate([
-    (0, common_1.Post)('post/:accessToken'),
+    (0, common_1.Post)('post'),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Param)('accessToken')),
+    __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [text_dto_1.TextDto, String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "createPost", null);
 __decorate([
-    (0, common_1.Delete)('post/:postId/:id/:accessToken'),
+    (0, common_1.Delete)('post/:postId/:id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Param)('postId')),
-    __param(2, (0, common_1.Param)('accessToken')),
+    __param(2, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "deletePost", null);
 __decorate([
-    (0, common_1.Get)('avatar/:id/:accessToken'),
+    (0, common_1.Get)('avatar/:id'),
     __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Param)('accessToken')),
+    __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "getAvatar", null);
 __decorate([
-    (0, common_1.Put)('follow/:accessToken'),
+    (0, common_1.Put)('follow'),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Param)('accessToken')),
+    __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [subscription_dto_1.SubscriptionDto, String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "follow", null);
 __decorate([
-    (0, common_1.Put)('unfollow/:accessToken'),
+    (0, common_1.Put)('unfollow'),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Param)('accessToken')),
+    __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [subscription_dto_1.SubscriptionDto, String]),
     __metadata("design:returntype", Promise)

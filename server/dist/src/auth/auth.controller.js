@@ -18,7 +18,7 @@ const auth_dto_1 = require("./dto/auth.dto");
 const auth_service_1 = require("./auth.service");
 function checkToken(token) {
     if (!token)
-        throw new common_1.UnauthorizedException('User is not authorized');
+        throw new common_1.UnauthorizedException('UserInfo is not authorized');
 }
 exports.checkToken = checkToken;
 let AuthController = class AuthController {

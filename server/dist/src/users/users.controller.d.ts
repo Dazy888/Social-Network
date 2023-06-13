@@ -2,11 +2,11 @@ import { UsersService } from "./users.service";
 export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
-    getUsers(skip: string, id: string, accessToken: string): Promise<{
+    getUsers(skip: string, id: string, authorization: string): Promise<{
         usersData: import("../interfaces/users.interfaces").UserPreview[];
         length: number;
     }>;
-    getUser(id: string, accessToken: string): Promise<{
+    getUser(id: string, authorization: string): Promise<{
         avatar: string;
         banner: string;
         name: string;

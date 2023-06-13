@@ -1,4 +1,4 @@
-export type SetInfoFunc = ({ userId, text }: TextProps) => Promise<void>
+export type SetInfoFunc = ({ id, text }: TextProps) => Promise<void>
 export type SubscriptionFunc = ({ authorizedUserId, openedUserId }: SubscriptionFuncProps) => void
 
 interface SubscriptionFuncProps {
@@ -15,7 +15,7 @@ export interface IPost {
 
 export interface TextProps {
     text: string
-    userId: string
+    id: string
 }
 
 export interface SubscriptionProps {

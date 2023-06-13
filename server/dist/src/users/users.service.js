@@ -21,9 +21,9 @@ let UsersService = class UsersService {
         this.userModel = userModel;
         this.postModel = postModel;
     }
-    async getUser(userId) {
-        const user = await this.userModel.findOne({ userId });
-        const posts = await this.postModel.find({ userId });
+    async getUser(_id) {
+        const user = await this.userModel.findOne({ _id });
+        const posts = await this.postModel.find({ userId: _id });
         return {
             avatar: user.avatar,
             banner: user.banner,
@@ -34,7 +34,7 @@ let UsersService = class UsersService {
             hobbies: user.hobbies,
             followers: user.followers,
             following: user.following,
-            posts: [...posts]
+            posts
         };
     }
     async getUsers(skip, id) {

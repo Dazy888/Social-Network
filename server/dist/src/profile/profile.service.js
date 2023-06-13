@@ -30,8 +30,8 @@ let ProfileService = class ProfileService {
     async setHobbies(hobbies, _id) {
         await this.userModel.findOneAndUpdate({ _id }, { hobbies });
     }
-    async createPost(text, id) {
-        await this.postModel.create({ text, userId: id });
+    async createPost(text, userId) {
+        await this.postModel.create({ text, userId });
     }
     async deletePost(postId) {
         await this.postModel.findOneAndDelete({ postId });

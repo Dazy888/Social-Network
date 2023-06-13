@@ -20,28 +20,30 @@ let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
     }
-    getUsers(skip, id, accessToken) {
+    getUsers(skip, id, authorization) {
+        const accessToken = authorization.split(' ')[1];
         (0, profile_controller_1.checkAccessToken)(accessToken);
         return this.usersService.getUsers(Number(skip), id);
     }
-    getUser(id, accessToken) {
+    getUser(id, authorization) {
+        const accessToken = authorization.split(' ')[1];
         (0, profile_controller_1.checkAccessToken)(accessToken);
         return this.usersService.getUser(id);
     }
 };
 __decorate([
-    (0, common_1.Get)('/:skip/:id/:accessToken'),
+    (0, common_1.Get)('/:skip/:id'),
     __param(0, (0, common_1.Param)('skip')),
     __param(1, (0, common_1.Param)('id')),
-    __param(2, (0, common_1.Param)('accessToken')),
+    __param(2, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String, String]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "getUsers", null);
 __decorate([
-    (0, common_1.Get)('/:id/:accessToken'),
+    (0, common_1.Get)('/:id'),
     __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Param)('accessToken')),
+    __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", void 0)

@@ -56,7 +56,7 @@ let AuthService = class AuthService {
     async registration(login, pass) {
         const existingUser = await this.userModel.findOne({ login });
         if (existingUser)
-            throw new common_1.BadRequestException('User with this login already exists');
+            throw new common_1.BadRequestException('UserInfo with this login already exists');
         const hashPassword = await bcrypt.hash(pass, 10);
         const userNumber = Math.floor(Math.random() * 100);
         const user = await this.userModel.create({ login, password: hashPassword, name: `User ${userNumber}`, location: 'Nowhere', banner: 'https://img.freepik.com/premium-vector/programming-code-made-with-binary-code-coding-hacker-background-digital-binary-data-streaming-digital-code_127544-778.jpg?w=2000', avatar: 'https://i.imgur.com/b08hxPY.png', aboutMe: 'This project was made by David Hutsenko', skills: 'This project was made by David Hutsenko', hobbies: 'This project was made by David Hutsenko', isActivated: false, email: null, followers: [], following: [], activationLink: null });
@@ -83,7 +83,7 @@ let AuthService = class AuthService {
         const userData = (0, exports.validateToken)(refreshToken, process.env.JWT_REFRESH_SECRET);
         const tokenFromDb = await this.tokenModel.findOne({ refreshToken });
         if (!userData || !tokenFromDb)
-            throw new common_1.BadRequestException('User is not authorized');
+            throw new common_1.BadRequestException('UserInfo is not authorized');
         const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
         await this.tokenModel.deleteMany({ createdAt: { $lt: thirtyDaysAgo } });
         const user = await this.userModel.findOne({ userId: userData.id });

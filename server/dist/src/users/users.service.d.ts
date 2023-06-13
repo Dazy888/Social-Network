@@ -6,7 +6,7 @@ export declare class UsersService {
     private userModel;
     private postModel;
     constructor(userModel: Model<UserDocument>, postModel: Model<PostDocument>);
-    getUser(userId: string): Promise<{
+    getUser(_id: string): Promise<{
         avatar: string;
         banner: string;
         name: string;

@@ -26,11 +26,13 @@ let SettingsController = class SettingsController {
     constructor(settingsService) {
         this.settingsService = settingsService;
     }
-    async changePass(data, accessToken) {
+    async changePass(data, authorization) {
+        const accessToken = authorization.split(' ')[1];
         (0, profile_controller_1.checkAccessToken)(accessToken);
         return this.settingsService.changePass(data.currentPass, data.newPass, data.id);
     }
-    async sendMail(data, accessToken) {
+    async sendMail(data, authorization) {
+        const accessToken = authorization.split(' ')[1];
         (0, profile_controller_1.checkAccessToken)(accessToken);
         return this.settingsService.sendMail(data.email, `${process.env.API_URL}/api/settings/activate/${(0, uuid_1.v4)()}`, data.id);
     }
@@ -38,39 +40,44 @@ let SettingsController = class SettingsController {
         await this.settingsService.activate(link);
         res.redirect(`${process.env.CLIENT_URL}/main/settings/activate`);
     }
-    async cancelActivation(id, accessToken) {
+    async cancelActivation(id, authorization) {
+        const accessToken = authorization.split(' ')[1];
         (0, profile_controller_1.checkAccessToken)(accessToken);
         await this.settingsService.cancelActivation(id);
     }
-    async setName(data, accessToken) {
+    async setName(data, authorization) {
+        const accessToken = authorization.split(' ')[1];
         (0, profile_controller_1.checkAccessToken)(accessToken);
         return this.settingsService.setName(data.text, data.id);
     }
-    async setLocation(data, accessToken) {
+    async setLocation(data, authorization) {
+        const accessToken = authorization.split(' ')[1];
         (0, profile_controller_1.checkAccessToken)(accessToken);
         return this.settingsService.setLocation(data.text, data.id);
     }
-    async setAvatar(data, image, accessToken) {
+    async setAvatar(data, image, authorization) {
+        const accessToken = authorization.split(' ')[1];
         (0, profile_controller_1.checkAccessToken)(accessToken);
         return this.settingsService.uploadImage(image, 'avatar', data.id);
     }
-    async setBanner(data, image, accessToken) {
+    async setBanner(data, image, authorization) {
+        const accessToken = authorization.split(' ')[1];
         (0, profile_controller_1.checkAccessToken)(accessToken);
         return this.settingsService.uploadImage(image, 'banner', data.id);
     }
 };
 __decorate([
-    (0, common_1.Put)('/pass/:accessToken'),
+    (0, common_1.Put)('/pass'),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Param)('accessToken')),
+    __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [password_dto_1.PasswordDto, String]),
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "changePass", null);
 __decorate([
-    (0, common_1.Post)('/mail/:accessToken'),
+    (0, common_1.Post)('/mail'),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Param)('accessToken')),
+    __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [mail_dto_1.MailDto, String]),
     __metadata("design:returntype", Promise)
@@ -84,45 +91,45 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "activate", null);
 __decorate([
-    (0, common_1.Get)('/cancel-activation/:id/:accessToken'),
+    (0, common_1.Get)('/cancel-activation/:id'),
     __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Param)('accessToken')),
+    __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "cancelActivation", null);
 __decorate([
-    (0, common_1.Put)('name/:accessToken'),
+    (0, common_1.Put)('name'),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Param)('accessToken')),
+    __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [text_dto_1.TextDto, String]),
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "setName", null);
 __decorate([
-    (0, common_1.Put)('location/:accessToken'),
+    (0, common_1.Put)('location'),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Param)('accessToken')),
+    __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [text_dto_1.TextDto, String]),
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "setLocation", null);
 __decorate([
-    (0, common_1.Post)('avatar/:accessToken'),
+    (0, common_1.Post)('avatar'),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image')),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.UploadedFile)()),
-    __param(2, (0, common_1.Param)('accessToken')),
+    __param(2, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [photo_dto_1.PhotoDto, Object, String]),
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "setAvatar", null);
 __decorate([
-    (0, common_1.Post)('banner/:accessToken'),
+    (0, common_1.Post)('banner'),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image')),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.UploadedFile)()),
-    __param(2, (0, common_1.Param)('accessToken')),
+    __param(2, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [photo_dto_1.PhotoDto, Object, String]),
     __metadata("design:returntype", Promise)
