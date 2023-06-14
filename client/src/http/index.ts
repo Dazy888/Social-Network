@@ -1,7 +1,7 @@
 import axios from "axios"
 import { getCookie } from "@/layouts/AuthLayout"
 
-export const API_URL = 'https://social-network-api-alpha.vercel.app/api/'
+export const API_URL = 'https://social-network-api-dazy888.vercel.app/api/'
 // export const API_URL = 'http://localhost:5000/api/'
 
 export const $api = axios.create({
