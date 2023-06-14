@@ -4,7 +4,7 @@ import { MainPage } from "@/layouts/MainPageLayout"
 import { useMutation, useQuery } from "react-query"
 import { getPostsElements } from "@/pages/profile/index"
 import { v4 } from "uuid"
-import { notify } from "@/pages/auth/sign-in"
+import { notify } from "@/components/auth/AuthForm"
 // Hooks
 import { useAppDispatch, useAppSelector } from "@/hooks/redux"
 // Store

@@ -30,7 +30,7 @@ const Users = () => {
 
     return (
         <MainPage title={'Users'}>
-            { isLoading ? <Loader/> : <Content length={length} setSkip={setSkip} refetch={refetch} users={users} /> }
+            { isLoading ? <Loader/> : <Content isLoading={isLoading} length={length} setSkip={setSkip} refetch={refetch} users={users} /> }
         </MainPage>
     )
 }

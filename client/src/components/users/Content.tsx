@@ -6,21 +6,24 @@ import { useRouter } from "next/router"
 import { UserPreview } from "@/components/users/User"
 import { useAppSelector } from "@/hooks/redux"
 import { IUserPreview } from "@/models/users"
+import { notify } from "@/components/auth/AuthForm"
 
 interface Props {
     setSkip: (skip: number) => void
     refetch: () => void
     users: IUserPreview[]
     length: number
+    isLoading: boolean
 }
 
-const ContentComponent: React.FC<Props> = ({ setSkip, refetch, users, length }) => {
+const ContentComponent: React.FC<Props> = ({ setSkip, refetch, users, length, isLoading }) => {
     const router = useRouter()
     const id = useAppSelector(state => state.profileReducer.id)
 
     const pageCount = Math.ceil(length / 4)
 
     const handlePageClick = async (event: any) => {
+        if (isLoading) return notify('Page is loading, wait a second', 'warning')
         await setSkip(event.selected * 4)
         await router.push(`/main/users/${event.selected + 1}`)
         refetch()
