@@ -19,6 +19,7 @@ const dotenv = require("dotenv");
 const mongoose_1 = require("mongoose");
 const mongoose_2 = require("@nestjs/mongoose");
 const common_1 = require("@nestjs/common");
+const user_dto_1 = require("./dto/user.dto");
 dotenv.config();
 const validateToken = (token, secret) => jwt.verify(token, secret);
 exports.validateToken = validateToken;
@@ -57,24 +58,25 @@ let AuthService = class AuthService {
         const existingUser = await this.userModel.findOne({ login });
         if (existingUser)
             throw new common_1.BadRequestException('UserInfo with this login already exists');
-        const hashPassword = await bcrypt.hash(pass, 10);
+        const hashedPassword = await bcrypt.hash(pass, 10);
         const userNumber = Math.floor(Math.random() * 100);
-        const user = await this.userModel.create({ login, password: hashPassword, name: `User ${userNumber}`, location: 'Nowhere', banner: 'https://img.freepik.com/premium-vector/programming-code-made-with-binary-code-coding-hacker-background-digital-binary-data-streaming-digital-code_127544-778.jpg?w=2000', avatar: 'https://i.imgur.com/b08hxPY.png', aboutMe: 'This project was made by David Hutsenko', skills: 'This project was made by David Hutsenko', hobbies: 'This project was made by David Hutsenko', isActivated: false, email: null, followers: [], following: [], activationLink: null });
+        const user = await this.userModel.create({ login, pass: hashedPassword, name: `User ${userNumber}`, location: 'Nowhere', banner: 'https://img.freepik.com/premium-vector/programming-code-made-with-binary-code-coding-hacker-background-digital-binary-data-streaming-digital-code_127544-778.jpg?w=2000', avatar: 'https://i.imgur.com/b08hxPY.png', aboutMe: 'This project was made by David Hutsenko', skills: 'This project was made by David Hutsenko', hobbies: 'This project was made by David Hutsenko', isActivated: false, email: null, followers: [], following: [], activationLink: null });
         const tokens = this.generateTokens(Object.assign({}, user));
         await this.saveToken(user.id, tokens.refreshToken);
         return { tokens, user: this.createUser(user) };
     }
-    async login(login, password) {
-        const existingUser = await this.userModel.findOne({ login });
-        if (!existingUser)
+    async login(login, pass) {
+        const user = await this.userModel.findOne({ login });
+        if (!user)
             throw new common_1.UnauthorizedException('Invalid login or password');
-        const isPassEquals = await bcrypt.compare(password, existingUser.pass);
+        const isPassEquals = await bcrypt.compare(pass, user.pass);
         if (!isPassEquals)
             throw new common_1.UnauthorizedException('Invalid login or password');
-        const posts = await this.postModel.find({ userId: existingUser.id });
-        const tokens = this.generateTokens(Object.assign({}, existingUser));
-        await this.saveToken(existingUser.id, tokens.refreshToken);
-        return { tokens, user: this.createUser(existingUser), posts };
+        const userDto = new user_dto_1.UserDto(user);
+        const posts = await this.postModel.find({ userId: user.id });
+        const tokens = this.generateTokens(Object.assign({}, userDto));
+        await this.saveToken(user.id, tokens.refreshToken);
+        return { tokens, user: this.createUser(user), posts };
     }
     async logout(refreshToken) {
         return this.tokenModel.deleteOne({ refreshToken });
@@ -88,8 +90,11 @@ let AuthService = class AuthService {
         await this.tokenModel.deleteMany({ createdAt: { $lt: thirtyDaysAgo } });
         const user = await this.userModel.findOne({ userId: userData.id });
         const posts = await this.postModel.find({ userId: userData.id });
-        const tokens = this.generateTokens(Object.assign({}, user));
-        return { tokens, user: this.createUser(user), posts };
+        return {
+            accessToken: jwt.sign(Object.assign({}, user), process.env.JWT_ACCESS_SECRET, { expiresIn: '15m' }),
+            user: this.createUser(user),
+            posts
+        };
     }
 };
 AuthService = __decorate([

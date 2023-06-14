@@ -62,7 +62,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "logout", null);
 __decorate([
-    (0, common_1.Get)('refresh/refreshToken'),
+    (0, common_1.Get)('refresh/:refreshToken'),
     __param(0, (0, common_1.Param)('refreshToken')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

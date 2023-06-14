@@ -49,7 +49,7 @@ export declare class AuthService {
             following: string[];
         };
     }>;
-    login(login: string, password: string): Promise<{
+    login(login: string, pass: string): Promise<{
         tokens: {
             accessToken: any;
             refreshToken: any;
@@ -75,10 +75,7 @@ export declare class AuthService {
     }>;
     logout(refreshToken: string): Promise<import("mongodb").DeleteResult>;
     refresh(refreshToken: string): Promise<{
-        tokens: {
-            accessToken: any;
-            refreshToken: any;
-        };
+        accessToken: any;
         user: {
             id: any;
             isActivated: boolean;

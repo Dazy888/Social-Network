@@ -26,7 +26,7 @@ export class AuthController {
         return this.authService.logout(refreshToken)
     }
 
-    @Get('refresh/refreshToken')
+    @Get('refresh/:refreshToken')
     async refresh(@Param('refreshToken') refreshToken: string) {
         checkToken(refreshToken)
         return this.authService.refresh(refreshToken)

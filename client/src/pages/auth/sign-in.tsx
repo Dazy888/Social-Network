@@ -20,7 +20,7 @@ export const successfulEnter = (router: any, dispatch: any, tokens: Tokens, user
     dispatch(setUser({ ...userData, posts }))
     dispatch(setSettingData({ email: userData.email, isActivated: userData.isActivated}))
 
-    router.push('/main/profile')
+    router.push('/profile')
 }
 
 const SignIn = () => {

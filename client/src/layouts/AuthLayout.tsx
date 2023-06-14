@@ -51,7 +51,7 @@ const AuthLayout: React.FC<Props> = ({ title, signAction, isLoading}) => {
     }
 
     useEffect(() => {
-        if (getCookie('refreshToken')) router.push('/main/profile')
+        if (getCookie('refreshToken')) router.push('/profile')
     }, [])
 
     return(

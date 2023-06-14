@@ -51,10 +51,10 @@ export class AuthService {
         const existingUser = await this.userModel.findOne({ login })
         if (existingUser) throw new BadRequestException('UserInfo with this login already exists')
 
-        const hashPassword = await bcrypt.hash(pass, 10)
+        const hashedPassword = await bcrypt.hash(pass, 10)
         const userNumber = Math.floor(Math.random() * 100)
 
-        const user = await this.userModel.create({ login, password: hashPassword, name: `User ${userNumber}`, location: 'Nowhere', banner: 'https://img.freepik.com/premium-vector/programming-code-made-with-binary-code-coding-hacker-background-digital-binary-data-streaming-digital-code_127544-778.jpg?w=2000', avatar: 'https://i.imgur.com/b08hxPY.png', aboutMe: 'This project was made by David Hutsenko', skills: 'This project was made by David Hutsenko', hobbies: 'This project was made by David Hutsenko', isActivated: false, email: null, followers: [], following: [], activationLink: null })
+        const user = await this.userModel.create({ login, pass: hashedPassword, name: `User ${userNumber}`, location: 'Nowhere', banner: 'https://img.freepik.com/premium-vector/programming-code-made-with-binary-code-coding-hacker-background-digital-binary-data-streaming-digital-code_127544-778.jpg?w=2000', avatar: 'https://i.imgur.com/b08hxPY.png', aboutMe: 'This project was made by David Hutsenko', skills: 'This project was made by David Hutsenko', hobbies: 'This project was made by David Hutsenko', isActivated: false, email: null, followers: [], following: [], activationLink: null })
         // const userDto = new UserDto(user)
 
         const tokens = this.generateTokens({ ...user })
@@ -63,18 +63,20 @@ export class AuthService {
         return { tokens, user: this.createUser(user) }
     }
 
-    async login(login: string, password: string) {
-        const existingUser = await this.userModel.findOne({ login })
-        if (!existingUser) throw new UnauthorizedException('Invalid login or password')
+    async login(login: string, pass: string) {
+        const user = await this.userModel.findOne({ login })
+        if (!user) throw new UnauthorizedException('Invalid login or password')
 
-        const isPassEquals = await bcrypt.compare(password, existingUser.pass)
+        const isPassEquals = await bcrypt.compare(pass, user.pass)
         if (!isPassEquals) throw new UnauthorizedException('Invalid login or password')
 
-        const posts = await this.postModel.find({ userId: existingUser.id })
-        const tokens = this.generateTokens({ ...existingUser })
+        const userDto = new UserDto(user)
+        const posts = await this.postModel.find({ userId: user.id })
 
-        await this.saveToken(existingUser.id, tokens.refreshToken)
-        return { tokens, user: this.createUser(existingUser), posts }
+        const tokens = this.generateTokens({ ...userDto })
+        await this.saveToken(user.id, tokens.refreshToken)
+
+        return { tokens, user: this.createUser(user), posts }
     }
 
     async logout(refreshToken: string) {
@@ -84,6 +86,7 @@ export class AuthService {
     async refresh(refreshToken: string) {
         const userData: any = validateToken(refreshToken, process.env.JWT_REFRESH_SECRET)
         const tokenFromDb = await this.tokenModel.findOne({ refreshToken })
+
         if (!userData || !tokenFromDb) throw new BadRequestException('UserInfo is not authorized')
 
         const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
@@ -91,8 +94,11 @@ export class AuthService {
 
         const user = await this.userModel.findOne({ userId: userData.id })
         const posts = await this.postModel.find({ userId: userData.id })
-        const tokens = this.generateTokens({ ...user })
 
-        return { tokens, user: this.createUser(user), posts }
+        return {
+            accessToken: jwt.sign({ ...user }, process.env.JWT_ACCESS_SECRET, { expiresIn: '15m' }),
+            user: this.createUser(user),
+            posts
+        }
     }
 }

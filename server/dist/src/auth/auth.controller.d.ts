@@ -51,10 +51,7 @@ export declare class AuthController {
     }>;
     logout(refreshToken: string): Promise<import("mongodb").DeleteResult>;
     refresh(refreshToken: string): Promise<{
-        tokens: {
-            accessToken: any;
-            refreshToken: any;
-        };
+        accessToken: any;
         user: {
             id: any;
             isActivated: boolean;
