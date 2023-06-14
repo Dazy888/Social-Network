@@ -9,7 +9,7 @@ import { IAuthForm, Tokens, User } from "@/models/auth"
 import { IPost } from "@/models/profile"
 // Components
 import { AuthPage, createCookie } from "@/layouts/AuthLayout"
-import { AuthForm } from "@/components/auth/AuthForm"
+import { AuthForm, notify } from "@/components/auth/AuthForm"
 // Store
 import { setUser } from "@/store/reducers/ProfileSlice"
 import { setSettingData } from "@/store/reducers/SettingsSlice"
@@ -23,8 +23,6 @@ export const successfulEnter = (router: any, dispatch: any, tokens: Tokens, user
 
     router.push('/main/profile')
 }
-
-export const notify = (text: string, type: 'error' | 'success' | 'warning') => toast(text, { type })
 
 const SignIn = () => {
     const router = useRouter()

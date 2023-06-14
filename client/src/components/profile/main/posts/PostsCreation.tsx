@@ -4,8 +4,8 @@ import { useMutation } from "react-query"
 import { TextProps } from "@/models/profile"
 import { ProfileService } from "@/services/profile.service"
 import { addUserPost } from "@/store/reducers/ProfileSlice"
-import { notify } from "@/pages/auth/sign-in"
 import { useAppDispatch, useAppSelector } from "@/hooks/redux"
+import { notify } from "@/components/auth/AuthForm"
 
 export interface PropsCreationProps {
     setNewPostStatus: (status: boolean) => void
@@ -20,7 +20,7 @@ const PostsCreationComponent: React.FC<PropsCreationProps> = ({ setNewPostStatus
     const { mutateAsync:addPost } = useMutation('add post', (data: TextProps) => ProfileService.addPost(data.text, data.id),
         {
             onSuccess: (res): any => dispatch(addUserPost(res)),
-            onError: (): any => notify('Post was not created, try again', 'error')
+            onError: (err: string): any => notify(err, 'error')
         }
     )
 

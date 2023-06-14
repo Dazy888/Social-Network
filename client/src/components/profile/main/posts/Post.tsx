@@ -5,7 +5,7 @@ import styles from '@/styles/Profile.module.scss'
 import { DeletePostProps } from "@/models/profile"
 import { ProfileService } from "@/services/profile.service"
 import { useAppDispatch } from "@/hooks/redux"
-import { notify } from "@/pages/auth/sign-in"
+import { notify } from "@/components/auth/AuthForm"
 
 interface Props {
     avatar: string
@@ -15,7 +15,6 @@ interface Props {
     postId: string
     id?: string
     forView?: boolean
-
 }
 
 const PostComponent: React.FC<Props> = ({ avatar, name, createdAt, text, postId, id = '', forView }) => {

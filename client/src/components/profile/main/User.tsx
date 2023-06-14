@@ -4,7 +4,7 @@ import styles from '@/styles/Profile.module.scss'
 import { useQuery } from "react-query"
 import { ProfileService } from "@/services/profile.service"
 import { useAppSelector } from "@/hooks/redux"
-import { notify } from "@/pages/auth/sign-in"
+import { notify } from "@/components/auth/AuthForm"
 
 interface Props  {
     id: string

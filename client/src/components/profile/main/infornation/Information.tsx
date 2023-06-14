@@ -5,7 +5,7 @@ import { useMutation } from "react-query"
 import { TextProps } from "@/models/profile"
 import { useAppDispatch } from "@/hooks/redux"
 // Alert
-import { notify } from "@/pages/auth/sign-in"
+import { notify } from "@/components/auth/AuthForm"
 // Service
 import { ProfileService } from "@/services/profile.service"
 // Store
