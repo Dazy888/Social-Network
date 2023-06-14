@@ -37,7 +37,7 @@ const AuthInputComponent: React.FC<Props> = ({ isError, errorMessage, register, 
                    ))}
             />
             {(type === 'password') &&
-                <label onClick={toggleShowPassword}>
+                <label className={'cursor-pointer'} onClick={toggleShowPassword}>
                     {showPassword ? <i className={'fas fa-eye-slash'} /> : <i className={'fas fa-eye'} />}
                 </label>
             }

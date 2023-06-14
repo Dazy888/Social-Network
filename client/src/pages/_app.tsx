@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "react-query"
 import { store } from "@/store/store"
 import '@/styles/main.scss'
 import '@/styles/reset.scss'
+import 'react-toastify/dist/ReactToastify.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {

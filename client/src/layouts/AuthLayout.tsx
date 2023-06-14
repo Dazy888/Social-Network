@@ -12,6 +12,7 @@ import { LayoutProps } from "@/models/layouts"
 import { AuthInput } from "@/components/auth/AuthInput"
 import { SubmitBtn } from "@/components/auth/SubmitBtn"
 import { NavLink } from "@/components/navigation/NavLink"
+import {ToastContainer} from "react-toastify";
 
 export const getCookie = (name: string) => {
     const value = `; ${document.cookie}`

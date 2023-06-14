@@ -38,9 +38,9 @@ const ChangeNameFormComponent = () => {
 
     return(
         <form onSubmit={nameSub(nameSubmit)} className={styles['input-container']}>
-            <Input type={'text'} error={!(nameErr.name?.message && nameTouched.name)} register={nameReg} name={'name'} patternValue={/^[a-z]+$/i}
-                   minLength={3} maxLength={10} placeholder={'Your new name'}
-            />
+            {/*<Input type={'text'} error={!(nameErr.name?.message && nameTouched.name)} register={nameReg} name={'name'} patternValue={/^[a-z]+$/i}*/}
+            {/*       minLength={3} maxLength={10} placeholder={'Your new name'}*/}
+            {/*/>*/}
             <SubmitBtn isLoading={isSettingName}/>
         </form>
     )
