@@ -13,7 +13,7 @@ const NoContent = () => {
                     <hr className={'w-0.5 h-12'}/>
                     <p className={'text-2xl max-w-sm'}>Something went wrong, go back to the main page</p>
                 </div>
-                <button className={'w-48 h-12 text-xl mt-12 mx-auto block duration-300 rounded-lg'} onClick={() => router.push('/main/profile')}>Go Home</button>
+                <button className={'w-48 h-12 text-xl mt-12 mx-auto block duration-300 rounded-lg'} onClick={() => router.push('/profile')}>Go Home</button>
             </div>
         </div>
     )

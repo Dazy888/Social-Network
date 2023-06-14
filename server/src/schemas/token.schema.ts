@@ -3,7 +3,7 @@ import { Document } from "mongoose"
 
 export type TokenDocument = Token & Document
 
-@Schema()
+@Schema({ timestamps: true })
 export class Token {
     @Prop()
     userId: string

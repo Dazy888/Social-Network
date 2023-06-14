@@ -11,7 +11,9 @@ import { UsersModule } from "./users/users.module"
 
 @Module({
   imports: [
+      // mongodb+srv://davidhutsenko:<password>@free-cluster.alelksu.mongodb.net/
       MongooseModule.forRoot('mongodb+srv://David:28032006@nodejs.rgylxul.mongodb.net/social-network?retryWrites=true&w=majority'),
+      // MongooseModule.forRoot('mongodb+srv://davidhutsenko:Bs3tjB0tZnSesLw5@free-cluster.alelksu.mongodb.net/social-network?retryWrites=true&w=majority'),
       AuthModule, ProfileModule, SettingsModule, UsersModule,
       MailerModule.forRoot(
           {

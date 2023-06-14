@@ -6,6 +6,6 @@ export default function HomePage() {
   const router = useRouter()
 
   useEffect( () => {
-    (getCookie('refreshToken')) ? router.push('/main/profile') : router.push('/auth/sign-in')
+    (getCookie('refreshToken')) ? router.push('/profile') : router.push('/auth/sign-in')
   }, [router])
 }
