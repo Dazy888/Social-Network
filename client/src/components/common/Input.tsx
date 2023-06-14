@@ -1,8 +1,7 @@
 import React from "react"
 
 interface Props {
-    error: string | undefined
-    touched: boolean | undefined
+    error: boolean
     register: any
     name: string
     patternValue: RegExp
@@ -15,7 +14,7 @@ interface Props {
     errorName?: string
 }
 
-const InputComponent: React.FC<Props> = ({ className, error, touched, register, patternValue, maxLength, minLength, name, placeholder, type, required = true, errorName }) => {
+const InputComponent: React.FC<Props> = ({ className, error, register, patternValue, maxLength, minLength, name, placeholder, type, required = true, errorName }) => {
     const changeServerError = () => {
         const input: any = document.querySelector(`input[name=${name}]`)
         input.classList.remove('success')
@@ -23,8 +22,8 @@ const InputComponent: React.FC<Props> = ({ className, error, touched, register, 
 
     return(
         <div className={`error-container`}>
-            {(error && touched) && <span>{error}</span>}
-            <input minLength={minLength} maxLength={maxLength} onClick={changeServerError} className={`${(error && touched) ? `red-border ${className}` : `${className}`}`} type={type} placeholder={placeholder}
+            {(error) && <span>{error}</span>}
+            <input minLength={minLength} maxLength={maxLength} onClick={changeServerError} className={`${(error) ? 'red-border' : ''} ${className}`} type={type} placeholder={placeholder}
                    {...(register(name,
                         {
                             required: { value: required, message: 'Field is required' },
@@ -32,7 +31,7 @@ const InputComponent: React.FC<Props> = ({ className, error, touched, register, 
                         }
                    ))}
             />
-            {(error && touched) && <i className={'fa-solid fa-circle-exclamation'} />}
+            {(error) && <i className={'fa-solid fa-circle-exclamation'} />}
         </div>
     )
 }

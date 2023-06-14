@@ -1,5 +1,5 @@
 import axios from "axios"
-import { getCookie } from "@/layouts/AuthPage-Layout"
+import { getCookie } from "@/layouts/AuthLayout"
 
 export const API_URL = 'https://social-network-api-alpha.vercel.app/api/'
 // export const API_URL = 'http://localhost:5000/api/'

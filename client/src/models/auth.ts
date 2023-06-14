@@ -1,14 +1,8 @@
 import { IPost } from "@/models/profile"
 
-export interface AuthForm {
+export interface IAuthForm {
     login: string
     pass: string
-}
-
-export interface ErrorComponentProps  {
-    error: string | undefined
-    serverError?: string
-    touched: boolean | undefined
 }
 
 export interface Tokens {

@@ -1,7 +1,7 @@
 import { $api } from "@/http"
 import { AxiosResponse } from "axios"
 import { RefreshResponse, SignInResponse, SignUpResponse } from "@/models/auth"
-import { getCookie } from "@/layouts/AuthPage-Layout"
+import { getCookie } from "@/layouts/AuthLayout"
 
 export class AuthService {
     static registration(login: string, pass: string) {

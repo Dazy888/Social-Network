@@ -8,7 +8,7 @@ import { AuthService } from "@/services/auth.service"
 import { LayoutProps } from "@/models/layouts"
 import { NavLink } from "@/components/navigation/NavLink"
 import { useAppSelector } from "@/hooks/redux"
-import {createCookie, getCookie} from "@/layouts/AuthPage-Layout"
+import {createCookie, getCookie} from "@/layouts/AuthLayout"
 // Store
 import { setUser } from "@/store/reducers/ProfileSlice"
 import { setSettingData } from "@/store/reducers/SettingsSlice"

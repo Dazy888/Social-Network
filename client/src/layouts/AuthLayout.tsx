@@ -1,9 +1,9 @@
 import React, { useEffect } from "react"
+import Head from "next/head"
 import { useRouter } from "next/router"
+import styles from '@/styles/Authorization.module.scss'
 import { LayoutProps } from "@/models/layouts"
 import { NavLink } from "@/components/navigation/NavLink"
-import styles from '@/styles/Authorization.module.scss'
-import Head from "next/head";
 
 export const getCookie = (name: string) => {
     const value = `; ${document.cookie}`
@@ -14,15 +14,14 @@ export const getCookie = (name: string) => {
 export const createCookie = (name: string, value: string, days: number) => {
     const date = new Date()
     date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000)
-    const expires = `expires=${date.toUTCString()}`
-    document.cookie = `${name}=${encodeURIComponent(value)}; ${expires}; path=/`
+    document.cookie = `${name}=${encodeURIComponent(value)}; expires=${date.toUTCString()}; path=/`
 }
 
-const AuthPageLayout: React.FC<LayoutProps> = ({ children, title }) => {
+const AuthLayout: React.FC<LayoutProps> = ({ children, title }) => {
     const router = useRouter()
 
     useEffect(() => {
-        // if (getCookie('refreshToken')) router.push('/main/profile')
+        if (getCookie('refreshToken')) router.push('/main/profile')
     }, [])
 
     return(
@@ -33,8 +32,8 @@ const AuthPageLayout: React.FC<LayoutProps> = ({ children, title }) => {
             <div className={`${styles['auth-wrapper']} flex justify-center items-center w-full min-h-screen`}>
                 <div className={`${styles['auth']} flex justify-center items-center rounded-r-xl`}>
                     <div className={`${styles['auth__actions']} h-full w-2/12`}>
-                        <NavLink path={'/auth/sign-in'} activeClass={'active'} iconClass={'fa-solid fa-arrow-right-to-bracket'}/>
-                        <NavLink path={'/auth/sign-up'} activeClass={'active'} iconClass={'fa-solid fa-address-card'}/>
+                        <NavLink paths={['/auth/sign-in']} activeClass={'active'} iconClass={'fa-solid fa-arrow-right-to-bracket'}/>
+                        <NavLink paths={['/auth/sign-up']} activeClass={'active'} iconClass={'fa-solid fa-address-card'}/>
                     </div>
                     <div className={`${styles['auth__content']} flex justify-center w-10/12 relative`}>
                         { children }
@@ -44,4 +43,4 @@ const AuthPageLayout: React.FC<LayoutProps> = ({ children, title }) => {
         </>
     )
 }
-export const AuthPage = React.memo(AuthPageLayout)
+export const AuthPage = React.memo(AuthLayout)
