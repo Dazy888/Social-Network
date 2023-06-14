@@ -2,13 +2,14 @@ import React from "react"
 import { useRouter } from "next/router"
 import { useMutation } from "react-query"
 import { useAppDispatch } from "@/hooks/redux"
-import { IAuthForm } from "@/models/auth"
 import { successfulEnter } from "@/pages/auth/sign-in"
+import { notify } from "@/components/auth/AuthForm"
+// Models
+import { IAuthForm } from "@/models/auth"
 // Service
 import { AuthService } from "@/services/auth.service"
 // Components
 import { AuthPage } from "@/layouts/AuthLayout"
-import { AuthForm, notify } from "@/components/auth/AuthForm"
 
 const SignUp = () => {
     const router = useRouter()
@@ -21,9 +22,7 @@ const SignUp = () => {
         })
 
     return(
-        <AuthPage title={'up'}>
-            <AuthForm action={'sign-up'} isLoading={isLoading} signAction={signUp} />
-        </AuthPage>
+        <AuthPage title={'up'} isLoading={isLoading} signAction={signUp}><></></AuthPage>
     )
 }
 

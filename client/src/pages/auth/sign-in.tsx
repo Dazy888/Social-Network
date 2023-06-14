@@ -1,15 +1,14 @@
 import React from "react"
 import { useRouter } from "next/router"
-import { toast } from "react-toastify"
 import { useMutation } from "react-query"
 import { AuthService } from "@/services/auth.service"
 import { useAppDispatch } from "@/hooks/redux"
+import { notify } from "@/components/auth/AuthForm"
 // Models
 import { IAuthForm, Tokens, User } from "@/models/auth"
 import { IPost } from "@/models/profile"
 // Components
 import { AuthPage, createCookie } from "@/layouts/AuthLayout"
-import { AuthForm, notify } from "@/components/auth/AuthForm"
 // Store
 import { setUser } from "@/store/reducers/ProfileSlice"
 import { setSettingData } from "@/store/reducers/SettingsSlice"
@@ -35,9 +34,7 @@ const SignIn = () => {
         })
 
     return(
-        <AuthPage title={'in'}>
-            <AuthForm action={'sign-in'} isLoading={isLoading} signAction={signIn} />
-        </AuthPage>
+        <AuthPage title={'in'} isLoading={isLoading} signAction={signIn}><></></AuthPage>
     )
 }
 
