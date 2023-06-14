@@ -2,14 +2,14 @@ import React, { useRef, useState } from "react"
 import { SetInfoFunc } from "@/models/profile"
 import styles from '@/styles/Profile.module.scss'
 
-interface IProps {
-    id?: string
+interface Props {
     editStatus: boolean
     setEditStatus: (status: boolean) => void
     textId: string
     text: string
     title: string
     setText: any
+    id?: string
     forView?: boolean
 }
 
@@ -33,7 +33,7 @@ function editInfo(event: any, changeText: SetInfoFunc, value: string, textId: st
     }, 1)
 }
 
-const InformationItemComponent: React.FC<IProps> = ({ text, setText, textId, setEditStatus, editStatus, title, forView, id = '' }) => {
+const InformationItemComponent: React.FC<Props> = ({ text, setText, textId, setEditStatus, editStatus, title, forView, id = '' }) => {
     const [status, setStatus] = useState(false)
     const textareaRef: any = useRef()
     const textRef: any = useRef()

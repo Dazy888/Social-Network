@@ -4,11 +4,15 @@ import Image from "next/image"
 import Head from "next/head"
 import { useDispatch } from "react-redux"
 import { useQuery } from "react-query"
-import { AuthService } from "@/services/auth.service"
 import { LayoutProps } from "@/models/layouts"
+// Components
 import { NavLink } from "@/components/navigation/NavLink"
+// Hooks
 import { useAppSelector } from "@/hooks/redux"
-import {createCookie, getCookie} from "@/layouts/AuthLayout"
+// Service
+import { AuthService } from "@/services/auth.service"
+// Cookie functions
+import { createCookie, getCookie } from "@/layouts/AuthLayout"
 // Store
 import { setUser } from "@/store/reducers/ProfileSlice"
 import { setSettingData } from "@/store/reducers/SettingsSlice"
@@ -53,7 +57,7 @@ const MainPageLayout: React.FC<LayoutProps> = ({ children, title }) => {
                 <title>{title}</title>
             </Head>
             <div id={'app-wrapper'} className={'grid'}>
-                <div id={'header'} className={'flex justify-center items-center'}>
+                <header className={'flex-center'}>
                     <div className={'header__content flex justify-between items-center'}>
                         <Image width={50} height={50} alt={'Logo'} src={'/logo.png'}/>
                         <nav className={`overflow-hidden duration-300 ${isNavOpened ? 'openNav' : ''}`}>
@@ -61,9 +65,9 @@ const MainPageLayout: React.FC<LayoutProps> = ({ children, title }) => {
                                 <i className={`fa-solid fa-${isNavOpened ? 'square-xmark xmark' : 'bars bars'}`}/>
                             </button>
                             <ul className={'flex justify-between text-white'}>
-                                <NavLink text={'Profile'} path={'/main/profile'} activeClass={'active-page'}/>
-                                <NavLink pathExp={/(main\/users\/\d+|main\/profile\/\w+)/} text={'Users'} path={'/main/users/1'} activeClass={'active-page'}/>
-                                <NavLink thirdPath={'/main/settings/profile'} secondPath={'/main/settings/change-pass'} text={'Settings'} path={'/main/settings/activate'} activeClass={'active-page'}/>
+                                <NavLink text={'Profile'} paths={['/profile']} activeClass={'active-page'}/>
+                                <NavLink pathExp={/(\/users\/\d+|main\/profile\/\w+)/} text={'Users'} paths={['/users/1']} activeClass={'active-page'}/>
+                                <NavLink pathExp={/(\/settings\/(activate|change-pass|profile))/} text={'Settings'} paths={['/settings/activate']} activeClass={'active-page'}/>
                             </ul>
                         </nav>
                         <div className={'header__logout flex justify-between items-center cursor-pointer overflow-hidden relative duration-500'}>
@@ -71,10 +75,10 @@ const MainPageLayout: React.FC<LayoutProps> = ({ children, title }) => {
                             <button className={'text-xl absolute text-white'} onClick={() => logout()}>Logout</button>
                         </div>
                     </div>
-                </div>
-                <div id={'content'} className={'min-h-screen'}>
+                </header>
+                <main className={'min-h-screen'}>
                     { children }
-                </div>
+                </main>
             </div>
         </>
     )

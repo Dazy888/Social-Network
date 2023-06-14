@@ -11,7 +11,7 @@ import styles from '@/styles/Settings.module.scss'
 import { Input } from "@/components/common/Input"
 import { Loader } from "@/components/auth/Loader"
 import { Title } from "@/components/settings/Title"
-import { MainPage } from "@/layouts/MainPage-Layout"
+import { MainPage } from "@/layouts/MainPageLayout"
 import { SettingsPage } from "@/layouts/SettingsPage-Layout"
 
 const ChangePass = () => {

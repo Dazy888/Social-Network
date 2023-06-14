@@ -14,7 +14,7 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { Loader } from "@/components/auth/Loader"
 import { Input } from "@/components/common/Input"
 import { Title } from "@/components/settings/Title"
-import { MainPage } from "@/layouts/MainPage-Layout"
+import { MainPage } from "@/layouts/MainPageLayout"
 import { SettingsPage } from "@/layouts/SettingsPage-Layout"
 
 const Activate = () => {

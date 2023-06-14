@@ -7,11 +7,11 @@ import { SubmitHandler, useForm } from "react-hook-form"
 // Styles
 import styles from '@/styles/Settings.module.scss'
 // Components
-import { MainPage } from "@/layouts/MainPage-Layout"
+import { MainPage } from "@/layouts/MainPageLayout"
 import { SettingsPage } from "@/layouts/SettingsPage-Layout"
 import { Input } from "@/components/common/Input"
 import { Loader } from "@/components/auth/Loader"
-import { FileInput } from "@/components/profile/FileInput"
+import { FileInput } from "@/components/settings/FileInput"
 import { Title } from "@/components/settings/Title"
 import { SubmitBtn } from "@/components/settings/SubmitBtn"
 // Models

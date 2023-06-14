@@ -12,7 +12,7 @@ import styles from '@/styles/Users.module.scss'
 // Components
 import { UserPreview } from "@/components/users/User"
 import { Loader } from "@/components/users/Loader"
-import { MainPage } from "@/layouts/MainPage-Layout"
+import { MainPage } from "@/layouts/MainPageLayout"
 
 const Users = () => {
     const id = useAppSelector(state => state.profileReducer.id)

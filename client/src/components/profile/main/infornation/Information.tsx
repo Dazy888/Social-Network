@@ -1,12 +1,15 @@
 import React, { useState } from "react"
 import styles from "@/styles/Profile.module.scss"
-import { InformationItem } from "@/components/profile/InformationItem"
-import { setAboutMeText, setHobbiesText, setSkillsText } from "@/store/reducers/ProfileSlice"
+import { InformationItem } from "@/components/profile/main/infornation/InformationItem"
 import { useMutation } from "react-query"
 import { TextProps } from "@/models/profile"
-import { ProfileService } from "@/services/profile.service"
 import { useAppDispatch } from "@/hooks/redux"
+// Alert
 import { notify } from "@/pages/auth/sign-in"
+// Service
+import { ProfileService } from "@/services/profile.service"
+// Store
+import { setAboutMeText, setHobbiesText, setSkillsText } from "@/store/reducers/ProfileSlice"
 
 interface Props {
     aboutMe: string

@@ -1,13 +1,13 @@
 import React from "react"
-import { MainPage } from "@/layouts/MainPage-Layout"
-import { SetInfoFunc, IPost } from "@/models/profile"
+import { MainPage } from "@/layouts/MainPageLayout"
+import { IPost } from "@/models/profile"
 import { useAppSelector } from "@/hooks/redux"
-import styles from '@/styles/Profile.module.scss'
 import { v4 } from 'uuid'
+import styles from '@/styles/Profile.module.scss'
 // Components
-import { Post } from "@/components/profile/Post"
+import { Post } from "@/components/profile/main/posts/Post"
 import { Header } from "@/components/profile/header/Header"
-import { Main } from "@/components/profile/Main"
+import { Main } from "@/components/profile/main/Main"
 
 export const getPostsElements = (posts: IPost[], id: string, avatar: string, name: string, forView: boolean) => {
     return [...posts].reverse().map(({ postId, id, text, createdAt}) => {
