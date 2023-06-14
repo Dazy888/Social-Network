@@ -37,17 +37,17 @@ const ChangePass = () => {
             <Title title={'Password Change'}/>
             <hr className={'w-full h-px'}/>
             <form className={'py-10 px-6'} onSubmit={handleSubmit(onSubmit)}>
-                <Input errorName={'password'} type={'password'} className={styles['big-input']} error={!(errors.currentPass?.message && touchedFields.currentPass)}
-                       register={register} name={'currentPass'} patternValue={passExp} minLength={4} maxLength={15} placeholder={'Current password'}
-                />
-                <div className={`${styles['pass-inputs']} flex justify-between items-center mt-6`}>
-                    <Input errorName={'password'} type={'password'} error={!(errors.newPass?.message && touchedFields.newPass)} register={register}
-                           name={'newPass'} patternValue={passExp} minLength={8} maxLength={15} placeholder={'New password'}
-                    />
-                    <Input errorName={'password'} type={'password'} error={!(errors.confirmPass?.message && touchedFields.confirmPass)} register={register}
-                           name={'confirmPass'} patternValue={passExp} minLength={8} maxLength={15} placeholder={'Confirm password'}
-                    />
-                </div>
+                {/*<Input errorName={'password'} type={'password'} className={styles['big-input']} error={!(errors.currentPass?.message && touchedFields.currentPass)}*/}
+                {/*       register={register} name={'currentPass'} patternValue={passExp} minLength={4} maxLength={15} placeholder={'Current password'}*/}
+                {/*/>*/}
+                {/*<div className={`${styles['pass-inputs']} flex justify-between items-center mt-6`}>*/}
+                {/*    <Input errorName={'password'} type={'password'} error={!(errors.newPass?.message && touchedFields.newPass)} register={register}*/}
+                {/*           name={'newPass'} patternValue={passExp} minLength={8} maxLength={15} placeholder={'New password'}*/}
+                {/*    />*/}
+                {/*    <Input errorName={'password'} type={'password'} error={!(errors.confirmPass?.message && touchedFields.confirmPass)} register={register}*/}
+                {/*           name={'confirmPass'} patternValue={passExp} minLength={8} maxLength={15} placeholder={'Confirm password'}*/}
+                {/*    />*/}
+                {/*</div>*/}
                 <button className={`${styles.submit} w-full rounded-lg tracking-wider font-semibold text-white`} type={'submit'}>
                     {isLoading ? <Loader color={'rebeccapurple'} loading={isLoading}/>  : 'Change password' }
                 </button>

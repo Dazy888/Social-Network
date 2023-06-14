@@ -47,12 +47,12 @@ const Activate = () => {
             <Title title={'E-mail Activation'}/>
             <hr className={'w-full h-px'}/>
             <form className={'py-10 px-6'} onSubmit={handleSubmit(onSubmit)}>
-                {!!email
-                    ?   <ActivatedEmail email={email} />
-                    :   <Input required={true} type={'text'} className={styles['big-input']} error={!(errors?.email?.message && touchedFields.email)} register={register}
-                               name={'email'} patternValue={/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/} minLength={10} maxLength={20} placeholder={'Your email'}
-                    />
-                }
+                {/*{!!email*/}
+                {/*    ?   <ActivatedEmail email={email} />*/}
+                {/*    :   <Input required={true} type={'text'} className={styles['big-input']} error={!(errors?.email?.message && touchedFields.email)} register={register}*/}
+                {/*               name={'email'} patternValue={/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/} minLength={10} maxLength={20} placeholder={'Your email'}*/}
+                {/*    />*/}
+                {/*}*/}
                 {isActivated
                     ?   <p className={'text-lg font-medium text-center'}>Your email is activated</p>
                     :   <button className={`${styles.submit} w-full rounded-lg tracking-wider font-semibold`} type={'submit'} disabled={isLoading || !!email}>
