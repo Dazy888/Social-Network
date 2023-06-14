@@ -3,12 +3,12 @@ import { useRouter } from "next/router"
 import { useMutation } from "react-query"
 import { useAppDispatch } from "@/hooks/redux"
 import { IAuthForm } from "@/models/auth"
-import { notify, successfulEnter } from "@/pages/auth/sign-in"
+import { successfulEnter } from "@/pages/auth/sign-in"
 // Service
 import { AuthService } from "@/services/auth.service"
 // Components
 import { AuthPage } from "@/layouts/AuthLayout"
-import { AuthForm } from "@/components/auth/AuthForm"
+import { AuthForm, notify } from "@/components/auth/AuthForm"
 
 const SignUp = () => {
     const router = useRouter()
