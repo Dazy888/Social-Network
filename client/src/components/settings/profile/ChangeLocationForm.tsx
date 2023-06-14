@@ -38,9 +38,9 @@ const ChangeLocationFormComponent = () => {
 
     return(
         <form onSubmit={locationSub(locationSubmit)} className={styles['input-container']}>
-            <Input type={'text'} error={!(locationErr.location?.message && locationTouched.location)} register={locationReg} name={'location'}
-                   patternValue={/^[a-zA-Z0-9]+$/} minLength={4} maxLength={15} placeholder={'Your new location'}
-            />
+            {/*<Input type={'text'} error={!(locationErr.location?.message && locationTouched.location)} register={locationReg} name={'location'}*/}
+            {/*       patternValue={/^[a-zA-Z0-9]+$/} minLength={4} maxLength={15} placeholder={'Your new location'}*/}
+            {/*/>*/}
             <SubmitBtn isLoading={isSettingLocation}/>
         </form>
     )
