@@ -36,7 +36,10 @@ const AuthLayout: React.FC<Props> = ({ title, signAction, isLoading}) => {
     const reRef: any = useRef<ReCAPTCHA>()
 
     const [captchaToken, setCaptchaToken] = useState<string | null>('')
-    const { register, handleSubmit, formState: { errors, touchedFields } } = useForm<IAuthForm>({ mode: 'onChange' })
+
+    const { register, handleSubmit, watch, formState: { errors, touchedFields } } = useForm<IAuthForm>({ mode: 'onChange' })
+    const currentPass =  watch('pass')
+
 
     const onSubmit: SubmitHandler<IAuthForm> = (data) => {
         if (isLoading) notify('Too many requests', 'warning')
@@ -68,11 +71,32 @@ const AuthLayout: React.FC<Props> = ({ title, signAction, isLoading}) => {
                     <div className={`${styles['auth__content']} flex justify-center w-10/12 relative`}>
                         <form onSubmit={handleSubmit(onSubmit)} className={'w-9/12'}>
                             <AuthInput type={'text'} errorMessage={errors.login?.message} isError={!!(errors.login?.message && touchedFields.login)} register={register} name={'login'}
-                                       patternValue={/^[a-zA-Z0-9]+$/} minLength={4} maxLength={10} placeholder={'Login'}
+                                       patternValue={/^[a-zA-Z0-9]+$/} minLength={4} maxLength={10} placeholder={'Login'} classNames={'mb-4'}
                             />
-                            <AuthInput type={'password'} errorMessage={errors.pass?.message} isError={!!(errors.pass?.message && touchedFields.pass)} register={register} name={'pass'}
-                                       patternValue={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/} minLength={8} placeholder={'Password'}
-                            />
+                            <div className={'mb-10'}>
+                                <AuthInput type={'password'} register={register} name={'pass'} isError={!!(errors.pass?.message && touchedFields.pass)} patternValue={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/}
+                                           minLength={8} placeholder={'Password'}
+                                />
+                                { (title === 'up') &&
+                                    <ol className={'list-disc pl-5 mt-3 text-sm'}>
+                                        <li>
+                                            Must have at least 8 characters {(currentPass?.length > 7) ? <i className={'fa-solid fa-check'} /> : <i className={'fa-solid fa-xmark text-xs'} />}
+                                        </li>
+                                        <li>
+                                            Must contain at least one digit {(/\d/g.test(currentPass)) ? <i className={'fa-solid fa-check'} /> : <i className={'fa-solid fa-xmark text-xs'} />}
+                                        </li>
+                                        <li>
+                                            Must contain at least one uppercase letter {(/[A-Z]/g.test(currentPass)) ? <i className={'fa-solid fa-check'} /> : <i className={'fa-solid fa-xmark text-xs'} />}
+                                        </li>
+                                        <li>
+                                            Must contain at least one lowercase letter {(/[a-z]/g.test(currentPass)) ? <i className={'fa-solid fa-check'} /> : <i className={'fa-solid fa-xmark text-xs'} />}
+                                        </li>
+                                        <li>
+                                            Must contain at least one special character {(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/g.test(currentPass)) ? <i className={'fa-solid fa-check'} /> : <i className={'fa-solid fa-xmark text-xs'} />}
+                                        </li>
+                                    </ol>
+                                }
+                            </div>
                             <ReCAPTCHA ref={reRef} sitekey={'6LfPBogmAAAAAJ8cP0kTqqd1q2n1RFvIRaTstbMN'} onChange={(value) => setCaptchaToken(value)}
                                        style={{ transform: 'scale(0.77)', transformOrigin: '0 0' }} className={'captcha'}
                             />

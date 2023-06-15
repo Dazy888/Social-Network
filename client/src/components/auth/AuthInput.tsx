@@ -4,18 +4,19 @@ import { IAuthForm } from "@/models/auth"
 import styles from '@/styles/Authorization.module.scss'
 
 interface Props {
-    isError: boolean
-    errorMessage: string | undefined
     register: UseFormRegister<IAuthForm>
     name: 'login' | 'pass'
     patternValue: RegExp
     minLength: number
     placeholder: string
     type: 'text' | 'password'
+    errorMessage?: string
+    isError?: boolean
     maxLength?: number
+    classNames?: string
 }
 
-const AuthInputComponent: React.FC<Props> = ({ isError, errorMessage, register, patternValue, maxLength, minLength, name, placeholder, type }) => {
+const AuthInputComponent: React.FC<Props> = ({ isError, errorMessage, register, classNames, patternValue, maxLength, minLength, name, placeholder, type }) => {
     const [showPassword, setShowPassword] = useState(false)
     const [passType, setPassType] = useState<'password' | 'text'>('password')
 
@@ -25,7 +26,7 @@ const AuthInputComponent: React.FC<Props> = ({ isError, errorMessage, register, 
     }
 
     return(
-        <div className={'error-container'}>
+        <div className={`error-container ${classNames}`}>
             {(isError) && <span>{errorMessage}</span>}
             <input minLength={minLength} maxLength={maxLength} className={`${(isError) ? 'red-border' : ''} ${showPassword ? styles['show-password'] : styles['hide-password']}`}
                    type={(name === 'pass') ? passType : type} placeholder={placeholder}

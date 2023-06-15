@@ -8,6 +8,17 @@
   align-items: center;
 }
 
+ol {
+  .fa-xmark {
+    color: red;
+  }
+
+  .fa-check {
+    color: green;
+  }
+}
+
+
 .avatar {
   left: 2px;
 }
@@ -102,7 +113,7 @@
     font-weight: 500;
     position: absolute;
     left: 5px;
-    top: -25px;
+    top: -18px;
     color: red;
   }
 
