@@ -205,7 +205,11 @@ $authColor: rgb(249,94,59);
 }
 
 @media (max-width: 320px) {
-  .auth {
-    width: 280px;
+  .auth-wrapper {
+    padding: 100px 0;
+
+    .auth {
+      width: 280px;
+    }
   }
 }
