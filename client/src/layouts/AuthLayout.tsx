@@ -74,7 +74,7 @@ const AuthLayout: React.FC<Props> = ({ title, signAction, isLoading}) => {
                                        patternValue={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/} minLength={8} maxLength={15} placeholder={'Password'}
                             />
                             <ReCAPTCHA ref={reRef} sitekey={'6LfPBogmAAAAAJ8cP0kTqqd1q2n1RFvIRaTstbMN'} onChange={(value) => setCaptchaToken(value)}
-                                       style={{ transform: 'scale(0.77)', transformOrigin: '0 0' }}
+                                       style={{ transform: 'scale(0.77)', transformOrigin: '0 0' }} className={'captcha'}
                             />
                             <SubmitBtn isLoading={isLoading} value={title}/>
                         </form>
