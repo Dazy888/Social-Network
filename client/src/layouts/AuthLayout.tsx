@@ -59,7 +59,7 @@ const AuthLayout: React.FC<Props> = ({ title, signAction, isLoading}) => {
             <Head>
                 <title>Sign {title}</title>
             </Head>
-            <div className={`${styles['auth-wrapper']} flex-center w-full min-h-screen`}>
+            <div className={`${styles['auth-wrapper']} flex-center w-full min-h-screen py-44`}>
                 <div className={`${styles['auth']} flex-center rounded-r-xl`}>
                     <div className={`${styles['auth__actions']} h-full w-2/12`}>
                         <NavLink paths={['/auth/sign-in']} activeClass={'active'} iconClass={'fa-solid fa-arrow-right-to-bracket'}/>
