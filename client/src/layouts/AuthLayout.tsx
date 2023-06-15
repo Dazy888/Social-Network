@@ -59,7 +59,7 @@ const AuthLayout: React.FC<Props> = ({ title, signAction, isLoading}) => {
             <Head>
                 <title>Sign {title}</title>
             </Head>
-            <div className={`${styles['auth-wrapper']} flex-center w-full min-h-screen py-44`}>
+            <div className={`${styles['auth-wrapper']} flex-center w-full min-h-screen`}>
                 <div className={`${styles['auth']} flex-center rounded-r-xl`}>
                     <div className={`${styles['auth__actions']} h-full w-2/12`}>
                         <NavLink paths={['/auth/sign-in']} activeClass={'active'} iconClass={'fa-solid fa-arrow-right-to-bracket'}/>
@@ -71,7 +71,7 @@ const AuthLayout: React.FC<Props> = ({ title, signAction, isLoading}) => {
                                        patternValue={/^[a-zA-Z0-9]+$/} minLength={4} maxLength={10} placeholder={'Login'}
                             />
                             <AuthInput type={'password'} errorMessage={errors.pass?.message} isError={!!(errors.pass?.message && touchedFields.pass)} register={register} name={'pass'}
-                                       patternValue={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$/} minLength={8} maxLength={15} placeholder={'Password'}
+                                       patternValue={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/} minLength={8} placeholder={'Password'}
                             />
                             <ReCAPTCHA ref={reRef} sitekey={'6LfPBogmAAAAAJ8cP0kTqqd1q2n1RFvIRaTstbMN'} onChange={(value) => setCaptchaToken(value)}
                                        style={{ transform: 'scale(0.77)', transformOrigin: '0 0' }} className={'captcha'}

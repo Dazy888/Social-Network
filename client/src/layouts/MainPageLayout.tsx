@@ -27,11 +27,11 @@ const MainPageLayout: React.FC<LayoutProps> = ({ children, title }) => {
 
     const { refetch:logout } = useQuery('logout', () => AuthService.logout(),
         {
-            onSuccess() {
+            async onSuccess() {
+                await router.push('/auth/sign-in')
                 createCookie('refreshToken', '', -1)
                 createCookie('accessToken', '', -1)
                 dispatch(setUser({ avatar: '', aboutMe: '', followers: [], following: [], posts: [], banner: '', hobbies: '', name: '', location: '', skills: '', id: '' }))
-                router.push('/auth/sign-in')
             },
             enabled: false
         }

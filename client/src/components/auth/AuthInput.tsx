@@ -10,9 +10,9 @@ interface Props {
     name: 'login' | 'pass'
     patternValue: RegExp
     minLength: number
-    maxLength: number
     placeholder: string
     type: 'text' | 'password'
+    maxLength?: number
 }
 
 const AuthInputComponent: React.FC<Props> = ({ isError, errorMessage, register, patternValue, maxLength, minLength, name, placeholder, type }) => {
