@@ -29,8 +29,8 @@ export class ProfileController {
         return this.profileService.createPost(data.text, data.id)
     }
 
-    @Delete('post/:postId/:id')
-    async deletePost(@Param('id') id: string, @Param('postId') postId: string, @Headers('authorization') authorization: string) {
+    @Delete('post/:postId')
+    async deletePost(@Param('postId') postId: string, @Headers('authorization') authorization: string) {
         const accessToken = authorization.split(' ')[1]
         checkAccessToken(accessToken)
         return this.profileService.deletePost(postId)

@@ -7,7 +7,9 @@ export declare class ProfileService {
     private postModel;
     constructor(userModel: Model<UserDocument>, postModel: Model<PostDocument>);
     setProfileIntro(text: string, field: Field, _id: string): Promise<void>;
-    createPost(text: string, userId: string): Promise<void>;
+    createPost(text: string, userId: string): Promise<import("../schemas/post.schema").Post & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
+    }>;
     deletePost(postId: string): Promise<void>;
     getAvatar(_id: string): Promise<string>;
     follow(authorizedUserId: string, openedUserId: string): Promise<void>;

@@ -42,7 +42,7 @@ const UserProfile = () => {
     //     if (openedUserId) getUser()
     // }, [openedUserId])
 
-    const postsElements = getPostsElements(openedUser.posts, '', openedUser.avatar, openedUser.name, true)
+    const postsElements = getPostsElements(openedUser.posts, openedUser.avatar, openedUser.name, true)
     const followingUsers = openedUser.following.map((id) => <User key={v4()} id={id}/>)
     const followersUsers = openedUser.followers.map((id) => <User key={v4()} id={id}/>)
 

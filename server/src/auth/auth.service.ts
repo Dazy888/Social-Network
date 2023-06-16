@@ -54,7 +54,6 @@ export class AuthService {
         const userNumber = Math.floor(Math.random() * 100)
 
         const user = await this.userModel.create({ login, pass: hashedPassword, name: `User ${userNumber}`, location: 'Nowhere', banner: 'https://img.freepik.com/premium-vector/programming-code-made-with-binary-code-coding-hacker-background-digital-binary-data-streaming-digital-code_127544-778.jpg?w=2000', avatar: 'https://i.imgur.com/b08hxPY.png', aboutMe: 'This project was made by David Hutsenko', skills: 'This project was made by David Hutsenko', hobbies: 'This project was made by David Hutsenko', isActivated: false, email: null, followers: [], following: [], activationLink: null })
-        // const userDto = new UserDto(user)
 
         const tokens = this.generateTokens({ ...user })
         await this.saveToken(user.id, tokens.refreshToken)
@@ -83,7 +82,7 @@ export class AuthService {
     }
 
     async refresh(refreshToken: string) {
-        const userData: any = validateToken(refreshToken, process.env.JWT_REFRESH_SECRET)
+        const userData: UserDocument = validateToken(refreshToken, process.env.JWT_REFRESH_SECRET)
         const tokenFromDb = await this.tokenModel.findOne({ refreshToken })
 
         if (!userData || !tokenFromDb) throw new BadRequestException('UserInfo is not authorized')
@@ -91,8 +90,8 @@ export class AuthService {
         const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
         await this.tokenModel.deleteMany({ createdAt: { $lt: thirtyDaysAgo } })
 
-        const user = await this.userModel.findOne({ userId: userData.id })
-        const posts = await this.postModel.find({ userId: userData.id })
+        const user = await this.userModel.findOne({ login: userData.login })
+        const posts = await this.postModel.find({ userId: user.id })
 
         return {
             accessToken: jwt.sign({ ...user }, process.env.JWT_ACCESS_SECRET, { expiresIn: '15m' }),

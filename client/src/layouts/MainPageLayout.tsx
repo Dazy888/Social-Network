@@ -50,7 +50,7 @@ const MainPageLayout: React.FC<LayoutProps> = ({ children, title }) => {
     useEffect(() => {
         if (getCookie('refreshToken')) {
             refresh()
-            setTimeout(() => refresh(), 900000)
+            setInterval(() => refresh(), 900000)
         } else {
             router.push('/auth/sign-in')
         }

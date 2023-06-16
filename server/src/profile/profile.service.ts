@@ -14,7 +14,7 @@ export class ProfileService {
     }
 
     async createPost(text: string, userId: string) {
-        await this.postModel.create({ text, userId })
+        return this.postModel.create({ text, userId })
     }
 
     async deletePost(postId: string) {

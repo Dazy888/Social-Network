@@ -78,19 +78,7 @@
         }
       }
 
-      .cancel {
-        color: red;
-      }
-
       .submit {
-        color: green;
-      }
-
-      .cancel:hover {
-        color: red;
-      }
-
-      .submit:hover {
         color: green;
       }
 
@@ -119,32 +107,37 @@
 
       .post {
         background: rebeccapurple;
-      }
 
-      .posts__creation {
-        div {
-          width: 300px;
-
-          button {
-            width: 130px;
-
-            &:hover {
-              transform: translateY(-10px);
-            }
-          }
-
-          .submit {
-            background: green;
-          }
-
-          .cancel {
-            background: red;
-          }
+        button:hover {
+          transform: scale(1.3);
         }
       }
 
-      .posts__new-post button {
-        color: rebeccapurple;
+      .posts__creation div {
+        width: 300px;
+
+        button {
+          padding: 10px 20px;
+          border-radius: 10px;
+          transition: 300ms;
+          font-weight: 500;
+
+          &:hover {
+            transform: translateY(-10px);
+          }
+        }
+
+        .submit {
+          background: green;
+        }
+
+        .cancel {
+          background: red;
+        }
+
+        .submit, .cancel {
+          height: 36px;
+        }
       }
     }
 

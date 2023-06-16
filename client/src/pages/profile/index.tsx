@@ -9,8 +9,10 @@ import { Post } from "@/components/profile/main/posts/Post"
 import { Header } from "@/components/profile/header/Header"
 import { Main } from "@/components/profile/main/Main"
 
-export const getPostsElements = (posts: IPost[], id: string, avatar: string, name: string, forView: boolean) => {
-    return [...posts].reverse().map(({ postId, id, text, createdAt}) => {
+export const getPostsElements = (posts: IPost[], avatar: string, name: string, forView: boolean) => {
+    console.log(posts)
+
+    return [...posts].reverse().map(({ id, text, createdAt}) => {
         const date = Math.abs(new Date().getTime() - new Date(createdAt).getTime())
         const minutes = Math.round(date / 1000 / 60)
         const hours = Math.round(date / 1000 / 60 / 60)
@@ -37,7 +39,7 @@ export const getPostsElements = (posts: IPost[], id: string, avatar: string, nam
             time = `${months} months ago`
         }
 
-        return <Post forView={forView} key={v4()} id={id} postId={postId} avatar={avatar} name={name} createdAt={time} text={text}/>
+        return <Post forView={forView} key={v4()} postId={id} avatar={avatar} name={name} createdAt={time} text={text}/>
     })
 }
 

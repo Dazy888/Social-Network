@@ -64,8 +64,8 @@ export const profileSlice = createSlice({
         addUserPost(state, action: PayloadAction<IPost>) {
             state.posts = [...state.posts, action.payload]
         },
-        deletePost(state, action: PayloadAction<IPost[]>) {
-            state.posts = action.payload
+        deletePost(state, action: PayloadAction<string>) {
+            state.posts = state.posts.filter((post: IPost) => post.id !== action.payload);
         }
     }
 })

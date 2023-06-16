@@ -6,10 +6,10 @@ interface SubscriptionFuncProps {
 }
 
 export interface IPost {
-    id: string
+    userId: string
     createdAt: Date
     text: string
-    postId: string
+    id: string
 }
 
 export interface TextProps {
@@ -24,7 +24,6 @@ export interface SubscriptionProps {
 
 export interface DeletePostProps {
     postId: string
-    id: string
 }
 
 export type ProfileIntroFields = 'aboutMe' | 'skills' | 'hobbies'

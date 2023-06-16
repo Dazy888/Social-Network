@@ -38,7 +38,7 @@ let ProfileController = class ProfileController {
         checkAccessToken(accessToken);
         return this.profileService.createPost(data.text, data.id);
     }
-    async deletePost(id, postId, authorization) {
+    async deletePost(postId, authorization) {
         const accessToken = authorization.split(' ')[1];
         checkAccessToken(accessToken);
         return this.profileService.deletePost(postId);
@@ -76,12 +76,11 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "createPost", null);
 __decorate([
-    (0, common_1.Delete)('post/:postId/:id'),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Param)('postId')),
-    __param(2, (0, common_1.Headers)('authorization')),
+    (0, common_1.Delete)('post/:postId'),
+    __param(0, (0, common_1.Param)('postId')),
+    __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, String]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "deletePost", null);
 __decorate([

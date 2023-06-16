@@ -6,18 +6,18 @@ import { PostsCreation } from "@/components/profile/main/posts/PostsCreation"
 import { NewPostBtn } from "@/components/profile/main/posts/NewPostBtn"
 
 const PostsComponent = () => {
-    const [newPostStatus, setNewPostStatus] = useState(false)
+    const [isPostCreation, setIsPostCreation] = useState(false)
 
     const id = useAppSelector(state => state.profileReducer.id)
     const avatar = useAppSelector(state => state.profileReducer.avatar)
     const name = useAppSelector(state => state.profileReducer.name)
     const posts = useAppSelector(state => state.profileReducer.posts)
-    const postsElements = getPostsElements(posts, id, avatar, name, false)
+    const postsElements = getPostsElements(posts, avatar, name, false)
 
     return(
         <div className={styles.posts}>
             { postsElements }
-            { newPostStatus ? <PostsCreation setNewPostStatus={setNewPostStatus} /> : <NewPostBtn setNewPostStatus={setNewPostStatus} /> }
+            { isPostCreation ? <PostsCreation setNewPostStatus={setIsPostCreation} /> : <NewPostBtn setNewPostStatus={setIsPostCreation} /> }
         </div>
     )
 }

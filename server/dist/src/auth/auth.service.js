@@ -88,8 +88,8 @@ let AuthService = class AuthService {
             throw new common_1.BadRequestException('UserInfo is not authorized');
         const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
         await this.tokenModel.deleteMany({ createdAt: { $lt: thirtyDaysAgo } });
-        const user = await this.userModel.findOne({ userId: userData.id });
-        const posts = await this.postModel.find({ userId: userData.id });
+        const user = await this.userModel.findOne({ login: userData.login });
+        const posts = await this.postModel.find({ userId: user.id });
         return {
             accessToken: jwt.sign(Object.assign({}, user), process.env.JWT_ACCESS_SECRET, { expiresIn: '15m' }),
             user: this.createUser(user),

@@ -25,7 +25,7 @@ let ProfileService = class ProfileService {
         await this.userModel.findOneAndUpdate({ _id }, { [field]: text });
     }
     async createPost(text, userId) {
-        await this.postModel.create({ text, userId });
+        return this.postModel.create({ text, userId });
     }
     async deletePost(postId) {
         await this.postModel.findOneAndDelete({ postId });

@@ -13,16 +13,15 @@ interface Props {
     createdAt: string | undefined
     text: string
     postId: string
-    id?: string
     forView?: boolean
 }
 
-const PostComponent: React.FC<Props> = ({ avatar, name, createdAt, text, postId, id = '', forView }) => {
+const PostComponent: React.FC<Props> = ({ avatar, name, createdAt, text, postId, forView }) => {
     const dispatch = useAppDispatch()
 
-    const { mutateAsync } = useMutation('delete post', (data: DeletePostProps) => ProfileService.deletePost(data.postId, data.id),
+    const { mutateAsync } = useMutation('delete post', (data: DeletePostProps) => ProfileService.deletePost(data.postId),
         {
-            onSuccess: (res): any => dispatch(deletePost(res.data)),
+            onSuccess: (res): any => dispatch(deletePost(res)),
             onError: (err: string): any => notify(err, 'error')
         }
     )
@@ -38,7 +37,7 @@ const PostComponent: React.FC<Props> = ({ avatar, name, createdAt, text, postId,
                     </div>
                 </div>
                 {!forView &&
-                    <button className={'text-2xl'} onClick={() => mutateAsync({postId, id})}>
+                    <button className={'text-base duration-200 text-red'} onClick={() => mutateAsync({ postId })}>
                         <i className={'fa-solid fa-trash'}/>
                     </button>
                 }

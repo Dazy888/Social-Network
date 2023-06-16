@@ -24,17 +24,17 @@ const PostsCreationComponent: React.FC<PropsCreationProps> = ({ setNewPostStatus
         }
     )
 
-    const addNewPost = async (setStatus: (status: boolean) => void) => {
+    const addNewPost = async () => {
         await addPost({ text: textareaPostRef.current.value, id })
-        setStatus(false)
+        setNewPostStatus(false)
     }
 
     return(
         <div className={`${styles['posts__creation']} mb-24`}>
-            <textarea className={'w-full h-24 rounded-lg p-2.5'} maxLength={300} ref={textareaPostRef}/>
+            <textarea className={'w-full h-24 rounded-lg p-2.5 text-black text-sm'} minLength={20} maxLength={500} ref={textareaPostRef}/>
             <div className={`flex justify-between mt-5 mx-auto`}>
-                <button className={`${styles['submit']} h-9 rounded-2xl font-medium duration-300`} onClick={() => addNewPost(setNewPostStatus)}>Submit</button>
-                <button className={`${styles['cancel']} h-9 rounded-2xl font-medium duration-300`} onClick={() => setNewPostStatus(false)}>Cancel</button>
+                <button className={styles['submit']} onClick={() => addNewPost()}>Submit</button>
+                <button className={styles['cancel']} onClick={() => setNewPostStatus(false)}>Cancel</button>
             </div>
         </div>
     )

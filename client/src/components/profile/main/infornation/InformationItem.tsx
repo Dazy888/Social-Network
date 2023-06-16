@@ -53,7 +53,7 @@ const InformationItemComponent: React.FC<Props> = ({ currentText, asyncRequest, 
                         { isEditable
                             ?   <span>
                                     <i onClick={submitClickListener} className={`fa-solid fa-check mr-4 ${styles.submit}`} />
-                                    <i onClick={cancelEditing} className={`fa-solid fa-xmark ${styles.cancel}`} />
+                                    <i onClick={cancelEditing} className={'fa-solid fa-xmark text-red'} />
                                 </span>
                             : <i onClick={startEditing} className={'fa-solid fa-pen'} /> }
                     </button>
