@@ -1,6 +1,6 @@
 import { $api } from "@/http"
 import { AxiosResponse } from "axios"
-import { PublicUserData, UsersResponse } from "@/models/users"
+import { PublicUserData, UsersResponse } from "@/models/users.models"
 
 export class UsersService {
     static getUsers(skip: number, id: string) {

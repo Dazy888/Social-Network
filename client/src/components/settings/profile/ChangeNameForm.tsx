@@ -4,8 +4,8 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { useMutation } from "react-query"
 import { SettingsService } from "@/services/settings.service"
 // Models
-import { INameForm } from "@/models/settings"
-import { TextProps } from "@/models/profile"
+import { INameForm } from "@/models/settings.models"
+import { TextProps } from "@/models/profile.models"
 // Store
 import { setUserName } from "@/store/reducers/ProfileSlice"
 // Alert

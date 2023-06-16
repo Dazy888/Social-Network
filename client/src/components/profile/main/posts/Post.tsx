@@ -2,7 +2,7 @@ import React from "react"
 import { useMutation } from "react-query"
 import { deletePost } from "@/store/reducers/ProfileSlice"
 import styles from '@/styles/Profile.module.scss'
-import { DeletePostProps } from "@/models/profile"
+import { DeletePostProps } from "@/models/profile.models"
 import { ProfileService } from "@/services/profile.service"
 import { useAppDispatch } from "@/hooks/redux"
 import { notify } from "@/components/auth/AuthForm"

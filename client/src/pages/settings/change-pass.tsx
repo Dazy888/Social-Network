@@ -1,7 +1,7 @@
 import React from "react"
 import { useAppSelector } from "@/hooks/redux"
 import { SubmitHandler, useForm } from "react-hook-form"
-import { ISetPass, SetPassProps } from "@/models/settings"
+import { ISetPass, SetPassProps } from "@/models/settings.models"
 import { SettingsService } from "@/services/settings.service"
 import { useMutation } from "react-query"
 import { notify } from "@/components/auth/AuthForm"

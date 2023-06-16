@@ -1,6 +1,6 @@
 import { $api } from "@/http"
 import { AxiosResponse } from "axios"
-import { RefreshResponse, SignInResponse, SignUpResponse } from "@/models/auth"
+import { RefreshResponse, SignInResponse, SignUpResponse } from "@/models/auth.models"
 import { getCookie } from "@/layouts/AuthLayout"
 
 export class AuthService {

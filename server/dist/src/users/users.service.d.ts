@@ -1,4 +1,5 @@
 import { Model } from "mongoose";
+import { UserPreview } from "../models/main.models";
 import { UserDocument } from "../schemas/user.schema";
 import { PostDocument } from "../schemas/post.schema";
 export declare class UsersService {

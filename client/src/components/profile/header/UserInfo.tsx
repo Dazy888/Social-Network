@@ -1,6 +1,6 @@
 import React from "react"
 import styles from "@/styles/Profile.module.scss"
-import { User } from "@/models/auth"
+import { User } from "@/models/auth.models"
 
 const UserInfoComponent: React.FC<Pick<User, 'avatar' | 'name' | 'location'>> = ({ avatar, name, location}) => (
     <div className={`${styles.user} absolute z-10 text-center text-white`}>

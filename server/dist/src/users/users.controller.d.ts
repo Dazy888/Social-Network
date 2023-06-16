@@ -3,7 +3,7 @@ export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
     getUsers(skip: string, id: string, authorization: string): Promise<{
-        usersData: UserPreview[];
+        usersData: import("../models/main.models").UserPreview[];
         length: number;
     }>;
     getUser(id: string, authorization: string): Promise<{

@@ -3,7 +3,7 @@ import { useQuery } from "react-query"
 import { useAppSelector } from "@/hooks/redux"
 import { UsersService } from "@/services/users.service"
 import { notify } from "@/components/auth/AuthForm"
-import { IUserPreview } from "@/models/users"
+import { IUserPreview } from "@/models/users.models"
 // Components
 import { Loader } from "@/components/users/Loader"
 import { MainPage } from "@/layouts/MainPageLayout"

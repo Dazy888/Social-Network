@@ -1,6 +1,6 @@
 import React, {useState} from "react"
 import { UseFormRegister } from "react-hook-form"
-import { IAuthForm } from "@/models/auth"
+import { IAuthForm } from "@/models/auth.models"
 import styles from '@/styles/Authorization.module.scss'
 
 interface Props {

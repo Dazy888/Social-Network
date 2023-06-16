@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { toast } from "react-toastify"
-import { IAuthForm}  from "@/models/auth"
+import { IAuthForm}  from "@/models/auth.models"
 import ReCAPTCHA from "react-google-recaptcha"
 import { SubmitBtn } from "@/components/auth/SubmitBtn"
 import { AuthInput } from "@/components/auth/AuthInput"

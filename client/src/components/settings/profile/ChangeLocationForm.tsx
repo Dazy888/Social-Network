@@ -4,8 +4,8 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { useMutation } from "react-query"
 import { SettingsService } from "@/services/settings.service"
 // Models
-import { ILocationForm } from "@/models/settings"
-import { TextProps } from "@/models/profile"
+import { ILocationForm } from "@/models/settings.models"
+import { TextProps } from "@/models/profile.models"
 // Store
 import { setUserLocation } from "@/store/reducers/ProfileSlice"
 // Alert

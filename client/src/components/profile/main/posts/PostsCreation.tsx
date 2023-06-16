@@ -1,7 +1,7 @@
 import React, { useRef } from "react"
 import styles from "@/styles/Profile.module.scss"
 import { useMutation } from "react-query"
-import { TextProps } from "@/models/profile"
+import { TextProps } from "@/models/profile.models"
 import { ProfileService } from "@/services/profile.service"
 import { addUserPost } from "@/store/reducers/ProfileSlice"
 import { useAppDispatch, useAppSelector } from "@/hooks/redux"

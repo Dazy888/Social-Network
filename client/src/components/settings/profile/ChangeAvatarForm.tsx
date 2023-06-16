@@ -2,7 +2,7 @@ import React from "react"
 import {FileInput} from "@/components/settings/FileInput";
 import {SubmitBtn} from "@/components/settings/SubmitBtn";
 import {SubmitHandler, useForm} from "react-hook-form";
-import {IAvatarForm} from "@/models/settings";
+import {IAvatarForm} from "@/models/settings.models";
 import {useMutation} from "react-query";
 import {SettingsService} from "@/services/settings.service";
 import {notify} from "@/components/auth/AuthForm";

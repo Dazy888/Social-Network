@@ -4,7 +4,7 @@ import Image from "next/image"
 import Head from "next/head"
 import { useDispatch } from "react-redux"
 import { useQuery } from "react-query"
-import { LayoutProps } from "@/models/layouts"
+import { LayoutProps } from "@/models/layouts.models"
 // Components
 import { NavLink } from "@/components/navigation/NavLink"
 // Hooks
@@ -48,8 +48,14 @@ const MainPageLayout: React.FC<LayoutProps> = ({ children, title }) => {
         })
 
     useEffect(() => {
-        (getCookie('refreshToken')) ? refresh() : router.push('/auth/sign-in')
+        if (getCookie('refreshToken')) {
+            refresh()
+            setTimeout(() => refresh(), 900000)
+        } else {
+            router.push('/auth/sign-in')
+        }
     }, [])
+
 
     return(
         <>

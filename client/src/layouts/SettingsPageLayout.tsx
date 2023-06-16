@@ -1,7 +1,7 @@
 import React from "react"
 import styles from '@/styles/Settings.module.scss'
 import { NavLink } from "@/components/navigation/NavLink"
-import { LayoutProps } from "@/models/layouts"
+import { LayoutProps } from "@/models/layouts.models"
 import {MainPage} from "@/layouts/MainPageLayout";
 
 const SettingsPageLayout: React.FC<LayoutProps> = ({ children, title }) => {

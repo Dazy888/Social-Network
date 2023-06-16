@@ -1,54 +1,65 @@
-import React, { useRef, useState } from "react"
-import { SetInfoFunc } from "@/models/profile"
+import React, { useState } from "react"
 import styles from '@/styles/Profile.module.scss'
+import { useAppDispatch } from "@/hooks/redux"
+import { useForm } from "react-hook-form"
+import { ProfileIntroFields, ProfileIntroForm, TextProps } from "@/models/profile.models"
+import { setProfileIntro } from "@/store/reducers/ProfileSlice"
+import { notify } from "@/components/auth/AuthForm"
 
 interface Props {
-    editStatus: boolean
-    setEditStatus: (status: boolean) => void
-    textId: string
-    text: string
+    currentText: string
     title: string
-    setText: any
+    asyncRequest: (data: TextProps) => void
+    field: ProfileIntroFields
     id?: string
     forView?: boolean
 }
 
-function editInfo(event: any, changeText: SetInfoFunc, value: string, textId: string, setStatus: (status: boolean) => void, setEditStatus: (status: boolean) => void, text: any, textareaRef: any, id: string) {
-    function setStatuses(status: boolean) {
-        setEditStatus(status)
-        setStatus(status)
+const InformationItemComponent: React.FC<Props> = ({ currentText, asyncRequest, title, forView, id = '', field }) => {
+    const dispatch = useAppDispatch()
+    const [isEditable, setIsEditable] = useState(false)
+
+    const { watch, setValue, setFocus, register } = useForm<ProfileIntroForm>({ mode: "onChange" })
+    const text = watch('text')
+
+    function startEditing() {
+        setIsEditable(true)
+        setValue('text', currentText)
+        setFocus('text')
     }
 
-    setStatuses(true)
+    function cancelEditing() {
+        setIsEditable(false)
+        setValue('text', '')
+    }
 
-    setTimeout(() => {
-        const textarea = textareaRef.current
-        textarea.value = value
-        textarea.onblur = async () => {
-            await changeText({ text: textarea.value, id })
-            text.innerText = textarea.value
-            document.onkeydown = null
-            setStatuses(false)
-        }
-    }, 1)
-}
+    async function changeProfileIntro() {
+        if (currentText === text) return notify("You haven't made changes", 'warning')
+        await asyncRequest({ text, id })
+        dispatch(setProfileIntro({ text, field }))
+        setIsEditable(false);
+    }
 
-const InformationItemComponent: React.FC<Props> = ({ text, setText, textId, setEditStatus, editStatus, title, forView, id = '' }) => {
-    const [status, setStatus] = useState(false)
-    const textareaRef: any = useRef()
-    const textRef: any = useRef()
+    async function submitClickListener() {
+        await changeProfileIntro()
+    }
 
     return(
         <div className={styles['information__item']}>
             <div className={`${styles['information__title']} flex justify-between items-center`}>
                 <h3 className={'tracking-wide'}>{title}:</h3>
                 {!forView &&
-                    <button className={'text-xs'} disabled={editStatus} onClick={(e) => editInfo(e, setText, text, textId, setStatus, setEditStatus, textRef.current, textareaRef, id)}>
-                        <i className={'fa-solid fa-pen'}/>
+                    <button className={'text-sm'}>
+                        { isEditable
+                            ?   <span>
+                                    <i onClick={submitClickListener} className={`fa-solid fa-check mr-4 ${styles.submit}`} />
+                                    <i onClick={cancelEditing} className={`fa-solid fa-xmark ${styles.cancel}`} />
+                                </span>
+                            : <i onClick={startEditing} className={'fa-solid fa-pen'} /> }
                     </button>
                 }
             </div>
-            {status ? <textarea className={'mt-2.5 rounded-lg pb-2.5 pt-1'} ref={textareaRef} maxLength={100}/> : <p ref={textRef} className={'text-sm opacity-70 my-2.5'}>{text}</p>}
+            {isEditable ? <textarea className={'rounded-lg px-2.5 py-3 text-black text-sm'} maxLength={150} {...(register('text'))}/> : <p className={'text-sm opacity-70 my-2.5'}>{currentText}</p>}
         </div>
     )
 }

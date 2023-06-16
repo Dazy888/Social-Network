@@ -14,7 +14,7 @@ import { FileInput } from "@/components/settings/FileInput"
 import { Title } from "@/components/settings/Title"
 import { SubmitBtn } from "@/components/settings/SubmitBtn"
 // Models
-import { IAvatarForm, IBannerForm, ILocationForm, INameForm } from "@/models/settings"
+import { IAvatarForm, IBannerForm, ILocationForm, INameForm } from "@/models/settings.models"
 import {ChangeNameForm} from "@/components/settings/profile/ChangeNameForm";
 import {ChangeLocationForm} from "@/components/settings/profile/ChangeLocationForm";
 

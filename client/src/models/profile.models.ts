@@ -1,4 +1,3 @@
-export type SetInfoFunc = ({ id, text }: TextProps) => Promise<void>
 export type SubscriptionFunc = ({ authorizedUserId, openedUserId }: SubscriptionFuncProps) => void
 
 interface SubscriptionFuncProps {
@@ -26,4 +25,15 @@ export interface SubscriptionProps {
 export interface DeletePostProps {
     postId: string
     id: string
+}
+
+export type ProfileIntroFields = 'aboutMe' | 'skills' | 'hobbies'
+
+export interface ProfileIntroProps {
+    text: string
+    field: ProfileIntroFields
+}
+
+export interface ProfileIntroForm {
+    text: string
 }

@@ -1,6 +1,6 @@
 import React from "react"
 import { MainPage } from "@/layouts/MainPageLayout"
-import { IPost } from "@/models/profile"
+import { IPost } from "@/models/profile.models"
 import { useAppSelector } from "@/hooks/redux"
 import { v4 } from 'uuid'
 import styles from '@/styles/Profile.module.scss'

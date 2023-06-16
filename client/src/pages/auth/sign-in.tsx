@@ -5,8 +5,8 @@ import { AuthService } from "@/services/auth.service"
 import { useAppDispatch } from "@/hooks/redux"
 import { notify } from "@/components/auth/AuthForm"
 // Models
-import { IAuthForm, Tokens, User } from "@/models/auth"
-import { IPost } from "@/models/profile"
+import { IAuthForm, Tokens, User } from "@/models/auth.models"
+import { IPost } from "@/models/profile.models"
 // Components
 import { AuthPage, createCookie } from "@/layouts/AuthLayout"
 // Store

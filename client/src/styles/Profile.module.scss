@@ -68,6 +68,32 @@
       grid-area: info;
       background: rebeccapurple;
 
+      i {
+        transition: 150ms;
+      }
+
+      .cancel, .submit {
+        &:hover {
+          transform: scale(1.6);
+        }
+      }
+
+      .cancel {
+        color: red;
+      }
+
+      .submit {
+        color: green;
+      }
+
+      .cancel:hover {
+        color: red;
+      }
+
+      .submit:hover {
+        color: green;
+      }
+
       h3, .information__item {
         padding: 23px 25px 18px 25px;
       }

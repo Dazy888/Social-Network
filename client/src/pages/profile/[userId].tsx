@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/redux"
 // Store
 import { setOpenedUser } from "@/store/reducers/UsersSlice"
 // Models
-import { SubscriptionProps } from "@/models/profile"
+import { SubscriptionProps } from "@/models/profile.models"
 // Styles
 import styles from "@/styles/Profile.module.scss"
 // Components

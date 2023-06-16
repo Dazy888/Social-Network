@@ -5,9 +5,9 @@ import styles from '@/styles/Authorization.module.scss'
 import { SubmitHandler, useForm } from "react-hook-form"
 import { notify } from "@/components/auth/AuthForm"
 // Models
-import { IAuthForm } from "@/models/auth"
+import { IAuthForm } from "@/models/auth.models"
 import ReCAPTCHA from "react-google-recaptcha"
-import { LayoutProps } from "@/models/layouts"
+import { LayoutProps } from "@/models/layouts.models"
 // Components
 import { AuthInput } from "@/components/auth/AuthInput"
 import { SubmitBtn } from "@/components/auth/SubmitBtn"

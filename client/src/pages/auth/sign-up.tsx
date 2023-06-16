@@ -5,7 +5,7 @@ import { useAppDispatch } from "@/hooks/redux"
 import { successfulEnter } from "@/pages/auth/sign-in"
 import { notify } from "@/components/auth/AuthForm"
 // Models
-import { IAuthForm } from "@/models/auth"
+import { IAuthForm } from "@/models/auth.models"
 // Service
 import { AuthService } from "@/services/auth.service"
 // Components

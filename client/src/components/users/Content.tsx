@@ -5,7 +5,7 @@ import ReactPaginate from "react-paginate"
 import { useRouter } from "next/router"
 import { UserPreview } from "@/components/users/User"
 import { useAppSelector } from "@/hooks/redux"
-import { IUserPreview } from "@/models/users"
+import { IUserPreview } from "@/models/users.models"
 import { notify } from "@/components/auth/AuthForm"
 
 interface Props {

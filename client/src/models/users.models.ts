@@ -1,5 +1,5 @@
-import { User } from "@/models/auth"
-import { IPost } from "@/models/profile"
+import { User } from "@/models/auth.models"
+import { IPost } from "@/models/profile.models"
 
 export interface PublicUserData extends Omit<User, 'email' | 'isActivated' | 'id' | 'activationLink'>{
     posts: IPost[]

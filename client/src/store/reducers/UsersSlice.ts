@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { PublicUserData } from "@/models/users"
+import { PublicUserData } from "@/models/users.models"
 
 interface UsersState {
     openedUser: PublicUserData
