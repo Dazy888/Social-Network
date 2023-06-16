@@ -1,24 +1,12 @@
 import { $api } from "@/http"
 import { AxiosResponse } from "axios"
-import {IPost} from "@/models/profile";
+import { IPost } from "@/models/profile"
 
 export class ProfileService {
-    static setAboutMe(text: string, id: string) {
-        return $api.put('profile/about-me', { text, id })
-            .then((res) => res.data)
+    static setProfileIntro(text: string, field: 'aboutMe' | 'skills' | 'hobbies', id: string) {
+        return $api.put('profile/intro', { text, field, id })
+            .then(() => text)
             .catch(err => { throw err.response.data.message })
-    }
-
-    static setSkills(text: string, id: string) {
-        return $api.put('profile/skills', { text, id })
-        .then((res) => res.data)
-        .catch(err => { throw err.response.data.message })
-    }
-
-    static setHobbies(text: string, id: string) {
-        return $api.put('profile/hobbies', { text, id })
-        .then((res) => res.data)
-        .catch(err => { throw err.response.data.message })
     }
 
     static addPost(text: string, id: string) {

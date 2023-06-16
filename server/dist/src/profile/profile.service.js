@@ -21,14 +21,8 @@ let ProfileService = class ProfileService {
         this.userModel = userModel;
         this.postModel = postModel;
     }
-    async setAboutMe(aboutMe, _id) {
-        await this.userModel.findOneAndUpdate({ _id }, { aboutMe });
-    }
-    async setSkills(skills, _id) {
-        await this.userModel.findOneAndUpdate({ _id }, { skills });
-    }
-    async setHobbies(hobbies, _id) {
-        await this.userModel.findOneAndUpdate({ _id }, { hobbies });
+    async setProfileIntro(text, field, _id) {
+        await this.userModel.findOneAndUpdate({ _id }, { [field]: text });
     }
     async createPost(text, userId) {
         await this.postModel.create({ text, userId });

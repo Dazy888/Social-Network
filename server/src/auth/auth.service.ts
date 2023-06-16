@@ -4,7 +4,7 @@ import * as dotenv from "dotenv"
 import { Model } from "mongoose"
 import { InjectModel } from "@nestjs/mongoose"
 import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common"
-import { User } from "../interfaces/auth.interfaces"
+import { User } from "@/models/auth.models"
 import { UserDto } from "./dto/user.dto"
 // Schemas
 import { UserDocument } from "../schemas/user.schema"

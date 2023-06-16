@@ -4,6 +4,7 @@ import { TextDto } from "../settings/dto/text.dto"
 import { SubscriptionDto } from "./dto/subscription.dto"
 import { checkToken } from "../auth/auth.controller"
 import { validateToken } from "../auth/auth.service"
+import { ProfileIntroProps } from "./models/profile.models"
 
 export function checkAccessToken(token: string) {
     checkToken(token)
@@ -14,25 +15,11 @@ export function checkAccessToken(token: string) {
 export class ProfileController {
     constructor(private readonly profileService: ProfileService) {}
 
-    @Put('about-me')
-    async setAboutMe(@Body() data: TextDto, @Headers('authorization') authorization: string) {
+    @Put('intro')
+    async setProfileIntro(@Body() data: ProfileIntroProps, @Headers('authorization') authorization: string) {
         const accessToken = authorization.split(' ')[1]
         checkAccessToken(accessToken)
-        return this.profileService.setAboutMe(data.text, data.id)
-    }
-
-    @Put('skills')
-    async setSkillsText(@Body() data: TextDto, @Headers('authorization') authorization: string) {
-        const accessToken = authorization.split(' ')[1]
-        checkAccessToken(accessToken)
-        return this.profileService.setSkills(data.text, data.id)
-    }
-
-    @Put('hobbies')
-    async setHobbiesText(@Body() data: TextDto, @Headers('authorization') authorization: string) {
-        const accessToken = authorization.split(' ')[1]
-        checkAccessToken(accessToken)
-        return this.profileService.setHobbies(data.text, data.id)
+        return this.profileService.setProfileIntro(data.text, data.field, data.id)
     }
 
     @Post('post')

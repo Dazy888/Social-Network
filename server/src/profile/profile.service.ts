@@ -3,21 +3,14 @@ import { Injectable } from '@nestjs/common'
 import { InjectModel } from "@nestjs/mongoose"
 import { UserDocument } from "../schemas/user.schema"
 import { PostDocument } from "../schemas/post.schema"
+import { Field } from "./models/profile.models"
 
 @Injectable()
 export class ProfileService {
     constructor(@InjectModel('User') private userModel: Model<UserDocument>, @InjectModel('Post') private postModel: Model<PostDocument>) {}
 
-    async setAboutMe(aboutMe: string, _id: string) {
-        await this.userModel.findOneAndUpdate({ _id }, { aboutMe })
-    }
-
-    async setSkills(skills: string, _id: string) {
-        await this.userModel.findOneAndUpdate({ _id }, { skills })
-    }
-
-    async setHobbies(hobbies: string, _id: string) {
-        await this.userModel.findOneAndUpdate({ _id }, { hobbies })
+    async setProfileIntro(text: string, field: Field, _id: string) {
+        await this.userModel.findOneAndUpdate({ _id }, { [field]: text })
     }
 
     async createPost(text: string, userId: string) {

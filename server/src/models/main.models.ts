@@ -13,3 +13,11 @@ export interface User {
     following: string[]
     activationLink: string | null
 }
+
+export interface UserPreview {
+    userId: string
+    name: string
+    location: string
+    avatar: string
+}
+

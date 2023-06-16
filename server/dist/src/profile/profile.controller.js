@@ -28,20 +28,10 @@ let ProfileController = class ProfileController {
     constructor(profileService) {
         this.profileService = profileService;
     }
-    async setAboutMe(data, authorization) {
+    async setProfileIntro(data, authorization) {
         const accessToken = authorization.split(' ')[1];
         checkAccessToken(accessToken);
-        return this.profileService.setAboutMe(data.text, data.id);
-    }
-    async setSkillsText(data, authorization) {
-        const accessToken = authorization.split(' ')[1];
-        checkAccessToken(accessToken);
-        return this.profileService.setSkills(data.text, data.id);
-    }
-    async setHobbiesText(data, authorization) {
-        const accessToken = authorization.split(' ')[1];
-        checkAccessToken(accessToken);
-        return this.profileService.setHobbies(data.text, data.id);
+        return this.profileService.setProfileIntro(data.text, data.field, data.id);
     }
     async createPost(data, authorization) {
         const accessToken = authorization.split(' ')[1];
@@ -70,29 +60,13 @@ let ProfileController = class ProfileController {
     }
 };
 __decorate([
-    (0, common_1.Put)('about-me'),
+    (0, common_1.Put)('intro'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [text_dto_1.TextDto, String]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
-], ProfileController.prototype, "setAboutMe", null);
-__decorate([
-    (0, common_1.Put)('skills'),
-    __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Headers)('authorization')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [text_dto_1.TextDto, String]),
-    __metadata("design:returntype", Promise)
-], ProfileController.prototype, "setSkillsText", null);
-__decorate([
-    (0, common_1.Put)('hobbies'),
-    __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Headers)('authorization')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [text_dto_1.TextDto, String]),
-    __metadata("design:returntype", Promise)
-], ProfileController.prototype, "setHobbiesText", null);
+], ProfileController.prototype, "setProfileIntro", null);
 __decorate([
     (0, common_1.Post)('post'),
     __param(0, (0, common_1.Body)()),
