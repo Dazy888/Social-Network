@@ -28,11 +28,10 @@ const AuthInputComponent: React.FC<Props> = ({ isError, errorMessage, register, 
     return(
         <div className={`error-container ${classNames}`}>
             {(isError) && <span>{errorMessage}</span>}
-            <input minLength={minLength} maxLength={maxLength} className={`${(isError) ? 'red-border' : ''} ${showPassword ? styles['show-password'] : styles['hide-password']}`}
+            <input required minLength={minLength} maxLength={maxLength} className={`${(isError) ? 'red-border' : ''} ${showPassword ? styles['show-password'] : styles['hide-password']}`}
                    type={(name === 'pass') ? passType : type} placeholder={placeholder}
                    {...(register(name,
                        {
-                           required: { value: true, message: 'Field is required' },
                            pattern: { value: patternValue, message: 'Invalid value' }
                        }
                    ))}

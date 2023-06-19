@@ -12,10 +12,18 @@ import { useAppSelector } from "@/hooks/redux"
 // Service
 import { AuthService } from "@/services/auth.service"
 // Cookie functions
-import { createCookie, getCookie } from "@/layouts/AuthLayout"
+import { createCookie } from "@/layouts/AuthLayout"
 // Store
 import { setUser } from "@/store/reducers/ProfileSlice"
 import { setSettingData } from "@/store/reducers/SettingsSlice"
+import {notify} from "@/components/auth/AuthForm";
+
+async function successfulLogout(router: any, dispatch: any) {
+    await router.push('/auth/sign-in')
+    createCookie('refreshToken', '', -1)
+    createCookie('accessToken', '', -1)
+    dispatch(setUser({ avatar: '', aboutMe: '', followers: [], following: [], posts: [], banner: '', hobbies: '', name: '', location: '', skills: '', id: '' }))
+}
 
 const MainPageLayout: React.FC<LayoutProps> = ({ children, title }) => {
     const dispatch = useDispatch()
@@ -27,12 +35,8 @@ const MainPageLayout: React.FC<LayoutProps> = ({ children, title }) => {
 
     const { refetch:logout } = useQuery('logout', () => AuthService.logout(),
         {
-            async onSuccess() {
-                await router.push('/auth/sign-in')
-                createCookie('refreshToken', '', -1)
-                createCookie('accessToken', '', -1)
-                dispatch(setUser({ avatar: '', aboutMe: '', followers: [], following: [], posts: [], banner: '', hobbies: '', name: '', location: '', skills: '', id: '' }))
-            },
+            onSuccess: () => successfulLogout(router, dispatch),
+            onError: () => notify('Logout has failed, try again', 'error'),
             enabled: false
         }
     )
@@ -44,18 +48,12 @@ const MainPageLayout: React.FC<LayoutProps> = ({ children, title }) => {
                 dispatch(setUser({ ...res.user, posts: res.posts }))
                 dispatch(setSettingData({ email: res.user.email, isActivated: res.user.isActivated }))
             },
-            onError: () => router.push('/auth/sign-in')
+            onError: () => successfulLogout(router, dispatch)
         })
 
     useEffect(() => {
-        if (getCookie('refreshToken')) {
-            refresh()
-            setInterval(() => refresh(), 900000)
-        } else {
-            router.push('/auth/sign-in')
-        }
+        setInterval(() => refresh(), 900000)
     }, [])
-
 
     return(
         <>

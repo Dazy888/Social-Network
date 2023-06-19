@@ -84,7 +84,6 @@ export class AuthService {
     async refresh(refreshToken: string) {
         const userData: UserDocument = validateToken(refreshToken, process.env.JWT_REFRESH_SECRET)
         const tokenFromDb = await this.tokenModel.findOne({ refreshToken })
-
         if (!userData || !tokenFromDb) throw new BadRequestException('UserInfo is not authorized')
 
         const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)

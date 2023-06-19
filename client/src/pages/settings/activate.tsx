@@ -12,11 +12,11 @@ import { setEmail } from "@/store/reducers/SettingsSlice"
 import { SubmitHandler, useForm } from "react-hook-form"
 // Components
 import { Loader } from "@/components/auth/Loader"
-import { Input } from "@/components/common/Input"
 import { Title } from "@/components/settings/Title"
 import { SettingsPage } from "@/layouts/SettingsPageLayout"
 import { ActivatedEmail } from "@/components/settings/activation/ActivatedEmail"
 import { ActivationMessage } from "@/components/settings/activation/ActivationMessage"
+import { SettingsInput } from "@/components/settings/SettingsInput"
 
 const Activate = () => {
     const dispatch = useAppDispatch()
@@ -38,6 +38,8 @@ const Activate = () => {
     const { register, handleSubmit, formState: { errors, touchedFields } } = useForm<IActivate>()
 
     const onSubmit: SubmitHandler<IActivate> = async (data) => {
+        console.log(1)
+
         if (isLoading) return notify('Too many requests, try again later', 'warning')
         await activate({ email: data.email, id })
     }
@@ -47,17 +49,17 @@ const Activate = () => {
             <Title title={'E-mail Activation'}/>
             <hr className={'w-full h-px'}/>
             <form className={'py-10 px-6'} onSubmit={handleSubmit(onSubmit)}>
-                {/*{!!email*/}
-                {/*    ?   <ActivatedEmail email={email} />*/}
-                {/*    :   <Input required={true} type={'text'} className={styles['big-input']} error={!(errors?.email?.message && touchedFields.email)} register={register}*/}
-                {/*               name={'email'} patternValue={/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/} minLength={10} maxLength={20} placeholder={'Your email'}*/}
-                {/*    />*/}
-                {/*}*/}
+                {!!email
+                    ?   <ActivatedEmail email={email} />
+                    :   <SettingsInput type={'text'} className={styles['big-input']} isError={!!(errors.email?.message && touchedFields.email)} errorMessage={errors.email?.message} register={register}
+                               name={'email'} patternValue={/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/} minLength={6} maxLength={20} placeholder={'Your email'}
+                    />
+                }
                 {isActivated
                     ?   <p className={'text-lg font-medium text-center'}>Your email is activated</p>
-                    :   <button className={`${styles.submit} w-full rounded-lg tracking-wider font-semibold`} type={'submit'} disabled={isLoading || !!email}>
-                        { isLoading ? <Loader color={'rgb(102, 51, 153)'} loading={isLoading}/> : 'Activate' }
-                    </button>
+                    :   <button className={`${styles.submit} w-full rounded-lg tracking-wider font-semibold text-white`} type={'submit'} disabled={isLoading || !!email}>
+                            { isLoading ? <Loader color={'rgb(102, 51, 153)'} loading={isLoading}/> : 'Activate' }
+                        </button>
                 }
             </form>
             {(!isActivated && !!email) && <ActivationMessage />}
