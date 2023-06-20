@@ -14,6 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SettingsController = void 0;
 const uuid_1 = require("uuid");
+const dotenv = require("dotenv");
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const profile_controller_1 = require("../profile/profile.controller");
@@ -22,6 +23,7 @@ const password_dto_1 = require("./dto/password.dto");
 const mail_dto_1 = require("./dto/mail.dto");
 const text_dto_1 = require("./dto/text.dto");
 const photo_dto_1 = require("./dto/photo.dto");
+dotenv.config();
 let SettingsController = class SettingsController {
     constructor(settingsService) {
         this.settingsService = settingsService;
@@ -36,14 +38,15 @@ let SettingsController = class SettingsController {
         (0, profile_controller_1.checkAccessToken)(accessToken);
         return this.settingsService.sendMail(data.email, `${process.env.API_URL}/api/settings/activate/${(0, uuid_1.v4)()}`, data.id);
     }
-    async activate(link, res) {
-        await this.settingsService.activate(link);
-        res.redirect(`${process.env.CLIENT_URL}/main/settings/activate`);
-    }
     async cancelActivation(id, authorization) {
         const accessToken = authorization.split(' ')[1];
         (0, profile_controller_1.checkAccessToken)(accessToken);
         await this.settingsService.cancelActivation(id);
+    }
+    async activate(link, res, req) {
+        const fullUrl = `https://${req.get('host')}${req.originalUrl}`;
+        await this.settingsService.activate(fullUrl);
+        res.redirect(`${process.env.CLIENT_URL}/settings/activate`);
     }
     async setName(data, authorization) {
         const accessToken = authorization.split(' ')[1];
@@ -75,7 +78,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "changePass", null);
 __decorate([
-    (0, common_1.Post)('/mail'),
+    (0, common_1.Post)('/activation'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
@@ -83,21 +86,22 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "sendMail", null);
 __decorate([
-    (0, common_1.Get)('/activate/:link'),
-    __param(0, (0, common_1.Param)('link')),
-    __param(1, (0, common_1.Res)({ passthrough: true })),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Object]),
-    __metadata("design:returntype", Promise)
-], SettingsController.prototype, "activate", null);
-__decorate([
-    (0, common_1.Get)('/cancel-activation/:id'),
+    (0, common_1.Delete)('/cancel-activation/:id'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "cancelActivation", null);
+__decorate([
+    (0, common_1.Get)('/activate/:link'),
+    __param(0, (0, common_1.Param)('link')),
+    __param(1, (0, common_1.Res)({ passthrough: true })),
+    __param(2, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, Object, Object]),
+    __metadata("design:returntype", Promise)
+], SettingsController.prototype, "activate", null);
 __decorate([
     (0, common_1.Put)('name'),
     __param(0, (0, common_1.Body)()),

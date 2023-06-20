@@ -9,13 +9,13 @@ export class SettingsService {
     }
 
     static activateMail(email: string, id: string) {
-        return $api.post('settings/mail', { email, id })
-            .then((res: AxiosResponse<string>) => res.data)
+        return $api.post('settings/activation', { email, id })
+            .then(() => email)
             .catch(err => { throw err.response.data.message })
     }
 
     static async cancelActivation(id: string) {
-        return $api.get(`settings/cancel-activation/${id}`)
+        return $api.delete(`settings/cancel-activation/${id}`)
         .then(res => res)
         .catch(err => { throw err.response.data.message })
     }

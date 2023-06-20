@@ -5,13 +5,11 @@ interface Props {
     email: string
 }
 
-const ActivatedEmailComponent: React.FC<Props> = ({ email }) => {
-    return(
-        <div className={styles['activated-email']}>
-            <input className={styles['big-input']} disabled={true} value={email}/>
-            <i className={'absolute fa-solid fa-circle-check'}/>
-        </div>
-    )
-}
+const ActivatedEmailComponent: React.FC<Props> = ({ email }) => (
+    <div className={styles['activated-email']}>
+        <input className={styles['big-input']} disabled={true} value={email}/>
+        <i className={'absolute fa-solid fa-circle-check'} />
+    </div>
+)
 
 export const ActivatedEmail = React.memo(ActivatedEmailComponent)

@@ -9,28 +9,17 @@ interface Props {
     minLength: number
     maxLength: number
     placeholder: string
-    type: 'text' | 'password'
+    type: 'text' | 'password' | 'email'
     className?: string
-    errorName?: string
-    passInpType?: 'text' | 'password'
-    setPassInpType?: (type: 'text' | 'password') => void
 }
 
-const SettingsInputComponent: React.FC<Props> = ({ className, setPassInpType, passInpType, isError, errorMessage, register, name, type, errorName, patternValue, maxLength, minLength, placeholder }) => {
-    console.log(isError)
-
-    return(
-        <div className={`error-container`}>
-            {(isError) && <span>{errorMessage}</span>}
-            <input required minLength={minLength} maxLength={maxLength} className={`${(isError) ? 'red-border' : ''} ${className}`} type={type} placeholder={placeholder}
-                   {...(register(name,
-                       {
-                           pattern: { value: patternValue, message: `Invalid ${errorName || name}` }
-                       }
-                   ))}
-            />
-        </div>
-    )
-}
+const SettingsInputComponent: React.FC<Props> = ({ className, isError, errorMessage, register, name, type, patternValue, maxLength, minLength, placeholder }) => (
+    <div className={`error-container`}>
+        {(isError) && <span>{errorMessage}</span>}
+        <input required minLength={minLength} maxLength={maxLength} className={`${(isError) ? 'red-border' : ''} ${className}`} type={type} placeholder={placeholder}
+               {...(register(name, { pattern: { value: patternValue, message: 'Invalid value' } }))}
+        />
+    </div>
+)
 
 export const SettingsInput = React.memo(SettingsInputComponent)

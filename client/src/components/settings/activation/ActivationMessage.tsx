@@ -23,7 +23,7 @@ const ActivationMessageComponent = () => {
 
     return(
         <div>
-            <p className={`${styles['activation-text']} text-lg font-medium text-center`}>The activation link was sent on your e-mail</p>
+            <p className={`${styles['activation-text']} text-lg font-medium text-center`}>The activation link was sent on your E-mail</p>
             <button className={`${styles.cancel} rounded-2xl text-lg font-medium duration-300 my-7 mx-auto block text-white`} onClick={() => cancelActivation({ id })}>Cancel</button>
         </div>
     )

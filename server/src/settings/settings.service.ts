@@ -1,3 +1,4 @@
+import * as dotenv from "dotenv"
 import * as path from "path"
 import * as bcrypt from "bcrypt"
 import { Model } from "mongoose"
@@ -8,9 +9,11 @@ import { InjectModel } from "@nestjs/mongoose"
 import { Storage } from "@google-cloud/storage"
 import { UserDocument } from "../schemas/user.schema"
 
+dotenv.config()
+
 @Injectable()
 export class SettingsService {
-    constructor(@InjectModel('User') private userModel: Model<UserDocument>, private readonly mailerService: MailerService,) {}
+    constructor(@InjectModel('User') private userModel: Model<UserDocument>, private readonly mailerService: MailerService) {}
 
     async changePass(currentPass: string, newPass: string, _id: string) {
         const user = await this.userModel.findOne({ _id })
@@ -20,13 +23,13 @@ export class SettingsService {
     }
 
     async sendMail(email: string, activationLink: string, _id: string) {
-        if (await this.userModel.findOne({ email })) throw new BadRequestException('UserInfo with this e-mail already exists')
+        if (await this.userModel.findOne({ email })) throw new BadRequestException('This e-mail is already taken, try another one')
 
         await this.userModel.findOneAndUpdate({ _id }, { email, activationLink })
         await this.mailerService.sendMail({
-            from: process.env.SMTP_EMAIL,
+            from: process.env.SMTP_USER,
             to: email,
-            subject: 'Thank you for contacting us!',
+            subject: 'Dazy social network e-mail activation!',
             html:
                 `
                     <div>
@@ -38,11 +41,17 @@ export class SettingsService {
     }
 
     async activate(activationLink: string) {
+        console.log(activationLink)
+
+        const user = await this.userModel.findOne({ activationLink })
+
+        console.log(user)
+
         if (!await this.userModel.findOneAndUpdate({ activationLink }, { isActivated: true })) throw new BadRequestException('Invalid activation link')
     }
 
     async cancelActivation(_id: string) {
-        await this.userModel.findOneAndUpdate({ _id }, { email: '' })
+        await this.userModel.findOneAndUpdate({ _id }, { email: '', activationLink: '' })
     }
 
     async setName(name: string, _id: string) {

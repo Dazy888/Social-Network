@@ -1,5 +1,6 @@
 import { v4 } from "uuid"
-import { Body, Controller, Get, Param, Post, Put, Res, UploadedFile, UseInterceptors, Headers } from '@nestjs/common'
+import * as dotenv from "dotenv"
+import { Body, Controller, Get, Param, Post, Put, Res, UploadedFile, UseInterceptors, Headers, Delete, Req } from '@nestjs/common'
 import { FileInterceptor } from "@nestjs/platform-express"
 import { checkAccessToken } from "../profile/profile.controller"
 import { SettingsService } from "./settings.service"
@@ -8,6 +9,8 @@ import { PasswordDto } from "./dto/password.dto"
 import { MailDto } from "./dto/mail.dto"
 import { TextDto } from "./dto/text.dto"
 import { PhotoDto } from "./dto/photo.dto"
+
+dotenv.config()
 
 @Controller('settings')
 export class SettingsController {
@@ -20,24 +23,25 @@ export class SettingsController {
         return this.settingsService.changePass(data.currentPass, data.newPass, data.id)
     }
 
-    @Post('/mail')
+    @Post('/activation')
     async sendMail(@Body() data: MailDto, @Headers('authorization') authorization: string) {
         const accessToken = authorization.split(' ')[1]
         checkAccessToken(accessToken)
         return this.settingsService.sendMail(data.email, `${process.env.API_URL}/api/settings/activate/${v4()}`, data.id)
     }
 
-    @Get('/activate/:link')
-    async activate(@Param('link') link: string, @Res({ passthrough: true }) res) {
-        await this.settingsService.activate(link)
-        res.redirect(`${process.env.CLIENT_URL}/main/settings/activate`)
-    }
-
-    @Get('/cancel-activation/:id')
+    @Delete('/cancel-activation/:id')
     async cancelActivation(@Param('id') id: string, @Headers('authorization') authorization: string) {
         const accessToken = authorization.split(' ')[1]
         checkAccessToken(accessToken)
         await this.settingsService.cancelActivation(id)
+    }
+
+    @Get('/activate/:link')
+    async activate(@Param('link') link: string, @Res({ passthrough: true }) res, @Req() req) {
+        const fullUrl = `https://${req.get('host')}${req.originalUrl}`
+        await this.settingsService.activate(fullUrl)
+        res.redirect(`${process.env.CLIENT_URL}/settings/activate`)
     }
 
     @Put('name')

@@ -11,12 +11,11 @@ import { setEmail } from "@/store/reducers/SettingsSlice"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
 // Components
-import { Loader } from "@/components/auth/Loader"
 import { Title } from "@/components/settings/Title"
 import { SettingsPage } from "@/layouts/SettingsPageLayout"
 import { ActivatedEmail } from "@/components/settings/activation/ActivatedEmail"
 import { ActivationMessage } from "@/components/settings/activation/ActivationMessage"
-import { SettingsInput } from "@/components/settings/SettingsInput"
+import ScaleLoader from "react-spinners/ScaleLoader"
 
 const Activate = () => {
     const dispatch = useAppDispatch()
@@ -35,12 +34,10 @@ const Activate = () => {
         }
     )
 
-    const { register, handleSubmit, formState: { errors, touchedFields } } = useForm<IActivate>()
+    const { register, handleSubmit, formState: { } } = useForm<IActivate>({ mode: 'onChange' })
 
     const onSubmit: SubmitHandler<IActivate> = async (data) => {
-        console.log(1)
-
-        if (isLoading) return notify('Too many requests, try again later', 'warning')
+        if (isLoading) return notify('Your request is handling', 'warning')
         await activate({ email: data.email, id })
     }
 
@@ -51,15 +48,12 @@ const Activate = () => {
             <form className={'py-10 px-6'} onSubmit={handleSubmit(onSubmit)}>
                 {!!email
                     ?   <ActivatedEmail email={email} />
-                    :   <SettingsInput type={'text'} className={styles['big-input']} isError={!!(errors.email?.message && touchedFields.email)} errorMessage={errors.email?.message} register={register}
-                               name={'email'} patternValue={/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/} minLength={6} maxLength={20} placeholder={'Your email'}
-                    />
+                    :   <input required minLength={5} maxLength={35} className={styles['big-input']} type={'email'} placeholder={'Your e-mail'} {...(register('email'))} />
                 }
-                {isActivated
-                    ?   <p className={'text-lg font-medium text-center'}>Your email is activated</p>
-                    :   <button className={`${styles.submit} w-full rounded-lg tracking-wider font-semibold text-white`} type={'submit'} disabled={isLoading || !!email}>
-                            { isLoading ? <Loader color={'rgb(102, 51, 153)'} loading={isLoading}/> : 'Activate' }
-                        </button>
+                {!isActivated &&
+                    <button className={`${styles.submit} w-full rounded-lg tracking-wider font-semibold text-white`} type={'submit'} disabled={isLoading || !!email}>
+                        { isLoading ? <ScaleLoader color={'rgb(255, 255, 255)'} loading={true} /> : 'Activate' }
+                    </button>
                 }
             </form>
             {(!isActivated && !!email) && <ActivationMessage />}
