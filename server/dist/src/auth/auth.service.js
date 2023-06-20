@@ -61,7 +61,8 @@ let AuthService = class AuthService {
         const hashedPassword = await bcrypt.hash(pass, 10);
         const userNumber = Math.floor(Math.random() * 100);
         const user = await this.userModel.create({ login, pass: hashedPassword, name: `User ${userNumber}`, location: 'Nowhere', banner: 'https://img.freepik.com/premium-vector/programming-code-made-with-binary-code-coding-hacker-background-digital-binary-data-streaming-digital-code_127544-778.jpg?w=2000', avatar: 'https://i.imgur.com/b08hxPY.png', aboutMe: 'This project was made by David Hutsenko', skills: 'This project was made by David Hutsenko', hobbies: 'This project was made by David Hutsenko', isActivated: false, email: null, followers: [], following: [], activationLink: null });
-        const tokens = this.generateTokens(Object.assign({}, user));
+        const userDto = new user_dto_1.UserDto(user);
+        const tokens = this.generateTokens(Object.assign({}, userDto));
         await this.saveToken(user.id, tokens.refreshToken);
         return { tokens, user: this.createUser(user) };
     }

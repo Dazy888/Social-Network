@@ -14,6 +14,8 @@ import { setUser } from "@/store/reducers/ProfileSlice"
 import { setSettingData } from "@/store/reducers/SettingsSlice"
 
 export const successfulEnter = (router: any, dispatch: any, tokens: Tokens, userData: User, posts: IPost[] | []) => {
+    console.log(tokens)
+
     createCookie('refreshToken', tokens.refreshToken, 30)
     createCookie('accessToken', tokens.accessToken, 15 / (24 * 60))
 

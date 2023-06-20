@@ -19,9 +19,9 @@ import { setSettingData } from "@/store/reducers/SettingsSlice"
 import {notify} from "@/components/auth/AuthForm";
 
 async function successfulLogout(router: any, dispatch: any) {
-    await router.push('/auth/sign-in')
     createCookie('refreshToken', '', -1)
     createCookie('accessToken', '', -1)
+    await router.push('/auth/sign-in')
     dispatch(setUser({ avatar: '', aboutMe: '', followers: [], following: [], posts: [], banner: '', hobbies: '', name: '', location: '', skills: '', id: '' }))
 }
 
