@@ -10,8 +10,6 @@ import { Header } from "@/components/profile/header/Header"
 import { Main } from "@/components/profile/main/Main"
 
 export const getPostsElements = (posts: IPost[], avatar: string, name: string, forView: boolean) => {
-    console.log(posts)
-
     return [...posts].reverse().map(({ id, text, createdAt}) => {
         const date = Math.abs(new Date().getTime() - new Date(createdAt).getTime())
         const minutes = Math.round(date / 1000 / 60)

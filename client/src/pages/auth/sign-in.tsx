@@ -35,9 +35,7 @@ const SignIn = () => {
             onError: (err: string): any => notify(err, 'error')
         })
 
-    return(
-        <AuthPage title={'in'} isLoading={isLoading} signAction={signIn}><></></AuthPage>
-    )
+    return <AuthPage title={'in'} isLoading={isLoading} signAction={signIn}><></></AuthPage>
 }
 
 export default React.memo(SignIn)

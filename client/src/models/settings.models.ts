@@ -2,7 +2,7 @@ export interface IActivate {
     email: string
 }
 
-export interface ISetPass {
+export interface IChangePass {
     currentPass: string
     newPass: string
     confirmPass: string

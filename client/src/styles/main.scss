@@ -71,6 +71,11 @@ ol {
 
           a {
             font-size: 20px;
+            transition: 200ms;
+
+            &:hover {
+              color: #f92552;
+            }
           }
         }
       }

@@ -16,7 +16,7 @@ dotenv.config()
 export class SettingsController {
     constructor(private readonly settingsService: SettingsService) {}
 
-    @Put('/pass')
+    @Put('/change-pass')
     async changePass(@Body() data: PasswordDto, @Headers('authorization') authorization: string) {
         const accessToken = authorization.split(' ')[1]
         checkAccessToken(accessToken)

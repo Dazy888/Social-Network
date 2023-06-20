@@ -1,9 +1,10 @@
 import React from "react"
+import { UseFormRegister } from "react-hook-form"
 
 interface Props {
     isError: boolean
     errorMessage: string | undefined
-    register: any
+    register: UseFormRegister<any>
     name: string
     patternValue: RegExp
     minLength: number
@@ -15,8 +16,8 @@ interface Props {
 
 const SettingsInputComponent: React.FC<Props> = ({ className, isError, errorMessage, register, name, type, patternValue, maxLength, minLength, placeholder }) => (
     <div className={`error-container`}>
-        {(isError) && <span>{errorMessage}</span>}
-        <input required minLength={minLength} maxLength={maxLength} className={`${(isError) ? 'red-border' : ''} ${className}`} type={type} placeholder={placeholder}
+        {isError && <span>{errorMessage}</span>}
+        <input required {...{ minLength, maxLength, type, placeholder }} className={`${(isError) ? 'red-border' : ''} ${className}`}
                {...(register(name, { pattern: { value: patternValue, message: 'Invalid value' } }))}
         />
     </div>

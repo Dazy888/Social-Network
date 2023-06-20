@@ -21,9 +21,7 @@ const SignUp = () => {
             onError: (err: string): any => notify(err, 'warning')
         })
 
-    return(
-        <AuthPage title={'up'} isLoading={isLoading} signAction={signUp}><></></AuthPage>
-    )
+    return <AuthPage title={'up'} isLoading={isLoading} signAction={signUp}><></></AuthPage>
 }
 
 export default React.memo(SignUp)

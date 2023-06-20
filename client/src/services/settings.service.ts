@@ -2,8 +2,8 @@ import { $api } from "@/http"
 import { AxiosResponse } from "axios"
 
 export class SettingsService {
-    static setPassword(currentPass: string, newPass: string, id: string) {
-        return $api.put('settings/password', { currentPass, newPass, id })
+    static changePassword(currentPass: string, newPass: string, id: string) {
+        return $api.put('settings/change-pass', { currentPass, newPass, id })
             .then(res => res)
             .catch(err => { throw err.response.data.message })
     }

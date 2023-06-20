@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react"
 import Head from "next/head"
 import { useRouter } from "next/router"
-import styles from '@/styles/Authorization.module.scss'
 import { SubmitHandler, useForm } from "react-hook-form"
+import styles from '@/styles/Authorization.module.scss'
 import { notify } from "@/components/auth/AuthForm"
 // Models
 import { IAuthForm } from "@/models/auth.models"
@@ -13,6 +13,7 @@ import { AuthInput } from "@/components/auth/AuthInput"
 import { SubmitBtn } from "@/components/auth/SubmitBtn"
 import { NavLink } from "@/components/navigation/NavLink"
 import {ToastContainer} from "react-toastify";
+import {PassRequirements} from "@/components/common/PassRequirements";
 
 export const getCookie = (name: string) => {
     const value = `; ${document.cookie}`
@@ -39,7 +40,6 @@ const AuthLayout: React.FC<Props> = ({ title, signAction, isLoading}) => {
 
     const { register, handleSubmit, watch, formState: { errors, touchedFields } } = useForm<IAuthForm>({ mode: 'onChange' })
     const currentPass =  watch('pass')
-
 
     const onSubmit: SubmitHandler<IAuthForm> = (data) => {
         if (isLoading) notify('Too many requests', 'warning')
@@ -74,31 +74,16 @@ const AuthLayout: React.FC<Props> = ({ title, signAction, isLoading}) => {
                                        patternValue={/^[a-zA-Z0-9]+$/} minLength={4} maxLength={10} placeholder={'Login'} classNames={'mb-4'}
                             />
                             <div className={'mb-10'}>
-                                <AuthInput type={'password'} register={register} name={'pass'} isError={!!(errors.pass?.message && touchedFields.pass)} patternValue={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/}
+                                <AuthInput type={'password'} register={register} name={'pass'} isError={!!(errors.pass?.message && touchedFields.pass)} patternValue={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,15}$/}
                                            minLength={8} placeholder={'Password'}
                                 />
-                                { (title === 'up') &&
-                                    <ol className={'list-disc pl-5 mt-3 text-sm'}>
-                                        <li>
-                                            Must have at least 8 characters {(currentPass?.length > 7) ? <i className={'fa-solid fa-check'} /> : <i className={'fa-solid fa-xmark text-xs'} />}
-                                        </li>
-                                        <li>
-                                            Must contain at least one digit {(/\d/g.test(currentPass)) ? <i className={'fa-solid fa-check'} /> : <i className={'fa-solid fa-xmark text-xs'} />}
-                                        </li>
-                                        <li>
-                                            Must contain at least one uppercase letter {(/[A-Z]/g.test(currentPass)) ? <i className={'fa-solid fa-check'} /> : <i className={'fa-solid fa-xmark text-xs'} />}
-                                        </li>
-                                        <li>
-                                            Must contain at least one lowercase letter {(/[a-z]/g.test(currentPass)) ? <i className={'fa-solid fa-check'} /> : <i className={'fa-solid fa-xmark text-xs'} />}
-                                        </li>
-                                        <li>
-                                            Must contain at least one special character {(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/g.test(currentPass)) ? <i className={'fa-solid fa-check'} /> : <i className={'fa-solid fa-xmark text-xs'} />}
-                                        </li>
-                                    </ol>
+                                { (title === 'up') && <PassRequirements isMinLength={currentPass?.length > 7} isOneDigit={/\d/g.test(currentPass)} isUppLetter={/[A-Z]/g.test(currentPass)}
+                                                                        isLowLetter={/[a-z]/g.test(currentPass)} isSpecialCharacter={/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/g.test(currentPass)}
+                                                      />
                                 }
                             </div>
-                            <ReCAPTCHA ref={reRef} sitekey={'6LfPBogmAAAAAJ8cP0kTqqd1q2n1RFvIRaTstbMN'} onChange={(value) => setCaptchaToken(value)}
-                                       style={{ transform: 'scale(0.77)', transformOrigin: '0 0' }} className={'captcha'}
+                            <ReCAPTCHA ref={reRef} sitekey={'6LfPBogmAAAAAJ8cP0kTqqd1q2n1RFvIRaTstbMN'} onChange={(value) => setCaptchaToken(value)} className={'captcha'}
+                                       style={{ transform: 'scale(0.77)', transformOrigin: '0 0' }}
                             />
                             <SubmitBtn isLoading={isLoading} value={title}/>
                         </form>
