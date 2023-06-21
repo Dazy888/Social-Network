@@ -19,10 +19,6 @@ const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const profile_controller_1 = require("../profile/profile.controller");
 const settings_service_1 = require("./settings.service");
-const password_dto_1 = require("./dto/password.dto");
-const mail_dto_1 = require("./dto/mail.dto");
-const text_dto_1 = require("./dto/text.dto");
-const photo_dto_1 = require("./dto/photo.dto");
 dotenv.config();
 let SettingsController = class SettingsController {
     constructor(settingsService) {
@@ -48,25 +44,11 @@ let SettingsController = class SettingsController {
         await this.settingsService.activate(fullUrl);
         res.redirect(`${process.env.CLIENT_URL}/settings/activate`);
     }
-    async setName(data, authorization) {
-        const accessToken = authorization.split(' ')[1];
-        (0, profile_controller_1.checkAccessToken)(accessToken);
-        return this.settingsService.setName(data.text, data.id);
-    }
-    async setLocation(data, authorization) {
-        const accessToken = authorization.split(' ')[1];
-        (0, profile_controller_1.checkAccessToken)(accessToken);
-        return this.settingsService.setLocation(data.text, data.id);
-    }
-    async setAvatar(data, image, authorization) {
-        const accessToken = authorization.split(' ')[1];
-        (0, profile_controller_1.checkAccessToken)(accessToken);
-        return this.settingsService.uploadImage(image, 'avatar', data.id);
-    }
-    async setBanner(data, image, authorization) {
-        const accessToken = authorization.split(' ')[1];
-        (0, profile_controller_1.checkAccessToken)(accessToken);
-        return this.settingsService.uploadImage(image, 'banner', data.id);
+    async setProfileSettings(data, files) {
+        let banner;
+        let avatar;
+        files.forEach((item) => (item.fieldname === 'banner') ? banner = item : avatar = item);
+        return this.settingsService.setProfileSettings(data.id, data, banner, avatar);
     }
 };
 __decorate([
@@ -74,7 +56,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [password_dto_1.PasswordDto, String]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "changePass", null);
 __decorate([
@@ -82,7 +64,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [mail_dto_1.MailDto, String]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "sendMail", null);
 __decorate([
@@ -103,41 +85,14 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "activate", null);
 __decorate([
-    (0, common_1.Put)('name'),
+    (0, common_1.Put)('profile-settings'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.AnyFilesInterceptor)()),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Headers)('authorization')),
+    __param(1, (0, common_1.UploadedFiles)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [text_dto_1.TextDto, String]),
+    __metadata("design:paramtypes", [Object, Array]),
     __metadata("design:returntype", Promise)
-], SettingsController.prototype, "setName", null);
-__decorate([
-    (0, common_1.Put)('location'),
-    __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Headers)('authorization')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [text_dto_1.TextDto, String]),
-    __metadata("design:returntype", Promise)
-], SettingsController.prototype, "setLocation", null);
-__decorate([
-    (0, common_1.Post)('avatar'),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image')),
-    __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.UploadedFile)()),
-    __param(2, (0, common_1.Headers)('authorization')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [photo_dto_1.PhotoDto, Object, String]),
-    __metadata("design:returntype", Promise)
-], SettingsController.prototype, "setAvatar", null);
-__decorate([
-    (0, common_1.Post)('banner'),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image')),
-    __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.UploadedFile)()),
-    __param(2, (0, common_1.Headers)('authorization')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [photo_dto_1.PhotoDto, Object, String]),
-    __metadata("design:returntype", Promise)
-], SettingsController.prototype, "setBanner", null);
+], SettingsController.prototype, "setProfileSettings", null);
 SettingsController = __decorate([
     (0, common_1.Controller)('settings'),
     __metadata("design:paramtypes", [settings_service_1.SettingsService])

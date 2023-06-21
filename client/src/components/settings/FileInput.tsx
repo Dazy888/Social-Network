@@ -1,26 +1,35 @@
-import React, { useRef } from "react"
-import { SetFieldValue, UseFormRegister } from "react-hook-form"
-import styles from '@/styles/Settings.module.scss'
+import React from "react"
+import { Button } from "@mui/material"
 
 interface Props {
     label: 'Avatar' | 'Banner'
-    name: 'avatar' | 'banner'
-    register: UseFormRegister<any>
-    setValue: SetFieldValue<any>
-    currentValue: string
+    uploadImage: (image: File | undefined) => void
+    uploadedImage: string | undefined
 }
 
-export const FileInputComponent: React.FC<Props> = ({ name, label, register, setValue, currentValue }) => {
-    const circleRef: any = useRef()
+export const FileInputComponent: React.FC<Props> = ({ label, uploadImage, uploadedImage }) => {
+    function changeListener(e: any) {
+        const file = e.target.files[0]
+
+        if (file) {
+            uploadImage(file)
+            e.target.value = null
+            e.target.type = 'text'
+            e.target.type = 'file'
+        }
+    }
 
     return(
-        <div className={styles.box}>
-            <label className={name}>{label}</label>
-            <input onClick={() => circleRef.current.classList.remove('success-image')} {...(register(name))} type={'file'} onChange={(event: any) => {setValue(name, event.currentTarget.files[0])}}/>
-            <div ref={circleRef} data-name={name} className={`${styles['circle']} flex justify-center items-center`}>
-                <i className={'fa-solid fa-upload'}/>
-            </div>
-            <span>{currentValue}</span>
+        <div className={'w-1/2'}>
+            <Button variant={'contained'} component={'label'} className={'tracking-wide text-sm w-44 mui-btn-color mx-auto block text-center'}>
+                Upload {label} <input onClick={(e: any) => e.target.value = null} onChange={(e) => changeListener(e)} type={'file'} hidden />
+            </Button>
+            {(uploadedImage) &&
+                <div className={'text-center'}>
+                    <span className={'leading-7'}>{uploadedImage}</span>
+                    <i onClick={() => uploadImage(undefined)} className={'fa-solid fa-trash block text-red ml-2 cursor-pointer font-semibold'} />
+                </div>
+            }
         </div>
     )
 }

@@ -1,7 +1,6 @@
 import { Body, Controller, Delete, Post, Put, Param, Get, Headers } from '@nestjs/common'
 import { ProfileService } from "./profile.service"
-import { TextDto } from "../settings/dto/text.dto"
-import { SubscriptionDto } from "./dto/subscription.dto"
+import { SubscriptionProps, ChangeTextProps } from "./models/profile.models"
 import { checkToken } from "../auth/auth.controller"
 import { validateToken } from "../auth/auth.service"
 import { ProfileIntroProps } from "./models/profile.models"
@@ -23,7 +22,7 @@ export class ProfileController {
     }
 
     @Post('post')
-    async createPost(@Body() data: TextDto, @Headers('authorization') authorization: string) {
+    async createPost(@Body() data: ChangeTextProps, @Headers('authorization') authorization: string) {
         const accessToken = authorization.split(' ')[1]
         checkAccessToken(accessToken)
         return this.profileService.createPost(data.text, data.id)
@@ -44,14 +43,14 @@ export class ProfileController {
     }
 
     @Put('follow')
-    async follow(@Body() data: SubscriptionDto, @Headers('authorization') authorization: string) {
+    async follow(@Body() data: SubscriptionProps, @Headers('authorization') authorization: string) {
         const accessToken = authorization.split(' ')[1]
         checkAccessToken(accessToken)
         return this.profileService.follow(data.authorizedUserId, data.openedUserId)
     }
 
     @Put('unfollow')
-    async unfollow(@Body() data: SubscriptionDto, @Headers('authorization') authorization: string) {
+    async unfollow(@Body() data: SubscriptionProps, @Headers('authorization') authorization: string) {
         const accessToken = authorization.split(' ')[1]
         checkAccessToken(accessToken)
         return this.profileService.unfollow(data.authorizedUserId, data.openedUserId)

@@ -1,94 +1,76 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useMutation } from "react-query"
 import { SettingsService } from "@/services/settings.service"
 import { useAppDispatch, useAppSelector } from "@/hooks/redux"
-import { setAvatarSrc, setBannerSrc, setUserLocation, setUserName } from "@/store/reducers/ProfileSlice"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { notify } from "@/components/auth/AuthForm"
 // Styles
 import styles from '@/styles/Settings.module.scss'
 // Components
 import { SettingsPage } from "@/layouts/SettingsPageLayout"
-import { Loader } from "@/components/auth/Loader"
 import { FileInput } from "@/components/settings/FileInput"
 import { Title } from "@/components/settings/Title"
-import { SubmitBtn } from "@/components/settings/SubmitBtn"
+import { ProfileInput } from "@/components/settings/profile/ProfileInput"
+import ScaleLoader from "react-spinners/ScaleLoader"
 // Models
-import { IAvatarForm, IBannerForm, ILocationForm, INameForm } from "@/models/settings.models"
-import {ChangeNameForm} from "@/components/settings/profile/ChangeNameForm";
-import {ChangeLocationForm} from "@/components/settings/profile/ChangeLocationForm";
+import { ProfileSettings } from "@/models/settings.models"
+import {setProfileSettings} from "@/store/reducers/ProfileSlice";
 
 const Profile = () => {
     const dispatch = useAppDispatch()
 
     const id = useAppSelector(state => state.profileReducer.id)
-    const currentAvatar = useAppSelector(state => state.profileReducer.avatar)
-    const currentBanner = useAppSelector(state => state.profileReducer.banner)
+    const [uploadedBanner, uploadBanner] = useState<File>()
+    const [uploadedAvatar, uploadAvatar] = useState<File>()
 
-    const { register:avatarReg, handleSubmit:avatarSub, setValue:setAvatarValue, watch:watchAvatar } = useForm<IAvatarForm>({ mode: 'onChange' })
-    const { register:bannerReg, handleSubmit:bannerSub, setValue:setBannerValue, watch:watchBanner } = useForm<IBannerForm>({ mode: 'onChange' })
+    const currentName = useAppSelector(state => state.profileReducer.name)
+    const currentLocation = useAppSelector(state => state.profileReducer.location)
 
-    const avatarValue = watchAvatar('avatar')
-    const bannerValue = watchBanner('banner')
+    useEffect(() => {
+        setValue('name', currentName)
+        setValue('location', currentLocation)
+    }, [currentName, currentLocation])
 
-    const setPhoto = (selector: string, link: string, value: string) => {
-        const circle: any = document.querySelector(selector)
-        circle.classList.add('success-image')
-        (value === 'avatar') ? dispatch(setAvatarSrc(link)) : dispatch(setBannerSrc(link))
-    }
-
-    const { mutateAsync:setAvatar, isLoading:isSettingAvatar } = useMutation('set avatar', (data: FormData) => SettingsService.setAvatar(data),
+    const { mutateAsync, isLoading } = useMutation('set profile settings', (data: FormData) => SettingsService.setProfileSettings(data),
         {
             onSuccess(res) {
-                setPhoto('div[data-name=avatar]', res, 'avatar')
-                notify('Your avatar was successfully changed', 'success')
+                notify('Profile was changed successfully', 'success')
+                dispatch(setProfileSettings(res))
             },
-            onError: (): any => notify('Your avatar was not change, try again', 'error')
+            onError: (): any => notify('Something went wrong, reload page and try again', 'error')
         }
     )
 
-    const { mutateAsync:setBanner, isLoading:isSettingBanner } = useMutation('set banner', (data: FormData) => SettingsService.setBanner(data),
-        {
-            onSuccess(res) {
-                setPhoto('div[data-name=banner]', res, 'banner')
-                notify('Your banner was successfully changed', 'success')
-            },
-            onError: (): any => notify('Your banner was not change, try again', 'error')
-        }
-    )
+    const { handleSubmit, register, setValue, formState: { errors, touchedFields, dirtyFields } } = useForm<ProfileSettings>({ mode: 'onChange' })
 
-    const avatarSubmit: SubmitHandler<IAvatarForm> = async () => await sendPhoto(avatarValue, currentAvatar, setAvatar)
-    const bannerSubmit: SubmitHandler<IBannerForm> = async () => await sendPhoto(bannerValue, currentBanner, setBanner)
+    const onSubmit: SubmitHandler<ProfileSettings> = async (data) => {
+        if (isLoading) return notify('Your request is handling, try later', 'warning')
+        if (Object.keys(dirtyFields).length === 0 && !uploadedAvatar && !uploadedBanner) return notify(`You didn't make any changes`, 'warning')
 
-    const sendPhoto = async (photo: File, currentPath: string, setPhoto: (data: FormData) => void) => {
-        let data = new FormData()
-        data.append('image', photo)
-        data.append('id', id)
-        data.append('currentPath', currentPath)
-        await setPhoto(data)
+        const formData = new FormData()
+        formData.append('id', id)
+        if (data.name !== currentName) formData.append('name', data.name)
+        if (data.location !== currentLocation) formData.append('location', data.location)
+        if (uploadedBanner) formData.append('banner', uploadedBanner)
+        if (uploadedAvatar) formData.append('avatar', uploadedAvatar)
+        await mutateAsync(formData)
     }
 
     return(
         <SettingsPage title={'Profile settings'}>
-            {/*<Title title={'Profile Settings'}/>*/}
-            {/*<hr className={'w-full h-px'}/>*/}
-            {/*<div className={`${styles.forms} py-10 px-6`}>*/}
-            {/*    <div className={`${styles.inputs} flex justify-between items-center`}>*/}
-            {/*        <ChangeNameForm />*/}
-            {/*        <ChangeLocationForm />*/}
-            {/*    </div>*/}
-            {/*    <div className={`${styles.files} flex justify-between items-center`}>*/}
-            {/*        <form onSubmit={avatarSub(avatarSubmit)}>*/}
-            {/*            <FileInput label={'Avatar'} name={'avatar'} register={avatarReg} setValue={setAvatarValue} currentValue={avatarValue?.name}/>*/}
-            {/*            <SubmitBtn isLoading={isSettingAvatar}/>*/}
-            {/*        </form>*/}
-            {/*        <form onSubmit={bannerSub(bannerSubmit)}>*/}
-            {/*            <FileInput label={'Banner'} name={'banner'} register={bannerReg} setValue={setBannerValue} currentValue={bannerValue?.name}/>*/}
-            {/*            <SubmitBtn isLoading={isSettingBanner}/>*/}
-            {/*        </form>*/}
-            {/*    </div>*/}
-            {/*    <Loader color={'rebeccapurple'} loading={isSettingName || isSettingLocation || isSettingAvatar || isSettingBanner}/>*/}
-            {/*</div>*/}
+            <Title title={'Profile Settings'}/>
+            <hr className={'w-full h-px'}/>
+            <form className={`py-10 px-6 ${styles['profile-settings']}`} onSubmit={handleSubmit(onSubmit)}>
+                <ProfileInput isError={!!(errors.name?.message && touchedFields.name)} register={register} name={'name'} />
+                <ProfileInput isError={!!(errors.location?.message && touchedFields.location)} register={register} name={'location'} />
+                <div className={'flex justify-between mt-2'}>
+                    <FileInput label={'Banner'} uploadedImage={uploadedBanner?.name} uploadImage={uploadBanner} />
+                    <FileInput label={'Avatar'} uploadedImage={uploadedAvatar?.name} uploadImage={uploadAvatar} />
+                </div>
+                <button className={`block text-smd font-semibold rounded-lg mx-auto py-4 px-10 text-white mt-10 ${styles.submit}`}>
+                    {isLoading ? <ScaleLoader className={styles.loader} color={'white'} loading={true} /> : 'Submit' }
+                </button>
+            </form>
         </SettingsPage>
     )
 }

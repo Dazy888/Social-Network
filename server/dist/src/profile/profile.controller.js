@@ -15,8 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProfileController = exports.checkAccessToken = void 0;
 const common_1 = require("@nestjs/common");
 const profile_service_1 = require("./profile.service");
-const text_dto_1 = require("../settings/dto/text.dto");
-const subscription_dto_1 = require("./dto/subscription.dto");
+const profile_models_1 = require("./models/profile.models");
 const auth_controller_1 = require("../auth/auth.controller");
 const auth_service_1 = require("../auth/auth.service");
 function checkAccessToken(token) {
@@ -72,7 +71,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [text_dto_1.TextDto, String]),
+    __metadata("design:paramtypes", [profile_models_1.ChangeTextProps, String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "createPost", null);
 __decorate([
@@ -96,7 +95,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [subscription_dto_1.SubscriptionDto, String]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "follow", null);
 __decorate([
@@ -104,7 +103,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [subscription_dto_1.SubscriptionDto, String]),
+    __metadata("design:paramtypes", [Object, String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "unfollow", null);
 ProfileController = __decorate([

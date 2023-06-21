@@ -52,25 +52,17 @@ let SettingsService = class SettingsService {
         });
     }
     async activate(activationLink) {
-        console.log(activationLink);
         const user = await this.userModel.findOne({ activationLink });
-        console.log(user);
         if (!await this.userModel.findOneAndUpdate({ activationLink }, { isActivated: true }))
             throw new common_1.BadRequestException('Invalid activation link');
     }
     async cancelActivation(_id) {
         await this.userModel.findOneAndUpdate({ _id }, { email: '', activationLink: '' });
     }
-    async setName(name, _id) {
-        await this.userModel.findOneAndUpdate({ _id }, { name });
-    }
-    async setLocation(location, _id) {
-        await this.userModel.findOneAndUpdate({ _id }, { location });
-    }
-    async uploadFile(file, car) {
+    async uploadFile(file, name) {
         const storage = new storage_1.Storage({ projectId: 'central-courier-389415', keyFilename: path.join(__dirname, '..', '..', 'src', 'config', 'key.json') });
         const bucketName = 'social-network_dazy';
-        const uniqueFilename = (0, uuid_1.v4)() + '-' + car ? car : file.originalname;
+        const uniqueFilename = (0, uuid_1.v4)() + '-' + name;
         const blob = storage.bucket(bucketName).file(uniqueFilename);
         const stream = blob.createWriteStream({
             metadata: { contentType: file.mimetype }
@@ -79,8 +71,11 @@ let SettingsService = class SettingsService {
             stream.on('error', reject).on('finish', resolve);
             stream.end(file.buffer);
         });
-        const [metadata] = await blob.getMetadata();
-        return metadata.mediaLink;
+        const [signedUrl] = await blob.getSignedUrl({
+            action: 'read',
+            expires: '03-01-2030'
+        });
+        return signedUrl;
     }
     async deleteFiles(files) {
         const storage = new storage_1.Storage({ projectId: 'central-courier-389415', keyFilename: path.join(__dirname, '..', '..', 'src', 'config', 'key.json') });
@@ -95,10 +90,23 @@ let SettingsService = class SettingsService {
             }
         }));
     }
-    async uploadImage(image, field, _id) {
-        const imageUrl = await this.uploadFile(image, field);
-        const updateObject = { [field]: imageUrl };
-        await this.userModel.findOneAndUpdate({ _id }, updateObject);
+    async uploadImage(field, userName, image, _id) {
+        const publicLink = await this.uploadFile(image, userName + '-' + field);
+        await this.userModel.findOneAndUpdate({ _id }, { [field]: publicLink });
+    }
+    async setProfileSettings(_id, data, banner, avatar) {
+        const user = await this.userModel.findOne({ _id });
+        if (banner)
+            await this.uploadImage('banner', user.name, banner, _id);
+        if (avatar)
+            await this.uploadImage('avatar', user.name, avatar, _id);
+        const updatedUser = await this.userModel.findOneAndUpdate({ _id }, Object.assign({}, data));
+        return {
+            name: updatedUser.name,
+            location: updatedUser.location,
+            banner: updatedUser.banner,
+            avatar: updatedUser.avatar
+        };
     }
 };
 SettingsService = __decorate([

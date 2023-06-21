@@ -8,6 +8,14 @@
   align-items: center;
 }
 
+.mui-btn-color {
+  background: rgb(77, 84, 125);
+
+  &:hover {
+    background: rgb(77, 84, 110);
+  }
+}
+
 ol {
   .fa-xmark {
     color: red;

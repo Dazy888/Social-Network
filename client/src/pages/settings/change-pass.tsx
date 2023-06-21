@@ -55,7 +55,7 @@ const ChangePass = () => {
                 <PassRequirements isMinLength={newPass?.length > 7} isOneDigit={/\d/g.test(newPass)} isUppLetter={/[A-Z]/g.test(newPass)}
                                   isLowLetter={/[a-z]/g.test(newPass || '')} isSpecialCharacter={/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/g.test(newPass)}
                 />
-                <button className={`${styles.submit} w-full rounded-lg tracking-wider font-semibold text-white mt-5`} type={'submit'}>
+                <button className={`${styles.submit} w-full rounded-lg tracking-wider font-semibold text-white mt-5 py-4`} type={'submit'}>
                     {isLoading ?  <ScaleLoader color={'white'} loading={true} /> : 'Change password' }
                 </button>
             </form>

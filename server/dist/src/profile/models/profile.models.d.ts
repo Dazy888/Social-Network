@@ -4,3 +4,11 @@ export interface ProfileIntroProps {
     field: Field;
     id: string;
 }
+export interface SubscriptionProps {
+    authorizedUserId: string;
+    openedUserId: string;
+}
+export declare class ChangeTextProps {
+    text: string;
+    id: string;
+}

@@ -102,10 +102,8 @@
         }
       }
 
-      .loader {
-        width: 45px;
-        height: 45px;
-        margin: 20px auto 0;
+      .loader span {
+        height: 10px !important;
       }
 
       .cancel {
@@ -118,77 +116,13 @@
         }
       }
 
-      .forms {
-        .files {
-          width: 450px;
-          margin: 70px auto;
+      .submit, button {
+        background: rebeccapurple !important;
+        transition: 200ms;
 
-          button {
-            margin-left: 0;
-          }
-
-          .box {
-            width: 50px;
-            height: 100px;
-            position: relative;
-            margin: auto;
-
-            label {
-              position: absolute;
-              top: -30px;
-              text-align: center;
-              font-weight: 500;
-            }
-
-            input {
-              width: 50px;
-              height: 50px;
-              position: absolute;
-              opacity: 0;
-              z-index: 1;
-              cursor: pointer;
-              padding: 0;
-            }
-
-            .circle {
-              width: 50px;
-              height: 50px;
-              background: rebeccapurple;
-              border-radius: 50%;
-              position: absolute;
-              top: 0;
-
-              i {
-                font-size: 28px;
-                color: white;
-              }
-            }
-
-            span {
-              width: 200px;
-              font-size: 14px;
-              font-weight: 500;
-              position: absolute;
-              bottom: 20px;
-              left: -82px;
-              text-align: center;
-            }
-          }
+        &:hover {
+          opacity: 0.9;
         }
-
-        form {
-          padding: 0;
-
-          button {
-            width: 100px;
-            background: rebeccapurple;
-          }
-        }
-      }
-
-      .submit {
-        height: 50px;
-        background: rebeccapurple;
       }
     }
   }

@@ -8,20 +8,14 @@ export interface IChangePass {
     confirmPass: string
 }
 
-export interface INameForm {
+export interface ProfileSettings {
     name: string
-}
-
-export interface ILocationForm {
     location: string
 }
 
-export interface IAvatarForm {
-    avatar: any
-}
-
-export interface IBannerForm {
-    banner: any
+export interface ProfileSettingsResponse extends ProfileSettings {
+    avatar: string
+    banner: string
 }
 
 export interface SetPassProps {
