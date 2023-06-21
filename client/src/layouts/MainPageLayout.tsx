@@ -17,6 +17,7 @@ import { createCookie } from "@/layouts/AuthLayout"
 import { setUser } from "@/store/reducers/ProfileSlice"
 import { setSettingData } from "@/store/reducers/SettingsSlice"
 import {notify} from "@/components/auth/AuthForm";
+import {MoonLoader} from "react-spinners";
 
 async function successfulLogout(router: any, dispatch: any) {
     createCookie('refreshToken', '', -1)
@@ -41,7 +42,7 @@ const MainPageLayout: React.FC<LayoutProps> = ({ children, title }) => {
         }
     )
 
-    const { refetch:refresh } = useQuery('refresh', () => AuthService.refresh(),
+    const { refetch:refresh, isLoading } = useQuery('refresh', () => AuthService.refresh(),
         {
             onSuccess(res) {
                 createCookie('accessToken', res.accessToken, 15 / (24 * 60))
@@ -75,13 +76,13 @@ const MainPageLayout: React.FC<LayoutProps> = ({ children, title }) => {
                             </ul>
                         </nav>
                         <div className={'header__logout flex justify-between items-center cursor-pointer overflow-hidden relative duration-500'}>
-                            <img alt={'Avatar'} src={avatar} className={'rounded-full w-14 h-14'}/>
+                            <img alt={'Avatar'} src={avatar || 'https://storage.googleapis.com/social-network_dazy/default-avatar.webp'} className={'rounded-full w-14 h-14'}/>
                             <button className={'text-xl absolute text-white'} onClick={() => logout()}>Logout</button>
                         </div>
                     </div>
                 </header>
-                <main className={'min-h-screen'}>
-                    { children }
+                <main className={'min-h-screen flex justify-center items-center'}>
+                    {avatar ? children : <MoonLoader color={'#f92552'} loading={true} /> }
                 </main>
             </div>
         </>
