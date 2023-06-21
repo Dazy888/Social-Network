@@ -61,8 +61,8 @@ const Profile = () => {
             <Title title={'Profile Settings'}/>
             <hr className={'w-full h-px'}/>
             <form className={`py-10 px-6 ${styles['profile-settings']}`} onSubmit={handleSubmit(onSubmit)}>
-                <ProfileInput isError={!!(errors.name?.message && touchedFields.name)} register={register} name={'name'} />
-                <ProfileInput isError={!!(errors.location?.message && touchedFields.location)} register={register} name={'location'} />
+                <ProfileInput pattern={/^[A-Za-z0-9-_]+$/} isError={!!(errors.name?.message && touchedFields.name)} register={register} name={'name'} />
+                <ProfileInput pattern={/^[A-Za-z0-9,\-\s]+$/} isError={!!(errors.location?.message && touchedFields.location)} register={register} name={'location'} />
                 <div className={'flex justify-between mt-2'}>
                     <FileInput label={'Banner'} uploadedImage={uploadedBanner?.name} uploadImage={uploadBanner} />
                     <FileInput label={'Avatar'} uploadedImage={uploadedAvatar?.name} uploadImage={uploadAvatar} />

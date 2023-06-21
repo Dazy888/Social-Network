@@ -1,5 +1,5 @@
 import React from "react"
-import { Button } from "@mui/material"
+import styles from '@/styles/Settings.module.scss'
 
 interface Props {
     label: 'Avatar' | 'Banner'
@@ -21,9 +21,9 @@ export const FileInputComponent: React.FC<Props> = ({ label, uploadImage, upload
 
     return(
         <div className={'w-1/2'}>
-            <Button variant={'contained'} component={'label'} className={'tracking-wide text-sm w-44 mui-btn-color mx-auto block text-center'}>
+            <button className={`tracking-wide text-sm w-44 mui-btn-color mx-auto block text-center ${styles['upload-btn']}`}>
                 Upload {label} <input onClick={(e: any) => e.target.value = null} onChange={(e) => changeListener(e)} type={'file'} hidden />
-            </Button>
+            </button>
             {(uploadedImage) &&
                 <div className={'text-center'}>
                     <span className={'leading-7'}>{uploadedImage}</span>
