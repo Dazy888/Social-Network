@@ -20,7 +20,7 @@ const UserComponent: React.FC<Props> = ({ id }) => {
         onError: (err: string) => notify(err, 'error')
     })
 
-    const goToProfile = (id: string) => (id === initialUserId) ? router.push('/main/profile') : router.push(`/main/profile/${id}`)
+    const goToProfile = (id: string) => (id === initialUserId) ? router.push('/profile') : router.push(`/profile/${id}`)
 
     return(
         <div onClick={() => goToProfile(id)} className={styles['subscriptions__user']}>

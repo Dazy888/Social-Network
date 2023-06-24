@@ -190,8 +190,10 @@ export class SettingsService {
         const bucket = await storage.bucket(bucketName)
         const fileName = imagePath.match(/([^\/?]+)-[^\/?]+-(?:avatar|banner)/)
 
-        const file = await bucket.file(fileName[0])
-        await file.delete()
+        if (fileName) {
+            const file = await bucket.file(fileName[0])
+            await file.delete()
+        }
     }
 
     async uploadImage(field: 'banner' | 'avatar', userName: string, image: Express.Multer.File, _id: string, lastImage: string) {

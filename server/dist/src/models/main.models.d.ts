@@ -14,7 +14,7 @@ export interface User {
     activationLink: string | null;
 }
 export interface UserPreview {
-    userId: string;
+    id: string;
     name: string;
     location: string;
     avatar: string;

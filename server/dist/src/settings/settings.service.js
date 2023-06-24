@@ -71,35 +71,30 @@ let SettingsService = class SettingsService {
             stream.on('error', reject).on('finish', resolve);
             stream.end(file.buffer);
         });
-        const [signedUrl] = await blob.getSignedUrl({
-            action: 'read',
-            expires: '03-01-2030'
-        });
+        const [signedUrl] = await blob.getSignedUrl({ action: 'read', expires: '03-01-2030' });
         return signedUrl;
     }
-    async deleteFiles(files) {
+    async deleteFile(imagePath) {
         const storage = new storage_1.Storage({ projectId: 'central-courier-389415', keyFilename: path.join(__dirname, '..', '..', 'src', 'config', 'key.json') });
         const bucketName = 'social-network_dazy';
         const bucket = await storage.bucket(bucketName);
-        await Promise.all(files.map(async (value) => {
-            var _a;
-            if (value) {
-                const fileName = (_a = value.match(/(?<=o\/)[^/?]+(?=\?generation)/)) === null || _a === void 0 ? void 0 : _a[0];
-                const file = await bucket.file(fileName);
-                await file.delete();
-            }
-        }));
+        const fileName = imagePath.match(/([^\/?]+)-[^\/?]+-(?:avatar|banner)/);
+        if (fileName) {
+            const file = await bucket.file(fileName[0]);
+            await file.delete();
+        }
     }
-    async uploadImage(field, userName, image, _id) {
+    async uploadImage(field, userName, image, _id, lastImage) {
+        await this.deleteFile(lastImage);
         const publicLink = await this.uploadFile(image, userName + '-' + field);
         await this.userModel.findOneAndUpdate({ _id }, { [field]: publicLink });
     }
     async setProfileSettings(_id, data, banner, avatar) {
         const user = await this.userModel.findOne({ _id });
         if (banner)
-            await this.uploadImage('banner', user.name, banner, _id);
+            await this.uploadImage('banner', user.name, banner, _id, user.banner);
         if (avatar)
-            await this.uploadImage('avatar', user.name, avatar, _id);
+            await this.uploadImage('avatar', user.name, avatar, _id, user.avatar);
         const updatedUser = await this.userModel.findOneAndUpdate({ _id }, Object.assign({}, data));
         return {
             name: updatedUser.name,

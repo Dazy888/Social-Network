@@ -61,13 +61,15 @@ const Profile = () => {
             <Title title={'Profile Settings'}/>
             <hr className={'w-full h-px'}/>
             <form className={`py-10 px-6 ${styles['profile-settings']}`} onSubmit={handleSubmit(onSubmit)}>
-                <ProfileInput pattern={/^[A-Za-z0-9-_]+$/} isError={!!(errors.name?.message && touchedFields.name)} register={register} name={'name'} />
-                <ProfileInput pattern={/^[A-Za-z0-9,\-\s]+$/} isError={!!(errors.location?.message && touchedFields.location)} register={register} name={'location'} />
-                <div className={'flex justify-between mt-2'}>
+                <div className={'grid grid-cols-2 gap-10'}>
+                    <ProfileInput pattern={/^[A-Za-z0-9-_]+$/} isError={!!(errors.name?.message && touchedFields.name)} register={register} name={'name'} />
+                    <ProfileInput pattern={/^[A-Za-z0-9,\-\s]+$/} isError={!!(errors.location?.message && touchedFields.location)} register={register} name={'location'} />
+                </div>
+                <div className={'flex justify-center gap-10 mt-2'}>
                     <FileInput label={'Banner'} uploadedImage={uploadedBanner?.name} uploadImage={uploadBanner} />
                     <FileInput label={'Avatar'} uploadedImage={uploadedAvatar?.name} uploadImage={uploadAvatar} />
                 </div>
-                <button className={`block text-smd font-semibold rounded-lg mx-auto py-4 px-10 text-white mt-10 ${styles.submit}`}>
+                <button type={'submit'} className={`block text-smd font-semibold rounded-lg mx-auto py-4 px-10 text-white mt-10 ${styles.submit}`}>
                     {isLoading ? <ScaleLoader className={styles.loader} color={'white'} loading={true} /> : 'Submit' }
                 </button>
             </form>

@@ -48,7 +48,7 @@ const Activate = () => {
             <form className={'py-10 px-6'} onSubmit={handleSubmit(onSubmit)}>
                 {!!email
                     ?   <ActivatedEmail email={email} />
-                    :   <input required minLength={5} maxLength={35} className={styles['big-input']} type={'email'} placeholder={'Your e-mail'} {...(register('email'))} />
+                    :   <input required minLength={5} maxLength={35} className={`${styles['big-input']} ${styles.input}`} type={'email'} placeholder={'Your e-mail'} {...(register('email'))} />
                 }
                 {!isActivated &&
                     <button className={`${styles.submit} w-full rounded-lg tracking-wider font-semibold text-white py-4`} type={'submit'} disabled={isLoading || !!email}>

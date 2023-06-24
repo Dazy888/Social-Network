@@ -16,8 +16,8 @@ const MainComponent = () => {
     const followers = useAppSelector(state => state.profileReducer.followers)
     const following = useAppSelector(state => state.profileReducer.following)
 
-    const followingUsers = following.map((userId, pos) => <User key={v4()} id={id}/>)
-    const followersUsers = followers.map((userId, pos) => <User key={v4()} id={id}/>)
+    const followingUsers = following.map((userId) => <User key={v4()} id={userId}/>)
+    const followersUsers = followers.map((userId) => <User key={v4()} id={userId}/>)
 
     return(
         <div className={`${styles.main} grid gap-12 mt-14 text-white`}>

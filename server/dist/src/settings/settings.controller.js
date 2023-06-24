@@ -48,6 +48,7 @@ let SettingsController = class SettingsController {
         let banner;
         let avatar;
         files.forEach((item) => (item.fieldname === 'banner') ? banner = item : avatar = item);
+        console.log(avatar);
         return this.settingsService.setProfileSettings(data.id, data, banner, avatar);
     }
 };

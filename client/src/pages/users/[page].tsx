@@ -5,32 +5,32 @@ import { UsersService } from "@/services/users.service"
 import { notify } from "@/components/auth/AuthForm"
 import { IUserPreview } from "@/models/users.models"
 // Components
-import { Loader } from "@/components/users/Loader"
 import { MainPage } from "@/layouts/MainPageLayout"
-import { Content } from "@/components/users/Content"
+import { UsersList } from "@/components/users/Users"
 
 const Users = () => {
-    const id = useAppSelector(state => state.profileReducer.id)
-
     const [users, setUsers] = useState<IUserPreview[]>([])
     const [length, setLength] = useState(0)
     const [skip, setSkip] = useState(0)
+
+    const id = useAppSelector(state => state.profileReducer.id)
 
     const { refetch, isLoading } = useQuery('get users', () => UsersService.getUsers(skip, id), {
         onSuccess(res) {
             setLength(res.length)
             setUsers(res.usersData)
         },
-        onError: (err: string) => notify(err, 'error')
+        onError: (err: string) => notify(err, 'error'),
+        enabled: false
     })
 
     useEffect(() => {
-        setTimeout(() => refetch(), 300)
-    }, [refetch])
+        if (id) refetch()
+    }, [id])
 
     return (
         <MainPage title={'Users'}>
-            { isLoading ? <Loader/> : <Content isLoading={isLoading} length={length} setSkip={setSkip} refetch={refetch} users={users} /> }
+            { !isLoading && <UsersList {...{ isLoading, users, length, setSkip, refetch }} /> }
         </MainPage>
     )
 }

@@ -13,7 +13,7 @@ interface Props {
 const ProfileInputComponent: React.FC<Props> = ({ name, register, isError, pattern }) => (
     <div className={`error-container`}>
         {isError && <span>Invalid value</span>}
-        <input required type={'text'} placeholder={`Enter your new ${name}`} minLength={2} maxLength={20} className={`${(isError) ? 'red-border' : ''} ${styles['big-input']}`}
+        <input required type={'text'} placeholder={`Enter your new ${name}`} minLength={2} maxLength={20} className={`${(isError) ? 'red-border' : ''} ${styles['big-input']} ${styles.input}`}
                {...(register(name, { pattern: { value: pattern, message: 'Invalid value' } }))}
         />
     </div>

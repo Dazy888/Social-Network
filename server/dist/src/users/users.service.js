@@ -21,6 +21,20 @@ let UsersService = class UsersService {
         this.userModel = userModel;
         this.postModel = postModel;
     }
+    async getUsers(skip, id) {
+        const length = await this.userModel.count();
+        const users = await this.userModel.find({ _id: { $ne: id } }).skip(skip).limit(4);
+        const usersData = [];
+        for (const user of users) {
+            usersData.push({
+                id: user.id,
+                name: user.name,
+                location: user.location,
+                avatar: user.avatar,
+            });
+        }
+        return { usersData, length };
+    }
     async getUser(_id) {
         const user = await this.userModel.findOne({ _id });
         const posts = await this.postModel.find({ userId: _id });
@@ -36,20 +50,6 @@ let UsersService = class UsersService {
             following: user.following,
             posts
         };
-    }
-    async getUsers(skip, id) {
-        const length = await this.userModel.count();
-        const users = await this.userModel.find({ userId: { $ne: id } }).skip(skip).limit(4);
-        const usersData = [];
-        for (const user of users) {
-            usersData.push({
-                userId: user.id,
-                name: user.name,
-                location: user.location,
-                avatar: user.avatar,
-            });
-        }
-        return { usersData, length };
     }
 };
 UsersService = __decorate([

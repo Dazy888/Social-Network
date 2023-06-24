@@ -29,6 +29,10 @@
       button {
         width: 80px;
         height: 30px;
+
+        &:hover {
+          //transform: translateY(-10px);
+        }
       }
 
       .follow {
@@ -40,10 +44,10 @@
       }
 
       .unfollow {
-        background: #EFEFEF;
+        background: rgb(250, 2, 2);
 
         &:hover {
-          background: #DBDBDB;
+          background: rgba(250, 2, 2, 0.8);
         }
       }
     }
