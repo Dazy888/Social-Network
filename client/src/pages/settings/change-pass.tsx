@@ -8,8 +8,8 @@ import { notify } from "@/components/auth/AuthForm"
 // Styles
 import styles from '@/styles/Settings.module.scss'
 // Components
+import { SettingsLayout } from "@/layouts/SettingsLayout"
 import { Title } from "@/components/settings/Title"
-import { SettingsPage } from "@/layouts/SettingsPageLayout"
 import { ChangePassInput } from "@/components/settings/change-pass/ChangePassInput"
 import { PassRequirements } from "@/components/common/PassRequirements"
 import ScaleLoader from "react-spinners/ScaleLoader"
@@ -37,7 +37,7 @@ const ChangePass = () => {
     }
 
     return(
-        <SettingsPage title={'Password change'}>
+        <SettingsLayout title={'Password change'}>
             <Title title={'Password Change'}/>
             <hr className={'w-full h-px'}/>
             <form className={'py-10 px-6'} onSubmit={handleSubmit(onSubmit)}>
@@ -59,7 +59,7 @@ const ChangePass = () => {
                     {isLoading ?  <ScaleLoader color={'white'} loading={true} /> : 'Change password' }
                 </button>
             </form>
-        </SettingsPage>
+        </SettingsLayout>
     )
 }
 

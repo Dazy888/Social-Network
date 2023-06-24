@@ -11,8 +11,8 @@ import { setEmail } from "@/store/reducers/SettingsSlice"
 // Form
 import { SubmitHandler, useForm } from "react-hook-form"
 // Components
+import { SettingsLayout } from "@/layouts/SettingsLayout"
 import { Title } from "@/components/settings/Title"
-import { SettingsPage } from "@/layouts/SettingsPageLayout"
 import { ActivatedEmail } from "@/components/settings/activation/ActivatedEmail"
 import { ActivationMessage } from "@/components/settings/activation/ActivationMessage"
 import ScaleLoader from "react-spinners/ScaleLoader"
@@ -42,7 +42,7 @@ const Activate = () => {
     }
 
     return(
-        <SettingsPage title={'E-mail activation'}>
+        <SettingsLayout title={'E-mail activation'}>
             <Title title={'E-mail Activation'}/>
             <hr className={'w-full h-px'}/>
             <form className={'py-10 px-6'} onSubmit={handleSubmit(onSubmit)}>
@@ -57,7 +57,7 @@ const Activate = () => {
                 }
             </form>
             {(!isActivated && !!email) && <ActivationMessage />}
-        </SettingsPage>
+        </SettingsLayout>
     )
 }
 

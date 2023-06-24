@@ -1,11 +1,11 @@
 import React from "react"
 import styles from '@/styles/Settings.module.scss'
 import { LayoutProps } from "@/models/layouts.models"
-import { MainPage } from "@/layouts/MainPageLayout"
+import { MainLayout } from "@/layouts/MainLayout"
 import { NavLink } from "@/components/navigation/NavLink"
 
-const SettingsPageLayout: React.FC<LayoutProps> = ({ children, title }) => (
-    <MainPage title={title}>
+const SettingsLayoutComponent: React.FC<LayoutProps> = ({ children, title }) => (
+    <MainLayout title={title}>
         <div id={styles['settings']} className={'flex justify-center items-center h-full'}>
             <div className={`${styles['container']} flex justify-between items-center mx-auto`}>
                 <nav className={'flex justify-center items-center h-full rounded-md text-white font-medium text-xl'}>
@@ -20,7 +20,7 @@ const SettingsPageLayout: React.FC<LayoutProps> = ({ children, title }) => (
                 </div>
             </div>
         </div>
-    </MainPage>
+    </MainLayout>
 )
 
-export const SettingsPage = React.memo(SettingsPageLayout)
+export const SettingsLayout = React.memo(SettingsLayoutComponent)

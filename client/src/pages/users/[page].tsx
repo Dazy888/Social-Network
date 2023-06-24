@@ -5,7 +5,7 @@ import { UsersService } from "@/services/users.service"
 import { notify } from "@/components/auth/AuthForm"
 import { IUserPreview } from "@/models/users.models"
 // Components
-import { MainPage } from "@/layouts/MainPageLayout"
+import { MainLayout } from "@/layouts/MainLayout"
 import { UsersList } from "@/components/users/Users"
 
 const Users = () => {
@@ -29,9 +29,9 @@ const Users = () => {
     }, [id])
 
     return (
-        <MainPage title={'Users'}>
+        <MainLayout title={'Users'}>
             { !isLoading && <UsersList {...{ isLoading, users, length, setSkip, refetch }} /> }
-        </MainPage>
+        </MainLayout>
     )
 }
 

@@ -1,10 +1,10 @@
 import React from "react"
-import { MainPage } from "@/layouts/MainPageLayout"
 import { IPost } from "@/models/profile.models"
 import { useAppSelector } from "@/hooks/redux"
 import { v4 } from 'uuid'
 import styles from '@/styles/Profile.module.scss'
 // Components
+import { MainLayout } from "@/layouts/MainLayout"
 import { Post } from "@/components/profile/main/posts/Post"
 import { Header } from "@/components/profile/header/Header"
 import { Main } from "@/components/profile/main/Main"
@@ -45,14 +45,14 @@ const Profile = () => {
     const id = useAppSelector(state => state.profileReducer.id)
 
     return(
-        <MainPage title={'Profile'}>
+        <MainLayout title={'Profile'}>
             {id &&
                 <div id={styles.profile} className={'my-24 mx-auto'}>
                     <Header />
                     <Main />
                 </div>
             }
-        </MainPage>
+        </MainLayout>
     )
 }
 

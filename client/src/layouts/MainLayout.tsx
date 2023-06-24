@@ -26,7 +26,7 @@ async function successfulLogout(router: any, dispatch: any) {
     dispatch(setUser({ avatar: '', aboutMe: '', followers: [], following: [], posts: [], banner: '', hobbies: '', name: '', location: '', skills: '', id: '' }))
 }
 
-const MainPageLayout: React.FC<LayoutProps> = ({ children, title }) => {
+const MainLayoutComponent: React.FC<LayoutProps> = ({ children, title }) => {
     const dispatch = useDispatch()
     const router = useRouter()
 
@@ -89,4 +89,4 @@ const MainPageLayout: React.FC<LayoutProps> = ({ children, title }) => {
     )
 }
 
-export const MainPage = React.memo(MainPageLayout)
+export const MainLayout = React.memo(MainLayoutComponent)

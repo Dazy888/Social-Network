@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from "react"
+import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
-import { MainPage } from "@/layouts/MainPageLayout"
 import { useMutation, useQuery } from "react-query"
 import { getPostsElements } from "@/pages/profile/index"
 import { v4 } from "uuid"
@@ -12,6 +11,7 @@ import { SubscriptionProps } from "@/models/profile.models"
 // Styles
 import styles from "@/styles/Profile.module.scss"
 // Components
+import { MainLayout } from "@/layouts/MainLayout"
 import { Information } from "@/components/profile/main/infornation/Information"
 import { Subscriptions } from "@/components/profile/main/subscriptions/Subscriptions"
 import { User } from "@/components/profile/main/User"
@@ -59,7 +59,7 @@ const UserProfile = () => {
     })
 
     return(
-        <MainPage title={`${openedUser?.name || 'User'} profile`}>
+        <MainLayout title={`${openedUser?.name || 'User'} profile`}>
             <div id={styles.profile} className={'my-24 mx-auto'}>
                 {openedUser &&
                     <>
@@ -82,7 +82,7 @@ const UserProfile = () => {
                     </>
                 }
             </div>
-        </MainPage>
+        </MainLayout>
     )
 }
 

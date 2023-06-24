@@ -7,7 +7,7 @@ import { notify } from "@/components/auth/AuthForm"
 // Styles
 import styles from '@/styles/Settings.module.scss'
 // Components
-import { SettingsPage } from "@/layouts/SettingsPageLayout"
+import { SettingsLayout } from "@/layouts/SettingsLayout"
 import { FileInput } from "@/components/settings/FileInput"
 import { Title } from "@/components/settings/Title"
 import { ProfileInput } from "@/components/settings/profile/ProfileInput"
@@ -62,7 +62,7 @@ const Profile = () => {
     }
 
     return(
-        <SettingsPage title={'Profile settings'}>
+        <SettingsLayout title={'Profile settings'}>
             <Title title={'Profile Settings'}/>
             <hr className={'w-full h-px'}/>
             <form className={`py-10 px-6 ${styles['profile-settings']}`} onSubmit={handleSubmit(onSubmit)}>
@@ -78,7 +78,7 @@ const Profile = () => {
                     {isLoading ? <ScaleLoader className={styles.loader} color={'white'} loading={true} /> : 'Submit' }
                 </button>
             </form>
-        </SettingsPage>
+        </SettingsLayout>
     )
 }
 
