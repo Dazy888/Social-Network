@@ -56,7 +56,7 @@ export class AuthService {
         const user = await this.userModel.create({
             login,
             pass: hashedPassword,
-            name: `User ${userNumber}`,
+            name: `User-${userNumber}`,
             location: 'Nowhere',
             banner: 'https://storage.googleapis.com/social-network_dazy/default-banner.webp',
             avatar: 'https://storage.googleapis.com/social-network_dazy/default-avatar.webp',

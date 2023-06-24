@@ -14,7 +14,8 @@ import { ProfileInput } from "@/components/settings/profile/ProfileInput"
 import ScaleLoader from "react-spinners/ScaleLoader"
 // Models
 import { ProfileSettings } from "@/models/settings.models"
-import {setProfileSettings} from "@/store/reducers/ProfileSlice";
+// Store
+import { setProfileSettings } from "@/store/reducers/ProfileSlice"
 
 const Profile = () => {
     const dispatch = useAppDispatch()
@@ -41,7 +42,10 @@ const Profile = () => {
         }
     )
 
-    const { handleSubmit, register, setValue, formState: { errors, touchedFields, dirtyFields } } = useForm<ProfileSettings>({ mode: 'onChange' })
+    const {
+        handleSubmit, register, setValue,
+        formState: { errors, touchedFields, dirtyFields}, reset
+    } = useForm<ProfileSettings>({ mode: 'onChange' })
 
     const onSubmit: SubmitHandler<ProfileSettings> = async (data) => {
         if (isLoading) return notify('Your request is handling, try later', 'warning')
@@ -54,6 +58,7 @@ const Profile = () => {
         if (uploadedBanner) formData.append('banner', uploadedBanner)
         if (uploadedAvatar) formData.append('avatar', uploadedAvatar)
         await mutateAsync(formData)
+        reset({})
     }
 
     return(
