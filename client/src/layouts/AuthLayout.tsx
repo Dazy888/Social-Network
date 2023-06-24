@@ -73,9 +73,9 @@ const AuthLayout: React.FC<Props> = ({ title, signAction, isLoading}) => {
                             <AuthInput type={'text'} errorMessage={errors.login?.message} isError={!!(errors.login?.message && touchedFields.login)} register={register} name={'login'}
                                        patternValue={/^[a-zA-Z0-9]+$/} minLength={4} maxLength={10} placeholder={'Login'} classNames={'mb-4'}
                             />
-                            <div className={'mb-10'}>
-                                <AuthInput type={'password'} register={register} name={'pass'} isError={!!(errors.pass?.message && touchedFields.pass)} patternValue={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,15}$/}
-                                           minLength={8} placeholder={'Password'}
+                            <div className={'mb-10 mt-7'}>
+                                <AuthInput type={'password'} register={register} name={'pass'} isError={!!(errors.pass?.message && touchedFields.pass)} minLength={8} placeholder={'Password'}
+                                           patternValue={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,15}$/}
                                 />
                                 { (title === 'up') && <PassRequirements isMinLength={currentPass?.length > 7} isOneDigit={/\d/g.test(currentPass)} isUppLetter={/[A-Z]/g.test(currentPass)}
                                                                         isLowLetter={/[a-z]/g.test(currentPass)} isSpecialCharacter={/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/g.test(currentPass)}

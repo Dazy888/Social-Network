@@ -51,7 +51,7 @@ const Activate = () => {
                     :   <input required minLength={5} maxLength={35} className={styles['big-input']} type={'email'} placeholder={'Your e-mail'} {...(register('email'))} />
                 }
                 {!isActivated &&
-                    <button className={`${styles.submit} w-full rounded-lg tracking-wider font-semibold text-white`} type={'submit'} disabled={isLoading || !!email}>
+                    <button className={`${styles.submit} w-full rounded-lg tracking-wider font-semibold text-white py-4`} type={'submit'} disabled={isLoading || !!email}>
                         { isLoading ? <ScaleLoader color={'rgb(255, 255, 255)'} loading={true} /> : 'Activate' }
                     </button>
                 }
