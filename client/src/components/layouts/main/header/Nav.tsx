@@ -1,13 +1,14 @@
-import React, {useState} from "react"
+import React, { useState } from "react"
+import styles from '@/styles/MainLayout.module.scss'
 import { NavBtn } from "@/components/layouts/main/header/NavBtn"
 import { NavList } from "@/components/layouts/main/header/NavList"
 
 const NavComponent = () => {
-    const [isNavOpened, setNavState] = useState(false)
+    const [isOpened, setIsOpened] = useState(false)
 
     return(
-        <nav className={`duration-300 ${isNavOpened ? 'openNav' : ''}`}>
-            <NavBtn {...{ isNavOpened, setNavState }} />
+        <nav className={`duration-300 ${isOpened ? styles['opened-nav'] : ''}`}>
+            <NavBtn {...{ isOpened, setIsOpened }} />
             <NavList />
         </nav>
     )

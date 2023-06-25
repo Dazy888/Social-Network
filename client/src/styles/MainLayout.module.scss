@@ -4,6 +4,10 @@ $pink: #f92552;
   grid-template-areas:  'header'
                         'content';
 
+  .opened-nav {
+    height: 200px !important;
+  }
+
   header {
     grid-area: header;
     background: rebeccapurple;
@@ -39,7 +43,7 @@ $pink: #f92552;
       }
     }
 
-    .header__logout {
+    .logout {
       width: 60px;
 
       &:hover {
@@ -60,5 +64,129 @@ $pink: #f92552;
   main {
     grid-area: content;
     background: #888da8;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  #app-wrapper header {
+    justify-content: center;
+    gap: 30px;
+
+    .logo {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+    }
+
+    nav {
+      height: 35px;
+      margin: 30px 0;
+      overflow: hidden;
+
+      .animate-btn {
+        animation: 0.3s btnAnimation linear;
+      }
+
+      @keyframes btnAnimation {
+        0% {
+          rotate: 0deg;
+          filter: blur(0);
+        }
+        50% {
+          rotate: 90deg;
+          filter: blur(3px);
+        }
+        100% {
+          rotate: 180deg;
+          filter: blur(0);
+        }
+      }
+
+      button {
+        display: block;
+      }
+
+      ul {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+
+        li {
+          margin-right: 0 !important;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 425px) {
+  #app-wrapper header {
+    .logo {
+      width: 45px;
+      height: 45px;
+    }
+  }
+}
+
+@media screen and (max-width: 375px) {
+  #app-wrapper header {
+    .logo {
+      width: 40px;
+      height: 40px;
+    }
+
+    nav {
+      margin: 0;
+
+      button {
+        font-size: 22px;
+        margin-bottom: 15px;
+      }
+
+      ul {
+        gap: 10px;
+
+        li {
+          font-size: 18px;
+        }
+      }
+    }
+
+    .logout {
+      width: 41px;
+
+      &:hover {
+        width: 110px;
+      }
+
+      img {
+        width: 41px;
+        height: 41px;
+      }
+
+      button {
+        font-size: 16px;
+        left: 50px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 320px) {
+  #app-wrapper header {
+    flex-direction: column;
+
+    .logo {
+      width: 36px;
+      height: 36px;
+    }
+
+    .opened-nav {
+      height: 160px !important;
+    }
+
+    nav {
+      margin-top: 30px;
+    }
   }
 }
