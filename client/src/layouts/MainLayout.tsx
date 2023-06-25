@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { useRouter } from "next/router"
-import Image from "next/image"
 import Head from "next/head"
 import { useDispatch } from "react-redux"
 import { useQuery } from "react-query"
 import { LayoutProps } from "@/models/layouts.models"
+// Styles
+import styles from '@/styles/MainLayout.module.scss'
 // Components
-import { NavLink } from "@/components/navigation/NavLink"
+import { MoonLoader } from "react-spinners"
+import { Header } from "@/components/layouts/main/header/Header"
 // Hooks
 import { useAppSelector } from "@/hooks/redux"
 // Service
@@ -16,10 +18,8 @@ import { createCookie } from "@/layouts/AuthLayout"
 // Store
 import { setUser } from "@/store/reducers/ProfileSlice"
 import { setSettingData } from "@/store/reducers/SettingsSlice"
-import {notify} from "@/components/auth/AuthForm";
-import {MoonLoader} from "react-spinners";
 
-async function successfulLogout(router: any, dispatch: any) {
+export async function successfulLogout(router: any, dispatch: any) {
     createCookie('refreshToken', '', -1)
     createCookie('accessToken', '', -1)
     await router.push('/auth/sign-in')
@@ -31,16 +31,6 @@ const MainLayoutComponent: React.FC<LayoutProps> = ({ children, title }) => {
     const router = useRouter()
 
     const avatar = useAppSelector(state => state.profileReducer.avatar)
-
-    const [isNavOpened, setNavState] = useState(false)
-
-    const { refetch:logout } = useQuery('logout', () => AuthService.logout(),
-        {
-            onSuccess: () => successfulLogout(router, dispatch),
-            onError: () => notify('Logout has failed, try again', 'error'),
-            enabled: false
-        }
-    )
 
     const { refetch:refresh, isLoading } = useQuery('refresh', () => AuthService.refresh(),
         {
@@ -61,26 +51,8 @@ const MainLayoutComponent: React.FC<LayoutProps> = ({ children, title }) => {
             <Head>
                 <title>{title}</title>
             </Head>
-            <div id={'app-wrapper'} className={'grid'}>
-                <header className={'flex-center'}>
-                    <div className={'header__content flex justify-between items-center'}>
-                        <Image width={50} height={50} alt={'Logo'} src={'/logo.png'}/>
-                        <nav className={`overflow-hidden duration-300 ${isNavOpened ? 'openNav' : ''}`}>
-                            <button onClick={() => (isNavOpened) ? setNavState(false) : setNavState(true)} className={'burger'}>
-                                <i className={`fa-solid fa-${isNavOpened ? 'square-xmark xmark' : 'bars bars'}`}/>
-                            </button>
-                            <ul className={'flex justify-between text-white'}>
-                                <NavLink text={'Profile'} paths={['/profile']} activeClass={'active-page'}/>
-                                <NavLink pathExp={/(\/users\/\d+|\/profile\/\w+)/} text={'Users'} paths={['/users/1']} activeClass={'active-page'}/>
-                                <NavLink pathExp={/(\/settings\/(activate|change-pass|profile))/} text={'Settings'} paths={['/settings/activate']} activeClass={'active-page'}/>
-                            </ul>
-                        </nav>
-                        <div className={'header__logout flex justify-between items-center cursor-pointer overflow-hidden relative duration-500'}>
-                            <img alt={'Avatar'} src={avatar || 'https://storage.googleapis.com/social-network_dazy/default-avatar.webp'} className={'rounded-full w-14 h-14'}/>
-                            <button className={'text-xl absolute text-white'} onClick={() => logout()}>Logout</button>
-                        </div>
-                    </div>
-                </header>
+            <div id={styles['app-wrapper']} className={'grid'}>
+                <Header />
                 <main className={'min-h-screen flex justify-center items-center'}>
                     {avatar ? children : <MoonLoader color={'#f92552'} loading={true} /> }
                 </main>

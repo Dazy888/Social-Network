@@ -1,0 +1,64 @@
+$pink: #f92552;
+
+#app-wrapper {
+  grid-template-areas:  'header'
+                        'content';
+
+  header {
+    grid-area: header;
+    background: rebeccapurple;
+
+    @keyframes logoRotation {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .logo {
+      animation: logoRotation 2s linear infinite;
+    }
+
+    .active-page {
+      color: $pink;
+    }
+
+    li {
+      transition: 200ms;
+
+      &:not(.active-page):hover {
+        color: $pink;
+        transform: scale(1.08);
+      }
+
+      &:not(:last-child) {
+        margin-right: 35px;
+      }
+    }
+
+    .header__logout {
+      width: 60px;
+
+      &:hover {
+        width: 140px;
+
+        button {
+          color: $pink;
+        }
+      }
+
+      button {
+        border: 2px solid rebeccapurple;
+        left: 60px;
+      }
+    }
+  }
+
+  main {
+    grid-area: content;
+    background: #888da8;
+  }
+}
