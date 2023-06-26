@@ -7,10 +7,7 @@ import { LayoutProps } from "@/models/layouts.models"
 // Styles
 import styles from '@/styles/MainLayout.module.scss'
 // Components
-import { MoonLoader } from "react-spinners"
 import { Header } from "@/components/layouts/main/header/Header"
-// Hooks
-import { useAppSelector } from "@/hooks/redux"
 // Service
 import { AuthService } from "@/services/auth.service"
 // Cookie functions
@@ -30,9 +27,7 @@ const MainLayoutComponent: React.FC<LayoutProps> = ({ children, title }) => {
     const dispatch = useDispatch()
     const router = useRouter()
 
-    const avatar = useAppSelector(state => state.profileReducer.avatar)
-
-    const { refetch:refresh } = useQuery('refresh', () => AuthService.refresh(),
+    const { refetch:refresh, isLoading } = useQuery('refresh', () => AuthService.refresh(),
         {
             onSuccess(res) {
                 createCookie('accessToken', res.accessToken, 15 / (24 * 60))
@@ -54,7 +49,7 @@ const MainLayoutComponent: React.FC<LayoutProps> = ({ children, title }) => {
             <div id={styles['app-wrapper']} className={'grid'}>
                 <Header />
                 <main className={'min-h-screen flex justify-center items-center'}>
-                    {avatar ? children : <MoonLoader color={'#f92552'} loading={true} /> }
+                    {!isLoading ? children : <div className={styles.loader}></div> }
                 </main>
             </div>
         </>
