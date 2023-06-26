@@ -3,14 +3,14 @@ import Head from "next/head"
 import { useRouter } from "next/router"
 import { SubmitHandler, useForm } from "react-hook-form"
 import styles from '@/styles/Authorization.module.scss'
-import { notify } from "@/components/auth/AuthForm"
+import { notify } from "@/components/pages/auth/AuthForm"
 // Models
 import { IAuthForm } from "@/models/auth.models"
 import ReCAPTCHA from "react-google-recaptcha"
 import { LayoutProps } from "@/models/layouts.models"
 // Components
-import { AuthInput } from "@/components/auth/AuthInput"
-import { SubmitBtn } from "@/components/auth/SubmitBtn"
+import { AuthInput } from "@/components/pages/auth/AuthInput"
+import { SubmitBtn } from "@/components/pages/auth/SubmitBtn"
 import { NavLink } from "@/components/navigation/NavLink"
 import {ToastContainer} from "react-toastify";
 import {PassRequirements} from "@/components/common/PassRequirements";

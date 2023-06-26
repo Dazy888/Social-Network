@@ -3,7 +3,7 @@ import { useMutation } from "react-query"
 import { SettingsService } from "@/services/settings.service"
 import { useAppDispatch, useAppSelector } from "@/hooks/redux"
 import { SubmitHandler, useForm } from "react-hook-form"
-import { notify } from "@/components/auth/AuthForm"
+import { notify } from "@/components/pages/auth/AuthForm"
 // Styles
 import styles from '@/styles/Settings.module.scss'
 // Components

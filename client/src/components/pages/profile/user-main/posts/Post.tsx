@@ -5,7 +5,7 @@ import styles from '@/styles/Profile.module.scss'
 import { DeletePostProps } from "@/models/profile.models"
 import { ProfileService } from "@/services/profile.service"
 import { useAppDispatch } from "@/hooks/redux"
-import { notify } from "@/components/auth/AuthForm"
+import { notify } from "@/components/pages/auth/AuthForm"
 
 interface Props {
     avatar: string
@@ -38,7 +38,7 @@ const PostComponent: React.FC<Props> = ({ avatar, name, createdAt, text, postId,
                 </div>
                 {!forView &&
                     <button className={'text-base duration-200 text-red'} onClick={() => mutateAsync({ postId })}>
-                        <i className={'fa-solid fa-trash'}/>
+                        <i className={'fa-solid fa-trash'} />
                     </button>
                 }
             </div>

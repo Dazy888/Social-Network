@@ -4,13 +4,13 @@ import styles from '@/styles/Profile.module.scss'
 import { useQuery } from "react-query"
 import { ProfileService } from "@/services/profile.service"
 import { useAppSelector } from "@/hooks/redux"
-import { notify } from "@/components/auth/AuthForm"
+import { notify } from "@/components/pages/auth/AuthForm"
 
 interface Props  {
     id: string
 }
 
-const UserComponent: React.FC<Props> = ({ id }) => {
+const UserAvatarComponent: React.FC<Props> = ({ id }) => {
     const router = useRouter()
     const initialUserId = useAppSelector(state => state.profileReducer.id)
     const [avatar, setAvatar] = useState('')
@@ -29,4 +29,4 @@ const UserComponent: React.FC<Props> = ({ id }) => {
     )
 }
 
-export const User = React.memo(UserComponent)
+export const UserAvatar = React.memo(UserAvatarComponent)

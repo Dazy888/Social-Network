@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useQuery } from "react-query"
 import { useAppSelector } from "@/hooks/redux"
 import { UsersService } from "@/services/users.service"
-import { notify } from "@/components/auth/AuthForm"
+import { notify } from "@/components/pages/auth/AuthForm"
 import { IUserPreview } from "@/models/users.models"
 // Components
 import { MainLayout } from "@/layouts/MainLayout"

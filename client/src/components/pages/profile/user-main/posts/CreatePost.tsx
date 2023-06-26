@@ -5,13 +5,13 @@ import { TextProps } from "@/models/profile.models"
 import { ProfileService } from "@/services/profile.service"
 import { addUserPost } from "@/store/reducers/ProfileSlice"
 import { useAppDispatch, useAppSelector } from "@/hooks/redux"
-import { notify } from "@/components/auth/AuthForm"
+import { notify } from "@/components/pages/auth/AuthForm"
 
 export interface PropsCreationProps {
-    setNewPostStatus: (status: boolean) => void
+    setIsCreatingPost: (status: boolean) => void
 }
 
-const PostsCreationComponent: React.FC<PropsCreationProps> = ({ setNewPostStatus }) => {
+const CreatePostComponent: React.FC<PropsCreationProps> = ({ setIsCreatingPost }) => {
     const dispatch = useAppDispatch()
     const textareaPostRef: any = useRef()
 
@@ -26,18 +26,18 @@ const PostsCreationComponent: React.FC<PropsCreationProps> = ({ setNewPostStatus
 
     const addNewPost = async () => {
         await addPost({ text: textareaPostRef.current.value, id })
-        setNewPostStatus(false)
+        setIsCreatingPost(false)
     }
 
     return(
-        <div className={`${styles['posts__creation']} mb-24`}>
+        <div className={`${styles['posts__create-post']} mb-24`}>
             <textarea className={'w-full h-24 rounded-lg p-2.5 text-black text-sm'} minLength={20} maxLength={500} ref={textareaPostRef}/>
             <div className={`flex justify-between mt-5 mx-auto`}>
                 <button className={styles['submit']} onClick={() => addNewPost()}>Submit</button>
-                <button className={styles['cancel']} onClick={() => setNewPostStatus(false)}>Cancel</button>
+                <button className={styles['cancel']} onClick={() => setIsCreatingPost(false)}>Cancel</button>
             </div>
         </div>
     )
 }
 
-export const PostsCreation = React.memo(PostsCreationComponent)
+export const CreatePost = React.memo(CreatePostComponent)

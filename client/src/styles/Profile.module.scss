@@ -1,12 +1,10 @@
 #profile {
-  max-width: 1400px;
-
-  .header {
-    .banner {
+  .user-header {
+    .user-header__banner {
       height: 300px;
     }
 
-    .user {
+    .user-header__user {
       top: 220px;
       left: 650px;
 
@@ -16,10 +14,20 @@
       }
     }
 
-    .tile {
+    .user-header__tile {
       height: 100px;
       transform: translateY(-4px);
       background: rebeccapurple;
+    }
+
+    .user-header__settings {
+      right: 10px;
+      top: 10px;
+      color: rebeccapurple;
+
+      &:hover {
+        animation: rotate 2s linear infinite;
+      }
     }
 
     .subscription {
@@ -29,10 +37,6 @@
       button {
         width: 80px;
         height: 30px;
-
-        &:hover {
-          //transform: translateY(-10px);
-        }
       }
 
       .follow {
@@ -52,14 +56,14 @@
       }
     }
 
-    .settings-btn {
-      right: 10px;
-      top: 10px;
-      color: rebeccapurple;
+    @keyframes rotate {
+      to {
+        rotate: 360deg;
+      }
     }
   }
 
-  .main {
+  .user-main {
     max-width: 1400px;
     grid-template-areas: 'info posts subscriptions';
     grid-template-columns: 1fr 2.1fr 1fr;
@@ -68,7 +72,7 @@
       background: white;
     }
 
-    .information {
+    .profile-intro {
       grid-area: info;
       background: rebeccapurple;
 
@@ -86,17 +90,17 @@
         color: green;
       }
 
-      h3, .information__item {
+      h3, .profile-intro__item {
         padding: 23px 25px 18px 25px;
       }
 
-      .information__item {
+      .profile-intro__item {
         textarea {
           width: 97%;
           height: 100px;
         }
 
-        .information__title {
+        .profile-intro__title {
           width: 98%;
         }
 
@@ -117,7 +121,7 @@
         }
       }
 
-      .posts__creation div {
+      .posts__create-post div {
         width: 300px;
 
         button {

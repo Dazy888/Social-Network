@@ -5,7 +5,7 @@ import { useMutation } from "react-query"
 import { ActivateProps } from "@/models/settings.models"
 import { SettingsService } from "@/services/settings.service"
 import { setEmail } from "@/store/reducers/SettingsSlice"
-import { notify } from "@/components/auth/AuthForm"
+import { notify } from "@/components/pages/auth/AuthForm"
 
 const ActivationMessageComponent = () => {
     const dispatch = useAppDispatch()

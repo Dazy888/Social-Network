@@ -14,7 +14,7 @@
 //
 // @Injectable()
 // export class SettingsService {
-//     constructor(@InjectModel('User') private userModel: Model<UserDocument>, private readonly mailerService: MailerService) {}
+//     constructor(@InjectModel('UserAvatar') private userModel: Model<UserDocument>, private readonly mailerService: MailerService) {}
 //
 //     async changePass(currentPass: string, newPass: string, _id: string) {
 //         const user = await this.userModel.findOne({ _id })

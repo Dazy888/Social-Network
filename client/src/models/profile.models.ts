@@ -32,7 +32,3 @@ export interface ProfileIntroProps {
     text: string
     field: ProfileIntroFields
 }
-
-export interface ProfileIntroForm {
-    text: string
-}

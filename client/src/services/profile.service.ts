@@ -5,7 +5,7 @@ import { IPost, ProfileIntroFields } from "@/models/profile.models"
 export class ProfileService {
     static setProfileIntro(text: string, field: ProfileIntroFields, id: string) {
         return $api.put('profile/intro', { text, field, id })
-            .then(() => text)
+            .then(() => ({ text, field }))
             .catch(err => { throw err.response.data.message })
     }
 

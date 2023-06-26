@@ -10,9 +10,7 @@ const SubscriptionsListComponent: React.FC<Props> = ({ users, title }) => (
     <div className={`${styles['subscriptions__list']} mb-12`}>
         <h3 className={'text-lg font-medium'}>{title} {users.length}</h3>
         <hr/>
-        <div className={`${styles['subscriptions__content']} inline-flex flex-wrap gap-2.5 mt-2`}>
-            {users}
-        </div>
+        <div className={`${styles['subscriptions__content']} inline-flex flex-wrap gap-2.5 mt-2`}>{users}</div>
     </div>
 )
 

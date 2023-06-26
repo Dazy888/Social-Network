@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import { useMutation } from "react-query"
 import { useAppDispatch } from "@/hooks/redux"
 import { successfulEnter } from "@/pages/auth/sign-in"
-import { notify } from "@/components/auth/AuthForm"
+import { notify } from "@/components/pages/auth/AuthForm"
 // Models
 import { IAuthForm } from "@/models/auth.models"
 // Service

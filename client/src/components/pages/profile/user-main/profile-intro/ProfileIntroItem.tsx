@@ -1,25 +1,32 @@
 import React, { useState } from "react"
-import styles from '@/styles/Profile.module.scss'
 import { useAppDispatch } from "@/hooks/redux"
 import { useForm } from "react-hook-form"
-import { ProfileIntroFields, ProfileIntroForm, TextProps } from "@/models/profile.models"
+import { ProfileIntroFields, ProfileIntroProps } from "@/models/profile.models"
 import { setProfileIntro } from "@/store/reducers/ProfileSlice"
-import { notify } from "@/components/auth/AuthForm"
+import { notify } from "@/components/pages/auth/AuthForm"
+import { useMutation } from "react-query"
+// Styles
+import styles from '@/styles/Profile.module.scss'
+// Service
+import { ProfileService } from "@/services/profile.service"
+
+interface MutateProfileIntro extends ProfileIntroProps {
+    id: string
+}
 
 interface Props {
     currentText: string
     title: string
-    asyncRequest: (data: TextProps) => void
     field: ProfileIntroFields
     id?: string
     forView?: boolean
 }
 
-const InformationItemComponent: React.FC<Props> = ({ currentText, asyncRequest, title, forView, id = '', field }) => {
+const InformationItemComponent: React.FC<Props> = ({ currentText, title, forView, id = '', field }) => {
     const dispatch = useAppDispatch()
     const [isEditable, setIsEditable] = useState(false)
 
-    const { watch, setValue, setFocus, register } = useForm<ProfileIntroForm>({ mode: "onChange" })
+    const { watch, setValue, setFocus, register } = useForm<Pick<ProfileIntroProps, 'text'>>({ mode: "onChange" })
     const text = watch('text')
 
     function startEditing() {
@@ -35,7 +42,7 @@ const InformationItemComponent: React.FC<Props> = ({ currentText, asyncRequest, 
 
     async function changeProfileIntro() {
         if (currentText === text) return notify("You haven't made changes", 'warning')
-        await asyncRequest({ text, id })
+        await setProfileIntroField({ text, field, id })
         dispatch(setProfileIntro({ text, field }))
         setIsEditable(false);
     }
@@ -44,9 +51,16 @@ const InformationItemComponent: React.FC<Props> = ({ currentText, asyncRequest, 
         await changeProfileIntro()
     }
 
+    const { mutateAsync:setProfileIntroField } = useMutation('set profile intro', (data: MutateProfileIntro) => ProfileService.setProfileIntro(data.text, data.field, data.id),
+        {
+            onSuccess: (res): any => dispatch(setProfileIntro({ text: res.text, field: res.field })),
+            onError: (err: string): any => notify(err, 'error')
+        }
+    )
+
     return(
-        <div className={styles['information__item']}>
-            <div className={`${styles['information__title']} flex justify-between items-center`}>
+        <div className={styles['profile-intro__item']}>
+            <div className={`${styles['profile-intro__title']} flex justify-between items-center`}>
                 <h3 className={'tracking-wide'}>{title}:</h3>
                 {!forView &&
                     <button className={'text-sm'}>
@@ -55,7 +69,7 @@ const InformationItemComponent: React.FC<Props> = ({ currentText, asyncRequest, 
                                     <i onClick={submitClickListener} className={`fa-solid fa-check mr-4 ${styles.submit}`} />
                                     <i onClick={cancelEditing} className={'fa-solid fa-xmark text-red'} />
                                 </span>
-                            : <i onClick={startEditing} className={'fa-solid fa-pen'} /> }
+                            :   <i onClick={startEditing} className={'fa-solid fa-pen'} /> }
                     </button>
                 }
             </div>
@@ -64,4 +78,4 @@ const InformationItemComponent: React.FC<Props> = ({ currentText, asyncRequest, 
     )
 }
 
-export const InformationItem = React.memo(InformationItemComponent)
+export const ProfileIntroItem = React.memo(InformationItemComponent)

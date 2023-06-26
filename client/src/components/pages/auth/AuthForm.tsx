@@ -3,8 +3,8 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import { IAuthForm}  from "@/models/auth.models"
 import ReCAPTCHA from "react-google-recaptcha"
-import { SubmitBtn } from "@/components/auth/SubmitBtn"
-import { AuthInput } from "@/components/auth/AuthInput"
+import { SubmitBtn } from "@/components/pages/auth/SubmitBtn"
+import { AuthInput } from "@/components/pages/auth/AuthInput"
 
 export const notify = (text: string, type: 'error' | 'success' | 'warning') => toast(text, { type })
 

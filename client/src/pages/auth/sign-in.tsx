@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import { useMutation } from "react-query"
 import { AuthService } from "@/services/auth.service"
 import { useAppDispatch } from "@/hooks/redux"
-import { notify } from "@/components/auth/AuthForm"
+import { notify } from "@/components/pages/auth/AuthForm"
 // Models
 import { IAuthForm, Tokens, User } from "@/models/auth.models"
 import { IPost } from "@/models/profile.models"
@@ -14,8 +14,6 @@ import { setUser } from "@/store/reducers/ProfileSlice"
 import { setSettingData } from "@/store/reducers/SettingsSlice"
 
 export const successfulEnter = (router: any, dispatch: any, tokens: Tokens, userData: User, posts: IPost[] | []) => {
-    console.log(tokens)
-
     createCookie('refreshToken', tokens.refreshToken, 30)
     createCookie('accessToken', tokens.accessToken, 15 / (24 * 60))
 

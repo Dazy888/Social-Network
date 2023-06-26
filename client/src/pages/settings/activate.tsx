@@ -3,7 +3,7 @@ import { useMutation } from "react-query"
 import { SettingsService } from "@/services/settings.service"
 import { IActivate, ActivateProps } from "@/models/settings.models"
 import { useAppDispatch, useAppSelector } from "@/hooks/redux"
-import { notify } from "@/components/auth/AuthForm"
+import { notify } from "@/components/pages/auth/AuthForm"
 // Styles
 import styles from "@/styles/Settings.module.scss"
 // Store

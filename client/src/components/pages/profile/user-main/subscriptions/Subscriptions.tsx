@@ -1,6 +1,6 @@
 import React from "react"
 import styles from "@/styles/Profile.module.scss"
-import { SubscriptionsList } from "@/components/profile/main/subscriptions/SubscriptionsList"
+import { SubscriptionsList } from "@/components/pages/profile/user-main/subscriptions/SubscriptionsList"
 
 interface Props {
     followers: React.JSX.Element[]

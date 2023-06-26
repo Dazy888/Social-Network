@@ -10,17 +10,16 @@ interface IProps {
     iconClass?: string
 }
 
-const NavLinkComponent: React.FC<IProps> = ({ paths, activeClass, iconClass, text, pathExp }) => {
+const NavLinkComponent: React.FC<IProps> = ({ paths, activeClass, iconClass, text, pathExp = /123/ }) => {
     const router = useRouter()
 
     return(
         <li>
-            <Link className={`${paths.includes(router.pathname) || pathExp.test(router.asPath) ? activeClass : ''} duration-300`} href={paths[0]}>{text}</Link>
-            {/*<Link href={paths[0]} legacyBehavior={true}>*/}
-            {/*    <a className={`${paths.includes(router.pathname) || pathExp.test(router.asPath) ? activeClass : ''} flex justify-center items-center`}>*/}
-            {/*        { text ? text : <i className={iconClass}/>}*/}
-            {/*    </a>*/}
-            {/*</Link>*/}
+            <Link href={paths[0]} legacyBehavior={true}>
+                <a className={`${paths.includes(router.pathname) || pathExp.test(router.asPath) ? activeClass : ''} flex justify-center items-center`}>
+                    { text ? text : <i className={iconClass}/>}
+                </a>
+            </Link>
         </li>
     )
 }

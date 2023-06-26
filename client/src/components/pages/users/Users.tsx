@@ -4,8 +4,8 @@ import { v4 } from "uuid"
 import styles from "@/styles/Users.module.scss"
 import ReactPaginate from "react-paginate"
 import { IUserPreview } from "@/models/users.models"
-import { notify } from "@/components/auth/AuthForm"
-import { UserPreview } from "@/components/users/User"
+import { notify } from "@/components/pages/auth/AuthForm"
+import { UserPreview } from "@/components/users/UserAvatar"
 
 interface Props {
     setSkip: (skip: number) => void
