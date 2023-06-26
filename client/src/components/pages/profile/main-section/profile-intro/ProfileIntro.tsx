@@ -11,7 +11,7 @@ interface Props {
 }
 
 const ProfileIntroComponent: React.FC<Props> = ({ aboutMe, hobbies, skills, forView = false, id }) => (
-    <article className={`${styles['profile-intro']} rounded-lg`}>
+    <article className={styles['profile-intro']}>
         <h3 className={'text-lg font-medium'}>Profile intro</h3>
         <hr className={'w-full h-0.5'}/>
         <ProfileIntroItem {...{ id, forView }} title={'About me'} field={'aboutMe'} currentText={aboutMe} />

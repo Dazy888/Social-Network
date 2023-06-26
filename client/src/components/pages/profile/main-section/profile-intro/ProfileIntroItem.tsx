@@ -9,6 +9,8 @@ import { useMutation } from "react-query"
 import styles from '@/styles/Profile.module.scss'
 // Service
 import { ProfileService } from "@/services/profile.service"
+// Components
+import { TextArea } from "@/components/pages/profile/main-section/profile-intro/TextArea"
 
 interface MutateProfileIntro extends ProfileIntroProps {
     id: string
@@ -60,20 +62,20 @@ const InformationItemComponent: React.FC<Props> = ({ currentText, title, forView
 
     return(
         <div className={styles['profile-intro__item']}>
-            <div className={`${styles['profile-intro__title']} flex justify-between items-center`}>
-                <h3 className={'tracking-wide'}>{title}:</h3>
+            <div className={`${styles['profile-intro__title']} flex justify-between items-center mb-2.5`}>
+                <h4 className={'tracking-wide'}>{title}:</h4>
                 {!forView &&
                     <button className={'text-sm'}>
                         { isEditable
-                            ?   <span>
-                                    <i onClick={submitClickListener} className={`fa-solid fa-check mr-4 ${styles.submit}`} />
-                                    <i onClick={cancelEditing} className={'fa-solid fa-xmark text-red'} />
+                            ?   <span className={styles['profile-intro__actions']}>
+                                    <i onClick={submitClickListener} className={'fa-solid fa-check mr-4'} />
+                                    <i onClick={cancelEditing} className={'fa-solid fa-xmark'} />
                                 </span>
-                            :   <i onClick={startEditing} className={'fa-solid fa-pen'} /> }
+                            :   <i onClick={startEditing} className={`fa-solid fa-pen ${styles.pen}`} /> }
                     </button>
                 }
             </div>
-            {isEditable ? <textarea className={'rounded-lg px-2.5 py-3 text-black text-sm'} maxLength={150} {...(register('text'))}/> : <p className={'text-sm opacity-70 my-2.5'}>{currentText}</p>}
+            {isEditable ? <TextArea register={register} /> : <p className={'text-sm tracking-wide'}>{currentText}</p>}
         </div>
     )
 }

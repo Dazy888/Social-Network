@@ -86,37 +86,88 @@ $grey: #e6ecf5;
     .profile-intro {
       grid-area: intro;
       background: $purple;
-
-      i {
-        transition: 150ms;
-      }
-
-      .cancel, .submit {
-        &:hover {
-          transform: scale(1.6);
-        }
-      }
-
-      .submit {
-        color: green;
-      }
+      border-radius: 10px 10px 0 0;
 
       h3, .profile-intro__item {
         padding: 23px 25px 18px 25px;
       }
 
       .profile-intro__item {
-        textarea {
-          width: 97%;
-          height: 100px;
+        .run-animation:after {
+          animation: moveGradient 3.5s alternate infinite;
         }
 
-        .profile-intro__title {
-          width: 98%;
+        .gradient-border {
+          --border-width: 3px;
+          width: 300px;
+          height: 100px;
+
+          &::after {
+            position: absolute;
+            content: "";
+            top: calc(-1 * var(--border-width));
+            left: calc(-1 * var(--border-width));
+            z-index: 1;
+            width: calc(100% + var(--border-width) * 2);
+            height: calc(100% + var(--border-width) * 2);
+            background: linear-gradient(60deg, hsl(224, 85%, 66%), hsl(269, 85%, 66%), hsl(314, 85%, 66%), hsl(359, 85%, 66%), hsl(44, 85%, 66%), hsl(89, 85%, 66%), hsl(134, 85%, 66%), hsl(179, 85%, 66%));
+            background-size: 300% 300%;
+            background-position: 0 50%;
+            border-radius: 10px;
+          }
+
+          textarea {
+            border-radius: 10px;
+            z-index: 2;
+          }
+        }
+
+        @keyframes moveGradient {
+          50% {
+            background-position: 100% 50%;
+          }
+        }
+
+        @keyframes writing {
+          0% {
+            rotate: 0deg;
+          }
+          50% {
+            rotate: 20deg;
+          }
+          100% {
+            rotate: 0deg;
+          }
+        }
+
+        .pen:hover {
+          color: $pink;
+          animation: 0.4s writing linear 2;
+        }
+
+        .profile-intro__actions {
+          font-size: 18px;
+
+          i:first-child {
+            color: #00b894;
+          }
+
+          i:last-child {
+            color: #e74c3c;
+          }
+
+          i {
+            transition: 150ms;
+
+            &:hover {
+              transform: scale(1.2);
+            }
+          }
         }
 
         p {
           overflow-wrap: break-word;
+          color: $grey;
         }
       }
     }
@@ -168,12 +219,6 @@ $grey: #e6ecf5;
         padding: 23px 25px 13px;
       }
     }
-  }
-}
-
-@media screen and (max-width: 1024px) {
-  #profile {
-    //margin-top: 0;
   }
 }
 

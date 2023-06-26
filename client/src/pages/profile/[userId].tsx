@@ -12,11 +12,11 @@ import { SubscriptionProps } from "@/models/profile.models"
 import styles from "@/styles/Profile.module.scss"
 // Components
 import { MainLayout } from "@/layouts/MainLayout"
-import { Information } from "@/components/profile/main/profile-intro/ProfileIntro"
-import { Subscriptions } from "@/components/profile/main/subscriptions/Subscriptions"
-import { User } from "@/components/profile/main/UserAvatar"
-import { SubscriptionBtn } from "@/components/profile/header-section/SubscriptionBtn"
-import { UserInfo } from "@/components/profile/header-section/UserInfo"
+import { ProfileIntro } from "@/components/pages/profile/main-section/profile-intro/ProfileIntro"
+import { Subscriptions } from "@/components/pages/profile/main-section/subscriptions/Subscriptions"
+import { UserAvatar } from "@/components/pages/profile/main-section/subscriptions/UserAvatar"
+import { SubscriptionBtn } from "@/components/pages/profile/header-section/SubscriptionBtn"
+import { UserInfo } from "@/components/pages/profile/header-section/UserInfo"
 // Services
 import { ProfileService } from "@/services/profile.service"
 import { UsersService } from "@/services/users.service"
@@ -45,8 +45,8 @@ const UserProfile = () => {
         if (openedUserId) getUser()
     }, [openedUserId])
 
-    const followingUsers = openedUser?.following.map((id: string) => <User key={v4()} id={id}/>)
-    const followersUsers = openedUser?.followers.map((id: string) => <User key={v4()} id={id}/>)
+    const followingUsers = openedUser?.following.map((id: string) => <UserAvatar key={v4()} id={id}/>)
+    const followersUsers = openedUser?.followers.map((id: string) => <UserAvatar key={v4()} id={id}/>)
 
     const { isLoading:isFollowing, mutateAsync:follow } = useMutation('follow', (data: SubscriptionProps) => ProfileService.follow(data.authorizedUserId, data.openedUserId), {
         onSuccess: (): any => setOpenedUser({ ...openedUser, followers: [...openedUser.followers, initialUserId] }),
@@ -75,7 +75,7 @@ const UserProfile = () => {
                             </div>
                         </div>
                         <div className={`${styles.main} grid gap-12 mt-14 text-white`}>
-                            <Information forView={true} aboutMe={openedUser.aboutMe} hobbies={openedUser.hobbies} skills={openedUser.skills}/>
+                            <ProfileIntro forView={true} aboutMe={openedUser.aboutMe} hobbies={openedUser.hobbies} skills={openedUser.skills}/>
                             <div className={styles.posts}>{getPostsElements(openedUser.posts, openedUser.avatar, openedUser.name, true)}</div>
                             <Subscriptions followers={followersUsers} following={followingUsers}/>
                         </div>
