@@ -1,4 +1,5 @@
 $pink: #f92552;
+$purple: rebeccapurple;
 
 #app-wrapper {
   grid-template-areas:  'header'
@@ -10,7 +11,7 @@ $pink: #f92552;
 
   header {
     grid-area: header;
-    background: rebeccapurple;
+    background: $purple;
 
     @keyframes logoRotation {
       from {
@@ -55,7 +56,7 @@ $pink: #f92552;
       }
 
       button {
-        border: 2px solid rebeccapurple;
+        border: 2px solid $purple;
         left: 60px;
       }
     }

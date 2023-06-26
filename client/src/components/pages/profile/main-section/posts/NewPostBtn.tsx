@@ -1,5 +1,5 @@
 import React from "react"
-import { PropsCreationProps } from "@/components/pages/profile/user-main/posts/CreatePost"
+import { PropsCreationProps } from "@/components/pages/profile/main-section/posts/CreatePost"
 
 const NewPostBtnComponent: React.FC<PropsCreationProps> = ({ setIsCreatingPost }) => (
     <div className={'w-fit mx-auto'}>

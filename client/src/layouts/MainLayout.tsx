@@ -32,7 +32,7 @@ const MainLayoutComponent: React.FC<LayoutProps> = ({ children, title }) => {
 
     const avatar = useAppSelector(state => state.profileReducer.avatar)
 
-    const { refetch:refresh, isLoading } = useQuery('refresh', () => AuthService.refresh(),
+    const { refetch:refresh } = useQuery('refresh', () => AuthService.refresh(),
         {
             onSuccess(res) {
                 createCookie('accessToken', res.accessToken, 15 / (24 * 60))

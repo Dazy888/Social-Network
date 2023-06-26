@@ -5,9 +5,9 @@ import { v4 } from 'uuid'
 import styles from '@/styles/Profile.module.scss'
 // Components
 import { MainLayout } from "@/layouts/MainLayout"
-import { Post } from "@/components/pages/profile/user-main/posts/Post"
-import { UserHeader } from "@/components/pages/profile/user-header/UserHeader"
-import { UserMain } from "@/components/pages/profile/user-main/UserMain"
+import { Post } from "@/components/pages/profile/main-section/posts/Post"
+import { HeaderSection } from "@/components/pages/profile/header-section/HeaderSection"
+import { MainSection } from "@/components/pages/profile/main-section/MainSection"
 
 export const getPostsElements = (posts: IPost[], avatar: string, name: string, forView: boolean) => {
     return [...posts].reverse().map(({ id, text, createdAt}) => {
@@ -48,8 +48,8 @@ const Profile = () => {
         <MainLayout title={'Profile'}>
             {id &&
                 <div id={styles.profile} className={'my-24 mx-auto'}>
-                    <UserHeader />
-                    <UserMain />
+                    <HeaderSection />
+                    <MainSection />
                 </div>
             }
         </MainLayout>

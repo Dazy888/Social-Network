@@ -8,9 +8,9 @@ import { notify } from "@/components/pages/auth/AuthForm"
 import styles from '@/styles/Settings.module.scss'
 // Components
 import { SettingsLayout } from "@/layouts/SettingsLayout"
-import { FileInput } from "@/components/settings/FileInput"
-import { Title } from "@/components/settings/Title"
-import { ProfileInput } from "@/components/settings/profile/ProfileInput"
+import { FileInput } from "@/components/pages/settings/FileInput"
+import { Title } from "@/components/pages/settings/Title"
+import { ProfileInput } from "@/components/pages/settings/profile/ProfileInput"
 import ScaleLoader from "react-spinners/ScaleLoader"
 // Models
 import { ProfileSettings } from "@/models/settings.models"

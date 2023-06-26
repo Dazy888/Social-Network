@@ -3,10 +3,10 @@ import styles from "@/styles/Profile.module.scss"
 import { User } from "@/models/auth.models"
 
 const UserInfoComponent: React.FC<Pick<User, 'avatar' | 'name' | 'location'>> = ({ avatar, name, location}) => (
-    <div className={`${styles['user-header__user']} absolute z-10 text-center text-white`}>
-        <img alt={'Avatar'} className={'rounded-full'} src={avatar}/>
+    <div className={`${styles.user} absolute z-10 text-center text-white`}>
+        <img alt={'Avatar'} className={'rounded-full mb-3'} src={avatar}/>
         <h2 className={'text-2xl font-medium mb-1.5'}>{name}</h2>
-        <p className={'opacity-90'}>{location}</p>
+        <p className={'tracking-wide'}>{location}</p>
     </div>
 )
 

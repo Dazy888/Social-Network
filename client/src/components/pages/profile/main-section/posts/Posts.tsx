@@ -2,8 +2,8 @@ import React, { useState } from "react"
 import styles from "@/styles/Profile.module.scss"
 import { useAppSelector } from "@/hooks/redux"
 import { getPostsElements } from "@/pages/profile"
-import { CreatePost } from "@/components/pages/profile/user-main/posts/CreatePost"
-import { NewPostBtn } from "@/components/pages/profile/user-main/posts/NewPostBtn"
+import { CreatePost } from "@/components/pages/profile/main-section/posts/CreatePost"
+import { NewPostBtn } from "@/components/pages/profile/main-section/posts/NewPostBtn"
 
 const PostsComponent = () => {
     const [isCreatingPost, setIsCreatingPost] = useState(false)
@@ -14,10 +14,10 @@ const PostsComponent = () => {
     const postsElements = getPostsElements(posts, avatar, name, false)
 
     return(
-        <div className={styles.posts}>
+        <article className={styles.posts}>
             { postsElements }
             { isCreatingPost ? <CreatePost setIsCreatingPost={setIsCreatingPost} /> : <NewPostBtn setIsCreatingPost={setIsCreatingPost} /> }
-        </div>
+        </article>
     )
 }
 
