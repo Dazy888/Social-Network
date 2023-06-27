@@ -8,8 +8,8 @@ interface Props {
 }
 
 const SubscriptionsComponent: React.FC<Props> = ({ followers, following }) => (
-    <article className={`${styles.subscriptions} h-fit rounded-lg p-2.5`}>
-        <SubscriptionsList title={'Followers'} users={followers} />
+    <article className={`${styles.subscriptions} h-fit p-2.5`}>
+        <SubscriptionsList title={(followers.length === 1) ? 'Follower' : 'Followers'} users={followers} />
         <SubscriptionsList title={'Following'} users={following} />
     </article>
 )

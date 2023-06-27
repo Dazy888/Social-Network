@@ -6,7 +6,7 @@ import { notify } from "@/components/pages/auth/AuthForm"
 import { IUserPreview } from "@/models/users.models"
 // Components
 import { MainLayout } from "@/layouts/MainLayout"
-import { UsersList } from "@/components/users/Users"
+import { UsersList } from "@/components/pages/users/Users"
 
 const Users = () => {
     const [users, setUsers] = useState<IUserPreview[]>([])

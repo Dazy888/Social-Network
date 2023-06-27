@@ -5,7 +5,7 @@ import { getPostsElements } from "@/pages/profile/index"
 import { v4 } from "uuid"
 import { notify } from "@/components/pages/auth/AuthForm"
 // Hooks
-import { useAppDispatch, useAppSelector } from "@/hooks/redux"
+import { useAppSelector } from "@/hooks/redux"
 // Models
 import { SubscriptionProps } from "@/models/profile.models"
 // Styles
@@ -23,20 +23,13 @@ import { UsersService } from "@/services/users.service"
 
 const UserProfile = () => {
     const router = useRouter()
-    const dispatch = useAppDispatch()
-
     const [openedUser, setOpenedUser] = useState<any>()
-
-    // const openedUser = useAppSelector(state => state.usersReducer.openedUser)
 
     const openedUserId: any = router.query.userId
     const initialUserId = useAppSelector(state => state.profileReducer.id)
 
     const { refetch:getUser, isLoading:isLoadingUser } = useQuery('get user', () => UsersService.getUser(openedUserId), {
-        onSuccess: (res) => {
-            setOpenedUser(res)
-            // dispatch(setOpenedUser(res))
-        },
+        onSuccess: (res) => setOpenedUser(res),
         onError: (err: string) => notify(err, 'error'),
         enabled: false
     })
@@ -63,7 +56,7 @@ const UserProfile = () => {
             <div id={styles.profile} className={'my-24 mx-auto'}>
                 {openedUser &&
                     <>
-                        <div className={`${styles.header} w-full h-fit relative`}>
+                        <section id={styles.header} className={'w-full h-fit relative'}>
                             <img alt={'Banner'} className={`${styles.banner} w-full`} src={openedUser.banner} />
                             <UserInfo name={openedUser.name} location={openedUser.location} avatar={openedUser.avatar} />
                             <div className={styles.tile}></div>
@@ -73,12 +66,12 @@ const UserProfile = () => {
                                     : <SubscriptionBtn text={'Follow'} isRequesting={isFollowing} className={styles.follow} authorizedUserId={initialUserId} openedUserId={openedUserId} subscriptionFunc={follow}/>
                                 }
                             </div>
-                        </div>
-                        <div className={`${styles.main} grid gap-12 mt-14 text-white`}>
+                        </section>
+                        <section id={styles.main} className={'grid gap-12 mt-14 text-white'}>
                             <ProfileIntro forView={true} aboutMe={openedUser.aboutMe} hobbies={openedUser.hobbies} skills={openedUser.skills}/>
                             <div className={styles.posts}>{getPostsElements(openedUser.posts, openedUser.avatar, openedUser.name, true)}</div>
                             <Subscriptions followers={followersUsers} following={followingUsers}/>
-                        </div>
+                        </section>
                     </>
                 }
             </div>

@@ -78,8 +78,9 @@ $red: #e74c3c;
   }
 
   #main {
-    grid-template-areas: 'intro posts subscriptions';
-    grid-template-columns: 1fr 2.1fr 1fr;
+    grid-template-areas:  'intro posts subscriptions'
+                          'intro posts subscriptions';
+    grid-template-columns: 1fr 1.8fr 300px;
 
     hr {
       background: white;
@@ -95,15 +96,13 @@ $red: #e74c3c;
       }
 
       .profile-intro__item {
-        width: 350px;
-
         .run-animation:after {
           animation: moveGradient 3.5s alternate infinite;
         }
 
         .gradient-border {
           --border-width: 3px;
-          width: 300px;
+          width: 100%;
           height: 100px;
 
           &::after {
@@ -184,9 +183,10 @@ $red: #e74c3c;
       }
 
       .post {
+        border-radius: 10px 10px 0 0;
         background: $purple;
 
-        @keyframes rotate {
+        @keyframes rotateDeleteBtn {
           0% {
             rotate: 0deg;
           }
@@ -214,7 +214,7 @@ $red: #e74c3c;
           &:hover {
             transform: scale(1.3);
             color: $pink;
-            animation: 0.6s rotate linear;
+            animation: 0.6s rotateDeleteBtn linear;
           }
         }
 
@@ -276,23 +276,172 @@ $red: #e74c3c;
     }
 
     .subscriptions {
-      width: 350px;
       grid-area: subscriptions;
+      border-radius: 10px 10px 0 0;
       background: $purple;
 
       .subscriptions__list {
         padding: 23px 25px 13px;
+
+        span {
+          color: $pink;
+        }
       }
     }
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1920px) {
   #profile {
     width: 85%;
+  }
+}
 
+@media screen and (max-width: 1440px) {
+  #profile {
+    width: 90%;
+
+    #main {
+      grid-template-columns: 1fr 1.8fr 210px;
+
+      .profile-intro {
+        h3 {
+          padding: 15px 18px;
+        }
+
+        .profile-intro__item {
+          padding: 15px 18px;
+        }
+      }
+
+
+      .subscriptions .subscriptions__list {
+        padding: 15px 10px;
+
+        .subscriptions__users {
+          grid-template-columns: repeat(4, auto);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  #profile #main {
+    grid-template-areas:  'intro posts posts'
+                          'subscriptions posts posts';
+    grid-template-columns: 230px auto auto;
+    gap: 30px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #profile {
     #header .settings:hover {
       animation: none;
+    }
+
+    #main {
+      grid-template-areas:  'intro subscriptions'
+                            'posts posts';
+      grid-template-columns: auto 215px;
+      gap: 30px;
+    }
+  }
+}
+
+@media screen and (max-width: 560px) {
+  #profile #main {
+    grid-template-columns: auto 170px;
+    gap: 20px;
+
+    .profile-intro {
+      h3 {
+        font-size: 16px;
+      }
+
+      h4 {
+        font-size: 14px;
+      }
+
+      p, textarea, button {
+        font-size: 13px;
+      }
+
+      span {
+        font-size: 16px !important;
+      }
+    }
+
+    .subscriptions .subscriptions__list .subscriptions__users {
+      grid-template-columns: repeat(3, auto);
+    }
+  }
+}
+
+@media screen and (max-width: 425px) {
+  #profile #main {
+    grid-template-areas:  'intro'
+                            'subscriptions'
+                            'posts';
+    grid-template-columns: auto;
+
+    .subscriptions .subscriptions__list .subscriptions__users {
+      grid-template-columns: repeat(7, auto);
+    }
+  }
+}
+
+@media screen and (max-width: 425px) {
+  #profile #main .subscriptions .subscriptions__list .subscriptions__users {
+    grid-template-columns: repeat(6, auto);
+  }
+}
+
+@media screen and (max-width: 375px) {
+  #profile #main .posts .post {
+    padding: 15px;
+
+    button {
+      font-size: 14px;
+      right: 0;
+    }
+
+    .post__user {
+      img {
+        width: 35px;
+        height: 35px;
+      }
+
+      h3 {
+        font-size: 14px;
+      }
+
+      p {
+        font-size: 10px;
+      }
+    }
+
+    p {
+      font-size: 13px;
+    }
+  }
+}
+
+@media screen and (max-width: 340px) {
+  #profile #main .subscriptions .subscriptions__list .subscriptions__users {
+    grid-template-columns: repeat(5, auto);
+  }
+}
+
+@media screen and (max-width: 290px) {
+  #profile #main {
+    .posts .post p {
+      font-size: 12px;
+    }
+
+    .subscriptions .subscriptions__list .subscriptions__users {
+      grid-template-columns: repeat(4, auto);
     }
   }
 }

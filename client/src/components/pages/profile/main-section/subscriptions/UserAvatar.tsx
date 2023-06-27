@@ -24,7 +24,7 @@ const UserAvatarComponent: React.FC<Props> = ({ id }) => {
 
     return(
         <div onClick={() => goToProfile(id)} className={styles['subscriptions__user']}>
-            <img className={'w-10 h-10 rounded-full cursor-pointer'} alt={'Avatar'} src={avatar}/>
+            <img className={'w-9 h-9 rounded-full cursor-pointer'} alt={'Avatar'} src={avatar}/>
         </div>
     )
 }

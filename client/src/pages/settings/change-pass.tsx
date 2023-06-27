@@ -9,8 +9,8 @@ import { notify } from "@/components/pages/auth/AuthForm"
 import styles from '@/styles/Settings.module.scss'
 // Components
 import { SettingsLayout } from "@/layouts/SettingsLayout"
-import { Title } from "@/components/settings/Title"
-import { ChangePassInput } from "@/components/settings/change-pass/ChangePassInput"
+import { Title } from "@/components/pages/settings/Title"
+import { ChangePassInput } from "@/components/pages/settings/change-pass/ChangePassInput"
 import { PassRequirements } from "@/components/common/PassRequirements"
 import ScaleLoader from "react-spinners/ScaleLoader"
 

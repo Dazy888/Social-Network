@@ -12,9 +12,9 @@ import { setEmail } from "@/store/reducers/SettingsSlice"
 import { SubmitHandler, useForm } from "react-hook-form"
 // Components
 import { SettingsLayout } from "@/layouts/SettingsLayout"
-import { Title } from "@/components/settings/Title"
-import { ActivatedEmail } from "@/components/settings/activation/ActivatedEmail"
-import { ActivationMessage } from "@/components/settings/activation/ActivationMessage"
+import { Title } from "@/components/pages/settings/Title"
+import { ActivatedEmail } from "@/components/pages/settings/activation/ActivatedEmail"
+import { ActivationMessage } from "@/components/pages/settings/activation/ActivationMessage"
 import ScaleLoader from "react-spinners/ScaleLoader"
 
 const Activate = () => {
