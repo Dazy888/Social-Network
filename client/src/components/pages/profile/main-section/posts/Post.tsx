@@ -28,21 +28,21 @@ const PostComponent: React.FC<Props> = ({ avatar, name, createdAt, text, postId,
 
     return(
         <div className={`${styles.post} w-full h-fit p-6 rounded-lg mb-7`}>
-            <div className={`${styles['post__header']} flex justify-between mb-5`}>
+            <div className={`${styles['post__header']} flex justify-between mb-5 relative`}>
                 <div className={`${styles['post__user']} w-fit text-left flex justify-between items-center`}>
                     <img className={'w-10 h-10 mr-3 rounded-full'} alt={'avatar'} src={avatar}/>
                     <div className={styles['post__information']}>
-                        <h3 className={'text-lg font-medium'}>{name}</h3>
-                        <p className={'text-sm'}>{createdAt}</p>
+                        <h3 className={'text-base font-medium'}>{name}</h3>
+                        <p className={'text-xs'}>{createdAt}</p>
                     </div>
                 </div>
                 {!forView &&
-                    <button className={'text-base duration-200 text-red'} onClick={() => mutateAsync({ postId })}>
+                    <button className={'absolute text-base duration-200 text-red'} onClick={() => mutateAsync({ postId })}>
                         <i className={'fa-solid fa-trash'} />
                     </button>
                 }
             </div>
-            <p className={'font-medium mb-5'}>{text}</p>
+            <p className={'text-sm whitespace-pre-line mb-5'}>{text}</p>
             <hr className={'w-full h-px'}/>
         </div>
     )

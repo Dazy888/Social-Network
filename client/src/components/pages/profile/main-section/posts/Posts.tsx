@@ -3,7 +3,7 @@ import styles from "@/styles/Profile.module.scss"
 import { useAppSelector } from "@/hooks/redux"
 import { getPostsElements } from "@/pages/profile"
 import { CreatePost } from "@/components/pages/profile/main-section/posts/CreatePost"
-import { NewPostBtn } from "@/components/pages/profile/main-section/posts/NewPostBtn"
+import { CreatePostBtn } from "@/components/pages/profile/main-section/posts/CreatePostBtn"
 
 const PostsComponent = () => {
     const [isCreatingPost, setIsCreatingPost] = useState(false)
@@ -16,7 +16,7 @@ const PostsComponent = () => {
     return(
         <article className={styles.posts}>
             { postsElements }
-            { isCreatingPost ? <CreatePost setIsCreatingPost={setIsCreatingPost} /> : <NewPostBtn setIsCreatingPost={setIsCreatingPost} /> }
+            { isCreatingPost ? <CreatePost setIsCreatingPost={setIsCreatingPost} /> : <CreatePostBtn setIsCreatingPost={setIsCreatingPost} /> }
         </article>
     )
 }

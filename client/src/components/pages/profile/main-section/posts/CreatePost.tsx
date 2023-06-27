@@ -13,7 +13,7 @@ export interface PropsCreationProps {
 
 const CreatePostComponent: React.FC<PropsCreationProps> = ({ setIsCreatingPost }) => {
     const dispatch = useAppDispatch()
-    const textareaPostRef: any = useRef()
+    const textareaRef = useRef<HTMLTextAreaElement | null>(null)
 
     const id = useAppSelector(state => state.profileReducer.id)
 
@@ -25,16 +25,24 @@ const CreatePostComponent: React.FC<PropsCreationProps> = ({ setIsCreatingPost }
     )
 
     const addNewPost = async () => {
-        await addPost({ text: textareaPostRef.current.value, id })
+        await addPost({ text: textareaRef.current?.value || '', id })
         setIsCreatingPost(false)
     }
 
+    const handleTextareaInput = () => {
+        if (textareaRef.current) {
+            textareaRef.current.style.height = 'auto';
+            textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+        }
+    }
+
     return(
-        <div className={`${styles['posts__create-post']} mb-24`}>
-            <textarea className={'w-full h-24 rounded-lg p-2.5 text-black text-sm'} minLength={20} maxLength={500} ref={textareaPostRef}/>
-            <div className={`flex justify-between mt-5 mx-auto`}>
-                <button className={styles['submit']} onClick={() => addNewPost()}>Submit</button>
-                <button className={styles['cancel']} onClick={() => setIsCreatingPost(false)}>Cancel</button>
+        <div className={`${styles['posts__create-post']} mb-24 relative`}>
+            <textarea className={'w-full px-2.5 py-4 text-black text-sm'} minLength={20} maxLength={500} ref={textareaRef} onInput={handleTextareaInput} />
+            <div className={`flex absolute`}>
+                <button className={'text-xs py-1 px-3'} onClick={() => addNewPost()}>Submit</button>
+                <hr className={'w-px h-9'} />
+                <button className={'text-xs py-1 px-3'} onClick={() => setIsCreatingPost(false)}>Cancel</button>
             </div>
         </div>
     )
