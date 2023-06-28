@@ -1,10 +1,37 @@
-.content {
-  width: fit-content;
-  flex-direction: column;
-  margin: 100px auto 0;
+@import "MainLayout.module";
 
-  h1 {
-    //color: #8860d0;
+.pagination {
+  font-size: 1.2rem;
+
+  .pagination__num, .pagination__btn {
+    transition: 300ms;
+    border-radius: 3px;
+    color: white;
+    padding: 8px 15px;
+    background: #8860d0;
+
+    &:hover {
+      background: $pink;
+      color: white;
+    }
+  }
+
+  .pagination__num {
+    font-weight: 400;
+  }
+
+  .active a {
+    background: $pink;
+    color: white;
+    border-radius: 3px;
+  }
+
+  .left:hover {
+    translate: -7px;
+  }
+
+  .right:hover {
+    translate: 7px;
   }
 }
 
@@ -19,10 +46,6 @@
   }
 }
 
-@media (max-width: 425px) {
-  .content {
-    width: fit-content;
-    flex-direction: column;
-    margin: 100px auto 0;
-  }
+@media screen and (max-width: 1024px) {
+  
 }

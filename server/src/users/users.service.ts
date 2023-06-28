@@ -12,7 +12,7 @@ export class UsersService {
 
     async getUsers(skip: number, id: string) {
         const length = await this.userModel.count()
-        const users = await this.userModel.find({ _id: { $ne: id } }).skip(skip).limit(4)
+        const users = await this.userModel.find({ _id: { $ne: id } }).skip(skip).limit(20)
         const usersData: UserPreview[] = []
 
         for (const user of users) {

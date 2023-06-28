@@ -381,7 +381,7 @@ $red: #e74c3c;
 
 @media screen and (max-width: 425px) {
   #profile #main {
-    grid-template-areas:  'intro'
+    grid-template-areas:    'intro'
                             'subscriptions'
                             'posts';
     grid-template-columns: auto;

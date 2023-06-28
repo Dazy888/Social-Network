@@ -41,15 +41,6 @@ ol {
   background: green !important;
 }
 
-.burger {
-  background: transparent;
-  border: none;
-  color: #fff;
-  display: none;
-  font-size: 33px;
-  margin: auto auto 30px auto;
-}
-
 .active {
   color: rgb(249,94,59) !important;
 }
@@ -84,52 +75,6 @@ ol {
     font-size: 20px;
     right: 10px;
     top: 18px;
-  }
-}
-
-.pagination {
-  font-size: 1.2rem;
-  gap: 8px;
-  list-style: none;
-  align-items: baseline;
-  margin-top: 50px;
-
-  li {
-    height: 42px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .page-num {
-    height: 42px;
-    padding: 8px 15px;
-    cursor: pointer;
-    border-radius: 3px;
-    font-weight: 500;
-
-    &:hover {
-      background-color: #8860d0;
-      color: white;
-    }
-  }
-
-  .active {
-    color: white !important;
-    border-radius: 3px;
-    background-color: #8860d0;
-  }
-
-  .paginator-btn {
-    font-size: 25px;
-  }
-
-  .left {
-    margin-right: 20px;
-  }
-
-  .right {
-    margin-left: 20px;
   }
 }
 

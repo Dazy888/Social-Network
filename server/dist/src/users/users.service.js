@@ -23,7 +23,7 @@ let UsersService = class UsersService {
     }
     async getUsers(skip, id) {
         const length = await this.userModel.count();
-        const users = await this.userModel.find({ _id: { $ne: id } }).skip(skip).limit(4);
+        const users = await this.userModel.find({ _id: { $ne: id } }).skip(skip).limit(20);
         const usersData = [];
         for (const user of users) {
             usersData.push({
