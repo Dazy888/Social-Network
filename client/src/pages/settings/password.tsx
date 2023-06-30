@@ -10,11 +10,11 @@ import styles from '@/styles/Settings.module.scss'
 // Components
 import { SettingsLayout } from "@/layouts/SettingsLayout"
 import { Title } from "@/components/pages/settings/Title"
-import { ChangePassInput } from "@/components/pages/settings/change-pass/ChangePassInput"
+import { ChangePassInput } from "@/components/pages/settings/password/ChangePassInput"
 import { PassRequirements } from "@/components/common/PassRequirements"
 import ScaleLoader from "react-spinners/ScaleLoader"
 
-const ChangePass = () => {
+const Password = () => {
     const id = useAppSelector(state => state.profileReducer.id)
 
     const { mutateAsync, isLoading } = useMutation('set pass', (data: SetPassProps) => SettingsService.changePassword(data.currentPass, data.newPass, data.id),
@@ -63,4 +63,4 @@ const ChangePass = () => {
     )
 }
 
-export default React.memo(ChangePass)
+export default React.memo(Password)

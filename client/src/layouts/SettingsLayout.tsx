@@ -10,8 +10,8 @@ const SettingsLayoutComponent: React.FC<LayoutProps> = ({ children, title }) => 
             <div className={`${styles.container} flex gap-10 mx-auto`}>
                 <nav className={'flex-center text-white font-medium text-xl'}>
                     <ul className={'grid gap-5'}>
-                        <NavLink iconClass={null} activeClass={styles.active} text={'Password settings'} path={'/settings/change-pass'}/>
-                        <NavLink iconClass={null} activeClass={styles.active} text={'E-mail settings'} path={'/settings/activate'}/>
+                        <NavLink iconClass={null} activeClass={styles.active} text={'Password settings'} path={'/settings/password'}/>
+                        <NavLink iconClass={null} activeClass={styles.active} text={'E-mail settings'} path={'/settings/email'}/>
                         <NavLink iconClass={null} activeClass={styles.active} text={'Profile settings'} path={'/settings/profile'}/>
                     </ul>
                 </nav>

@@ -18,7 +18,7 @@ import { EmailInput } from "@/components/pages/settings/email/EmailInput"
 import { Loader } from "@/components/pages/settings/email/Loader"
 import { SubmitBtn } from "@/components/pages/settings/email/SubmitBtn"
 
-const Activate = () => {
+const Email = () => {
     const dispatch = useAppDispatch()
 
     const [isFocus, setIsFocus] = useState(false)
@@ -49,7 +49,7 @@ const Activate = () => {
 
     return(
         <SettingsLayout title={'E-mail settings'}>
-            <Title title={'E-mail Activation'}/>
+            <Title title={'E-mail Settings'}/>
             <hr className={'w-full h-px'}/>
             <form className={'py-10 px-6'} onSubmit={handleSubmit(onSubmit)}>
                 <EmailInput isStatic={isActivated || isInProcess} focusedClassName={isFocus ? styles.focused : ''} value={inputValue || email} {...{ register, setFocus, isInProcess, setIsFocus }} />
@@ -61,4 +61,4 @@ const Activate = () => {
     )
 }
 
-export default React.memo(Activate)
+export default React.memo(Email)
