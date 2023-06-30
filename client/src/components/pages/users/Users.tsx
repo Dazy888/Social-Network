@@ -25,10 +25,7 @@ const UsersListComponent: React.FC<Props> = ({ setSkip, refetch, users, length, 
     const pageCount = Math.ceil(length / usersOnPage)
 
     useEffect(() => {
-        setUsersOnPage(5)
-        const handleResize = () => {
-            setWindowWidth(window.innerWidth)
-        }
+        const handleResize = () => setWindowWidth(window.innerWidth)
         window.addEventListener('resize', handleResize)
         return () => window.removeEventListener('resize', handleResize)
     }, [])

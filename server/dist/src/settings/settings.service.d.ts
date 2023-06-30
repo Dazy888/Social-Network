@@ -2,7 +2,7 @@
 import { Model } from "mongoose";
 import { MailerService } from "@nestjs-modules/mailer";
 import { UserDocument } from "../schemas/user.schema";
-import { SetProfileSettingsProps } from "@/settings/models/settings.models";
+import { SetProfileSettingsProps } from "./models/settings.models";
 export declare class SettingsService {
     private userModel;
     private readonly mailerService;

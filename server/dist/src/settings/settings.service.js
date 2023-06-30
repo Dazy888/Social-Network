@@ -42,19 +42,35 @@ let SettingsService = class SettingsService {
         await this.mailerService.sendMail({
             from: process.env.SMTP_USER,
             to: email,
-            subject: 'Dazy social network e-mail activation!',
+            subject: 'Social network e-mail activation',
             html: `
                     <div>
-                        <h1>To activate follow the link</h1>
-                        <a href="${activationLink}">${activationLink}</a>
+                        <h3>
+                            Dear user,
+                            <br/>
+                            Thank you for choosing our social network! We are happy to welcome you to our community.
+                            <br/>
+                            To activate your account, you need to verify your email address by following the link below:
+                            <br/>
+                            <a href="${activationLink}">${activationLink}</a>
+                            <br/>
+                            If you have not registered on our site, please ignore this email.
+                            <br/>
+                            If you have any questions or need additional assistance, please do not hesitate to contact our support team.
+                            <br/>
+                            With best regards,
+                            <br/>
+                            The team of our social network
+                        </h3>
                     </div>
                 `
         });
     }
     async activate(activationLink) {
         const user = await this.userModel.findOne({ activationLink });
-        if (!await this.userModel.findOneAndUpdate({ activationLink }, { isActivated: true }))
-            throw new common_1.BadRequestException('Invalid activation link');
+        if (!user)
+            throw new common_1.BadRequestException('Invalid email link');
+        await this.userModel.findOneAndUpdate({ activationLink }, { isActivated: true });
     }
     async cancelActivation(_id) {
         await this.userModel.findOneAndUpdate({ _id }, { email: '', activationLink: '' });

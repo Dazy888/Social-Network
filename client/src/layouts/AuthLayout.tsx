@@ -11,9 +11,8 @@ import { LayoutProps } from "@/models/layouts.models"
 // Components
 import { AuthInput } from "@/components/pages/auth/AuthInput"
 import { SubmitBtn } from "@/components/pages/auth/SubmitBtn"
-import { NavLink } from "@/components/navigation/NavLink"
-import {ToastContainer} from "react-toastify";
-import {PassRequirements} from "@/components/common/PassRequirements";
+import { PassRequirements } from "@/components/common/PassRequirements"
+import { NavLink } from "@/components/common/NavLink"
 
 export const getCookie = (name: string) => {
     const value = `; ${document.cookie}`
@@ -65,8 +64,8 @@ const AuthLayout: React.FC<Props> = ({ title, signAction, isLoading}) => {
             <div className={`${styles['auth-wrapper']} flex-center w-full min-h-screen`}>
                 <div className={`${styles['auth']} flex-center rounded-r-xl`}>
                     <div className={`${styles['auth__actions']} h-full w-2/12`}>
-                        <NavLink paths={['/auth/sign-in']} activeClass={'active'} iconClass={'fa-solid fa-arrow-right-to-bracket'}/>
-                        <NavLink paths={['/auth/sign-up']} activeClass={'active'} iconClass={'fa-solid fa-address-card'}/>
+                        <NavLink text={null} path={'/auth/sign-in'} activeClass={styles.active} iconClass={'arrow-right-to-bracket'}/>
+                        <NavLink text={null} path={'/auth/sign-up'} activeClass={styles.active} iconClass={'address-card'}/>
                     </div>
                     <div className={`${styles['auth__content']} flex justify-center w-10/12 relative`}>
                         <form onSubmit={handleSubmit(onSubmit)} className={'w-9/12'}>

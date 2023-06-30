@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { useMutation } from "react-query"
 import { SettingsService } from "@/services/settings.service"
 import { IActivate, ActivateProps } from "@/models/settings.models"
@@ -13,18 +13,21 @@ import { SubmitHandler, useForm } from "react-hook-form"
 // Components
 import { SettingsLayout } from "@/layouts/SettingsLayout"
 import { Title } from "@/components/pages/settings/Title"
-import { ActivatedEmail } from "@/components/pages/settings/activation/ActivatedEmail"
-import { ActivationMessage } from "@/components/pages/settings/activation/ActivationMessage"
-import ScaleLoader from "react-spinners/ScaleLoader"
+import { ActivationMessage } from "@/components/pages/settings/email/ActivationMessage"
+import { EmailInput } from "@/components/pages/settings/email/EmailInput"
+import { Loader } from "@/components/pages/settings/email/Loader"
+import { SubmitBtn } from "@/components/pages/settings/email/SubmitBtn"
 
 const Activate = () => {
     const dispatch = useAppDispatch()
+
+    const [isFocus, setIsFocus] = useState(false)
 
     const id = useAppSelector(state => state.profileReducer.id)
     const email = useAppSelector(state => state.settingsReducer.email)
     const isActivated = useAppSelector(state => state.settingsReducer.isActivated)
 
-    const { isLoading, mutateAsync:activate } = useMutation('activate email', (data: ActivateProps) => SettingsService.activateMail(data.email, data.id),
+    const { isLoading, mutateAsync:activate} = useMutation('activate email', (data: ActivateProps) => SettingsService.activateMail(data.email, data.id),
         {
             onSuccess(res) {
                 dispatch(setEmail(res))
@@ -34,29 +37,26 @@ const Activate = () => {
         }
     )
 
-    const { register, handleSubmit, formState: { } } = useForm<IActivate>({ mode: 'onChange' })
+    const { register, handleSubmit, watch, setFocus, setValue } = useForm<IActivate>({ mode: 'onChange' })
+    const inputValue = watch('email')
 
     const onSubmit: SubmitHandler<IActivate> = async (data) => {
         if (isLoading) return notify('Your request is handling', 'warning')
         await activate({ email: data.email, id })
     }
 
+    const isInProcess = !isActivated && !!email
+
     return(
-        <SettingsLayout title={'E-mail activation'}>
+        <SettingsLayout title={'E-mail settings'}>
             <Title title={'E-mail Activation'}/>
             <hr className={'w-full h-px'}/>
             <form className={'py-10 px-6'} onSubmit={handleSubmit(onSubmit)}>
-                {!!email
-                    ?   <ActivatedEmail email={email} />
-                    :   <input required minLength={5} maxLength={35} className={`${styles['big-input']} ${styles.input}`} type={'email'} placeholder={'Your e-mail'} {...(register('email'))} />
-                }
-                {!isActivated &&
-                    <button className={`${styles.submit} w-full rounded-lg tracking-wider font-semibold text-white py-4`} type={'submit'} disabled={isLoading || !!email}>
-                        { isLoading ? <ScaleLoader color={'rgb(255, 255, 255)'} loading={true} /> : 'Activate' }
-                    </button>
-                }
+                <EmailInput isStatic={isActivated || isInProcess} focusedClassName={isFocus ? styles.focused : ''} value={inputValue || email} {...{ register, setFocus, isInProcess, setIsFocus }} />
+                {!isActivated && <SubmitBtn loadingClassName={(isLoading || isInProcess) ? styles.loading : ''} disabled={isLoading || !!email} />}
+                {isLoading && <Loader />}
             </form>
-            {(!isActivated && !!email) && <ActivationMessage />}
+            {isInProcess && <ActivationMessage {...{ setIsFocus, setValue }} />}
         </SettingsLayout>
     )
 }

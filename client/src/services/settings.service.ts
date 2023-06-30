@@ -10,15 +10,15 @@ export class SettingsService {
     }
 
     static activateMail(email: string, id: string) {
-        return $api.post('settings/activation', { email, id })
+        return $api.post('settings/activate-email', { email, id })
             .then(() => email)
             .catch(err => { throw err.response.data.message })
     }
 
     static async cancelActivation(id: string) {
         return $api.delete(`settings/cancel-activation/${id}`)
-        .then(res => res)
-        .catch(err => { throw err.response.data.message })
+            .then(res => res)
+            .catch(err => { throw err.response.data.message })
     }
 
     static async setProfileSettings(data: FormData) {

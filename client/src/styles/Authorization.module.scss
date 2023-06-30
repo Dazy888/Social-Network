@@ -4,6 +4,10 @@ $authColor: rgb(249,94,59);
   background: $authColor;
 }
 
+.active {
+  color: rgb(249,94,59) !important;
+}
+
 .auth {
   width: 550px;
   height: 800px;

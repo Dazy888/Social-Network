@@ -20,7 +20,7 @@ export class SettingsController {
         return this.settingsService.changePass(data.currentPass, data.newPass, data.id)
     }
 
-    @Post('/activation')
+    @Post('/activate-email')
     async sendMail(@Body() data: ActivationProps, @Headers('authorization') authorization: string) {
         const accessToken = authorization.split(' ')[1]
         checkAccessToken(accessToken)

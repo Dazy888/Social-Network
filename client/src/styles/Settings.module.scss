@@ -1,332 +1,326 @@
-#settings {
-  .container {
-    width: 1200px;
-    height: 470px;
+@import "MainLayout.module";
+@import "Profile.module";
 
-    h3 {
-      color: #515365;
-      padding: 25px 23px 18px;
-    }
+#settings .container {
+  width: 1440px;
+  height: 470px;
 
-    hr {
-      background: #515365;
-    }
+  .active {
+    color: #f92552 !important;
+  }
 
-    nav {
-      width: 250px;
-      background: rebeccapurple;
+  h3 {
+    color: #515365;
+    padding: 25px 23px 18px;
+  }
 
-      a {
-        display: block;
+  hr {
+    background: #515365;
+  }
 
-        &:not(:last-child) {
-          margin-bottom: 30px;
-        }
+  nav {
+    width: 20%;
+    background: rebeccapurple;
+    border-radius: 10px 10px 0 0;
+
+    a {
+      display: block;
+      transition: 300ms;
+
+      &:hover {
+        color: $pink;
+        translate: 10px;
       }
     }
+  }
 
-    .content {
-      width: 800px;
-      background: white;
+  .content {
+    width: 80%;
+    background: white;
+    border-radius: 10px 10px 0 0;
 
-      .error-container {
-        position: relative;
+    @keyframes s8 {
+      100%{transform: rotate(360deg)}
+    }
 
-        .error-text {
-          font-size: 16px;
-          font-weight: 500;
-          position: absolute;
-          left: 5px;
-          top: -25px;
-          color: red;
-        }
+    .loading {
+      background: rgba(102, 51, 153, 0.9) !important;
+      cursor: inherit !important;
+    }
 
-        .red-border {
-          border: 2px solid red;
-        }
+    .loader {
+      width: 50px;
+      height: 50px;
+      --c: radial-gradient(farthest-side,#f92552 92%,#0000);
+      background:
+              var(--c) 50%  0,
+              var(--c) 50%  100%,
+              var(--c) 100% 50%,
+              var(--c) 0    50%;
+      background-size: 10px 10px;
+      background-repeat: no-repeat;
+      animation: s8 1.5s linear infinite;
 
-        .error {
-          position: absolute;
-          color: #f92552;
-          font-size: 20px;
-          right: 10px;
-          top: 18px;
-        }
+      &:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        margin: 3px;
+        background: repeating-conic-gradient(#0000 0 35deg,#f92552 0 90deg);
+        -webkit-mask: radial-gradient(farthest-side,#0000 calc(100% - 3px),#000 0);
+        border-radius: 50%;
+      }
+    }
+
+    .email-input {
+      .focused {
+        top: 20%;
+        left: 6px;
+        font-size: 11px;
+        color: #8860d0;
+        font-weight: 500;
       }
 
-      .input {
-        width: 300px;
-        height: 50px;
-        border: 1px solid #e6ecf5;
-        padding: 8px 0 0 10px;
-        line-height: 1.75;
-        font-size: 15px;
-        border-radius: 5px;
-        margin-bottom: 10px;
+      span {
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
 
-        &:focus {
-          color: #212529;
-          border-color: rebeccapurple;
-        }
+    .activated-icon {
+      color: $green;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .cancel {
+      background: $red;
+
+      &:hover {
+        transform: translateY(-10px);
+      }
+    }
+
+
+
+
+
+    .error-container {
+      position: relative;
+
+      .error-text {
+        font-size: 16px;
+        font-weight: 500;
+        position: absolute;
+        left: 5px;
+        top: -25px;
+        color: red;
       }
 
-      .big-input {
-        width: 100%;
+      .red-border {
+        border: 2px solid red;
       }
 
-      .message {
+      .error {
+        position: absolute;
+        color: #f92552;
+        font-size: 20px;
+        right: 10px;
+        top: 18px;
+      }
+    }
+
+    .input {
+      width: 300px;
+      height: 55px;
+      border: 1px solid #e6ecf5;
+      padding: 8px 0 0 10px;
+      line-height: 1.75;
+      font-size: 15px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+
+      &:focus {
+        color: #212529;
+        border-color: rebeccapurple;
+      }
+    }
+
+    .big-input {
+      width: 100%;
+    }
+
+    .message {
+      width: fit-content;
+      display: block;
+      margin: 20px auto 0;
+      font-weight: 500;
+      font-size: 20px;
+      color: green;
+
+      i {
         width: fit-content;
         display: block;
-        margin: 20px auto 0;
-        font-weight: 500;
-        font-size: 20px;
-        color: green;
-
-        i {
-          width: fit-content;
-          display: block;
-          margin: 10px auto 0;
-          font-size: 25px;
-        }
+        margin: 10px auto 0;
+        font-size: 25px;
       }
+    }
 
-      .activated-email {
-        position: relative;
+    .loader span {
+      height: 10px !important;
+    }
 
-        i {
-          position: absolute;
-          font-size: 20px;
-          color: green;
-          right: 15px;
-          top: 18px;
-        }
+    .submit {
+      background: rgba(102, 51, 153, 1);
+      transition: 200ms;
+      border-radius: 5px;
+
+      &:hover {
+        background: rgba(102, 51, 153, 0.9);
       }
+    }
 
-      .loader span {
-        height: 10px !important;
-      }
+    label {
+      width: 176px;
+      height: 36px;
 
-      .cancel {
-        width: 170px;
-        height: 40px;
-        background: red;
+      .upload-btn {
+        background: rgb(77, 84, 125) !important;
+        font-family: "Roboto","Helvetica","Arial",sans-serif;
+        box-shadow: 0 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
 
         &:hover {
-          transform: translateY(-10px);
+          background: rgb(77, 84, 110);
+          text-decoration: none;
+          box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
         }
-      }
 
-      .submit, button {
-        background: rebeccapurple !important;
-        transition: 200ms;
-
-        &:hover {
-          opacity: 0.9;
-        }
-      }
-
-      label {
-        width: 176px;
-        height: 36px;
-
-        .upload-btn {
-          background: rgb(77, 84, 125) !important;
-          font-family: "Roboto","Helvetica","Arial",sans-serif;
-          box-shadow: 0 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);
-
-          &:hover {
-            background: rgb(77, 84, 110);
-            text-decoration: none;
-            box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
-          }
-
-          &:active {
-            box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12);
-          }
+        &:active {
+          box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12);
         }
       }
     }
   }
 }
 
-@media (max-width: 1200px) {
-  #settings {
-    .container {
-      width: 1000px;
+@media screen and (max-width: 1440px) {
+  #settings .container {
+    width: 90%;
 
-      nav {
-        width: 200px;
+    nav {
+      width: 25%;
+    }
 
-        a {
-          font-size: 18px;
-          margin-bottom: 25px;
-        }
-      }
-
-      .content {
-        width: 700px;
-      }
+    .content {
+      width: 75%;
     }
   }
 }
 
 @media (max-width: 1024px) {
-  #settings {
-    .container {
-      width: 760px;
+  #settings .container {
+    gap: 30px;
 
-      .content {
-        width: 500px;
+    nav {
+      width: 30%;
+      font-size: 18px;
 
-        .cancel:hover {
-          transform: translateY(0);
-        }
-
-        .inputs, .pass-inputs {
-          input {
-            width: 220px;
-            padding: 18px 12px 6px;
-          }
-        }
-
-        .forms {
-          .files {
-            width: 350px;
-          }
-        }
+      ul {
+        gap: 15px;
       }
+    }
+
+    .content {
+      width: 70%;
     }
   }
 }
 
 @media (max-width: 768px) {
-  #settings {
-    padding: 100px 0;
+  #settings .container {
+    height: fit-content;
+    flex-direction: column;
 
-    .container {
-      width: 415px;
-      height: fit-content;
-      flex-direction: column;
+    nav {
+      width: 300px;
+      margin: auto;
+      padding: 30px 0;
+      border-radius: 10px;
+      text-align: center;
 
-      nav {
-        height: 300px;
-        text-align: center;
-
-        a:last-child {
-          margin-bottom: 0;
-        }
+      a:hover {
+        translate: none;
       }
+    }
 
-      .content {
-        width: 99%;
-        margin-top: 50px;
-
-        .pass-inputs {
-          flex-direction: column;
-
-          input {
-            width: 362px;
-          }
-
-          div:nth-child(2) {
-            margin-top: 24px;
-          }
-        }
-
-        .inputs {
-          flex-direction: column;
-
-          form:last-child {
-            margin-top: 30px;
-          }
-
-          button {
-            width: 100% !important;
-            height: 35px;
-            margin-top: 5px;
-          }
-        }
-
-        form {
-          div {
-            input {
-              height: 45px;
-            }
-          }
-        }
-
-        .inputs {
-          input {
-            width: 320px !important;
-            height: 45px;
-          }
-        }
-
-        .forms {
-          .files {
-            width: auto;
-          }
-        }
-
-        .submit {
-          height: 45px;
-        }
-      }
+    .content {
+      width: 100%;
     }
   }
 }
 
 @media (max-width: 425px) {
-  #settings {
-    .container {
-      width: 370px;
+  #settings .container nav {
+    width: 250px;
+  }
+}
 
-      .pass-inputs {
-        input {
-          width: 318px !important;
-        }
+@media (max-width: 375px) {
+  #settings .container {
+    nav {
+      width: 200px;
+    }
+
+    .content {
+      h3 {
+        padding: 20px 15px 13px;
+        font-size: 16px;
       }
 
-      .inputs {
-        flex-direction: column;
+      form {
+        padding: 30px 15px;
 
         input {
-          width: 100%;
+          font-size: 14px !important;
+        }
+
+        i {
+          font-size: 18px;
         }
       }
-
-     .content {
-       .message {
-         font-size: 16px;
-
-         i {
-           font-size: 20px;
-         }
-       }
-     }
     }
   }
 }
 
 @media (max-width: 375px) {
-  #settings {
-    .container {
-      width: 320px;
+  #settings .container {
+    nav {
+      width: 180px;
+      font-size: 15px;
+      font-weight: 400;
 
-      .content {
-        .pass-inputs {
-          input {
-            width: 270px !important;
-          }
+      ul {
+        gap: 8px;
+      }
+    }
+
+    .content {
+      h3 {
+        padding: 18px 13px 11px;
+        font-size: 15px;
+      }
+
+      form {
+        padding: 25px 13px;
+
+        input {
+          height: 45px !important;
+          font-size: 13px !important;
+          padding-left: 6px !important;
         }
 
-        .inputs {
-          input {
-            width: 270px !important;
-          }
-        }
-
-        .activation-text {
+        i {
           font-size: 16px;
         }
       }
