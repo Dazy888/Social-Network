@@ -12,7 +12,7 @@ import { SettingsLayout } from "@/layouts/SettingsLayout"
 import { Title } from "@/components/pages/settings/Title"
 import { ChangePassInput } from "@/components/pages/settings/password/ChangePassInput"
 import { PassRequirements } from "@/components/common/PassRequirements"
-import ScaleLoader from "react-spinners/ScaleLoader"
+import { Loader } from "@/components/pages/settings/Loader"
 
 const Password = () => {
     const id = useAppSelector(state => state.profileReducer.id)
@@ -27,8 +27,13 @@ const Password = () => {
         }
     )
 
-    const { register, handleSubmit, watch, reset, formState: { errors, touchedFields } } = useForm<IChangePass>({ mode: 'onChange' })
+    const { register, handleSubmit, watch, setFocus, reset,
+        formState: { errors, touchedFields
+    }} = useForm<IChangePass>({ mode: 'onChange' })
+
+    const currentPass = watch('currentPass')
     const newPass = watch('newPass')
+    const confirmPass = watch('confirmPass')
 
     const onSubmit: SubmitHandler<IChangePass> = async (data) => {
         if (isLoading) return notify('Too many requests, try later', 'warning')
@@ -40,24 +45,23 @@ const Password = () => {
         <SettingsLayout title={'Password settings'}>
             <Title title={'Password Settings'}/>
             <hr className={'w-full h-px'}/>
-            <form className={'py-10 px-6'} onSubmit={handleSubmit(onSubmit)}>
+            <form className={`py-10 px-6 ${styles['settings-form']}`} onSubmit={handleSubmit(onSubmit)}>
                 <ChangePassInput errorMessage={errors.currentPass?.message} isError={!!(errors.currentPass?.message && touchedFields.currentPass)} register={register} name={'currentPass'}
-                                 placeholder={'Current'}
+                                 placeholder={'Current'} setFocus={setFocus} value={currentPass}
                 />
                 <div className={`${styles['pass-inputs']} grid grid-cols-2 gap-10 mt-6`}>
                     <ChangePassInput errorMessage={errors.newPass?.message} isError={!!(errors.newPass?.message && touchedFields.newPass)} register={register} name={'newPass'}
-                                     placeholder={'New'}
+                                     placeholder={'New'} setFocus={setFocus} value={newPass}
                     />
                     <ChangePassInput errorMessage={errors.confirmPass?.message} isError={!!(errors.confirmPass?.message && touchedFields.confirmPass)} register={register} name={'confirmPass'}
-                                     placeholder={'Confirm'}
+                                     placeholder={'Confirm'} setFocus={setFocus} value={confirmPass}
                     />
                 </div>
                 <PassRequirements isMinLength={newPass?.length > 7} isOneDigit={/\d/g.test(newPass)} isUppLetter={/[A-Z]/g.test(newPass)}
                                   isLowLetter={/[a-z]/g.test(newPass || '')} isSpecialCharacter={/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/g.test(newPass)}
                 />
-                <button className={`${styles.submit} w-full rounded-lg tracking-wider font-semibold text-white mt-5 py-4`} type={'submit'}>
-                    {isLoading ?  <ScaleLoader color={'white'} loading={true} /> : 'Change password' }
-                </button>
+                <button disabled={isLoading} className={`${styles.submit} ${isLoading ? styles.loading : ''} w-full rounded-lg tracking-wide font-medium text-white mt-5 py-4`} type={'submit'}>Change password</button>
+                {isLoading && <Loader />}
             </form>
         </SettingsLayout>
     )

@@ -7,7 +7,8 @@ interface Props {
 
 const PassRequirementComponent: React.FC<Props> = ({ state, text }) => (
     <li>
-        {text} <i className={`fa-solid fa-${state ? 'check' : 'xmark text-xs'}`} />
+        <span className={'inline-block pass-requirement'}>{text}</span>
+        <i className={`fa-solid fa-${state ? 'check' : 'xmark text-xs'}`} />
     </li>
 )
 

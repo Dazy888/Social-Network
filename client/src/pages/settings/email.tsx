@@ -15,12 +15,11 @@ import { SettingsLayout } from "@/layouts/SettingsLayout"
 import { Title } from "@/components/pages/settings/Title"
 import { ActivationMessage } from "@/components/pages/settings/email/ActivationMessage"
 import { EmailInput } from "@/components/pages/settings/email/EmailInput"
-import { Loader } from "@/components/pages/settings/email/Loader"
+import { Loader } from "@/components/pages/settings/Loader"
 import { SubmitBtn } from "@/components/pages/settings/email/SubmitBtn"
 
 const Email = () => {
     const dispatch = useAppDispatch()
-
     const [isFocus, setIsFocus] = useState(false)
 
     const id = useAppSelector(state => state.profileReducer.id)
