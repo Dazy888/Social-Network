@@ -3,7 +3,7 @@
 
 #settings .container {
   width: 1440px;
-  height: 470px;
+  height: 520px;
 
   .active {
     color: #f92552 !important;
@@ -72,21 +72,6 @@
       }
     }
 
-    .email-input {
-      .focused {
-        top: 20%;
-        left: 6px;
-        font-size: 11px;
-        color: #8860d0;
-        font-weight: 500;
-      }
-
-      span {
-        top: 50%;
-        transform: translateY(-50%);
-      }
-    }
-
     .activated-icon {
       color: $green;
       right: 15px;
@@ -102,6 +87,32 @@
       }
     }
 
+    .focused {
+      top: 14% !important;
+      left: 6px;
+      font-size: 11px !important;
+      color: #8860d0;
+      font-weight: 500;
+    }
+
+    .placeholder {
+      top: 25px;
+    }
+
+    .input {
+      width: 300px;
+      height: 55px;
+      border: 1px solid #e6ecf5;
+      padding: 8px 0 0 10px;
+      line-height: 1.75;
+      font-size: 15px;
+      border-radius: 5px;
+
+      &:focus {
+        color: #212529;
+        border-color: rebeccapurple;
+      }
+    }
 
 
 
@@ -128,22 +139,6 @@
         font-size: 20px;
         right: 10px;
         top: 18px;
-      }
-    }
-
-    .input {
-      width: 300px;
-      height: 55px;
-      border: 1px solid #e6ecf5;
-      padding: 8px 0 0 10px;
-      line-height: 1.75;
-      font-size: 15px;
-      border-radius: 5px;
-      margin-bottom: 10px;
-
-      &:focus {
-        color: #212529;
-        border-color: rebeccapurple;
       }
     }
 
@@ -256,6 +251,7 @@
 
     .content {
       width: 100%;
+      min-height: 320px;
     }
   }
 }
@@ -283,17 +279,27 @@
 
         input {
           font-size: 14px !important;
+          height: 48px !important;
+        }
+
+        .focused {
+          font-size: 9px !important;
+        }
+
+        .placeholder {
+          top: 20px;
+          font-size: 14px;
         }
 
         i {
           font-size: 18px;
         }
-      }
+       }
     }
   }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 320px) {
   #settings .container {
     nav {
       width: 180px;
@@ -320,9 +326,24 @@
           padding-left: 6px !important;
         }
 
+        .placeholder {
+          top: 19px;
+          font-size: 13px;
+        }
+
         i {
           font-size: 16px;
         }
+
+        button {
+          font-size: 14px;
+          padding: 15px 0;
+        }
+      }
+
+      .cancel {
+        font-size: 16px;
+        padding: 7px 40px;
       }
     }
   }

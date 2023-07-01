@@ -24,13 +24,13 @@ const EmailInputComponent: React.FC<Props> = ({ register, value, setFocus, setIs
     }
 
     return(
-        <div onFocus={() => setIsFocus(true)} onBlur={blurHandler} className={`${styles['email-input']} relative`}>
+        <div onFocus={() => setIsFocus(true)} onBlur={blurHandler} className={'relative mb-3'}>
             {isStatic
                 ? <input className={`${styles['big-input']} ${styles.input}`} disabled value={value || ''}/>
                 : <input required minLength={5} maxLength={35} className={`${styles['big-input']} ${styles.input}`} type={'email'} {...(register('email'))} />
             }
             {isStatic && <i className={`fa-solid fa-circle-check absolute text-xl ${styles['activated-icon']}`} />}
-            {!isStatic && <span onClick={spanClickHandler} className={`absolute left-4 top-3 duration-300 ${focusedClassName}`}>Your e-mail</span>}
+            {!isStatic && <span onClick={spanClickHandler} className={`absolute left-4 top-3 duration-300 ${styles.placeholder} ${focusedClassName}`}>Your e-mail</span>}
         </div>
     )
 }

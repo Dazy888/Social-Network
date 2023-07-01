@@ -37,14 +37,14 @@ const Password = () => {
     }
 
     return(
-        <SettingsLayout title={'Password change'}>
-            <Title title={'Password Change'}/>
+        <SettingsLayout title={'Password settings'}>
+            <Title title={'Password Settings'}/>
             <hr className={'w-full h-px'}/>
             <form className={'py-10 px-6'} onSubmit={handleSubmit(onSubmit)}>
-                <ChangePassInput className={styles['big-input']} errorMessage={errors.currentPass?.message} isError={!!(errors.currentPass?.message && touchedFields.currentPass)} register={register} name={'currentPass'}
+                <ChangePassInput errorMessage={errors.currentPass?.message} isError={!!(errors.currentPass?.message && touchedFields.currentPass)} register={register} name={'currentPass'}
                                  placeholder={'Current'}
                 />
-                <div className={`${styles['pass-inputs']} flex justify-between items-center mt-6`}>
+                <div className={`${styles['pass-inputs']} grid grid-cols-2 gap-10 mt-6`}>
                     <ChangePassInput errorMessage={errors.newPass?.message} isError={!!(errors.newPass?.message && touchedFields.newPass)} register={register} name={'newPass'}
                                      placeholder={'New'}
                     />

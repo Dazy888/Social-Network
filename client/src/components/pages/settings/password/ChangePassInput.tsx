@@ -9,13 +9,12 @@ interface Props {
     register: UseFormRegister<IChangePass>
     name: 'currentPass' | 'newPass' | 'confirmPass'
     placeholder: string
-    className?: string
 }
 
-const ChangePassInputComponent: React.FC<Props> = ({ className, isError, errorMessage, register, name, placeholder }) => (
+const ChangePassInputComponent: React.FC<Props> = ({ isError, errorMessage, register, name, placeholder }) => (
     <div className={`error-container`}>
         {isError && <span>{errorMessage}</span>}
-        <input required type={'password'} placeholder={`${placeholder} password`} minLength={8} maxLength={15} className={`${(isError) ? 'red-border' : ''} ${className} ${styles.input}`}
+        <input required type={'password'} placeholder={`${placeholder} password`} minLength={8} maxLength={15} className={`${(isError) ? 'red-border' : ''} ${styles['big-input']} ${styles.input}`}
                {...(register(name, { pattern: { value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,15}$/, message: 'Invalid value' } }))}
         />
     </div>
