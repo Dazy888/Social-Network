@@ -35,4 +35,8 @@ export class ProfileService {
         await this.userModel.updateOne({ _id: openedUserId }, { $pull: { followers: authorizedUserId } })
         await this.userModel.updateOne({ _id: authorizedUserId }, { $pull: { following: openedUserId } })
     }
+
+    async setProfileInfo(_id: string, name: string, location: string) {
+        return this.userModel.findOneAndUpdate({ _id }, { name, location })
+    }
 }

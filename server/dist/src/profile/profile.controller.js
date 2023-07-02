@@ -18,6 +18,7 @@ const profile_service_1 = require("./profile.service");
 const profile_models_1 = require("./models/profile.models");
 const auth_controller_1 = require("../auth/auth.controller");
 const auth_service_1 = require("../auth/auth.service");
+const platform_express_1 = require("@nestjs/platform-express");
 function checkAccessToken(token) {
     (0, auth_controller_1.checkToken)(token);
     (0, auth_service_1.validateToken)(token, process.env.JWT_ACCESS_SECRET);
@@ -46,6 +47,11 @@ let ProfileController = class ProfileController {
         const accessToken = authorization.split(' ')[1];
         checkAccessToken(accessToken);
         return this.profileService.getAvatar(id);
+    }
+    async setProfileSettings(data, authorization) {
+        const accessToken = authorization.split(' ')[1];
+        checkAccessToken(accessToken);
+        return this.profileService.setProfileInfo(data.id, data.name, data.location);
     }
     async follow(data, authorization) {
         const accessToken = authorization.split(' ')[1];
@@ -90,6 +96,15 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "getAvatar", null);
+__decorate([
+    (0, common_1.Put)('profile-info'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.AnyFilesInterceptor)()),
+    __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.Headers)('authorization')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", Promise)
+], ProfileController.prototype, "setProfileSettings", null);
 __decorate([
     (0, common_1.Put)('follow'),
     __param(0, (0, common_1.Body)()),

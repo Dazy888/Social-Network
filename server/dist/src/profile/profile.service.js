@@ -42,6 +42,9 @@ let ProfileService = class ProfileService {
         await this.userModel.updateOne({ _id: openedUserId }, { $pull: { followers: authorizedUserId } });
         await this.userModel.updateOne({ _id: authorizedUserId }, { $pull: { following: openedUserId } });
     }
+    async setProfileInfo(_id, name, location) {
+        return this.userModel.findOneAndUpdate({ _id }, { name, location });
+    }
 };
 ProfileService = __decorate([
     (0, common_1.Injectable)(),

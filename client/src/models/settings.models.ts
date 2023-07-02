@@ -8,16 +8,6 @@ export interface IChangePass {
     confirmPass: string
 }
 
-export interface ProfileSettings {
-    name: string
-    location: string
-}
-
-export interface ProfileSettingsResponse extends ProfileSettings {
-    avatar: string
-    banner: string
-}
-
 export interface SetPassProps {
     currentPass: string
     newPass: string

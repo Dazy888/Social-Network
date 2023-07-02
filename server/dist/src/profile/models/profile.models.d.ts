@@ -12,3 +12,8 @@ export declare class ChangeTextProps {
     text: string;
     id: string;
 }
+export interface SetProfileInfoProps {
+    name: string;
+    location: string;
+    id: string;
+}

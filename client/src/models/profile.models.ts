@@ -32,3 +32,12 @@ export interface ProfileIntroProps {
     text: string
     field: ProfileIntroFields
 }
+
+export interface ProfileInfo {
+    name: string
+    location: string
+}
+
+export interface SetProfileInfoProps extends ProfileInfo{
+    id: string
+}

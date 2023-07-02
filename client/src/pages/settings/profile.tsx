@@ -10,7 +10,7 @@ import styles from '@/styles/Settings.module.scss'
 import { SettingsLayout } from "@/layouts/SettingsLayout"
 import { FileInput } from "@/components/pages/settings/FileInput"
 import { Title } from "@/components/pages/settings/Title"
-import { ProfileInput } from "@/components/pages/settings/profile/ProfileInput"
+import { ProfileInput } from "@/components/pages/profile/header-section/modal/ProfileInput"
 import ScaleLoader from "react-spinners/ScaleLoader"
 // Models
 import { ProfileSettings } from "@/models/settings.models"

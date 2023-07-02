@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { IPost, ProfileIntroProps } from "@/models/profile.models"
-import {ProfileSettingsResponse} from "@/models/settings.models";
+import { IPost, ProfileInfo, ProfileIntroProps } from "@/models/profile.models"
 
 interface ProfileState {
     id: string,
@@ -47,9 +46,7 @@ export const profileSlice = createSlice({
             state.following = action.payload.following
             state.followers = action.payload.followers
         },
-        setProfileSettings(state, action: PayloadAction<ProfileSettingsResponse>) {
-            state.banner = action.payload.banner
-            state.avatar = action.payload.avatar
+        setProfileSettings(state, action: PayloadAction<ProfileInfo>) {
             state.name = action.payload.name
             state.location = action.payload.location
         },
@@ -65,6 +62,7 @@ export const profileSlice = createSlice({
     }
 })
 
-export const { setUser,  deletePost, addUserPost, setProfileIntro, setProfileSettings
+export const { setUser,  deletePost, addUserPost, setProfileIntro,
+    setProfileSettings
 } = profileSlice.actions
 export const profileReducer = profileSlice.reducer

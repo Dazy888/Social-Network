@@ -14,4 +14,7 @@ export declare class ProfileService {
     getAvatar(_id: string): Promise<string>;
     follow(authorizedUserId: string, openedUserId: string): Promise<void>;
     unfollow(authorizedUserId: string, openedUserId: string): Promise<void>;
+    setProfileInfo(_id: string, name: string, location: string): Promise<import("../schemas/user.schema").User & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
+    }>;
 }
