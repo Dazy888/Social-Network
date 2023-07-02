@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import {IPost, ProfileInfo, ProfileIntroProps, SetProfileImageProps} from "@/models/profile.models"
+import { IPost, ProfileInfo, ProfileIntroProps, SetProfileImageProps } from "@/models/profile.models"
 
 interface ProfileState {
     id: string,
@@ -49,6 +49,10 @@ export const profileSlice = createSlice({
         setProfileIntro(state, action: PayloadAction<ProfileIntroProps>) {
             state[action.payload.field] = action.payload.text
         },
+        setProfileInfo(state, action: PayloadAction<ProfileInfo>) {
+            state.name = action.payload.name
+            state.location = action.payload.location
+        },
         setProfileImage(state, action: PayloadAction<SetProfileImageProps>) {
             state[action.payload.field] = action.payload.src
         },
@@ -62,6 +66,6 @@ export const profileSlice = createSlice({
 })
 
 export const { setUser,  deletePost, addUserPost, setProfileIntro,
-    setProfileImage
+    setProfileImage, setProfileInfo
 } = profileSlice.actions
 export const profileReducer = profileSlice.reducer

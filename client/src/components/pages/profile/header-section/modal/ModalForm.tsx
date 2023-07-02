@@ -8,7 +8,7 @@ import { SubmitHandler, useForm } from "react-hook-form"
 // Alert
 import { notify } from "@/components/pages/auth/AuthForm"
 // Store
-import { setProfileSettings } from "@/store/reducers/ProfileSlice"
+import { setProfileInfo } from "@/store/reducers/ProfileSlice"
 // Models
 import { ProfileInfo, SetProfileInfoProps } from "@/models/profile.models"
 
@@ -28,7 +28,7 @@ const ModalFormComponent = () => {
         {
             onSuccess(res) {
                 notify('Profile info was changed successfully', 'success')
-                dispatch(setProfileSettings(res))
+                dispatch(setProfileInfo(res))
             },
             onError: (): any => notify('Something went wrong, reload page and try again', 'error')
         }
