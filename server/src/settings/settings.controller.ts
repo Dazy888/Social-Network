@@ -1,11 +1,10 @@
 import { v4 } from "uuid"
 import * as dotenv from "dotenv"
-import { Body, Controller, Get, Param, Post, Put, Res, UseInterceptors, Headers, Delete, Req, UploadedFiles } from '@nestjs/common'
-import { AnyFilesInterceptor } from "@nestjs/platform-express"
+import { Body, Controller, Get, Param, Post, Put, Res, Headers, Delete, Req } from '@nestjs/common'
 import { checkAccessToken } from "../profile/profile.controller"
 import { SettingsService } from "./settings.service"
 // Models
-import { ActivationProps, ChangePassProps, SetProfileSettingsProps } from "./models/settings.models"
+import { ActivationProps, ChangePassProps } from "./models/settings.models"
 
 dotenv.config()
 
@@ -39,15 +38,5 @@ export class SettingsController {
         const fullUrl = `https://${req.get('host')}${req.originalUrl}`
         await this.settingsService.activate(fullUrl)
         res.redirect(`${process.env.CLIENT_URL}/settings/activate`)
-    }
-
-    @Put('profile-settings')
-    @UseInterceptors(AnyFilesInterceptor())
-    async setProfileSettings(@Body() data: SetProfileSettingsProps, @UploadedFiles() files: Express.Multer.File[]) {
-        let banner
-        let avatar
-
-        files.forEach((item) => (item.fieldname === 'banner') ? banner = item : avatar = item)
-        return this.settingsService.setProfileSettings(data.id, data, banner, avatar)
     }
 }

@@ -40,5 +40,3 @@ export interface RefreshResponse {
     accessToken: string
     posts: IPost[]
 }
-
-export type PassInpType = 'text' | 'password'

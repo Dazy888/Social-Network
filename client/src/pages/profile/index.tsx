@@ -43,12 +43,16 @@ export const getPostsElements = (posts: IPost[], avatar: string, name: string, f
 
 const Profile = () => {
     const id = useAppSelector(state => state.profileReducer.id)
+    const banner = useAppSelector(state => state.profileReducer.banner)
+    const avatar = useAppSelector(state => state.profileReducer.avatar)
+    const name = useAppSelector(state => state.profileReducer.name)
+    const location = useAppSelector(state => state.profileReducer.location)
 
     return(
         <MainLayout title={'Profile'}>
             {id &&
                 <div id={styles.profile} className={'my-24 mx-auto'}>
-                    <HeaderSection />
+                    <HeaderSection {...{ name, avatar, location, banner }} forView={false} />
                     <MainSection />
                 </div>
             }

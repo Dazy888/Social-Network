@@ -8,6 +8,7 @@ import { notify } from "@/components/pages/auth/AuthForm"
 import { useAppSelector } from "@/hooks/redux"
 // Models
 import { SubscriptionProps } from "@/models/profile.models"
+import { PublicUserData } from "@/models/users.models"
 // Styles
 import styles from "@/styles/Profile.module.scss"
 // Components
@@ -16,14 +17,16 @@ import { ProfileIntro } from "@/components/pages/profile/main-section/profile-in
 import { Subscriptions } from "@/components/pages/profile/main-section/subscriptions/Subscriptions"
 import { UserAvatar } from "@/components/pages/profile/main-section/subscriptions/UserAvatar"
 import { SubscriptionBtn } from "@/components/pages/profile/header-section/SubscriptionBtn"
-import { UserInfo } from "@/components/pages/profile/header-section/UserInfo"
+import { HeaderSection } from "@/components/pages/profile/header-section/HeaderSection"
 // Services
 import { ProfileService } from "@/services/profile.service"
 import { UsersService } from "@/services/users.service"
 
 const UserProfile = () => {
     const router = useRouter()
-    const [openedUser, setOpenedUser] = useState<any>()
+    const [openedUser, setOpenedUser] = useState<PublicUserData>({ banner: '', followers: [], avatar: '', following: [], location: '', aboutMe: '', hobbies: '', name: '', posts: [], skills: ''})
+
+    console.log(openedUser)
 
     const openedUserId: any = router.query.userId
     const initialUserId = useAppSelector(state => state.profileReducer.id)
@@ -51,22 +54,16 @@ const UserProfile = () => {
         onError: (err: string): any => notify(err, 'error')
     })
 
+    const subscriptionBtn = openedUser?.followers.includes(initialUserId)
+        ? <SubscriptionBtn text={'Unfollow'} isRequesting={isUnfollowing} className={styles.unfollow} authorizedUserId={initialUserId} openedUserId={openedUserId} subscriptionFunc={unfollow}/>
+        : <SubscriptionBtn text={'Follow'} isRequesting={isFollowing} className={styles.follow} authorizedUserId={initialUserId} openedUserId={openedUserId} subscriptionFunc={follow}/>
+
     return(
         <MainLayout title={`${openedUser?.name || 'User'} profile`}>
             <div id={styles.profile} className={'my-24 mx-auto'}>
                 {openedUser &&
                     <>
-                        <section id={styles.header} className={'w-full h-fit relative'}>
-                            <img alt={'Banner'} className={`${styles.banner} w-full`} src={openedUser.banner} />
-                            <UserInfo name={openedUser.name} location={openedUser.location} avatar={openedUser.avatar} />
-                            <div className={styles.tile}></div>
-                            <div className={`${styles.subscription} absolute`}>
-                                {openedUser.followers.includes(initialUserId)
-                                    ? <SubscriptionBtn text={'Unfollow'} isRequesting={isUnfollowing} className={styles.unfollow} authorizedUserId={initialUserId} openedUserId={openedUserId} subscriptionFunc={unfollow}/>
-                                    : <SubscriptionBtn text={'Follow'} isRequesting={isFollowing} className={styles.follow} authorizedUserId={initialUserId} openedUserId={openedUserId} subscriptionFunc={follow}/>
-                                }
-                            </div>
-                        </section>
+                        <HeaderSection banner={openedUser.banner} avatar={openedUser.avatar} name={openedUser.name} location={openedUser.location} subscriptionBtn={subscriptionBtn} forView={true} />
                         <section id={styles.main} className={'grid gap-12 mt-14 text-white'}>
                             <ProfileIntro forView={true} aboutMe={openedUser.aboutMe} hobbies={openedUser.hobbies} skills={openedUser.skills}/>
                             <div className={styles.posts}>{getPostsElements(openedUser.posts, openedUser.avatar, openedUser.name, true)}</div>

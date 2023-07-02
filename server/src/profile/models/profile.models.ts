@@ -21,3 +21,8 @@ export interface SetProfileInfoProps {
     location: string
     id: string
 }
+
+export interface SetProfileImageProps {
+    id: string
+    field: 'avatar' | 'banner'
+}

@@ -12,7 +12,6 @@ const SettingsLayoutComponent: React.FC<LayoutProps> = ({ children, title }) => 
                     <ul className={'grid gap-5'}>
                         <NavLink iconClass={null} activeClass={styles.active} text={'Password settings'} path={'/settings/password'}/>
                         <NavLink iconClass={null} activeClass={styles.active} text={'E-mail settings'} path={'/settings/email'}/>
-                        <NavLink iconClass={null} activeClass={styles.active} text={'Profile settings'} path={'/settings/profile'}/>
                     </ul>
                 </nav>
                 <div className={styles.content}>{children}</div>

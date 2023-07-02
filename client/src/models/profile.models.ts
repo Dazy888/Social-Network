@@ -41,3 +41,8 @@ export interface ProfileInfo {
 export interface SetProfileInfoProps extends ProfileInfo{
     id: string
 }
+
+export interface SetProfileImageProps {
+    field: 'avatar' | 'banner'
+    src: string
+}

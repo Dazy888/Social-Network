@@ -1,14 +1,10 @@
 import * as dotenv from "dotenv"
-import * as path from "path"
 import * as bcrypt from "bcrypt"
 import { Model } from "mongoose"
-import { v4 } from "uuid"
 import { MailerService } from "@nestjs-modules/mailer"
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { InjectModel } from "@nestjs/mongoose"
-import { Storage } from "@google-cloud/storage"
 import { UserDocument } from "../schemas/user.schema"
-import { SetProfileSettingsProps } from "./models/settings.models"
 
 dotenv.config()
 
@@ -64,58 +60,5 @@ export class SettingsService {
 
     async cancelActivation(_id: string) {
         await this.userModel.findOneAndUpdate({ _id }, { email: '', activationLink: '' })
-    }
-
-    async uploadFile(file: Express.Multer.File, name: string): Promise<string> {
-        const storage = new Storage({ projectId: 'central-courier-389415', keyFilename: path.join(__dirname, '..', '..', 'src', 'config', 'key.json') })
-        const bucketName = 'social-network_dazy'
-        const uniqueFilename = v4() + '-' + name
-        const blob = storage.bucket(bucketName).file(uniqueFilename)
-
-        const stream = blob.createWriteStream({
-            metadata: { contentType: file.mimetype }
-        })
-
-        await new Promise((resolve, reject) => {
-            stream.on('error', reject).on('finish', resolve)
-            stream.end(file.buffer)
-        })
-
-        const [signedUrl] = await blob.getSignedUrl({ action: 'read', expires: '03-01-2030' })
-        return signedUrl
-    }
-
-    async deleteFile(imagePath: string) {
-        const storage = new Storage({ projectId: 'central-courier-389415', keyFilename: path.join(__dirname, '..', '..', 'src', 'config', 'key.json') })
-        const bucketName = 'social-network_dazy'
-
-        const bucket = await storage.bucket(bucketName)
-        const fileName = imagePath.match(/([^\/?]+)-[^\/?]+-(?:avatar|banner)/)
-
-        if (fileName) {
-            const file = await bucket.file(fileName[0])
-            await file.delete()
-        }
-    }
-
-    async uploadImage(field: 'banner' | 'avatar', userName: string, image: Express.Multer.File, _id: string, lastImage: string) {
-        await this.deleteFile(lastImage)
-        const publicLink = await this.uploadFile(image, userName + '-' + field)
-        await this.userModel.findOneAndUpdate({ _id }, { [field]: publicLink })
-    }
-
-    async setProfileSettings(_id: string, data: SetProfileSettingsProps, banner: Express.Multer.File, avatar: Express.Multer.File) {
-        const user: UserDocument = await this.userModel.findOne({ _id })
-
-        if (banner) await this.uploadImage('banner', user.name, banner, _id, user.banner)
-        if (avatar) await this.uploadImage('avatar', user.name, avatar, _id, user.avatar)
-
-        const updatedUser: UserDocument = await this.userModel.findOneAndUpdate({ _id }, {...data})
-        return {
-            name: updatedUser.name,
-            location: updatedUser.location,
-            banner: updatedUser.banner,
-            avatar: updatedUser.avatar
-        }
     }
 }
