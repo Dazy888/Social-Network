@@ -61,7 +61,7 @@ const AuthFormComponent: React.FC<Props> = ({ title, signAction, isLoading }) =>
             />
             }
             <ReCAPTCHA ref={reRef} sitekey={'6Leond0hAAAAAOCUq2naPPzgveoMehWQmYG4Vabt'} size={'invisible'} onChange={(value) => setCaptchaToken(value)} />
-            <div className={'flex justify-between items-center mt-10'}>
+            <div className={`flex justify-between items-center mt-10 ${styles.submit}`}>
                 {title == 'in' && <Link className={'relative pb-1'} href={'/'}>Forgot password?</Link>}
                 <SubmitBtn isLoading={isLoading} value={title}/>
             </div>

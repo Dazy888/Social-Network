@@ -8,8 +8,8 @@ interface Props {
 }
 
 const SubmitBtnComponent: React.FC<Props> = ({ isLoading, value }) => (
-    <button className={`${styles['auth__submit']} ml-auto py-4 px-10 rounded-full font-medium text-white duration-300`} type={'submit'} disabled={isLoading}>
-        {isLoading ? <ScaleLoader color={'rgb(255, 255, 255)'} loading={isLoading}/> : `Sign ${value}`}
+    <button className={'ml-auto flex-center py-4 px-10 rounded-full font-medium text-white duration-300'} type={'submit'} disabled={isLoading}>
+        {false ? <ScaleLoader className={styles.loader} color={'rgb(255, 255, 255)'} /> : `Sign ${value}`}
     </button>
 )
 export const SubmitBtn = React.memo(SubmitBtnComponent)
