@@ -20,20 +20,6 @@
   align-items: center;
 }
 
-.pass-requirement {
-  width: 330px;
-}
-
-.pass-requirements {
-  .fa-xmark {
-    color: $red;
-  }
-
-  .fa-check {
-    color: $green;
-  }
-}
-
 .avatar {
   left: 2px;
 }
@@ -56,27 +42,17 @@
   color: $red;
 }
 
-.loader {
-  width: fit-content;
-  margin: 30px auto 0;
-}
+.pass-requirements {
+  .fa-xmark {
+    color: $red;
+  }
 
-.users .loader {
-  bottom: -20px;
-  left: 920px;
-}
-
-.email .loader {
-  left: 1132px;
-  bottom: 260px;
+  .fa-check {
+    color: $green;
+  }
 }
 
 @media (max-width: 768px) {
-  .pass-requirement {
-    width: 300px;
-    font-size: 13px;
-  }
-
   #app-wrapper #header {
     height: 450px;
 
@@ -93,26 +69,5 @@
         }
       }
     }
-  }
-}
-
-@media (max-width: 425px) {
-  .pass-requirement {
-    width: 270px;
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 375px) {
-  .pass-requirement {
-    width: 250px;
-    font-size: 11px;
-  }
-}
-
-@media (max-width: 320px) {
-  .pass-requirement {
-    width: 100%;
-    font-size: 11px;
   }
 }

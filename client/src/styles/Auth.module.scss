@@ -101,6 +101,10 @@ $blue: #1A73E8;
       }
     }
 
+    .pass-requirement {
+      width: 92%;
+    }
+
     button {
       background: $blue;
 
@@ -112,116 +116,50 @@ $blue: #1A73E8;
   }
 }
 
-@media (max-width: 768px) {
-  .auth-wrapper {
-    padding: 100px 0;
-  }
-
+@media screen and (max-width: 460px) {
   .auth {
-    width: 420px;
-    height: 700px;
+    width: 95%;
 
-    .auth__actions {
-      width: 80px;
+    .inputs {
+      margin-bottom: 25px;
     }
 
-    .auth__content {
-      input {
-        margin: auto auto 30px;
-      }
-
-      input[type=checkbox] {
-        width: 18px;
-        height: 18px;
-      }
-
-      .auth__submit {
-        height: 48px;
-      }
+    .pass-requirement {
+      font-size: 13px;
     }
   }
 }
 
 @media (max-width: 425px) {
   .auth {
-    width: 370px;
-    height: 600px;
+    padding: 32px 25px;
 
-    .auth__actions {
-      width: 60px;
-
-      a {
-        font-size: 17px;
-      }
+    .pass-requirement {
+      font-size: 12px;
     }
 
-    .auth__content {
-      input {
-        height: 40px;
-        margin: auto auto 25px;
-        padding: 12px 10px 6px;
-        font-size: 13px;
-      }
-
-      i {
-        font-size: 14px;
-      }
-
-      .auth__checkbox {
-        font-size: 14px;
-
-        input {
-          width: 16px;
-          height: 16px;
-        }
-      }
-
-      .auth__submit {
-        height: 40px;
-        font-size: 14px;
-      }
+    ol i {
+      font-size: 10px;
     }
   }
 }
 
 @media (max-width: 375px) {
   .auth {
-    width: 310px;
-    height: 550px;
-
-    .auth__actions a {
-      font-size: 16px;
-    }
-
-    .auth__content {
-      input {
-        height: 35px;
-        font-size: 12px;
-      }
-
-      i {
-        font-size: 12px;
-      }
-
-      .auth__checkbox {
-        font-size: 13px;
-
-        input {
-          width: 15px;
-          height: 15px;
-        }
-      }
-
-      .auth__submit {
-        height: 35px;
-        font-size: 13px;
-      }
-    }
+    padding: 32px 15px;
   }
 }
 
 @media (max-width: 320px) {
   .auth {
-    width: 280px;
+    padding: 32px 10px;
+
+    h1 {
+      font-size: 28px;
+    }
+
+    p {
+      font-size: 13px;
+    }
   }
 }

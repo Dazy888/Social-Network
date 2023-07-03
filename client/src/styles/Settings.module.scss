@@ -119,6 +119,10 @@
       width: 100%;
     }
 
+    .pass-requirement {
+      width: 330px;
+    }
+
     .submit {
       background: rgba(102, 51, 153, 1);
       transition: 200ms;
@@ -188,6 +192,11 @@
     .content {
       width: 100%;
       min-height: 320px;
+
+      .pass-requirement {
+        width: 300px;
+        font-size: 13px;
+      }
     }
   }
 }
@@ -198,11 +207,18 @@
       width: 250px;
     }
 
-    .settings-form {
-      padding: 30px 15px;
+    .content {
+      .settings-form {
+        padding: 30px 15px;
 
-      .pass-inputs {
-        grid-template-columns: repeat(1, auto);
+        .pass-inputs {
+          grid-template-columns: repeat(1, auto);
+        }
+      }
+
+      .pass-requirement {
+        width: 270px;
+        font-size: 12px;
       }
     }
   }
@@ -215,6 +231,11 @@
     }
 
     .content {
+      .pass-requirement {
+        width: 250px;
+        font-size: 11px;
+      }
+
       h3 {
         padding: 20px 15px 13px;
         font-size: 16px;
@@ -266,6 +287,11 @@
     }
 
     .content {
+      .pass-requirement {
+        width: 100%;
+        font-size: 11px;
+      }
+
       h3 {
         padding: 18px 13px 11px;
         font-size: 15px;

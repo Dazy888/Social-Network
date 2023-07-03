@@ -57,7 +57,7 @@ const Password = () => {
                                      placeholder={'Confirm'} setFocus={setFocus} value={confirmPass}
                     />
                 </div>
-                <PassRequirements isMinLength={newPass?.length > 7} isOneDigit={/\d/g.test(newPass)} isUppLetter={/[A-Z]/g.test(newPass)}
+                <PassRequirements isMinLength={newPass?.length > 7} isOneDigit={/\d/g.test(newPass)} isUppLetter={/[A-Z]/g.test(newPass)} className={styles['pass-requirement']}
                                   isLowLetter={/[a-z]/g.test(newPass || '')} isSpecialCharacter={/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/g.test(newPass)}
                 />
                 <button disabled={isLoading} className={`${styles.submit} ${isLoading ? styles.loading : ''} w-full rounded-lg tracking-wide font-medium text-white mt-5 py-4`} type={'submit'}>Change password</button>
