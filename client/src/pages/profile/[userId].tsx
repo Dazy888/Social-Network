@@ -26,8 +26,6 @@ const UserProfile = () => {
     const router = useRouter()
     const [openedUser, setOpenedUser] = useState<PublicUserData>({ banner: '', followers: [], avatar: '', following: [], location: '', aboutMe: '', hobbies: '', name: '', posts: [], skills: ''})
 
-    console.log(openedUser)
-
     const openedUserId: any = router.query.userId
     const initialUserId = useAppSelector(state => state.profileReducer.id)
 

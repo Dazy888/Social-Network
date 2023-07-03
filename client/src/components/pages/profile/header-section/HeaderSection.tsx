@@ -5,7 +5,6 @@ import { PulseLoader } from "react-spinners"
 import { Banner } from "@/components/pages/profile/header-section/Banner"
 import { Tile } from "@/components/pages/profile/header-section/Tile"
 import { Settings } from "@/components/pages/profile/header-section/settings/Settings"
-import { Subscriptions } from "@/components/pages/profile/header-section/subscriptions/Subscriptions"
 
 interface Props {
     banner: string
@@ -23,9 +22,8 @@ const HeaderSectionComponent: React.FC<Props> = ({ name, avatar, location, forVi
         <section id={styles.header} className={'w-full h-fit relative'}>
             <Banner isLoading={isBannerLoading} src={banner} />
             <UserInfo {...{ name, avatar, location }} />
-            <Tile />
+            <Tile subscriptionBtn={subscriptionBtn} />
             {!forView && <Settings setBannerLoading={setBannerLoading} /> }
-            {forView && <Subscriptions subscriptionBtn={subscriptionBtn} /> }
             {isBannerLoading && <PulseLoader className={`absolute ${styles['banner-loader']}`} color={'#f92552'} />}
         </section>
     )
