@@ -52,8 +52,8 @@ const UploadBannerBtnComponent: React.FC<Props> = ({ setBannerLoading }) => {
     useEffect(() => setBannerLoading(isLoading), [isLoading])
 
     return(
-        <div className={'absolute right-2 bottom-24'}>
-            <label className={`block relative cursor-pointer ${styles['upload-banner']}`}>
+        <div className={`${styles['upload-banner']} absolute right-2 bottom-24`}>
+            <label className={'block relative cursor-pointer'}>
                 <button onClick={clickHandler} type={'button'} className={'z-10 absolute w-full tracking-wide text-sm mui-btn-color block text-center text-white py-2 rounded-md duration-300'}>
                     <i className={'fa-solid fa-camera mr-2'} />
                     <span>Upload photo</span>

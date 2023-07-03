@@ -201,7 +201,7 @@ $red: #e74c3c;
       }
     }
 
-    .upload-banner {
+    .upload-banner label {
       width: 170px;
       height: 36px;
 
@@ -489,6 +489,26 @@ $red: #e74c3c;
       .subscription {
         right: 20px;
       }
+
+      .upload-banner {
+        bottom: 110px;
+
+        label {
+          width: 110px;
+          height: 30px;
+
+          button {
+            font-size: 13px !important;
+            padding: 6px 0;
+            display: flex;
+            flex-direction: column;
+
+            i, span {
+              margin: auto;
+            }
+          }
+        }
+      }
     }
 
     #main {
@@ -548,6 +568,14 @@ $red: #e74c3c;
         height: 30px;
         font-size: 12px;
       }
+
+      .upload-banner label {
+        width: 95px;
+
+        button {
+          font-size: 12px !important;
+        }
+      }
     }
 
     #main {
@@ -577,6 +605,20 @@ $red: #e74c3c;
           width: 60px;
           height: 28px;
           font-size: 11px;
+        }
+      }
+
+      .upload-banner {
+        top: 10px;
+        left: 10px;
+
+        label {
+          width: 65px;
+
+          button {
+            font-size: 12px !important;
+            padding: 10px 0;
+          }
         }
       }
     }
