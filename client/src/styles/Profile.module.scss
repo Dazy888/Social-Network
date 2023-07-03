@@ -162,6 +162,22 @@ $red: #e74c3c;
         }
       }
 
+      .follow {
+        background: rgb(0, 149, 246);
+
+        &:hover {
+          background: rgb(24, 119, 242);
+        }
+      }
+
+      .unfollow {
+        background: rgb(250, 2, 2);
+
+        &:hover {
+          background: rgba(250, 2, 2, 0.8);
+        }
+      }
+
       .ripple-effect {
         position: absolute;
         background-color: rgba(255, 255, 255, 0.3);
@@ -182,22 +198,6 @@ $red: #e74c3c;
     @keyframes rotate {
       to {
         rotate: 360deg;
-      }
-    }
-
-    .follow {
-      background: rgb(0, 149, 246);
-
-      &:hover {
-        background: rgb(24, 119, 242);
-      }
-    }
-
-    .unfollow {
-      background: rgb(250, 2, 2);
-
-      &:hover {
-        background: rgba(250, 2, 2, 0.8);
       }
     }
 
@@ -481,8 +481,14 @@ $red: #e74c3c;
 
 @media screen and (max-width: 768px) {
   #profile {
-    #header .settings:hover {
-      animation: none;
+    #header {
+      .settings:hover {
+        animation: none;
+      }
+
+      .subscription {
+        right: 20px;
+      }
     }
 
     #main {
@@ -532,14 +538,22 @@ $red: #e74c3c;
 
 @media screen and (max-width: 425px) {
   #profile {
-    #header #modal .container {
-      width: 360px;
+    #header {
+      #modal .container {
+        width: 360px;
+      }
+
+      .subscription button {
+        width: 75px;
+        height: 30px;
+        font-size: 12px;
+      }
     }
 
     #main {
       grid-template-areas:    'intro'
-                            'subscriptions'
-                            'posts';
+                              'subscriptions'
+                              'posts';
       grid-template-columns: auto;
 
       .subscriptions .subscriptions__list .subscriptions__users {
@@ -551,8 +565,20 @@ $red: #e74c3c;
 
 @media screen and (max-width: 375px) {
   #profile {
-    #header #modal .container {
-      width: 330px;
+    #header {
+      #modal .container {
+        width: 330px;
+      }
+
+      .subscription {
+        right: 15px;
+
+        button {
+          width: 60px;
+          height: 28px;
+          font-size: 11px;
+        }
+      }
     }
 
     #main .posts .post {
@@ -587,8 +613,14 @@ $red: #e74c3c;
 
 @media screen and (max-width: 340px) {
   #profile {
-    #header #modal .container {
-      width: 280px;
+    #header {
+      #modal .container {
+        width: 280px;
+      }
+
+      .subscription {
+        right: 10px;
+      }
     }
 
     #main .subscriptions .subscriptions__list .subscriptions__users {
@@ -599,8 +631,22 @@ $red: #e74c3c;
 
 @media screen and (max-width: 290px) {
   #profile {
-    #header #modal .container {
-      width: 250px;
+    #header {
+      #modal .container {
+        width: 250px;
+      }
+
+      .subscription {
+        right: 0;
+        top: 95px;
+
+        button {
+          width: 75px;
+          height: 30px;
+          font-size: 12px;
+          border-radius: 0 0 5px 5px;
+        }
+      }
     }
 
     #main {
