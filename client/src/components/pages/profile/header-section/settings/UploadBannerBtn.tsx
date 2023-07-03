@@ -58,7 +58,7 @@ const UploadBannerBtnComponent: React.FC<Props> = ({ setBannerLoading }) => {
                     <i className={'fa-solid fa-camera mr-2'} />
                     <span>Upload photo</span>
                 </button>
-                <input ref={inputRef} disabled={isLoading} accept={'image/*'} className={'w-full h-full opacity-0 left-0 absolute top-0'} type={'file'} onChange={(e) => changeListener(e)} />
+                <input ref={inputRef} disabled={isLoading} accept={'image/*'} className={'hidden'} type={'file'} />
             </label>
         </div>
     )

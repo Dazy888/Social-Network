@@ -101,6 +101,31 @@ $red: #e74c3c;
         height: 110px;
       }
 
+      button {
+        background: $pink;
+        transition: 300ms;
+
+        &:hover {
+          scale: 1.2;
+        }
+      }
+
+      .loader-background {
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 9999px;
+      }
+
+      .avatar-loader {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        span {
+          width: 12px !important;
+          height: 12px !important;
+        }
+      }
+
       p {
         color: $grey;
       }
