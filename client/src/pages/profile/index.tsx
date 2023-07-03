@@ -50,7 +50,7 @@ const Profile = () => {
 
     return(
         <MainLayout title={'Profile'}>
-            {id &&
+            {banner &&
                 <div id={styles.profile} className={'my-24 mx-auto'}>
                     <HeaderSection {...{ name, avatar, location, banner }} forView={false} />
                     <MainSection />

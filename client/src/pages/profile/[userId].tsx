@@ -61,7 +61,7 @@ const UserProfile = () => {
     return(
         <MainLayout title={`${openedUser?.name || 'User'} profile`}>
             <div id={styles.profile} className={'my-24 mx-auto'}>
-                {openedUser &&
+                {openedUser.banner &&
                     <>
                         <HeaderSection banner={openedUser.banner} avatar={openedUser.avatar} name={openedUser.name} location={openedUser.location} subscriptionBtn={subscriptionBtn} forView={true} />
                         <section id={styles.main} className={'grid gap-12 mt-14 text-white'}>
