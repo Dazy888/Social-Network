@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { IChangePass, SetPassProps } from "@/models/settings.models"
 import { SettingsService } from "@/services/settings.service"
 import { useMutation } from "react-query"
-import { notify } from "@/components/pages/auth/AuthForm"
+import { notify } from "@/components/pages/auth/form/AuthForm"
 // Styles
 import styles from '@/styles/Settings.module.scss'
 // Components

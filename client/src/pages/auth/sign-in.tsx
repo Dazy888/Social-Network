@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import { useMutation } from "react-query"
 import { AuthService } from "@/services/auth.service"
 import { useAppDispatch } from "@/hooks/redux"
-import { notify } from "@/components/pages/auth/AuthForm"
+import { notify } from "@/components/pages/auth/form/AuthForm"
 // Models
 import { IAuthForm, Tokens, User } from "@/models/auth.models"
 import { IPost } from "@/models/profile.models"
@@ -27,7 +27,7 @@ const SignIn = () => {
     const router = useRouter()
     const dispatch = useAppDispatch()
 
-    const { isLoading, mutateAsync:signIn } = useMutation('sign in', (data: IAuthForm) => AuthService.login(data.login, data.pass),
+    const { isLoading, mutateAsync:signIn } = useMutation('sign in', (data: IAuthForm) => AuthService.login(data.userName, data.pass),
         {
             onSuccess: (res) => successfulEnter(router, dispatch, res.tokens, res.user, res.posts),
             onError: (err: string): any => notify(err, 'error')

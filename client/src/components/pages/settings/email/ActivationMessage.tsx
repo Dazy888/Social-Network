@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/hooks/redux"
 import { useMutation } from "react-query"
 import { SettingsService } from "@/services/settings.service"
 import { setEmail } from "@/store/reducers/SettingsSlice"
-import { notify } from "@/components/pages/auth/AuthForm"
+import { notify } from "@/components/pages/auth/form/AuthForm"
 import { ActivateProps } from "@/models/settings.models"
 
 interface Props {

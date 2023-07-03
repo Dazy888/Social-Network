@@ -1,38 +1,39 @@
-$authColor: rgb(249,94,59);
+@import "Profile.module";
+
+$grey: #F1F5F9;
+$blue: #1A73E8;
 
 .auth-wrapper {
-  background: $authColor;
-}
-
-.active {
-  color: rgb(249,94,59) !important;
+  background: $grey;
 }
 
 .auth {
-  width: 550px;
-  height: 800px;
+  width: 450px;
+  min-height: 400px;
   background: white;
 
-  .auth__actions {
-    border-right: 1px solid #e6ecf5;
+  a {
+    color: $blue;
 
-    a {
+    &:after {
+      content: "";
+      position: absolute;
+      left: 1px;
+      bottom: 1px;
       width: 100%;
-      height: 50%;
-      color: #c0c4d8;
-      font-size: 21px;
+      height: 1px;
+      background-color: $blue;
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+      transform-origin: left;
+    }
 
-      &:first-child {
-        border-bottom: 1px solid #e6ecf5;
-      }
+    &:hover:after {
+      transform: scaleX(1);
     }
   }
 
-  .auth__content {
-    .loader {
-      position: absolute;
-    }
-
+  form {
     @keyframes hidePassword {
       0% {
         color: rgba(0, 0, 0, 1);
@@ -65,39 +66,47 @@ $authColor: rgb(249,94,59);
       animation: showPassword 0.3s ease-in-out forwards;
     }
 
+    .input-container {
+      .error {
+        color: $red;
+        top: -19px;
+        left: 24px;
+      }
 
-    input {
-      width: 100%;
-      height: 50px;
-      border: 1px solid #e6ecf5;
-      padding: 1rem 1.1rem 0.5rem;
-      line-height: 1.75;
-      border-radius: 5px;
+      input {
+        background: $grey;
+        border: 1px solid #e6ecf5;
 
-      &:focus {
-        color: #212529;
-        border-color: #ffc6ba;
+        &:focus {
+          color: #212529;
+          border-color: $blue;
+        }
+      }
+
+      .focused {
+        top: 16% !important;
+        left: 24px !important;
+        font-size: 11px !important;
+        color: $blue !important;
+        font-weight: 500;
+      }
+
+      .eye, .placeholder {
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .placeholder {
+        left: 20px;
       }
     }
 
-    input[type=checkbox] {
-      width: 20px;
-      height: 20px;
-      margin-bottom: 0;
-    }
-
-    .auth__submit {
-      width: 100%;
-      height: 50px;
-      background: $authColor;
+    button {
+      background: $blue;
 
       &:hover {
-        background: rgba(249,94,59, 0.9);
-      }
-
-      &:focus {
-        background: $authColor;
-        color: white;
+        transform: translateY(-10px);
+        background: rgba(26, 140, 232, 1);
       }
     }
   }

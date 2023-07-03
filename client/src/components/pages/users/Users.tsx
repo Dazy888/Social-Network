@@ -4,7 +4,7 @@ import { v4 } from "uuid"
 import styles from "@/styles/Users.module.scss"
 import ReactPaginate from "react-paginate"
 import { IUserPreview } from "@/models/users.models"
-import { notify } from "@/components/pages/auth/AuthForm"
+import { notify } from "@/components/pages/auth/form/AuthForm"
 import { UserPreview } from "@/components/pages/users/User"
 
 interface Props {

@@ -4,14 +4,14 @@ import { RefreshResponse, SignInResponse, SignUpResponse } from "@/models/auth.m
 import { getCookie } from "@/layouts/AuthLayout"
 
 export class AuthService {
-    static registration(login: string, pass: string) {
-        return $api.post('auth/registration', { login, pass })
+    static registration(userName: string, pass: string) {
+        return $api.post('auth/registration', { userName, pass })
             .then((res: AxiosResponse<SignUpResponse>) => res.data)
             .catch(err => { throw err.response.data.message })
     }
 
-    static login(login: string, pass: string) {
-        return $api.post('auth/login', { login, pass, })
+    static login(userName: string, pass: string) {
+        return $api.post('auth/login', { userName, pass, })
             .then((res: AxiosResponse<SignInResponse>) => res.data)
             .catch(err => { throw err.response.data.message })
     }

@@ -16,7 +16,7 @@ let User = class User {
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
-], User.prototype, "login", void 0);
+], User.prototype, "userName", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)

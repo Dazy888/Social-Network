@@ -5,7 +5,7 @@ import { TextProps } from "@/models/profile.models"
 import { ProfileService } from "@/services/profile.service"
 import { addUserPost } from "@/store/reducers/ProfileSlice"
 import { useAppDispatch, useAppSelector } from "@/hooks/redux"
-import { notify } from "@/components/pages/auth/AuthForm"
+import { notify } from "@/components/pages/auth/form/AuthForm"
 
 export interface PropsCreationProps {
     setIsCreatingPost: (status: boolean) => void

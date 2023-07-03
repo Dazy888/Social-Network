@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import { useMutation, useQuery } from "react-query"
 import { getPostsElements } from "@/pages/profile/index"
 import { v4 } from "uuid"
-import { notify } from "@/components/pages/auth/AuthForm"
+import { notify } from "@/components/pages/auth/form/AuthForm"
 // Hooks
 import { useAppSelector } from "@/hooks/redux"
 // Models

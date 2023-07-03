@@ -6,7 +6,7 @@ export type UserDocument = User & Document
 @Schema()
 export class User {
     @Prop()
-    login: string
+    userName: string
 
     @Prop()
     pass: string
@@ -27,10 +27,10 @@ export class User {
     location: string
 
     @Prop()
-    banner: string
+    banner: string | null
 
     @Prop()
-    avatar: string
+    avatar: string | null
 
     @Prop()
     aboutMe: string

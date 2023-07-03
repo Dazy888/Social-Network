@@ -3,7 +3,7 @@ import { useAppDispatch } from "@/hooks/redux"
 import { useForm } from "react-hook-form"
 import { ProfileIntroFields, ProfileIntroProps } from "@/models/profile.models"
 import { setProfileIntro } from "@/store/reducers/ProfileSlice"
-import { notify } from "@/components/pages/auth/AuthForm"
+import { notify } from "@/components/pages/auth/form/AuthForm"
 import { useMutation } from "react-query"
 // Styles
 import styles from '@/styles/Profile.module.scss'

@@ -97,10 +97,6 @@
 }
 
 @media (max-width: 425px) {
-  .captcha {
-    transform: scale(0.6) !important;
-  }
-
   .pass-requirement {
     width: 270px;
     font-size: 12px;
@@ -108,10 +104,6 @@
 }
 
 @media (max-width: 375px) {
-  .captcha {
-    transform: scale(0.5) !important;
-  }
-
   .pass-requirement {
     width: 250px;
     font-size: 11px;

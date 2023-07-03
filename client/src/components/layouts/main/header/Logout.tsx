@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import { useQuery } from "react-query"
 import { AuthService } from "@/services/auth.service"
 import { successfulLogout } from "@/layouts/MainLayout"
-import { notify } from "@/components/pages/auth/AuthForm"
+import { notify } from "@/components/pages/auth/form/AuthForm"
 import { useAppDispatch, useAppSelector } from "@/hooks/redux"
 import styles from "@/styles/MainLayout.module.scss"
 

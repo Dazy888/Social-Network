@@ -28,7 +28,7 @@ export declare class AuthService {
         followers: string[];
         following: string[];
     };
-    registration(login: string, pass: string): Promise<{
+    registration(userName: string, pass: string): Promise<{
         tokens: {
             accessToken: any;
             refreshToken: any;

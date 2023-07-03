@@ -46,20 +46,20 @@ export class AuthService {
         }
     }
 
-    async registration(login: string, pass: string) {
-        const existingUser = await this.userModel.findOne({ login })
+    async registration(userName: string, pass: string) {
+        const existingUser = await this.userModel.findOne({ userName })
         if (existingUser) throw new BadRequestException('UserInfo with this login already exists')
 
         const hashedPassword = await bcrypt.hash(pass, 10)
         const userNumber = Math.floor(Math.random() * 100)
 
         const user = await this.userModel.create({
-            login,
+            userName,
             pass: hashedPassword,
             name: `User-${userNumber}`,
             location: 'Nowhere',
-            banner: '',
-            avatar: '',
+            banner: null,
+            avatar: null,
             aboutMe: 'This project was made by David Hutsenko',
             skills: 'This project was made by David Hutsenko',
             hobbies: 'This project was made by David Hutsenko',
@@ -105,7 +105,7 @@ export class AuthService {
         const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
         await this.tokenModel.deleteMany({ createdAt: { $lt: thirtyDaysAgo } })
 
-        const user = await this.userModel.findOne({ login: userData.login })
+        const user = await this.userModel.findOne({ login: userData.userName })
         const posts = await this.postModel.find({ userId: user.id })
 
         return {

@@ -5,7 +5,7 @@ import styles from '@/styles/Profile.module.scss'
 import { DeletePostProps } from "@/models/profile.models"
 import { ProfileService } from "@/services/profile.service"
 import { useAppDispatch } from "@/hooks/redux"
-import { notify } from "@/components/pages/auth/AuthForm"
+import { notify } from "@/components/pages/auth/form/AuthForm"
 
 interface Props {
     avatar: string

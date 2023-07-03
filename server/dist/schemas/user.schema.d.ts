@@ -25,15 +25,15 @@
 import { Document } from "mongoose";
 export declare type UserDocument = User & Document;
 export declare class User {
-    login: string;
+    userName: string;
     pass: string;
     isActivated: boolean;
     activationLink: string | null;
     email: string | null;
     name: string;
     location: string;
-    banner: string;
-    avatar: string;
+    banner: string | null;
+    avatar: string | null;
     aboutMe: string;
     skills: string;
     hobbies: string;

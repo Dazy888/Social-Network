@@ -4,7 +4,7 @@ import styles from "@/styles/Profile.module.scss"
 import { User } from "@/models/auth.models"
 import { useAppDispatch, useAppSelector } from "@/hooks/redux"
 import { ProfileService } from "@/services/profile.service"
-import { notify } from "@/components/pages/auth/AuthForm"
+import { notify } from "@/components/pages/auth/form/AuthForm"
 import { setProfileImage } from "@/store/reducers/ProfileSlice"
 import { PulseLoader } from "react-spinners"
 

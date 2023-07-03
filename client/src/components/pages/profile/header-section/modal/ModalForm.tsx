@@ -6,7 +6,7 @@ import { ProfileInput } from "@/components/pages/profile/header-section/modal/Pr
 import { ProfileService } from "@/services/profile.service"
 import { SubmitHandler, useForm } from "react-hook-form"
 // Alert
-import { notify } from "@/components/pages/auth/AuthForm"
+import { notify } from "@/components/pages/auth/form/AuthForm"
 // Store
 import { setProfileInfo } from "@/store/reducers/ProfileSlice"
 // Models

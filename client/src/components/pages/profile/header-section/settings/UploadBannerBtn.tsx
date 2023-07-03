@@ -3,7 +3,7 @@ import { useMutation } from "react-query"
 import styles from "@/styles/Profile.module.scss"
 import { useAppDispatch, useAppSelector } from "@/hooks/redux"
 import { ProfileService } from "@/services/profile.service"
-import { notify } from "@/components/pages/auth/AuthForm"
+import { notify } from "@/components/pages/auth/form/AuthForm"
 import { setProfileImage } from "@/store/reducers/ProfileSlice"
 
 interface Props {

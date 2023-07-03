@@ -1,4 +1,4 @@
 export class AuthDto {
-    readonly login: string
+    readonly userName: string
     readonly pass: string
 }

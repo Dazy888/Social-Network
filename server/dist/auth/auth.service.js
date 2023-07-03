@@ -54,19 +54,19 @@ let AuthService = class AuthService {
             following: user.following,
         };
     }
-    async registration(login, pass) {
-        const existingUser = await this.userModel.findOne({ login });
+    async registration(userName, pass) {
+        const existingUser = await this.userModel.findOne({ userName });
         if (existingUser)
             throw new common_1.BadRequestException('UserInfo with this login already exists');
         const hashedPassword = await bcrypt.hash(pass, 10);
         const userNumber = Math.floor(Math.random() * 100);
         const user = await this.userModel.create({
-            login,
+            userName,
             pass: hashedPassword,
             name: `User-${userNumber}`,
             location: 'Nowhere',
-            banner: '',
-            avatar: '',
+            banner: null,
+            avatar: null,
             aboutMe: 'This project was made by David Hutsenko',
             skills: 'This project was made by David Hutsenko',
             hobbies: 'This project was made by David Hutsenko',
@@ -104,7 +104,7 @@ let AuthService = class AuthService {
             throw new common_1.BadRequestException('UserInfo is not authorized');
         const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
         await this.tokenModel.deleteMany({ createdAt: { $lt: thirtyDaysAgo } });
-        const user = await this.userModel.findOne({ login: userData.login });
+        const user = await this.userModel.findOne({ login: userData.userName });
         const posts = await this.postModel.find({ userId: user.id });
         return {
             accessToken: jwt.sign(Object.assign({}, user), process.env.JWT_ACCESS_SECRET, { expiresIn: '15m' }),

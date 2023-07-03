@@ -12,12 +12,12 @@ export class AuthController {
 
     @Post('registration')
     async registration(@Body() user: AuthDto) {
-        return this.authService.registration(user.login, user.pass)
+        return this.authService.registration(user.userName, user.pass)
     }
 
     @Post('login')
     async login(@Body() user: AuthDto) {
-        return this.authService.login(user.login, user.pass)
+        return this.authService.login(user.userName, user.pass)
     }
 
     @Get('logout/:refreshToken')

@@ -1,7 +1,7 @@
 import { IPost } from "@/models/profile.models"
 
 export interface IAuthForm {
-    login: string
+    userName: string
     pass: string
 }
 

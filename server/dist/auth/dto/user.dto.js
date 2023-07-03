@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserDto = void 0;
 class UserDto {
     constructor(model) {
-        this.login = model.login;
+        this.userName = model.userName;
         this.pass = model.pass;
         this.isActivated = model.isActivated;
         this.name = model.name;
