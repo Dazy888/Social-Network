@@ -5,7 +5,7 @@ import { useMutation } from "react-query"
 import { SettingsService } from "@/services/settings.service"
 import { setEmail } from "@/store/reducers/SettingsSlice"
 import { notify } from "@/components/pages/auth/form/AuthForm"
-import { ActivateProps } from "@/models/settings.models"
+import { ActivateEmailParams } from "@/models/settings.models"
 
 interface Props {
     setValue: any
@@ -16,7 +16,7 @@ const ActivationMessageComponent: React.FC<Props> = ({ setValue, setIsFocus}) =>
     const dispatch = useAppDispatch()
     const id = useAppSelector(state => state.profileReducer.id)
 
-    const { mutateAsync:cancelActivation, isLoading } = useMutation('cancel activation', (data: Pick<ActivateProps, 'id'>) => SettingsService.cancelActivation(data.id),
+    const { mutateAsync:cancelActivation, isLoading } = useMutation('cancel activation', (data: Pick<ActivateEmailParams, 'id'>) => SettingsService.cancelActivation(data.id),
         {
             onSuccess() {
                 notify('Activation was canceled successfully', 'success')

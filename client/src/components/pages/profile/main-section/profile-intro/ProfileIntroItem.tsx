@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useAppDispatch } from "@/hooks/redux"
 import { useForm } from "react-hook-form"
-import { ProfileIntroFields, ProfileIntroProps } from "@/models/profile.models"
+import { ProfileIntroFields, ProfileIntro } from "@/models/profile.models"
 import { setProfileIntro } from "@/store/reducers/ProfileSlice"
 import { notify } from "@/components/pages/auth/form/AuthForm"
 import { useMutation } from "react-query"
@@ -12,7 +12,7 @@ import { ProfileService } from "@/services/profile.service"
 // Components
 import { TextArea } from "@/components/pages/profile/main-section/profile-intro/TextArea"
 
-interface MutateProfileIntro extends ProfileIntroProps {
+interface MutateProfileIntro extends ProfileIntro {
     id: string
 }
 
@@ -28,7 +28,7 @@ const InformationItemComponent: React.FC<Props> = ({ currentText, title, forView
     const dispatch = useAppDispatch()
     const [isEditable, setIsEditable] = useState(false)
 
-    const { watch, setValue, setFocus, register } = useForm<Pick<ProfileIntroProps, 'text'>>({ mode: "onChange" })
+    const { watch, setValue, setFocus, register } = useForm<Pick<ProfileIntro, 'text'>>({ mode: "onChange" })
     const text = watch('text')
 
     function startEditing() {

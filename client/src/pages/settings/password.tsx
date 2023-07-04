@@ -1,7 +1,7 @@
 import React from "react"
 import { useAppSelector } from "@/hooks/redux"
 import { SubmitHandler, useForm } from "react-hook-form"
-import { IChangePass, SetPassProps } from "@/models/settings.models"
+import { IChangePass, ChangePassParams } from "@/models/settings.models"
 import { SettingsService } from "@/services/settings.service"
 import { useMutation } from "react-query"
 import { notify } from "@/components/pages/auth/form/AuthForm"
@@ -17,7 +17,7 @@ import { Loader } from "@/components/pages/settings/Loader"
 const Password = () => {
     const id = useAppSelector(state => state.profileReducer.id)
 
-    const { mutateAsync, isLoading } = useMutation('set pass', (data: SetPassProps) => SettingsService.changePassword(data.currentPass, data.newPass, data.id),
+    const { mutateAsync, isLoading } = useMutation('set pass', (data: ChangePassParams) => SettingsService.changePassword(data.currentPass, data.newPass, data.id),
         {
             onSuccess() {
                 notify('Password was successfully changed', 'success')

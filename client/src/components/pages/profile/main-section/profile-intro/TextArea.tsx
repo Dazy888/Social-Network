@@ -1,10 +1,10 @@
 import React, { useRef } from "react"
 import styles from "@/styles/Profile.module.scss"
 import { UseFormRegister } from "react-hook-form"
-import { ProfileIntroProps } from "@/models/profile.models"
+import { ProfileIntro } from "@/models/profile.models"
 
 interface Props {
-    register: UseFormRegister<Pick<ProfileIntroProps, 'text'>>
+    register: UseFormRegister<Pick<ProfileIntro, 'text'>>
 }
 
 const TextAreaComponent: React.FC<Props> = ({ register }) => {

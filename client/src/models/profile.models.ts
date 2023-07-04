@@ -1,6 +1,6 @@
-export type SubscriptionFunc = ({ authorizedUserId, openedUserId }: SubscriptionFuncProps) => void
+export type SubscriptionFunc = ({ authorizedUserId, openedUserId }: SubscriptionFuncParams) => void
 
-interface SubscriptionFuncProps {
+interface SubscriptionFuncParams {
     authorizedUserId: string
     openedUserId: string
 }
@@ -17,18 +17,18 @@ export interface TextProps {
     id: string
 }
 
-export interface SubscriptionProps {
+export interface SubscriptionParams {
     authorizedUserId: string
     openedUserId: string
 }
 
-export interface DeletePostProps {
+export interface DeletePostParams {
     postId: string
 }
 
 export type ProfileIntroFields = 'aboutMe' | 'skills' | 'hobbies'
 
-export interface ProfileIntroProps {
+export interface ProfileIntro {
     text: string
     field: ProfileIntroFields
 }
@@ -38,11 +38,11 @@ export interface ProfileInfo {
     location: string
 }
 
-export interface SetProfileInfoProps extends ProfileInfo{
+export interface SetProfileInfoProps extends ProfileInfo {
     id: string
 }
 
-export interface SetProfileImageProps {
+export interface SetProfileImageParams {
     field: 'avatar' | 'banner'
     src: string
 }

@@ -8,13 +8,13 @@ export interface IChangePass {
     confirmPass: string
 }
 
-export interface SetPassProps {
+export interface ChangePassParams {
     currentPass: string
     newPass: string
     id: string
 }
 
-export interface ActivateProps {
+export interface ActivateEmailParams {
     email: string
     id: string
 }

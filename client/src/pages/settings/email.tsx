@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useMutation } from "react-query"
 import { SettingsService } from "@/services/settings.service"
-import { IActivate, ActivateProps } from "@/models/settings.models"
+import { IActivate, ActivateEmailParams } from "@/models/settings.models"
 import { useAppDispatch, useAppSelector } from "@/hooks/redux"
 import { notify } from "@/components/pages/auth/form/AuthForm"
 // Styles
@@ -26,7 +26,7 @@ const Email = () => {
     const email = useAppSelector(state => state.settingsReducer.email)
     const isActivated = useAppSelector(state => state.settingsReducer.isActivated)
 
-    const { isLoading, mutateAsync:activate} = useMutation('activate email', (data: ActivateProps) => SettingsService.activateMail(data.email, data.id),
+    const { isLoading, mutateAsync:activate} = useMutation('activate email', (data: ActivateEmailParams) => SettingsService.activateMail(data.email, data.id),
         {
             onSuccess(res) {
                 dispatch(setEmail(res))

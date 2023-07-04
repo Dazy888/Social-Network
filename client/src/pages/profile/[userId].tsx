@@ -7,7 +7,7 @@ import { notify } from "@/components/pages/auth/form/AuthForm"
 // Hooks
 import { useAppSelector } from "@/hooks/redux"
 // Models
-import { SubscriptionProps } from "@/models/profile.models"
+import { SubscriptionParams } from "@/models/profile.models"
 import { PublicUserData } from "@/models/users.models"
 // Styles
 import styles from "@/styles/Profile.module.scss"
@@ -42,12 +42,12 @@ const UserProfile = () => {
     const followingUsers = openedUser?.following.map((id: string) => <UserAvatar key={v4()} id={id}/>)
     const followersUsers = openedUser?.followers.map((id: string) => <UserAvatar key={v4()} id={id}/>)
 
-    const { isLoading:isFollowing, mutateAsync:follow } = useMutation('follow', (data: SubscriptionProps) => ProfileService.follow(data.authorizedUserId, data.openedUserId), {
+    const { isLoading:isFollowing, mutateAsync:follow } = useMutation('follow', (data: SubscriptionParams) => ProfileService.follow(data.authorizedUserId, data.openedUserId), {
         onSuccess: (): any => setOpenedUser({ ...openedUser, followers: [...openedUser.followers, initialUserId] }),
         onError: (err: string): any => notify(err, 'error')
     })
 
-    const { isLoading:isUnfollowing, mutateAsync:unfollow } = useMutation('unfollow', (data: SubscriptionProps) => ProfileService.unfollow(data.authorizedUserId, data.openedUserId), {
+    const { isLoading:isUnfollowing, mutateAsync:unfollow } = useMutation('unfollow', (data: SubscriptionParams) => ProfileService.unfollow(data.authorizedUserId, data.openedUserId), {
         onSuccess: (): any => setOpenedUser({ ...openedUser, followers: openedUser.followers.filter((id: string) => id !== initialUserId) }),
         onError: (err: string): any => notify(err, 'error')
     })

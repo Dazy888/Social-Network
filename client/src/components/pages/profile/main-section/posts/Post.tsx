@@ -2,7 +2,7 @@ import React from "react"
 import { useMutation } from "react-query"
 import { deletePost } from "@/store/reducers/ProfileSlice"
 import styles from '@/styles/Profile.module.scss'
-import { DeletePostProps } from "@/models/profile.models"
+import { DeletePostParams } from "@/models/profile.models"
 import { ProfileService } from "@/services/profile.service"
 import { useAppDispatch } from "@/hooks/redux"
 import { notify } from "@/components/pages/auth/form/AuthForm"
@@ -19,7 +19,7 @@ interface Props {
 const PostComponent: React.FC<Props> = ({ avatar, name, createdAt, text, postId, forView }) => {
     const dispatch = useAppDispatch()
 
-    const { mutateAsync } = useMutation('delete post', (data: DeletePostProps) => ProfileService.deletePost(data.postId),
+    const { mutateAsync } = useMutation('delete post', (data: DeletePostParams) => ProfileService.deletePost(data.postId),
         {
             onSuccess: (res): any => dispatch(deletePost(res)),
             onError: (err: string): any => notify(err, 'error')
