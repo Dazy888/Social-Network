@@ -4,11 +4,12 @@ import * as dotenv from "dotenv"
 import { Model } from "mongoose"
 import { InjectModel } from "@nestjs/mongoose"
 import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common"
-import { UserDto } from "./dto/user.dto"
+import { UserDto } from "./dtos/user.dto"
 // Schemas
 import { UserDocument } from "../schemas/user.schema"
 import { TokenDocument } from "../schemas/token.schema"
 import { PostDocument } from "../schemas/post.schema"
+import { ProfileDocument } from "../schemas/profile.schema"
 
 dotenv.config()
 
@@ -16,7 +17,10 @@ export const validateToken = (token: string, secret: string) => jwt.verify(token
 
 @Injectable()
 export class AuthService {
-    constructor(@InjectModel('User') private userModel: Model<UserDocument>, @InjectModel('Token') private tokenModel: Model<TokenDocument>, @InjectModel('Post') private postModel: Model<PostDocument>) {}
+    constructor(
+        @InjectModel('User') private userModel: Model<UserDocument>, @InjectModel('Token') private tokenModel: Model<TokenDocument>,
+        @InjectModel('Post') private postModel: Model<PostDocument>, @InjectModel('Profile') private profileModel: Model<ProfileDocument>
+    ) {}
 
     generateTokens(payload) {
         const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, { expiresIn: '15m' })
@@ -34,51 +38,37 @@ export class AuthService {
             isActivated: user.isActivated,
             activationLink: user.activationLink,
             email: user.email,
-            name: user.name,
-            location: user.location,
-            banner: user.banner,
-            avatar: user.avatar,
-            aboutMe: user.aboutMe,
-            skills: user.skills,
-            hobbies: user.hobbies,
-            followers: user.followers,
-            following: user.following,
         }
     }
 
     async registration(userName: string, pass: string) {
-        const existingUser = await this.userModel.findOne({ userName })
+        const existingUser: UserDocument | null = await this.userModel.findOne({ userName })
         if (existingUser) throw new BadRequestException('UserInfo with this login already exists')
 
         const hashedPassword = await bcrypt.hash(pass, 10)
-        const userNumber = Math.floor(Math.random() * 100)
 
-        const user = await this.userModel.create({
-            userName,
-            pass: hashedPassword,
-            name: `User-${userNumber}`,
-            location: 'Nowhere',
-            banner: null,
-            avatar: null,
-            aboutMe: 'This project was made by David Hutsenko',
-            skills: 'This project was made by David Hutsenko',
-            hobbies: 'This project was made by David Hutsenko',
-            isActivated: false,
-            email: null,
-            followers: [],
-            following: [],
-            activationLink: null
-        })
+        const user: UserDocument = await this.userModel.create({ userName, pass: hashedPassword, })
+
+        const userNumber = Math.floor(Math.random() * 100)
+        const profile: ProfileDocument = await this.profileModel.create({ name: `User_${userNumber}`, userId: user.id })
+        delete profile.userId
+
         const userDto = new UserDto(user)
 
         const tokens = this.generateTokens({ ...userDto })
         await this.saveToken(user.id, tokens.refreshToken)
 
-        return { tokens, user: this.createUser(user) }
+        return {
+            tokens,
+            user: {
+                ...this.createUser(user),
+                ...profile
+            }
+        }
     }
 
-    async login(login: string, pass: string) {
-        const user = await this.userModel.findOne({ login })
+    async login(userName: string, pass: string) {
+        const user: UserDocument | null = await this.userModel.findOne({ userName })
         if (!user) throw new UnauthorizedException('Invalid login or password')
 
         const isPassEquals = await bcrypt.compare(pass, user.pass)
@@ -90,7 +80,17 @@ export class AuthService {
         const tokens = this.generateTokens({ ...userDto })
         await this.saveToken(user.id, tokens.refreshToken)
 
-        return { tokens, user: this.createUser(user), posts }
+        const profile: ProfileDocument = await this.profileModel.findOne({ userId: user.id })
+        delete profile.userId
+
+        return {
+            tokens,
+            user: {
+                ...this.createUser(user),
+                ...profile
+            },
+            posts
+        }
     }
 
     async logout(refreshToken: string) {
@@ -100,17 +100,23 @@ export class AuthService {
     async refresh(refreshToken: string) {
         const userData: UserDocument = validateToken(refreshToken, process.env.JWT_REFRESH_SECRET)
         const tokenFromDb = await this.tokenModel.findOne({ refreshToken })
+
         if (!userData || !tokenFromDb) throw new BadRequestException('UserInfo is not authorized')
 
         const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
         await this.tokenModel.deleteMany({ createdAt: { $lt: thirtyDaysAgo } })
 
-        const user = await this.userModel.findOne({ login: userData.userName })
-        const posts = await this.postModel.find({ userId: user.id })
+        const user: UserDocument = await this.userModel.findOne({ login: userData.userName })
+        const posts: PostDocument[] = await this.postModel.find({ userId: user.id })
+        const profile: ProfileDocument = await this.profileModel.findOne({ userId: user.id })
+        delete profile.userId
 
         return {
             accessToken: jwt.sign({ ...user }, process.env.JWT_ACCESS_SECRET, { expiresIn: '15m' }),
-            user: this.createUser(user),
+            user: {
+                ...this.createUser(user),
+                ...profile
+            },
             posts
         }
     }

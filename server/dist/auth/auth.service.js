@@ -19,15 +19,16 @@ const dotenv = require("dotenv");
 const mongoose_1 = require("mongoose");
 const mongoose_2 = require("@nestjs/mongoose");
 const common_1 = require("@nestjs/common");
-const user_dto_1 = require("./dto/user.dto");
+const user_dto_1 = require("./dtos/user.dto");
 dotenv.config();
 const validateToken = (token, secret) => jwt.verify(token, secret);
 exports.validateToken = validateToken;
 let AuthService = class AuthService {
-    constructor(userModel, tokenModel, postModel) {
+    constructor(userModel, tokenModel, postModel, profileModel) {
         this.userModel = userModel;
         this.tokenModel = tokenModel;
         this.postModel = postModel;
+        this.profileModel = profileModel;
     }
     generateTokens(payload) {
         const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, { expiresIn: '15m' });
@@ -43,15 +44,6 @@ let AuthService = class AuthService {
             isActivated: user.isActivated,
             activationLink: user.activationLink,
             email: user.email,
-            name: user.name,
-            location: user.location,
-            banner: user.banner,
-            avatar: user.avatar,
-            aboutMe: user.aboutMe,
-            skills: user.skills,
-            hobbies: user.hobbies,
-            followers: user.followers,
-            following: user.following,
         };
     }
     async registration(userName, pass) {
@@ -59,30 +51,20 @@ let AuthService = class AuthService {
         if (existingUser)
             throw new common_1.BadRequestException('UserInfo with this login already exists');
         const hashedPassword = await bcrypt.hash(pass, 10);
+        const user = await this.userModel.create({ userName, pass: hashedPassword, });
         const userNumber = Math.floor(Math.random() * 100);
-        const user = await this.userModel.create({
-            userName,
-            pass: hashedPassword,
-            name: `User-${userNumber}`,
-            location: 'Nowhere',
-            banner: null,
-            avatar: null,
-            aboutMe: 'This project was made by David Hutsenko',
-            skills: 'This project was made by David Hutsenko',
-            hobbies: 'This project was made by David Hutsenko',
-            isActivated: false,
-            email: null,
-            followers: [],
-            following: [],
-            activationLink: null
-        });
+        const profile = await this.profileModel.create({ name: `User_${userNumber}`, userId: user.id });
+        delete profile.userId;
         const userDto = new user_dto_1.UserDto(user);
         const tokens = this.generateTokens(Object.assign({}, userDto));
         await this.saveToken(user.id, tokens.refreshToken);
-        return { tokens, user: this.createUser(user) };
+        return {
+            tokens,
+            user: Object.assign(Object.assign({}, this.createUser(user)), profile)
+        };
     }
-    async login(login, pass) {
-        const user = await this.userModel.findOne({ login });
+    async login(userName, pass) {
+        const user = await this.userModel.findOne({ userName });
         if (!user)
             throw new common_1.UnauthorizedException('Invalid login or password');
         const isPassEquals = await bcrypt.compare(pass, user.pass);
@@ -92,7 +74,13 @@ let AuthService = class AuthService {
         const posts = await this.postModel.find({ userId: user.id });
         const tokens = this.generateTokens(Object.assign({}, userDto));
         await this.saveToken(user.id, tokens.refreshToken);
-        return { tokens, user: this.createUser(user), posts };
+        const profile = await this.profileModel.findOne({ userId: user.id });
+        delete profile.userId;
+        return {
+            tokens,
+            user: Object.assign(Object.assign({}, this.createUser(user)), profile),
+            posts
+        };
     }
     async logout(refreshToken) {
         return this.tokenModel.deleteOne({ refreshToken });
@@ -106,9 +94,11 @@ let AuthService = class AuthService {
         await this.tokenModel.deleteMany({ createdAt: { $lt: thirtyDaysAgo } });
         const user = await this.userModel.findOne({ login: userData.userName });
         const posts = await this.postModel.find({ userId: user.id });
+        const profile = await this.profileModel.findOne({ userId: user.id });
+        delete profile.userId;
         return {
             accessToken: jwt.sign(Object.assign({}, user), process.env.JWT_ACCESS_SECRET, { expiresIn: '15m' }),
-            user: this.createUser(user),
+            user: Object.assign(Object.assign({}, this.createUser(user)), profile),
             posts
         };
     }
@@ -118,7 +108,9 @@ AuthService = __decorate([
     __param(0, (0, mongoose_2.InjectModel)('User')),
     __param(1, (0, mongoose_2.InjectModel)('Token')),
     __param(2, (0, mongoose_2.InjectModel)('Post')),
-    __metadata("design:paramtypes", [mongoose_1.Model, mongoose_1.Model, mongoose_1.Model])
+    __param(3, (0, mongoose_2.InjectModel)('Profile')),
+    __metadata("design:paramtypes", [mongoose_1.Model, mongoose_1.Model,
+        mongoose_1.Model, mongoose_1.Model])
 ], AuthService);
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map

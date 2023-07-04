@@ -17,46 +17,42 @@ const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 let UsersService = class UsersService {
-    constructor(userModel, postModel) {
+    constructor(userModel, profileModel, postModel, subscriptionsModel) {
         this.userModel = userModel;
+        this.profileModel = profileModel;
         this.postModel = postModel;
+        this.subscriptionsModel = subscriptionsModel;
     }
-    async getUsers(skip, id) {
-        const length = await this.userModel.count();
-        const users = await this.userModel.find({ _id: { $ne: id } }).skip(skip).limit(20);
+    async getUsers(skip, userId) {
+        const length = await this.profileModel.count();
+        const profiles = await this.profileModel.find({ userId: { $ne: userId } }).skip(skip).limit(20);
         const usersData = [];
-        for (const user of users) {
+        for (const profile of profiles) {
             usersData.push({
-                id: user.id,
-                name: user.name,
-                location: user.location,
-                avatar: user.avatar,
+                id: profile.userId,
+                name: profile.name,
+                location: profile.location,
+                avatar: profile.avatar,
             });
         }
         return { usersData, length };
     }
-    async getUser(_id) {
-        const user = await this.userModel.findOne({ _id });
-        const posts = await this.postModel.find({ userId: _id });
-        return {
-            avatar: user.avatar,
-            banner: user.banner,
-            name: user.name,
-            location: user.location,
-            aboutMe: user.aboutMe,
-            skills: user.skills,
-            hobbies: user.hobbies,
-            followers: user.followers,
-            following: user.following,
-            posts
-        };
+    async getUser(userId) {
+        const profile = await this.profileModel.findOne({ userId });
+        delete profile.userId;
+        const posts = await this.postModel.find({ userId });
+        const subscriptions = await this.subscriptionsModel.find({ userId });
+        return Object.assign(Object.assign(Object.assign({}, profile), subscriptions), { posts });
     }
 };
 UsersService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)('User')),
-    __param(1, (0, mongoose_1.InjectModel)('Post')),
-    __metadata("design:paramtypes", [mongoose_2.Model, mongoose_2.Model])
+    __param(1, (0, mongoose_1.InjectModel)('Profile')),
+    __param(2, (0, mongoose_1.InjectModel)('Post')),
+    __param(3, (0, mongoose_1.InjectModel)('Subscriptions')),
+    __metadata("design:paramtypes", [mongoose_2.Model, mongoose_2.Model,
+        mongoose_2.Model, mongoose_2.Model])
 ], UsersService);
 exports.UsersService = UsersService;
 //# sourceMappingURL=users.service.js.map

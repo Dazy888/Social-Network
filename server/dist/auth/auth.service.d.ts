@@ -2,12 +2,14 @@ import { Model } from "mongoose";
 import { UserDocument } from "../schemas/user.schema";
 import { TokenDocument } from "../schemas/token.schema";
 import { PostDocument } from "../schemas/post.schema";
+import { ProfileDocument } from "../schemas/profile.schema";
 export declare const validateToken: (token: string, secret: string) => any;
 export declare class AuthService {
     private userModel;
     private tokenModel;
     private postModel;
-    constructor(userModel: Model<UserDocument>, tokenModel: Model<TokenDocument>, postModel: Model<PostDocument>);
+    private profileModel;
+    constructor(userModel: Model<UserDocument>, tokenModel: Model<TokenDocument>, postModel: Model<PostDocument>, profileModel: Model<ProfileDocument>);
     generateTokens(payload: any): {
         accessToken: any;
         refreshToken: any;
@@ -18,15 +20,6 @@ export declare class AuthService {
         isActivated: boolean;
         activationLink: string;
         email: string;
-        name: string;
-        location: string;
-        banner: string;
-        avatar: string;
-        aboutMe: string;
-        skills: string;
-        hobbies: string;
-        followers: string[];
-        following: string[];
     };
     registration(userName: string, pass: string): Promise<{
         tokens: {
@@ -34,10 +27,7 @@ export declare class AuthService {
             refreshToken: any;
         };
         user: {
-            id: any;
-            isActivated: boolean;
-            activationLink: string;
-            email: string;
+            userId: string;
             name: string;
             location: string;
             banner: string;
@@ -45,20 +35,33 @@ export declare class AuthService {
             aboutMe: string;
             skills: string;
             hobbies: string;
-            followers: string[];
-            following: string[];
+            _id?: any;
+            __v?: any;
+            $locals: Record<string, unknown>;
+            $op: "remove" | "save" | "validate";
+            $where: Record<string, unknown>;
+            baseModelName?: string;
+            collection: import("mongoose").Collection<import("bson").Document>;
+            db: import("mongoose").Connection;
+            errors?: import("mongoose").Error.ValidationError;
+            id: any;
+            isNew: boolean;
+            modelName: string;
+            schema: import("mongoose").Schema<any, Model<any, any, any, any, any>, {}, {}, {}, {}, "type", {
+                [x: string]: any;
+            }>;
+            isActivated: boolean;
+            activationLink: string;
+            email: string;
         };
     }>;
-    login(login: string, pass: string): Promise<{
+    login(userName: string, pass: string): Promise<{
         tokens: {
             accessToken: any;
             refreshToken: any;
         };
         user: {
-            id: any;
-            isActivated: boolean;
-            activationLink: string;
-            email: string;
+            userId: string;
             name: string;
             location: string;
             banner: string;
@@ -66,8 +69,24 @@ export declare class AuthService {
             aboutMe: string;
             skills: string;
             hobbies: string;
-            followers: string[];
-            following: string[];
+            _id?: any;
+            __v?: any;
+            $locals: Record<string, unknown>;
+            $op: "remove" | "save" | "validate";
+            $where: Record<string, unknown>;
+            baseModelName?: string;
+            collection: import("mongoose").Collection<import("bson").Document>;
+            db: import("mongoose").Connection;
+            errors?: import("mongoose").Error.ValidationError;
+            id: any;
+            isNew: boolean;
+            modelName: string;
+            schema: import("mongoose").Schema<any, Model<any, any, any, any, any>, {}, {}, {}, {}, "type", {
+                [x: string]: any;
+            }>;
+            isActivated: boolean;
+            activationLink: string;
+            email: string;
         };
         posts: (import("../schemas/post.schema").Post & import("mongoose").Document<any, any, any> & {
             _id: import("mongoose").Types.ObjectId;
@@ -77,10 +96,7 @@ export declare class AuthService {
     refresh(refreshToken: string): Promise<{
         accessToken: any;
         user: {
-            id: any;
-            isActivated: boolean;
-            activationLink: string;
-            email: string;
+            userId: string;
             name: string;
             location: string;
             banner: string;
@@ -88,11 +104,25 @@ export declare class AuthService {
             aboutMe: string;
             skills: string;
             hobbies: string;
-            followers: string[];
-            following: string[];
+            _id?: any;
+            __v?: any;
+            $locals: Record<string, unknown>;
+            $op: "remove" | "save" | "validate";
+            $where: Record<string, unknown>;
+            baseModelName?: string;
+            collection: import("mongoose").Collection<import("bson").Document>;
+            db: import("mongoose").Connection;
+            errors?: import("mongoose").Error.ValidationError;
+            id: any;
+            isNew: boolean;
+            modelName: string;
+            schema: import("mongoose").Schema<any, Model<any, any, any, any, any>, {}, {}, {}, {}, "type", {
+                [x: string]: any;
+            }>;
+            isActivated: boolean;
+            activationLink: string;
+            email: string;
         };
-        posts: (import("../schemas/post.schema").Post & import("mongoose").Document<any, any, any> & {
-            _id: import("mongoose").Types.ObjectId;
-        })[];
+        posts: PostDocument[];
     }>;
 }

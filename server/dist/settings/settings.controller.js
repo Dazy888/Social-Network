@@ -18,24 +18,22 @@ const dotenv = require("dotenv");
 const common_1 = require("@nestjs/common");
 const profile_controller_1 = require("../profile/profile.controller");
 const settings_service_1 = require("./settings.service");
+const settings_dtos_1 = require("./dtos/settings.dtos");
 dotenv.config();
 let SettingsController = class SettingsController {
     constructor(settingsService) {
         this.settingsService = settingsService;
     }
     async changePass(data, authorization) {
-        const accessToken = authorization.split(' ')[1];
-        (0, profile_controller_1.checkAccessToken)(accessToken);
+        (0, profile_controller_1.checkAccessToken)(authorization);
         return this.settingsService.changePass(data.currentPass, data.newPass, data.id);
     }
     async sendMail(data, authorization) {
-        const accessToken = authorization.split(' ')[1];
-        (0, profile_controller_1.checkAccessToken)(accessToken);
+        (0, profile_controller_1.checkAccessToken)(authorization);
         return this.settingsService.sendMail(data.email, `${process.env.API_URL}/api/settings/activate/${(0, uuid_1.v4)()}`, data.id);
     }
     async cancelActivation(id, authorization) {
-        const accessToken = authorization.split(' ')[1];
-        (0, profile_controller_1.checkAccessToken)(accessToken);
+        (0, profile_controller_1.checkAccessToken)(authorization);
         await this.settingsService.cancelActivation(id);
     }
     async activate(link, res, req) {
@@ -49,7 +47,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:paramtypes", [settings_dtos_1.ChangePassDto, String]),
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "changePass", null);
 __decorate([
@@ -57,7 +55,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:paramtypes", [settings_dtos_1.ActivateEmailDto, String]),
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "sendMail", null);
 __decorate([

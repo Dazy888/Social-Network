@@ -30,14 +30,5 @@ export declare class User {
     isActivated: boolean;
     activationLink: string | null;
     email: string | null;
-    name: string;
-    location: string;
-    banner: string | null;
-    avatar: string | null;
-    aboutMe: string;
-    skills: string;
-    hobbies: string;
-    followers: string[];
-    following: string[];
 }
 export declare const UserSchema: import("mongoose").Schema<User, import("mongoose").Model<User, any, any, any, any>, {}, {}, {}, {}, "type", User>;

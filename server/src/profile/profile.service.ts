@@ -4,16 +4,23 @@ import { v4 } from "uuid"
 import { Storage } from "@google-cloud/storage"
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from "@nestjs/mongoose"
+// Schemas
 import { UserDocument } from "../schemas/user.schema"
 import { PostDocument } from "../schemas/post.schema"
-import { Field } from "./models/profile.models"
+import { ProfileDocument } from "../schemas/profile.schema"
+import { SubscriptionsDocument } from "../schemas/subscriptions.schema"
+// Types
+import { ImageFields, ProfileIntroFields } from "./dtos/profile.dtos"
 
 @Injectable()
 export class ProfileService {
-    constructor(@InjectModel('User') private userModel: Model<UserDocument>, @InjectModel('Post') private postModel: Model<PostDocument>) {}
+    constructor(
+        @InjectModel('User') private userModel: Model<UserDocument>, @InjectModel('Profile') private profileModel: Model<ProfileDocument>,
+        @InjectModel('Post') private postModel: Model<PostDocument>, @InjectModel('Subscriptions') private subscriptionsModel: Model<SubscriptionsDocument>
+    ) {}
 
-    async setProfileIntro(text: string, field: Field, _id: string) {
-        await this.userModel.findOneAndUpdate({ _id }, { [field]: text })
+    async setProfileIntro(text: string, field: ProfileIntroFields, userId: string) {
+        await this.profileModel.findOneAndUpdate({ userId }, { [field]: text })
     }
 
     async createPost(text: string, userId: string) {
@@ -24,23 +31,28 @@ export class ProfileService {
         await this.postModel.findOneAndDelete({ postId })
     }
 
-    async getAvatar(_id: string) {
-        const user = await this.userModel.findOne({ _id })
-        return user.avatar
+    async getAvatar(userId: string) {
+        return this.profileModel.findOne({ userId }, { avatar: 1 })
+    }
+
+    async toggleSubscription(authorizedUserId: string, openedUserId: string, isFollow: boolean) {
+        const updateQuery = isFollow ? { $push: { followers: authorizedUserId } } : { $pull: { followers: authorizedUserId } }
+        const updateQuery2 = isFollow ? { $push: { following: openedUserId } } : { $pull: { following: openedUserId } }
+
+        await this.subscriptionsModel.updateOne({ userId: openedUserId }, updateQuery)
+        await this.subscriptionsModel.updateOne({ userId: authorizedUserId }, updateQuery2)
     }
 
     async follow(authorizedUserId: string, openedUserId: string) {
-        await this.userModel.updateOne({ _id: openedUserId }, { $push: { followers: authorizedUserId } })
-        await this.userModel.updateOne({ _id: authorizedUserId }, { $push: { following: openedUserId } })
+        await this.toggleSubscription(authorizedUserId, openedUserId, true)
     }
 
     async unfollow(authorizedUserId: string, openedUserId: string) {
-        await this.userModel.updateOne({ _id: openedUserId }, { $pull: { followers: authorizedUserId } })
-        await this.userModel.updateOne({ _id: authorizedUserId }, { $pull: { following: openedUserId } })
+        await this.toggleSubscription(authorizedUserId, openedUserId, false)
     }
 
-    async setProfileInfo(_id: string, name: string, location: string) {
-        return this.userModel.findOneAndUpdate({ _id }, { name, location })
+    async setProfileInfo(userId: string, name: string, location: string) {
+        return this.profileModel.findOneAndUpdate({ userId }, { name, location })
     }
 
     async uploadFile(file: Express.Multer.File, name: string): Promise<string> {
@@ -75,14 +87,14 @@ export class ProfileService {
         }
     }
 
-    async uploadProfileImage(_id: string, image: Express.Multer.File, field: 'avatar' | 'banner') {
-        const user: UserDocument = await this.userModel.findOne({ _id })
+    async uploadProfileImage(userId: string, image: Express.Multer.File, field: ImageFields) {
+        const profile: ProfileDocument = await this.profileModel.findOne({ userId })
 
-        await this.deleteFile(user[field])
-        const publicLink = await this.uploadFile(image, user.name + '-' + field)
-        await this.userModel.findOneAndUpdate({ _id }, { [field]: publicLink })
+        await this.deleteFile(profile[field])
+        const publicLink = await this.uploadFile(image, profile.name + '-' + field)
+        await this.profileModel.findOneAndUpdate({ userId }, { [field]: publicLink })
 
-        const updatedUser: UserDocument = await this.userModel.findOne({ _id })
+        const updatedUser: UserDocument = await this.profileModel.findOne({ userId })
         return { src: updatedUser[field], field }
     }
 }

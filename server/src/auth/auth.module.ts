@@ -6,9 +6,13 @@ import { AuthService } from "./auth.service"
 import { UserSchema } from "../schemas/user.schema"
 import { TokenSchema } from "../schemas/token.schema"
 import { PostSchema } from "../schemas/post.schema"
+import { ProfileSchema } from "../schemas/profile.schema"
 
 @Module({
-    imports: [MongooseModule.forFeature([{ name: 'User', schema: UserSchema }, { name: 'Token', schema: TokenSchema }, { name: 'Post', schema: PostSchema }])],
+    imports: [MongooseModule.forFeature([
+        { name: 'User', schema: UserSchema }, { name: 'Profile', schema: ProfileSchema },
+        { name: 'Token', schema: TokenSchema }, { name: 'Post', schema: PostSchema }
+    ])],
     controllers: [AuthController],
     providers: [AuthService],
 })

@@ -14,7 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = exports.checkToken = void 0;
 const common_1 = require("@nestjs/common");
-const auth_dto_1 = require("./dto/auth.dto");
+const auth_dto_1 = require("./dtos/auth.dto");
 const auth_service_1 = require("./auth.service");
 function checkToken(token) {
     if (!token)

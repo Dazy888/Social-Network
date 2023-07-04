@@ -3,7 +3,7 @@ import { Document } from "mongoose"
 
 export type UserDocument = User & Document
 
-@Schema()
+@Schema({ timestamps: true })
 export class User {
     @Prop()
     userName: string
@@ -11,41 +11,14 @@ export class User {
     @Prop()
     pass: string
 
-    @Prop()
+    @Prop({ default: false })
     isActivated: boolean
 
-    @Prop()
+    @Prop({ default: null })
     activationLink: string | null
 
-    @Prop()
+    @Prop({ default: null })
     email: string | null
-
-    @Prop()
-    name: string
-
-    @Prop()
-    location: string
-
-    @Prop()
-    banner: string | null
-
-    @Prop()
-    avatar: string | null
-
-    @Prop()
-    aboutMe: string
-
-    @Prop()
-    skills: string
-
-    @Prop()
-    hobbies: string
-
-    @Prop()
-    followers: string[]
-
-    @Prop()
-    following: string[]
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)

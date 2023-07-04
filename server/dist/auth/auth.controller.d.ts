@@ -1,4 +1,4 @@
-import { AuthDto } from "./dto/auth.dto";
+import { AuthDto } from "./dtos/auth.dto";
 import { AuthService } from "./auth.service";
 export declare function checkToken(token: string): void;
 export declare class AuthController {
@@ -10,10 +10,7 @@ export declare class AuthController {
             refreshToken: any;
         };
         user: {
-            id: any;
-            isActivated: boolean;
-            activationLink: string;
-            email: string;
+            userId: string;
             name: string;
             location: string;
             banner: string;
@@ -21,8 +18,24 @@ export declare class AuthController {
             aboutMe: string;
             skills: string;
             hobbies: string;
-            followers: string[];
-            following: string[];
+            _id?: any;
+            __v?: any;
+            $locals: Record<string, unknown>;
+            $op: "remove" | "save" | "validate";
+            $where: Record<string, unknown>;
+            baseModelName?: string;
+            collection: import("mongoose").Collection<import("bson").Document>;
+            db: import("mongoose").Connection;
+            errors?: import("mongoose").Error.ValidationError;
+            id: any;
+            isNew: boolean;
+            modelName: string;
+            schema: import("mongoose").Schema<any, import("mongoose").Model<any, any, any, any, any>, {}, {}, {}, {}, "type", {
+                [x: string]: any;
+            }>;
+            isActivated: boolean;
+            activationLink: string;
+            email: string;
         };
     }>;
     login(user: AuthDto): Promise<{
@@ -31,10 +44,7 @@ export declare class AuthController {
             refreshToken: any;
         };
         user: {
-            id: any;
-            isActivated: boolean;
-            activationLink: string;
-            email: string;
+            userId: string;
             name: string;
             location: string;
             banner: string;
@@ -42,8 +52,24 @@ export declare class AuthController {
             aboutMe: string;
             skills: string;
             hobbies: string;
-            followers: string[];
-            following: string[];
+            _id?: any;
+            __v?: any;
+            $locals: Record<string, unknown>;
+            $op: "remove" | "save" | "validate";
+            $where: Record<string, unknown>;
+            baseModelName?: string;
+            collection: import("mongoose").Collection<import("bson").Document>;
+            db: import("mongoose").Connection;
+            errors?: import("mongoose").Error.ValidationError;
+            id: any;
+            isNew: boolean;
+            modelName: string;
+            schema: import("mongoose").Schema<any, import("mongoose").Model<any, any, any, any, any>, {}, {}, {}, {}, "type", {
+                [x: string]: any;
+            }>;
+            isActivated: boolean;
+            activationLink: string;
+            email: string;
         };
         posts: (import("../schemas/post.schema").Post & import("mongoose").Document<any, any, any> & {
             _id: import("mongoose").Types.ObjectId;
@@ -53,10 +79,7 @@ export declare class AuthController {
     refresh(refreshToken: string): Promise<{
         accessToken: any;
         user: {
-            id: any;
-            isActivated: boolean;
-            activationLink: string;
-            email: string;
+            userId: string;
             name: string;
             location: string;
             banner: string;
@@ -64,11 +87,25 @@ export declare class AuthController {
             aboutMe: string;
             skills: string;
             hobbies: string;
-            followers: string[];
-            following: string[];
+            _id?: any;
+            __v?: any;
+            $locals: Record<string, unknown>;
+            $op: "remove" | "save" | "validate";
+            $where: Record<string, unknown>;
+            baseModelName?: string;
+            collection: import("mongoose").Collection<import("bson").Document>;
+            db: import("mongoose").Connection;
+            errors?: import("mongoose").Error.ValidationError;
+            id: any;
+            isNew: boolean;
+            modelName: string;
+            schema: import("mongoose").Schema<any, import("mongoose").Model<any, any, any, any, any>, {}, {}, {}, {}, "type", {
+                [x: string]: any;
+            }>;
+            isActivated: boolean;
+            activationLink: string;
+            email: string;
         };
-        posts: (import("../schemas/post.schema").Post & import("mongoose").Document<any, any, any> & {
-            _id: import("mongoose").Types.ObjectId;
-        })[];
+        posts: import("../schemas/post.schema").PostDocument[];
     }>;
 }

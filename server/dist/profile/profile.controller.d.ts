@@ -1,49 +1,25 @@
 /// <reference types="multer" />
-/// <reference types="mongoose/types/aggregate" />
-/// <reference types="mongoose/types/callback" />
-/// <reference types="mongoose/types/collection" />
-/// <reference types="mongoose/types/connection" />
-/// <reference types="mongoose/types/cursor" />
-/// <reference types="mongoose/types/document" />
-/// <reference types="mongoose/types/error" />
-/// <reference types="mongoose/types/expressions" />
-/// <reference types="mongoose/types/helpers" />
-/// <reference types="mongoose/types/middlewares" />
-/// <reference types="mongoose/types/indexes" />
-/// <reference types="mongoose/types/models" />
-/// <reference types="mongoose/types/mongooseoptions" />
-/// <reference types="mongoose/types/pipelinestage" />
-/// <reference types="mongoose/types/populate" />
-/// <reference types="mongoose/types/query" />
-/// <reference types="mongoose/types/schemaoptions" />
-/// <reference types="mongoose/types/schematypes" />
-/// <reference types="mongoose/types/session" />
-/// <reference types="mongoose/types/types" />
-/// <reference types="mongoose/types/utility" />
-/// <reference types="mongoose/types/validation" />
-/// <reference types="mongoose/types/virtuals" />
-/// <reference types="mongoose" />
-/// <reference types="mongoose/types/inferschematype" />
 import { ProfileService } from "./profile.service";
-import { ProfileIntroProps, SetProfileImageProps } from "./models/profile.models";
-import { SubscriptionProps, ChangeTextProps, SetProfileInfoProps } from "./models/profile.models";
+import { CreatePostDto, SetProfileImageDto, SetProfileInfoDto, SetProfileIntroDto, SetSubscriptionDto } from "./dtos/profile.dtos";
 export declare function checkAccessToken(authorization: string): void;
 export declare class ProfileController {
     private readonly profileService;
     constructor(profileService: ProfileService);
-    setProfileIntro(data: ProfileIntroProps, authorization: string): Promise<void>;
-    createPost(data: ChangeTextProps, authorization: string): Promise<import("../schemas/post.schema").Post & import("mongoose").Document<any, any, any> & {
+    setProfileIntro(data: SetProfileIntroDto, authorization: string): Promise<void>;
+    createPost(data: CreatePostDto, authorization: string): Promise<import("../schemas/post.schema").Post & import("mongoose").Document<any, any, any> & {
         _id: import("mongoose").Types.ObjectId;
     }>;
     deletePost(postId: string, authorization: string): Promise<void>;
-    getAvatar(id: string, authorization: string): Promise<string>;
-    setProfileSettings(data: SetProfileInfoProps, authorization: string): Promise<import("../schemas/user.schema").User & import("mongoose").Document<any, any, any> & {
+    getAvatar(id: string, authorization: string): Promise<import("../schemas/profile.schema").Profile & import("mongoose").Document<any, any, any> & {
         _id: import("mongoose").Types.ObjectId;
     }>;
-    setProfileImage(data: SetProfileImageProps, authorization: string, image: Express.Multer.File): Promise<{
-        src: string;
-        field: "banner" | "avatar";
+    setProfileSettings(data: SetProfileInfoDto, authorization: string): Promise<import("../schemas/profile.schema").Profile & import("mongoose").Document<any, any, any> & {
+        _id: import("mongoose").Types.ObjectId;
     }>;
-    follow(data: SubscriptionProps, authorization: string): Promise<void>;
-    unfollow(data: SubscriptionProps, authorization: string): Promise<void>;
+    setProfileImage(data: SetProfileImageDto, authorization: string, image: Express.Multer.File): Promise<{
+        src: any;
+        field: import("./dtos/profile.dtos").ImageFields;
+    }>;
+    follow(data: SetSubscriptionDto, authorization: string): Promise<void>;
+    unfollow(data: SetSubscriptionDto, authorization: string): Promise<void>;
 }

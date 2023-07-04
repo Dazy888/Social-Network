@@ -18,7 +18,7 @@ const platform_express_1 = require("@nestjs/platform-express");
 const profile_service_1 = require("./profile.service");
 const auth_controller_1 = require("../auth/auth.controller");
 const auth_service_1 = require("../auth/auth.service");
-const profile_models_1 = require("./models/profile.models");
+const profile_dtos_1 = require("./dtos/profile.dtos");
 function checkAccessToken(authorization) {
     const accessToken = authorization.split(' ')[1];
     (0, auth_controller_1.checkToken)(accessToken);
@@ -67,7 +67,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:paramtypes", [profile_dtos_1.SetProfileIntroDto, String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "setProfileIntro", null);
 __decorate([
@@ -75,7 +75,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [profile_models_1.ChangeTextProps, String]),
+    __metadata("design:paramtypes", [profile_dtos_1.CreatePostDto, String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "createPost", null);
 __decorate([
@@ -100,7 +100,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:paramtypes", [profile_dtos_1.SetProfileInfoDto, String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "setProfileSettings", null);
 __decorate([
@@ -110,7 +110,7 @@ __decorate([
     __param(1, (0, common_1.Headers)('authorization')),
     __param(2, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String, Object]),
+    __metadata("design:paramtypes", [profile_dtos_1.SetProfileImageDto, String, Object]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "setProfileImage", null);
 __decorate([
@@ -118,7 +118,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:paramtypes", [profile_dtos_1.SetSubscriptionDto, String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "follow", null);
 __decorate([
@@ -126,7 +126,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:paramtypes", [profile_dtos_1.SetSubscriptionDto, String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "unfollow", null);
 ProfileController = __decorate([

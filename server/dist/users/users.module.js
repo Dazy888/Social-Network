@@ -13,11 +13,16 @@ const users_service_1 = require("./users.service");
 const users_controller_1 = require("./users.controller");
 const user_schema_1 = require("../schemas/user.schema");
 const post_schema_1 = require("../schemas/post.schema");
+const profile_schema_1 = require("../schemas/profile.schema");
+const subscriptions_schema_1 = require("../schemas/subscriptions.schema");
 let UsersModule = class UsersModule {
 };
 UsersModule = __decorate([
     (0, common_1.Module)({
-        imports: [mongoose_1.MongooseModule.forFeature([{ name: 'User', schema: user_schema_1.UserSchema }, { name: 'Post', schema: post_schema_1.PostSchema }])],
+        imports: [mongoose_1.MongooseModule.forFeature([
+                { name: 'User', schema: user_schema_1.UserSchema }, { name: 'Profile', schema: profile_schema_1.ProfileSchema },
+                { name: 'Post', schema: post_schema_1.PostSchema }, { name: 'Subscriptions', schema: subscriptions_schema_1.SubscriptionsSchema }
+            ])],
         providers: [users_service_1.UsersService],
         controllers: [users_controller_1.UsersController]
     })

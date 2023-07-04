@@ -20,12 +20,14 @@ const storage_1 = require("@google-cloud/storage");
 const common_1 = require("@nestjs/common");
 const mongoose_2 = require("@nestjs/mongoose");
 let ProfileService = class ProfileService {
-    constructor(userModel, postModel) {
+    constructor(userModel, profileModel, postModel, subscriptionsModel) {
         this.userModel = userModel;
+        this.profileModel = profileModel;
         this.postModel = postModel;
+        this.subscriptionsModel = subscriptionsModel;
     }
-    async setProfileIntro(text, field, _id) {
-        await this.userModel.findOneAndUpdate({ _id }, { [field]: text });
+    async setProfileIntro(text, field, userId) {
+        await this.profileModel.findOneAndUpdate({ userId }, { [field]: text });
     }
     async createPost(text, userId) {
         return this.postModel.create({ text, userId });
@@ -33,20 +35,23 @@ let ProfileService = class ProfileService {
     async deletePost(postId) {
         await this.postModel.findOneAndDelete({ postId });
     }
-    async getAvatar(_id) {
-        const user = await this.userModel.findOne({ _id });
-        return user.avatar;
+    async getAvatar(userId) {
+        return this.profileModel.findOne({ userId }, { avatar: 1 });
+    }
+    async toggleSubscription(authorizedUserId, openedUserId, isFollow) {
+        const updateQuery = isFollow ? { $push: { followers: authorizedUserId } } : { $pull: { followers: authorizedUserId } };
+        const updateQuery2 = isFollow ? { $push: { following: openedUserId } } : { $pull: { following: openedUserId } };
+        await this.subscriptionsModel.updateOne({ userId: openedUserId }, updateQuery);
+        await this.subscriptionsModel.updateOne({ userId: authorizedUserId }, updateQuery2);
     }
     async follow(authorizedUserId, openedUserId) {
-        await this.userModel.updateOne({ _id: openedUserId }, { $push: { followers: authorizedUserId } });
-        await this.userModel.updateOne({ _id: authorizedUserId }, { $push: { following: openedUserId } });
+        await this.toggleSubscription(authorizedUserId, openedUserId, true);
     }
     async unfollow(authorizedUserId, openedUserId) {
-        await this.userModel.updateOne({ _id: openedUserId }, { $pull: { followers: authorizedUserId } });
-        await this.userModel.updateOne({ _id: authorizedUserId }, { $pull: { following: openedUserId } });
+        await this.toggleSubscription(authorizedUserId, openedUserId, false);
     }
-    async setProfileInfo(_id, name, location) {
-        return this.userModel.findOneAndUpdate({ _id }, { name, location });
+    async setProfileInfo(userId, name, location) {
+        return this.profileModel.findOneAndUpdate({ userId }, { name, location });
     }
     async uploadFile(file, name) {
         const storage = new storage_1.Storage({ projectId: 'central-courier-389415', keyFilename: path.join(__dirname, '..', '..', 'src', 'config', 'key.json') });
@@ -73,20 +78,23 @@ let ProfileService = class ProfileService {
             await file.delete();
         }
     }
-    async uploadProfileImage(_id, image, field) {
-        const user = await this.userModel.findOne({ _id });
-        await this.deleteFile(user[field]);
-        const publicLink = await this.uploadFile(image, user.name + '-' + field);
-        await this.userModel.findOneAndUpdate({ _id }, { [field]: publicLink });
-        const updatedUser = await this.userModel.findOne({ _id });
+    async uploadProfileImage(userId, image, field) {
+        const profile = await this.profileModel.findOne({ userId });
+        await this.deleteFile(profile[field]);
+        const publicLink = await this.uploadFile(image, profile.name + '-' + field);
+        await this.profileModel.findOneAndUpdate({ userId }, { [field]: publicLink });
+        const updatedUser = await this.profileModel.findOne({ userId });
         return { src: updatedUser[field], field };
     }
 };
 ProfileService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_2.InjectModel)('User')),
-    __param(1, (0, mongoose_2.InjectModel)('Post')),
-    __metadata("design:paramtypes", [mongoose_1.Model, mongoose_1.Model])
+    __param(1, (0, mongoose_2.InjectModel)('Profile')),
+    __param(2, (0, mongoose_2.InjectModel)('Post')),
+    __param(3, (0, mongoose_2.InjectModel)('Subscriptions')),
+    __metadata("design:paramtypes", [mongoose_1.Model, mongoose_1.Model,
+        mongoose_1.Model, mongoose_1.Model])
 ], ProfileService);
 exports.ProfileService = ProfileService;
 //# sourceMappingURL=profile.service.js.map

@@ -13,9 +13,11 @@ export class SettingsService {
     constructor(@InjectModel('User') private userModel: Model<UserDocument>, private readonly mailerService: MailerService) {}
 
     async changePass(currentPass: string, newPass: string, _id: string) {
-        const user = await this.userModel.findOne({ _id })
+        const user: UserDocument = await this.userModel.findOne({ _id })
+
         const isPassEquals = await bcrypt.compare(currentPass, user.pass)
         if (!isPassEquals) throw new BadRequestException('Wrong password')
+
         await this.userModel.findOneAndUpdate({ _id }, { pass: await bcrypt.hash(newPass, 10) })
     }
 
