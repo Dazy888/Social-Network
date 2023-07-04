@@ -9,7 +9,7 @@ export interface IPost {
     userId: string
     createdAt: Date
     text: string
-    id: string
+    _id: string
 }
 
 export interface TextProps {

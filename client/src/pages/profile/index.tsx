@@ -10,7 +10,7 @@ import { HeaderSection } from "@/components/pages/profile/header-section/HeaderS
 import { MainSection } from "@/components/pages/profile/main-section/MainSection"
 
 export const getPostsElements = (posts: IPost[], avatar: string, name: string, forView: boolean) => {
-    return [...posts].reverse().map(({ id, text, createdAt}) => {
+    return [...posts].reverse().map(({ _id, text, createdAt}) => {
         const date = Math.abs(new Date().getTime() - new Date(createdAt).getTime())
         const minutes = Math.round(date / 1000 / 60)
         const hours = Math.round(date / 1000 / 60 / 60)
@@ -37,7 +37,7 @@ export const getPostsElements = (posts: IPost[], avatar: string, name: string, f
             time = `${months} months ago`
         }
 
-        return <Post {...{ forView, avatar, name, text }} key={v4()} postId={id} createdAt={time} />
+        return <Post {...{ forView, avatar, name, text }} key={v4()} postId={_id} createdAt={time} />
     })
 }
 
