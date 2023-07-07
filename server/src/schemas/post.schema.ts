@@ -3,7 +3,7 @@ import { Document } from "mongoose"
 
 export type PostDocument = Post & Document
 
-@Schema({ timestamps: true })
+@Schema({ collection: 'users_posts', timestamps: true })
 export class Post {
     @Prop()
     userId: string

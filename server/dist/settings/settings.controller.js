@@ -24,26 +24,26 @@ let SettingsController = class SettingsController {
     constructor(settingsService) {
         this.settingsService = settingsService;
     }
-    async changePass(data, authorization) {
+    async changePass(body, authorization) {
         (0, profile_controller_1.checkAccessToken)(authorization);
-        return this.settingsService.changePass(data.currentPass, data.newPass, data.id);
+        return this.settingsService.changePass(body.currentPass, body.newPass, body.id);
     }
     async sendMail(data, authorization) {
         (0, profile_controller_1.checkAccessToken)(authorization);
         return this.settingsService.sendMail(data.email, `${process.env.API_URL}/api/settings/activate/${(0, uuid_1.v4)()}`, data.id);
     }
-    async cancelActivation(id, authorization) {
+    async cancelActivation(userId, authorization) {
         (0, profile_controller_1.checkAccessToken)(authorization);
-        await this.settingsService.cancelActivation(id);
+        await this.settingsService.cancelEmailActivation(userId);
     }
     async activate(link, res, req) {
         const fullUrl = `https://${req.get('host')}${req.originalUrl}`;
-        await this.settingsService.activate(fullUrl);
+        await this.settingsService.activateEmail(fullUrl);
         res.redirect(`${process.env.CLIENT_URL}/settings/activate`);
     }
 };
 __decorate([
-    (0, common_1.Put)('/password'),
+    (0, common_1.Put)('/changePassword'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
@@ -51,7 +51,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "changePass", null);
 __decorate([
-    (0, common_1.Post)('/activate-email'),
+    (0, common_1.Post)('/activateEmail'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
@@ -59,15 +59,15 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "sendMail", null);
 __decorate([
-    (0, common_1.Delete)('/cancel-activation/:id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Delete)('/cancelEmailActivation/:userId'),
+    __param(0, (0, common_1.Param)('userId')),
     __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], SettingsController.prototype, "cancelActivation", null);
 __decorate([
-    (0, common_1.Get)('/activate/:link'),
+    (0, common_1.Get)('/activateEmail/:link'),
     __param(0, (0, common_1.Param)('link')),
     __param(1, (0, common_1.Res)({ passthrough: true })),
     __param(2, (0, common_1.Req)()),

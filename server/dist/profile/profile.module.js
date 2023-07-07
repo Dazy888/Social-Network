@@ -14,14 +14,14 @@ const profile_service_1 = require("./profile.service");
 const user_schema_1 = require("../schemas/user.schema");
 const post_schema_1 = require("../schemas/post.schema");
 const profile_schema_1 = require("../schemas/profile.schema");
-const subscriptions_schema_1 = require("../schemas/subscriptions.schema");
+const subscription_schema_1 = require("../schemas/subscription.schema");
 let ProfileModule = class ProfileModule {
 };
 ProfileModule = __decorate([
     (0, common_1.Module)({
         imports: [mongoose_1.MongooseModule.forFeature([
-                { name: 'User', schema: user_schema_1.UserSchema }, { name: 'Profile', schema: profile_schema_1.ProfileSchema },
-                { name: 'Post', schema: post_schema_1.PostSchema }, { name: 'Subscriptions', schema: subscriptions_schema_1.SubscriptionsSchema }
+                { name: 'User', schema: user_schema_1.UserSchema }, { name: 'Profile', schema: profile_schema_1.ProfileSchema }, { name: 'Post', schema: post_schema_1.PostSchema },
+                { name: 'Subscription', schema: subscription_schema_1.SubscriptionSchema }
             ])],
         controllers: [profile_controller_1.ProfileController],
         providers: [profile_service_1.ProfileService]

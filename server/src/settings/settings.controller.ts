@@ -12,28 +12,28 @@ dotenv.config()
 export class SettingsController {
     constructor(private readonly settingsService: SettingsService) {}
 
-    @Put('/password')
-    async changePass(@Body() data: ChangePassDto, @Headers('authorization') authorization: string) {
+    @Put('/changePassword')
+    async changePass(@Body() body: ChangePassDto, @Headers('authorization') authorization: string) {
         checkAccessToken(authorization)
-        return this.settingsService.changePass(data.currentPass, data.newPass, data.id)
+        return this.settingsService.changePass(body.currentPass, body.newPass, body.id)
     }
 
-    @Post('/activate-email')
+    @Post('/activateEmail')
     async sendMail(@Body() data: ActivateEmailDto, @Headers('authorization') authorization: string) {
         checkAccessToken(authorization)
         return this.settingsService.sendMail(data.email, `${process.env.API_URL}/api/settings/activate/${v4()}`, data.id)
     }
 
-    @Delete('/cancel-activation/:id')
-    async cancelActivation(@Param('id') id: string, @Headers('authorization') authorization: string) {
+    @Delete('/cancelEmailActivation/:userId')
+    async cancelActivation(@Param('userId') userId: string, @Headers('authorization') authorization: string) {
         checkAccessToken(authorization)
-        await this.settingsService.cancelActivation(id)
+        await this.settingsService.cancelEmailActivation(userId)
     }
 
-    @Get('/activate/:link')
+    @Get('/activateEmail/:link')
     async activate(@Param('link') link: string, @Res({ passthrough: true }) res: Response, @Req() req: Request) {
         const fullUrl = `https://${req.get('host')}${req.originalUrl}`
-        await this.settingsService.activate(fullUrl)
+        await this.settingsService.activateEmail(fullUrl)
         res.redirect(`${process.env.CLIENT_URL}/settings/activate`)
     }
 }

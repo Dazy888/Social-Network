@@ -22,7 +22,7 @@ __decorate([
     __metadata("design:type", String)
 ], Profile.prototype, "name", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: 'Nowhere' }),
+    (0, mongoose_1.Prop)({ default: null }),
     __metadata("design:type", String)
 ], Profile.prototype, "location", void 0);
 __decorate([
@@ -34,19 +34,19 @@ __decorate([
     __metadata("design:type", String)
 ], Profile.prototype, "avatar", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: 'Tell about yourself here.' }),
+    (0, mongoose_1.Prop)({ default: null }),
     __metadata("design:type", String)
 ], Profile.prototype, "aboutMe", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: 'Write down your skills here.' }),
+    (0, mongoose_1.Prop)({ default: null }),
     __metadata("design:type", String)
 ], Profile.prototype, "skills", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({ default: 'Tell people about your hobbies here.' }),
+    (0, mongoose_1.Prop)({ default: null }),
     __metadata("design:type", String)
 ], Profile.prototype, "hobbies", void 0);
 Profile = __decorate([
-    (0, mongoose_1.Schema)({ timestamps: true })
+    (0, mongoose_1.Schema)({ collection: 'users_profiles', timestamps: true })
 ], Profile);
 exports.Profile = Profile;
 exports.ProfileSchema = mongoose_1.SchemaFactory.createForClass(Profile);

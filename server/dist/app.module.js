@@ -10,6 +10,7 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mailer_1 = require("@nestjs-modules/mailer");
+const config_1 = require("@nestjs/config");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const auth_module_1 = require("./auth/auth.module");
@@ -21,12 +22,11 @@ let AppModule = class AppModule {
 AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            mongoose_1.MongooseModule.forRoot('mongodb+srv://David:28032006@nodejs.rgylxul.mongodb.net/social-network?retryWrites=true&w=majority'),
-            auth_module_1.AuthModule, profile_module_1.ProfileModule, settings_module_1.SettingsModule, users_module_1.UsersModule,
+            config_1.ConfigModule.forRoot({ isGlobal: true }), auth_module_1.AuthModule, profile_module_1.ProfileModule, settings_module_1.SettingsModule, users_module_1.UsersModule, mongoose_1.MongooseModule.forRoot(process.env.DB_URL),
             mailer_1.MailerModule.forRoot({
                 transport: {
                     host: process.env.SMTP_HOST,
-                    port: 465,
+                    port: process.env.SMTP_PORT,
                     auth: {
                         user: process.env.SMTP_USER,
                         pass: process.env.SMTP_PASSWORD

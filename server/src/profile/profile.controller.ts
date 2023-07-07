@@ -1,10 +1,11 @@
 import { Body, Controller, Delete, Post, Put, Param, Get, Headers, UseInterceptors, UploadedFile } from '@nestjs/common'
 import { AnyFilesInterceptor, FileInterceptor } from "@nestjs/platform-express"
 import { ProfileService } from "./profile.service"
+// Token functions
 import { checkToken } from "../auth/auth.controller"
 import { validateToken } from "../auth/auth.service"
 // DTOs
-import { CreatePostDto, SetProfileImageDto, SetProfileInfoDto, SetProfileIntroDto, SetSubscriptionDto } from "./dtos/profile.dtos"
+import { CreatePostDto, FollowDto, SetProfileImageDto, SetProfileInfoDto, SetProfileIntroDto } from "./dtos/profile.dtos"
 
 export function checkAccessToken(authorization: string) {
     const accessToken = authorization.split(' ')[1]
@@ -16,16 +17,16 @@ export function checkAccessToken(authorization: string) {
 export class ProfileController {
     constructor(private readonly profileService: ProfileService) {}
 
-    @Put('intro')
-    async setProfileIntro(@Body() data: SetProfileIntroDto, @Headers('authorization') authorization: string) {
+    @Put('updateIntro')
+    async setProfileIntro(@Body() body: SetProfileIntroDto, @Headers('authorization') authorization: string) {
         checkAccessToken(authorization)
-        return this.profileService.setProfileIntro(data.text, data.field, data.id)
+        return this.profileService.updateIntro(body.text, body.field, body.id)
     }
 
     @Post('post')
-    async createPost(@Body() data: CreatePostDto, @Headers('authorization') authorization: string) {
+    async createPost(@Body() body: CreatePostDto, @Headers('authorization') authorization: string) {
         checkAccessToken(authorization)
-        return this.profileService.createPost(data.text, data.id)
+        return this.profileService.createPost(body.text, body.id)
     }
 
     @Delete('post/:postId')
@@ -34,35 +35,35 @@ export class ProfileController {
         return this.profileService.deletePost(postId)
     }
 
-    @Get('avatar/:id')
-    async getAvatar(@Param('id') id: string, @Headers('authorization') authorization: string) {
+    @Get('avatar/:userId')
+    async getAvatar(@Param('userId') userId: string, @Headers('authorization') authorization: string) {
         checkAccessToken(authorization)
-        return this.profileService.getAvatar(id)
+        return this.profileService.getAvatar(userId)
     }
 
-    @Put('profile-info')
+    @Put('updateInfo')
     @UseInterceptors(AnyFilesInterceptor())
-    async setProfileSettings(@Body() data: SetProfileInfoDto, @Headers('authorization') authorization: string) {
+    async setProfileSettings(@Body() body: SetProfileInfoDto, @Headers('authorization') authorization: string) {
         checkAccessToken(authorization)
-        return this.profileService.setProfileInfo(data.id, data.name, data.location)
+        return this.profileService.updateInfo(body.id, body.name, body.location)
     }
 
-    @Put('profile-image')
+    @Put('updateImage')
     @UseInterceptors(FileInterceptor('image'))
-    async setProfileImage(@Body() data: SetProfileImageDto, @Headers('authorization') authorization: string, @UploadedFile() image: Express.Multer.File) {
+    async setProfileImage(@Body() body: SetProfileImageDto, @Headers('authorization') authorization: string, @UploadedFile() image: Express.Multer.File) {
         checkAccessToken(authorization)
-        return this.profileService.uploadProfileImage(data.id, image, data.field)
+        return this.profileService.updateImage(body.id, image, body.field)
     }
 
     @Put('follow')
-    async follow(@Body() data: SetSubscriptionDto, @Headers('authorization') authorization: string) {
+    async follow(@Body() body: FollowDto, @Headers('authorization') authorization: string) {
         checkAccessToken(authorization)
-        return this.profileService.follow(data.authorizedUserId, data.openedUserId)
+        return this.profileService.follow(body.authorizedUserId, body.openedUserId)
     }
 
-    @Put('unfollow')
-    async unfollow(@Body() data: SetSubscriptionDto, @Headers('authorization') authorization: string) {
+    @Delete('unfollow/:userId')
+    async unfollow(@Param('userId') userId: string, @Headers('authorization') authorization: string) {
         checkAccessToken(authorization)
-        return this.profileService.unfollow(data.authorizedUserId, data.openedUserId)
+        return this.profileService.unfollow(userId)
     }
 }

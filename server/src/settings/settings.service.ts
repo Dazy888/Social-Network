@@ -54,13 +54,13 @@ export class SettingsService {
         })
     }
 
-    async activate(activationLink: string) {
+    async activateEmail(activationLink: string) {
         const user = await this.userModel.findOne({ activationLink })
-        if (!user) throw new BadRequestException('Invalid email link')
+        if (!user) throw new BadRequestException('Invalid activation link')
         await this.userModel.findOneAndUpdate({ activationLink }, { isActivated: true })
     }
 
-    async cancelActivation(_id: string) {
+    async cancelEmailActivation(_id: string) {
         await this.userModel.findOneAndUpdate({ _id }, { email: '', activationLink: '' })
     }
 }

@@ -29,41 +29,41 @@ let ProfileController = class ProfileController {
     constructor(profileService) {
         this.profileService = profileService;
     }
-    async setProfileIntro(data, authorization) {
+    async setProfileIntro(body, authorization) {
         checkAccessToken(authorization);
-        return this.profileService.setProfileIntro(data.text, data.field, data.id);
+        return this.profileService.updateIntro(body.text, body.field, body.id);
     }
-    async createPost(data, authorization) {
+    async createPost(body, authorization) {
         checkAccessToken(authorization);
-        return this.profileService.createPost(data.text, data.id);
+        return this.profileService.createPost(body.text, body.id);
     }
     async deletePost(postId, authorization) {
         checkAccessToken(authorization);
         return this.profileService.deletePost(postId);
     }
-    async getAvatar(id, authorization) {
+    async getAvatar(userId, authorization) {
         checkAccessToken(authorization);
-        return this.profileService.getAvatar(id);
+        return this.profileService.getAvatar(userId);
     }
-    async setProfileSettings(data, authorization) {
+    async setProfileSettings(body, authorization) {
         checkAccessToken(authorization);
-        return this.profileService.setProfileInfo(data.id, data.name, data.location);
+        return this.profileService.updateInfo(body.id, body.name, body.location);
     }
-    async setProfileImage(data, authorization, image) {
+    async setProfileImage(body, authorization, image) {
         checkAccessToken(authorization);
-        return this.profileService.uploadProfileImage(data.id, image, data.field);
+        return this.profileService.updateImage(body.id, image, body.field);
     }
-    async follow(data, authorization) {
+    async follow(body, authorization) {
         checkAccessToken(authorization);
-        return this.profileService.follow(data.authorizedUserId, data.openedUserId);
+        return this.profileService.follow(body.authorizedUserId, body.openedUserId);
     }
-    async unfollow(data, authorization) {
+    async unfollow(userId, authorization) {
         checkAccessToken(authorization);
-        return this.profileService.unfollow(data.authorizedUserId, data.openedUserId);
+        return this.profileService.unfollow(userId);
     }
 };
 __decorate([
-    (0, common_1.Put)('intro'),
+    (0, common_1.Put)('updateIntro'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
@@ -87,15 +87,15 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "deletePost", null);
 __decorate([
-    (0, common_1.Get)('avatar/:id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)('avatar/:userId'),
+    __param(0, (0, common_1.Param)('userId')),
     __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "getAvatar", null);
 __decorate([
-    (0, common_1.Put)('profile-info'),
+    (0, common_1.Put)('updateInfo'),
     (0, common_1.UseInterceptors)((0, platform_express_1.AnyFilesInterceptor)()),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Headers)('authorization')),
@@ -104,7 +104,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "setProfileSettings", null);
 __decorate([
-    (0, common_1.Put)('profile-image'),
+    (0, common_1.Put)('updateImage'),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image')),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Headers)('authorization')),
@@ -118,15 +118,15 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [profile_dtos_1.SetSubscriptionDto, String]),
+    __metadata("design:paramtypes", [profile_dtos_1.FollowDto, String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "follow", null);
 __decorate([
-    (0, common_1.Put)('unfollow'),
-    __param(0, (0, common_1.Body)()),
+    (0, common_1.Delete)('unfollow/:userId'),
+    __param(0, (0, common_1.Param)('userId')),
     __param(1, (0, common_1.Headers)('authorization')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [profile_dtos_1.SetSubscriptionDto, String]),
+    __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "unfollow", null);
 ProfileController = __decorate([

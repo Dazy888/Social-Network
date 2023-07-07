@@ -27,11 +27,11 @@ export declare type ProfileDocument = Profile & Document;
 export declare class Profile {
     userId: string;
     name: string;
-    location: string;
+    location: string | null;
     banner: string | null;
     avatar: string | null;
-    aboutMe: string;
-    skills: string;
-    hobbies: string;
+    aboutMe: string | null;
+    skills: string | null;
+    hobbies: string | null;
 }
 export declare const ProfileSchema: import("mongoose").Schema<Profile, import("mongoose").Model<Profile, any, any, any, any>, {}, {}, {}, {}, "type", Profile>;

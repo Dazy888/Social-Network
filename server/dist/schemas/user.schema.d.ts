@@ -27,7 +27,7 @@ export declare type UserDocument = User & Document;
 export declare class User {
     userName: string;
     pass: string;
-    isActivated: boolean;
+    isEmailActivated: boolean;
     activationLink: string | null;
     email: string | null;
 }

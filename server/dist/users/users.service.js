@@ -25,24 +25,20 @@ let UsersService = class UsersService {
     }
     async getUsers(skip, userId) {
         const length = await this.profileModel.count();
-        const profiles = await this.profileModel.find({ userId: { $ne: userId } }).skip(skip).limit(20);
-        const usersData = [];
-        for (const profile of profiles) {
-            usersData.push({
-                id: profile.userId,
-                name: profile.name,
-                location: profile.location,
-                avatar: profile.avatar,
-            });
-        }
-        return { usersData, length };
+        const profiles = await this.profileModel.find({ userId: { $ne: userId } }, { userId: 1, name: 1, location: 1, avatar: 1, _id: 0 }).skip(skip).limit(20);
+        return { profiles, length };
     }
     async getUser(userId) {
-        const profile = await this.profileModel.findOne({ userId });
-        delete profile.userId;
+        const profile = await this.profileModel.findOne({ userId }, { name: 1, location: 1, avatar: 1, banner: 1, aboutMe: 1, skills: 1, hobbies: 1, _id: 0 });
         const posts = await this.postModel.find({ userId });
-        const subscriptions = await this.subscriptionsModel.find({ userId });
-        return Object.assign(Object.assign(Object.assign({}, profile), subscriptions), { posts });
+        const followers = await this.subscriptionsModel.find({ followedUserId: userId }, { userId: 1, _id: 0 });
+        const followings = await this.subscriptionsModel.find({ userId }, { followedUserId: 1, _id: 0 });
+        const followersIds = followers.map((follower) => follower.userId);
+        const followingsIds = followings.map((following) => following.followedUserId);
+        return Object.assign(Object.assign({}, profile), { posts, subscriptions: {
+                followers: followersIds,
+                followings: followingsIds
+            } });
     }
 };
 UsersService = __decorate([

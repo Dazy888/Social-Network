@@ -3,7 +3,7 @@ import { Document } from "mongoose"
 
 export type ProfileDocument = Profile & Document
 
-@Schema({ timestamps: true })
+@Schema({ collection: 'users_profiles', timestamps: true })
 export class Profile {
     @Prop()
     userId: string
@@ -11,8 +11,8 @@ export class Profile {
     @Prop()
     name: string
 
-    @Prop({ default: 'Nowhere' })
-    location: string
+    @Prop({ default: null })
+    location: string | null
 
     @Prop({ default: null })
     banner: string | null
@@ -20,14 +20,14 @@ export class Profile {
     @Prop({ default: null })
     avatar: string | null
 
-    @Prop({ default: 'Tell about yourself here.' })
-    aboutMe: string
+    @Prop({ default: null })
+    aboutMe: string | null
 
-    @Prop({ default: 'Write down your skills here.' })
-    skills: string
+    @Prop({ default: null })
+    skills: string | null
 
-    @Prop({ default: 'Tell people about your hobbies here.' })
-    hobbies: string
+    @Prop({ default: null })
+    hobbies: string | null
 }
 
 export const ProfileSchema = SchemaFactory.createForClass(Profile)

@@ -7,6 +7,6 @@ export declare class SettingsService {
     constructor(userModel: Model<UserDocument>, mailerService: MailerService);
     changePass(currentPass: string, newPass: string, _id: string): Promise<void>;
     sendMail(email: string, activationLink: string, _id: string): Promise<void>;
-    activate(activationLink: string): Promise<void>;
-    cancelActivation(_id: string): Promise<void>;
+    activateEmail(activationLink: string): Promise<void>;
+    cancelEmailActivation(_id: string): Promise<void>;
 }

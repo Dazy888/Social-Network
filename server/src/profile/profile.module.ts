@@ -6,12 +6,12 @@ import { ProfileService } from "./profile.service"
 import { UserSchema } from "../schemas/user.schema"
 import { PostSchema } from "../schemas/post.schema"
 import { ProfileSchema } from "../schemas/profile.schema"
-import { SubscriptionsSchema } from "../schemas/subscriptions.schema"
+import { SubscriptionSchema } from "../schemas/subscription.schema"
 
 @Module({
     imports: [MongooseModule.forFeature([
-        { name: 'User', schema: UserSchema }, { name: 'Profile', schema: ProfileSchema },
-        { name: 'Post', schema: PostSchema }, { name: 'Subscriptions', schema: SubscriptionsSchema }
+        { name: 'User', schema: UserSchema }, { name: 'Profile', schema: ProfileSchema }, { name: 'Post', schema: PostSchema },
+        { name: 'Subscription', schema: SubscriptionSchema }
     ])],
     controllers: [ProfileController],
     providers: [ProfileService]

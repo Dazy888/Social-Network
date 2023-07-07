@@ -15,16 +15,17 @@ const user_schema_1 = require("../schemas/user.schema");
 const token_schema_1 = require("../schemas/token.schema");
 const post_schema_1 = require("../schemas/post.schema");
 const profile_schema_1 = require("../schemas/profile.schema");
+const subscription_schema_1 = require("../schemas/subscription.schema");
 let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [mongoose_1.MongooseModule.forFeature([
-                { name: 'User', schema: user_schema_1.UserSchema }, { name: 'Profile', schema: profile_schema_1.ProfileSchema },
-                { name: 'Token', schema: token_schema_1.TokenSchema }, { name: 'Post', schema: post_schema_1.PostSchema }
+                { name: 'User', schema: user_schema_1.UserSchema }, { name: 'Profile', schema: profile_schema_1.ProfileSchema }, { name: 'Token', schema: token_schema_1.TokenSchema },
+                { name: 'Post', schema: post_schema_1.PostSchema }, { name: 'Subscription', schema: subscription_schema_1.SubscriptionSchema }
             ])],
         controllers: [auth_controller_1.AuthController],
-        providers: [auth_service_1.AuthService],
+        providers: [auth_service_1.AuthService]
     })
 ], AuthModule);
 exports.AuthModule = AuthModule;

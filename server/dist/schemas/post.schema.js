@@ -22,7 +22,7 @@ __decorate([
     __metadata("design:type", String)
 ], Post.prototype, "text", void 0);
 Post = __decorate([
-    (0, mongoose_1.Schema)({ timestamps: true })
+    (0, mongoose_1.Schema)({ collection: 'users_posts', timestamps: true })
 ], Post);
 exports.Post = Post;
 exports.PostSchema = mongoose_1.SchemaFactory.createForClass(Post);

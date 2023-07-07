@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, Param, UnauthorizedException } from '@nestjs/common'
+import { Body, Controller, Post, Get, Param, UnauthorizedException, Delete } from '@nestjs/common'
 import { AuthDto } from "./dtos/auth.dto"
 import { AuthService} from "./auth.service"
 
@@ -10,17 +10,17 @@ export function checkToken(token: string) {
 export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
-    @Post('registration')
-    async registration(@Body() user: AuthDto) {
-        return this.authService.registration(user.userName, user.pass)
+    @Post('register')
+    async registration(@Body() body: AuthDto) {
+        return this.authService.registration(body.userName, body.pass)
     }
 
     @Post('login')
-    async login(@Body() user: AuthDto) {
-        return this.authService.login(user.userName, user.pass)
+    async login(@Body() body: AuthDto) {
+        return this.authService.login(body.userName, body.pass)
     }
 
-    @Get('logout/:refreshToken')
+    @Delete('logout/:refreshToken')
     async logout(@Param('refreshToken') refreshToken: string) {
         checkToken(refreshToken)
         return this.authService.logout(refreshToken)

@@ -23,7 +23,7 @@ export class SetProfileImageDto {
     field: ImageFields
 }
 
-export class SetSubscriptionDto {
+export class FollowDto {
     authorizedUserId: string
     openedUserId: string
 }

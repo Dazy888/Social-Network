@@ -22,7 +22,7 @@ __decorate([
     __metadata("design:type", String)
 ], Token.prototype, "refreshToken", void 0);
 Token = __decorate([
-    (0, mongoose_1.Schema)({ timestamps: true })
+    (0, mongoose_1.Schema)({ collection: 'users_tokens', timestamps: true })
 ], Token);
 exports.Token = Token;
 exports.TokenSchema = mongoose_1.SchemaFactory.createForClass(Token);

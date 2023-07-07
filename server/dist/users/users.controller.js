@@ -19,24 +19,24 @@ let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
     }
-    getUsers(skip, id) {
-        return this.usersService.getUsers(Number(skip), id);
+    getUsers(skip, userId) {
+        return this.usersService.getUsers(Number(skip), userId);
     }
-    getUser(id) {
-        return this.usersService.getUser(id);
+    getUser(userId) {
+        return this.usersService.getUser(userId);
     }
 };
 __decorate([
-    (0, common_1.Get)('/:skip/:id'),
+    (0, common_1.Get)('/:skip/:userId'),
     __param(0, (0, common_1.Param)('skip')),
-    __param(1, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Param)('userId')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "getUsers", null);
 __decorate([
-    (0, common_1.Get)('/:id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)('/:userId'),
+    __param(0, (0, common_1.Param)('userId')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)

@@ -63,13 +63,13 @@ let SettingsService = class SettingsService {
                 `
         });
     }
-    async activate(activationLink) {
+    async activateEmail(activationLink) {
         const user = await this.userModel.findOne({ activationLink });
         if (!user)
-            throw new common_1.BadRequestException('Invalid email link');
+            throw new common_1.BadRequestException('Invalid activation link');
         await this.userModel.findOneAndUpdate({ activationLink }, { isActivated: true });
     }
-    async cancelActivation(_id) {
+    async cancelEmailActivation(_id) {
         await this.userModel.findOneAndUpdate({ _id }, { email: '', activationLink: '' });
     }
 };

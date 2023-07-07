@@ -18,7 +18,7 @@ export declare class SetProfileImageDto {
     id: string;
     field: ImageFields;
 }
-export declare class SetSubscriptionDto {
+export declare class FollowDto {
     authorizedUserId: string;
     openedUserId: string;
 }

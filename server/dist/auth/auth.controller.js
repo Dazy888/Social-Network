@@ -25,11 +25,11 @@ let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
-    async registration(user) {
-        return this.authService.registration(user.userName, user.pass);
+    async registration(body) {
+        return this.authService.registration(body.userName, body.pass);
     }
-    async login(user) {
-        return this.authService.login(user.userName, user.pass);
+    async login(body) {
+        return this.authService.login(body.userName, body.pass);
     }
     async logout(refreshToken) {
         checkToken(refreshToken);
@@ -41,7 +41,7 @@ let AuthController = class AuthController {
     }
 };
 __decorate([
-    (0, common_1.Post)('registration'),
+    (0, common_1.Post)('register'),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [auth_dto_1.AuthDto]),
@@ -55,7 +55,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
 __decorate([
-    (0, common_1.Get)('logout/:refreshToken'),
+    (0, common_1.Delete)('logout/:refreshToken'),
     __param(0, (0, common_1.Param)('refreshToken')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

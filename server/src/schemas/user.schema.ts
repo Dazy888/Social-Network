@@ -12,7 +12,7 @@ export class User {
     pass: string
 
     @Prop({ default: false })
-    isActivated: boolean
+    isEmailActivated: boolean
 
     @Prop({ default: null })
     activationLink: string | null
