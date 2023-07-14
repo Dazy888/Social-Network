@@ -10,4 +10,4 @@ server/.vercel
 server/dist
 server/node_modules
 server/src/config/key.json
-server/src/.env
+server/.env
