@@ -1,10 +1,10 @@
 import { $api } from "@/http"
 import { AxiosResponse } from "axios"
-import {IPost, ProfileIntroFields, SetProfileImageParams, SetProfileInfoProps} from "@/models/profile.models"
+import { IPost, ProfileIntroFields, SetProfileImageParams, SetProfileInfoProps } from "@/models/profile.models"
 
 export class ProfileService {
     static setProfileIntro(text: string, field: ProfileIntroFields, id: string) {
-        return $api.put('profile/intro', { text, field, id })
+        return $api.put('profile/updateIntro', { text, field, id })
             .then(() => ({ text, field }))
             .catch(err => { throw err.response.data.message })
     }
@@ -27,14 +27,14 @@ export class ProfileService {
             .catch(err => { throw err.response.data.message })
     }
 
-    static async setProfileInfo(data: SetProfileInfoProps) {
-        return $api.put('profile/profile-info', data)
+    static async updateProfileInfo(data: SetProfileInfoProps) {
+        return $api.put('profile/updateProfileInfo', data)
             .then(() => ({ name: data.name, location: data.location }))
             .catch(err => { throw err.response.data.message })
     }
 
     static async uploadProfileImage(data: FormData) {
-        return $api.put('profile/profile-image', data)
+        return $api.put('profile/updateImage', data)
             .then((res: AxiosResponse<SetProfileImageParams>) => res.data)
             .catch(err => { throw err.response.data.message })
     }
@@ -45,8 +45,8 @@ export class ProfileService {
             .catch(err => { throw err.response.data.message })
     }
 
-    static unfollow(authorizedUserId: string, openedUserId: string) {
-        return $api.put('profile/unfollow', { authorizedUserId, openedUserId })
+    static unfollow(authorizedUserId: string) {
+        return $api.delete(`profile/unfollow/${authorizedUserId}`)
             .then((res) => res.data)
             .catch(err => { throw err.response.data.message })
     }

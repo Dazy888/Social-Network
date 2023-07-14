@@ -41,7 +41,7 @@ export class ProfileService {
         return this.profileModel.findOne({ userId }, { avatar: 1, _id: 0 })
     }
 
-    async updateInfo(userId: string, name: string, location: string) {
+    async updateProfileInfo(userId: string, name: string, location: string) {
         return this.profileModel.findOneAndUpdate({ userId }, { name, location })
     }
 

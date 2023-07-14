@@ -24,7 +24,7 @@ const ModalFormComponent = () => {
         setValue('location', currentLocation)
     }, [currentName, currentLocation])
 
-    const { mutateAsync, isLoading } = useMutation('set profile info', (data: SetProfileInfoProps) => ProfileService.setProfileInfo(data),
+    const { mutateAsync, isLoading } = useMutation('set profile info', (data: SetProfileInfoProps) => ProfileService.updateProfileInfo(data),
         {
             onSuccess(res) {
                 notify('Profile info was changed successfully', 'success')
