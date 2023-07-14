@@ -4,15 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="000cbfe8-1a17-4be3-b4fc-b6bf8582d7e7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/client/src/components/pages/profile/header-section/modal/ModalForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/pages/profile/header-section/modal/ModalForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/models/users.models.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/models/users.models.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/profile/[userId].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/profile/[userId].tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/services/profile.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/services/profile.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/client/yarn.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/profile/profile.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/profile/profile.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/profile/profile.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/profile/profile.service.ts" afterDir="false" />
-    </list>
+    <list default="true" id="000cbfe8-1a17-4be3-b4fc-b6bf8582d7e7" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -128,7 +120,7 @@
       <workItem from="1688732343760" duration="6442000" />
       <workItem from="1689363572037" duration="2639000" />
       <workItem from="1689371568065" duration="1735000" />
-      <workItem from="1689373391691" duration="2407000" />
+      <workItem from="1689373391691" duration="2712000" />
     </task>
     <servers />
   </component>
