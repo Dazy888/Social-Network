@@ -41,11 +41,11 @@ export class ProfileController {
         return this.profileService.getAvatar(userId)
     }
 
-    @Put('updateInfo')
+    @Put('updateProfileInfo')
     @UseInterceptors(AnyFilesInterceptor())
-    async setProfileSettings(@Body() body: SetProfileInfoDto, @Headers('authorization') authorization: string) {
+    async updateProfileInfo(@Body() body: SetProfileInfoDto, @Headers('authorization') authorization: string) {
         checkAccessToken(authorization)
-        return this.profileService.updateInfo(body.id, body.name, body.location)
+        return this.profileService.updateProfileInfo(body.id, body.name, body.location)
     }
 
     @Put('updateImage')

@@ -24,7 +24,20 @@ import { UsersService } from "@/services/users.service"
 
 const UserProfile = () => {
     const router = useRouter()
-    const [openedUser, setOpenedUser] = useState<PublicUserData>({ banner: '', followers: [], avatar: '', following: [], location: '', aboutMe: '', hobbies: '', name: '', posts: [], skills: ''})
+    const [openedUser, setOpenedUser] = useState<PublicUserData>({
+        banner: '',
+        avatar: '',
+        name: '',
+        location: '',
+        aboutMe: '',
+        hobbies: '',
+        skills: '',
+        posts: [],
+        subscriptions: {
+            followings: [],
+            followers: []
+        }
+    })
 
     const openedUserId: any = router.query.userId
     const initialUserId = useAppSelector(state => state.profileReducer.id)
@@ -39,22 +52,46 @@ const UserProfile = () => {
         if (openedUserId) getUser()
     }, [openedUserId])
 
-    const followingUsers = openedUser?.following.map((id: string) => <UserAvatar key={v4()} id={id}/>)
-    const followersUsers = openedUser?.followers.map((id: string) => <UserAvatar key={v4()} id={id}/>)
+    const followingUsers = openedUser?.subscriptions.followings.map((id: string) => <UserAvatar key={v4()} id={id}/>)
+    const followersUsers = openedUser?.subscriptions.followers.map((id: string) => <UserAvatar key={v4()} id={id}/>)
 
     const { isLoading:isFollowing, mutateAsync:follow } = useMutation('follow', (data: SubscriptionParams) => ProfileService.follow(data.authorizedUserId, data.openedUserId), {
-        onSuccess: (): any => setOpenedUser({ ...openedUser, followers: [...openedUser.followers, initialUserId] }),
+        onSuccess: () => {
+            setOpenedUser((prevState) => {
+                return {
+                    ...prevState,
+                    subscriptions: {
+                        followers: [...openedUser.subscriptions.followers, initialUserId],
+                        followings: openedUser.subscriptions.followings
+                    }
+                }
+            })
+        },
         onError: (err: string): any => notify(err, 'error')
     })
 
-    const { isLoading:isUnfollowing, mutateAsync:unfollow } = useMutation('unfollow', (data: SubscriptionParams) => ProfileService.unfollow(data.authorizedUserId, data.openedUserId), {
-        onSuccess: (): any => setOpenedUser({ ...openedUser, followers: openedUser.followers.filter((id: string) => id !== initialUserId) }),
+    const { isLoading:isUnfollowing, mutateAsync:unfollow } = useMutation('unfollow', (data: SubscriptionParams) => ProfileService.unfollow(data.authorizedUserId), {
+        onSuccess: () => {
+            setOpenedUser((prevState) => {
+                return {
+                    ...prevState,
+                    subscriptions: {
+                        followers: openedUser.subscriptions.followers.filter((id: string) => id !== initialUserId),
+                        followings: openedUser.subscriptions.followings
+                    }
+                }
+            })
+        },
         onError: (err: string): any => notify(err, 'error')
     })
 
-    const subscriptionBtn = openedUser?.followers.includes(initialUserId)
-        ? <SubscriptionBtn text={'Unfollow'} isRequesting={isUnfollowing} className={styles.unfollow} authorizedUserId={initialUserId} openedUserId={openedUserId} subscriptionFunc={unfollow}/>
-        : <SubscriptionBtn text={'Follow'} isRequesting={isFollowing} className={styles.follow} authorizedUserId={initialUserId} openedUserId={openedUserId} subscriptionFunc={follow}/>
+    const subscriptionBtn = openedUser?.subscriptions.followers.includes(initialUserId)
+        ?   <SubscriptionBtn text={'Unfollow'} isRequesting={isUnfollowing} className={styles.unfollow} authorizedUserId={initialUserId}
+                             openedUserId={openedUserId} subscriptionFunc={unfollow}
+            />
+        :   <SubscriptionBtn text={'Follow'} isRequesting={isFollowing} className={styles.follow} authorizedUserId={initialUserId}
+                             openedUserId={openedUserId} subscriptionFunc={follow}
+            />
 
     return(
         <MainLayout title={`${openedUser?.name || 'User'} profile`}>

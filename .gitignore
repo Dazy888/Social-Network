@@ -1,12 +1,13 @@
-./.idea
+.idea
 
 # Client files
-./client/.next
-./client/node_modules
-./client/next-env.d.ts
+client/.next
+client/node_modules/
+client/next-env.d.ts
 
 # Server files
-./server/.vercel
-./server/dist
-./server/node_modules
-./server/src/config/key.json
+server/.vercel
+server/dist
+server/node_modules
+server/src/config/key.json
+server/.env
