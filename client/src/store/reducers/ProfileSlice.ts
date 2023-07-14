@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { IPost, ProfileInfo, ProfileIntro, SetProfileImageParams } from "@/models/profile.models"
+import { Subscriptions } from "@/models/auth.models"
 
 interface ProfileState {
     id: string,
@@ -11,8 +12,7 @@ interface ProfileState {
     hobbies: string,
     skills: string,
     posts: IPost[],
-    following: string[],
-    followers: string[]
+    subscriptions: Subscriptions
 }
 
 let initialState: ProfileState = {
@@ -25,8 +25,10 @@ let initialState: ProfileState = {
     hobbies: '',
     skills: '',
     posts: [],
-    following: [],
-    followers: []
+    subscriptions: {
+        followers: [],
+        followings: []
+    }
 }
 
 export const profileSlice = createSlice({
@@ -43,8 +45,22 @@ export const profileSlice = createSlice({
             state.hobbies = action.payload.hobbies
             state.skills = action.payload.skills
             state.posts = action.payload.posts
-            state.following = action.payload.following
-            state.followers = action.payload.followers
+            state.subscriptions = action.payload.subscriptions
+        },
+        resetUser(state, action) {
+            state.id = ''
+            state.banner = ''
+            state.avatar = ''
+            state.name = ''
+            state.location = ''
+            state.aboutMe = ''
+            state.hobbies = ''
+            state.skills = ''
+            state.posts = []
+            state.subscriptions = {
+                followers: [],
+                followings: []
+            }
         },
         setProfileIntro(state, action: PayloadAction<ProfileIntro>) {
             state[action.payload.field] = action.payload.text
@@ -66,6 +82,6 @@ export const profileSlice = createSlice({
 })
 
 export const { setUser,  deletePost, addUserPost, setProfileIntro,
-    setProfileImage, setProfileInfo
+    setProfileImage, setProfileInfo, resetUser
 } = profileSlice.actions
 export const profileReducer = profileSlice.reducer

@@ -13,14 +13,14 @@ import { AuthService } from "@/services/auth.service"
 // Cookie functions
 import { createCookie } from "@/layouts/AuthLayout"
 // Store
-import { setUser } from "@/store/reducers/ProfileSlice"
+import { resetUser, setUser } from "@/store/reducers/ProfileSlice"
 import { setSettingData } from "@/store/reducers/SettingsSlice"
 
 export async function successfulLogout(router: any, dispatch: any) {
     createCookie('refreshToken', '', -1)
     createCookie('accessToken', '', -1)
     await router.push('/auth/sign-in')
-    dispatch(setUser({ avatar: '', aboutMe: '', followers: [], following: [], posts: [], banner: '', hobbies: '', name: '', location: '', skills: '', id: '' }))
+    dispatch(resetUser(null))
 }
 
 const MainLayoutComponent: React.FC<LayoutProps> = ({ children, title }) => {
@@ -31,7 +31,7 @@ const MainLayoutComponent: React.FC<LayoutProps> = ({ children, title }) => {
         {
             onSuccess(res) {
                 createCookie('accessToken', res.accessToken, 15 / (24 * 60))
-                dispatch(setUser({ ...res.user, posts: res.posts }))
+                dispatch(setUser({ ...res.user, posts: res.posts, subscriptions: res.subscriptions }))
                 dispatch(setSettingData({ email: res.user.email, isActivated: res.user.isActivated }))
             },
             onError: () => successfulLogout(router, dispatch)

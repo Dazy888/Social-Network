@@ -70,7 +70,17 @@ export class AuthService {
         const followersIds = followers.map((follower) => follower.userId)
         const followingsIds = followings.map((following) => following.followedUserId)
 
-        return { id, isEmailActivated, email, ...profile, posts, subscriptions: { followers: followersIds, followings: followingsIds } }
+        return {
+            id,
+            isEmailActivated,
+            email,
+            ...profile,
+            posts,
+            subscriptions: {
+                followers: followersIds,
+                followings: followingsIds
+            }
+        }
     }
 
     async login(userName: string, pass: string) {

@@ -10,11 +10,15 @@ export interface Tokens {
     refreshToken: string
 }
 
+export interface Subscriptions {
+    followers: string[]
+    followings: string[]
+}
+
 export interface User {
     id: string
     isActivated: boolean
     email: string | null
-    activationLink: string | null
     name: string
     location: string
     banner: string
@@ -22,8 +26,6 @@ export interface User {
     aboutMe: string
     skills: string
     hobbies: string
-    followers: string[]
-    following: string[]
 }
 
 export interface SignUpResponse {
@@ -31,12 +33,14 @@ export interface SignUpResponse {
     user: User
 }
 
-export interface SignInResponse extends SignUpResponse{
+export interface SignInResponse extends SignUpResponse {
     posts: IPost[]
+    subscriptions: Subscriptions
 }
 
 export interface RefreshResponse {
     user: User
     accessToken: string
     posts: IPost[]
+    subscriptions: Subscriptions
 }

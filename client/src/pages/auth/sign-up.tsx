@@ -17,7 +17,7 @@ const SignUp = () => {
 
     const { isLoading, mutateAsync:signUp } = useMutation('sign up', (data: IAuthForm) => AuthService.registration(data.userName, data.pass),
         {
-            onSuccess: (res) => successfulEnter(router, dispatch, res.tokens, res.user, []),
+            onSuccess: (res) => successfulEnter(router, dispatch, res.tokens, res.user, [], { followers: [], followings: [] }),
             onError: (err: string): any => notify(err, 'warning')
         })
 

@@ -1,24 +1,25 @@
 import React from "react"
-import { useRouter } from "next/router"
+import { NextRouter, useRouter } from "next/router"
 import { useMutation } from "react-query"
 import { AuthService } from "@/services/auth.service"
 import { useAppDispatch } from "@/hooks/redux"
 import { notify } from "@/components/pages/auth/form/AuthForm"
 // Models
-import { IAuthForm, Tokens, User } from "@/models/auth.models"
+import { IAuthForm, Subscriptions, Tokens, User } from "@/models/auth.models"
 import { IPost } from "@/models/profile.models"
+import { AppDispatch } from "@/store/store"
 // Components
 import { AuthPage, createCookie } from "@/layouts/AuthLayout"
 // Store
 import { setUser } from "@/store/reducers/ProfileSlice"
 import { setSettingData } from "@/store/reducers/SettingsSlice"
 
-export const successfulEnter = (router: any, dispatch: any, tokens: Tokens, userData: User, posts: IPost[] | []) => {
+export const successfulEnter = (router: NextRouter, dispatch: AppDispatch, tokens: Tokens, userData: User, posts: IPost[] | [], subscriptions: Subscriptions) => {
     createCookie('refreshToken', tokens.refreshToken, 30)
     createCookie('accessToken', tokens.accessToken, 15 / (24 * 60))
 
-    dispatch(setUser({ ...userData, posts }))
-    dispatch(setSettingData({ email: userData.email, isActivated: userData.isActivated}))
+    dispatch(setUser({ ...userData, posts, subscriptions: subscriptions }))
+    dispatch(setSettingData({ email: userData.email, isActivated: userData.isActivated }))
 
     router.push('/profile')
 }
@@ -29,7 +30,7 @@ const SignIn = () => {
 
     const { isLoading, mutateAsync:signIn } = useMutation('sign in', (data: IAuthForm) => AuthService.login(data.userName, data.pass),
         {
-            onSuccess: (res) => successfulEnter(router, dispatch, res.tokens, res.user, res.posts),
+            onSuccess: (res) => successfulEnter(router, dispatch, res.tokens, res.user, res.posts, res.subscriptions),
             onError: (err: string): any => notify(err, 'error')
         })
 
