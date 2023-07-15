@@ -50,9 +50,9 @@ export class ProfileController {
 
     @Put('updateImage')
     @UseInterceptors(FileInterceptor('image'))
-    async setProfileImage(@Body() body: SetProfileImageDto, @Headers('authorization') authorization: string, @UploadedFile() image: Express.Multer.File) {
+    async updateProfileImage(@Body() body: SetProfileImageDto, @Headers('authorization') authorization: string, @UploadedFile() image: Express.Multer.File) {
         checkAccessToken(authorization)
-        return this.profileService.updateImage(body.id, image, body.field)
+        return this.profileService.updateProfileImage(body.id, image, body.field)
     }
 
     @Put('follow')

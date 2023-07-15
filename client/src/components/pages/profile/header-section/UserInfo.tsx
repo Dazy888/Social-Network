@@ -48,7 +48,7 @@ const UserInfoComponent: React.FC<Props> = ({ avatar, name, location, forView}) 
     const { mutateAsync, isLoading } = useMutation('upload avatar', (data: FormData) => ProfileService.uploadProfileImage(data),
         {
             onSuccess(res) {
-                notify('Profile image was changed successfully', 'success')
+                notify('Profile image changed successfully', 'success')
                 dispatch(setProfileImage(res))
             },
             onError: (): any => notify('Something went wrong, reload page and try again', 'error')
@@ -58,7 +58,7 @@ const UserInfoComponent: React.FC<Props> = ({ avatar, name, location, forView}) 
     return(
         <div className={`${styles.user} absolute z-10 text-center text-white`}>
             <div className={'relative'}>
-                <img alt={'Avatar'} className={'rounded-full mb-3 object-cover'} src={avatar || 'https://storage.googleapis.com/social-network_dazy/default-avatar.webp'}/>
+                <img alt={'Avatar'} className={'rounded-full mb-3 object-cover'} src={avatar || 'https://storage.googleapis.com/social-network_dazy/profiles/avatars/default-avatar.webp'}/>
                 { !forView &&
                     <label className={`z-10 block absolute right-2 bottom-1 rounded-full w-6 h-6`}>
                         <button onClick={clickHandler} className={'w-full h-full rounded-full'}>

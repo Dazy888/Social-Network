@@ -45,9 +45,9 @@ export class ProfileService {
         return this.profileModel.findOneAndUpdate({ userId }, { name, location })
     }
 
-    async uploadFile(file: Express.Multer.File, name: string): Promise<string> {
+    async uploadFile(file: Express.Multer.File, name: string, path: string): Promise<string> {
         const uniqueFilename = v4() + '-' + name
-        const blob = this.storage.bucket(this.bucketName).file(uniqueFilename)
+        const blob = this.storage.bucket(this.bucketName).file(`${path}/${uniqueFilename}`)
 
         const stream = blob.createWriteStream({
             metadata: { contentType: file.mimetype }
@@ -62,9 +62,9 @@ export class ProfileService {
         return signedUrl
     }
 
-    async deleteFile(imagePath: string) {
+    async deleteFile(imagePath: string, matcher: RegExp) {
         const bucket = await this.storage.bucket(this.bucketName)
-        const fileName = imagePath.match(/([^\/?]+)-[^\/?]+-(?:avatar|banner)/)
+        const fileName = imagePath.match(matcher)
 
         if (fileName) {
             const file = await bucket.file(fileName[0])
@@ -72,15 +72,15 @@ export class ProfileService {
         }
     }
 
-    async updateImage(userId: string, image: Express.Multer.File, field: ImageFields) {
+    async updateProfileImage(userId: string, image: Express.Multer.File, field: ImageFields) {
         const profile: ProfileDocument = await this.profileModel.findOne({ userId })
 
-        await this.deleteFile(profile[field])
-        const publicLink = await this.uploadFile(image, profile.name + '-' + field)
+        await this.deleteFile(profile[field] || '', /profiles\/(?:avatars|banners)\/([^\/?]+)-[^\/?]+-(?:avatar|banner)/)
+        const publicLink = await this.uploadFile(image, profile.name + '-' + field, `profiles/${field}s`)
         await this.profileModel.findOneAndUpdate({ userId }, { [field]: publicLink })
 
-        const updatedImageSrc: string = await this.profileModel.findOne({ userId }, { [field]: 1, _id: 0 })
-        return { src: updatedImageSrc, field }
+        const updatedImageSrc = await this.profileModel.findOne({ userId }, { [field]: 1, _id: 0 }).lean()
+        return { src: updatedImageSrc[field], field }
     }
 
     async follow(authorizedUserId: string, openedUserId: string) {
