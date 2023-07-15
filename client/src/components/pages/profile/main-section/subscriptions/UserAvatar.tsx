@@ -16,7 +16,9 @@ const UserAvatarComponent: React.FC<Props> = ({ id }) => {
     const [avatar, setAvatar] = useState('')
 
     const {} = useQuery('get avatar', () => ProfileService.getAvatar(id), {
-        onSuccess: (res) => setAvatar(res),
+        onSuccess: (res) => {
+            setAvatar(res || 'https://storage.googleapis.com/social-network_dazy/profiles/avatars/default-avatar.webp')
+        },
         onError: (err: string) => notify(err, 'error')
     })
 
@@ -24,7 +26,7 @@ const UserAvatarComponent: React.FC<Props> = ({ id }) => {
 
     return(
         <div onClick={() => goToProfile(id)} className={styles['subscriptions__user']}>
-            {avatar && <img className={'w-9 h-9 rounded-full cursor-pointer object-cover'} alt={'Avatar'} src={avatar || 'https://storage.googleapis.com/social-network_dazy/default-avatar.webp'}/>}
+            {avatar && <img className={'w-9 h-9 rounded-full cursor-pointer object-cover'} alt={'Avatar'} src={avatar || 'https://storage.googleapis.com/social-network_dazy/profiles/avatars/default-avatar.webp'}/>}
         </div>
     )
 }

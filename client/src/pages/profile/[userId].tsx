@@ -18,6 +18,7 @@ import { Subscriptions } from "@/components/pages/profile/main-section/subscript
 import { UserAvatar } from "@/components/pages/profile/main-section/subscriptions/UserAvatar"
 import { SubscriptionBtn } from "@/components/pages/profile/header-section/SubscriptionBtn"
 import { HeaderSection } from "@/components/pages/profile/header-section/HeaderSection"
+import { Loader } from "@/components/common/Loader"
 // Services
 import { ProfileService } from "@/services/profile.service"
 import { UsersService } from "@/services/users.service"
@@ -95,18 +96,17 @@ const UserProfile = () => {
 
     return(
         <MainLayout title={`${openedUser?.name || 'User'} profile`}>
-            <div id={styles.profile} className={'my-24 mx-auto'}>
-                {openedUser.banner &&
-                    <>
+            {openedUser.name
+                ?   <div id={styles.profile} className={'my-24 mx-auto'}>
                         <HeaderSection banner={openedUser.banner} avatar={openedUser.avatar} name={openedUser.name} location={openedUser.location} subscriptionBtn={subscriptionBtn} forView={true} />
                         <section id={styles.main} className={'grid gap-12 mt-14 text-white'}>
                             <ProfileIntro forView={true} aboutMe={openedUser.aboutMe} hobbies={openedUser.hobbies} skills={openedUser.skills}/>
                             <div className={styles.posts}>{getPostsElements(openedUser.posts, openedUser.avatar, openedUser.name, true)}</div>
                             <Subscriptions followers={followersUsers} following={followingUsers}/>
                         </section>
-                    </>
-                }
-            </div>
+                    </div>
+                :   <Loader />
+            }
         </MainLayout>
     )
 }

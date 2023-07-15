@@ -17,10 +17,10 @@ import { Loader } from "@/components/pages/settings/Loader"
 const Password = () => {
     const id = useAppSelector(state => state.profileReducer.id)
 
-    const { mutateAsync, isLoading } = useMutation('set pass', (data: ChangePassParams) => SettingsService.changePassword(data.currentPass, data.newPass, data.id),
+    const { mutateAsync, isLoading, isSuccess } = useMutation('set pass', (data: ChangePassParams) => SettingsService.changePassword(data.currentPass, data.newPass, data.id),
         {
             onSuccess() {
-                notify('Password was successfully changed', 'success')
+                notify('Password changed successfully', 'success')
                 reset()
             },
             onError: (err: string): any => notify(err, 'error')
@@ -46,14 +46,14 @@ const Password = () => {
             <Title title={'Password Settings'}/>
             <hr className={'w-full h-px'}/>
             <form className={`py-10 px-6 ${styles['settings-form']}`} onSubmit={handleSubmit(onSubmit)}>
-                <ChangePassInput errorMessage={errors.currentPass?.message} isError={!!(errors.currentPass?.message && touchedFields.currentPass)} register={register} name={'currentPass'}
+                <ChangePassInput isSuccess={isSuccess} errorMessage={errors.currentPass?.message} isError={!!(errors.currentPass?.message && touchedFields.currentPass)} register={register} name={'currentPass'}
                                  placeholder={'Current'} setFocus={setFocus} value={currentPass}
                 />
                 <div className={`${styles['pass-inputs']} grid grid-cols-2 gap-10 mt-6`}>
-                    <ChangePassInput errorMessage={errors.newPass?.message} isError={!!(errors.newPass?.message && touchedFields.newPass)} register={register} name={'newPass'}
+                    <ChangePassInput isSuccess={isSuccess} errorMessage={errors.newPass?.message} isError={!!(errors.newPass?.message && touchedFields.newPass)} register={register} name={'newPass'}
                                      placeholder={'New'} setFocus={setFocus} value={newPass}
                     />
-                    <ChangePassInput errorMessage={errors.confirmPass?.message} isError={!!(errors.confirmPass?.message && touchedFields.confirmPass)} register={register} name={'confirmPass'}
+                    <ChangePassInput isSuccess={isSuccess} errorMessage={errors.confirmPass?.message} isError={!!(errors.confirmPass?.message && touchedFields.confirmPass)} register={register} name={'confirmPass'}
                                      placeholder={'Confirm'} setFocus={setFocus} value={confirmPass}
                     />
                 </div>

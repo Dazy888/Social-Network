@@ -8,6 +8,7 @@ import { MainLayout } from "@/layouts/MainLayout"
 import { Post } from "@/components/pages/profile/main-section/posts/Post"
 import { HeaderSection } from "@/components/pages/profile/header-section/HeaderSection"
 import { MainSection } from "@/components/pages/profile/main-section/MainSection"
+import { Loader } from "@/components/common/Loader"
 
 export const getPostsElements = (posts: IPost[], avatar: string, name: string, forView: boolean) => {
     return [...posts].reverse().map(({ _id, text, createdAt}) => {
@@ -49,11 +50,12 @@ const Profile = () => {
 
     return(
         <MainLayout title={'Profile'}>
-            {banner &&
-                <div id={styles.profile} className={'my-24 mx-auto'}>
-                    <HeaderSection {...{ name, avatar, location, banner }} forView={false} />
-                    <MainSection />
-                </div>
+            {name
+                ?   <div id={styles.profile} className={'my-24 mx-auto'}>
+                        <HeaderSection {...{ name, avatar, location, banner }} forView={false} />
+                        <MainSection />
+                    </div>
+                :   <Loader />
             }
         </MainLayout>
     )

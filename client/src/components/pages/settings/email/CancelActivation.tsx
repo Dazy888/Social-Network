@@ -12,14 +12,14 @@ interface Props {
     setIsFocus: (state: boolean) => void
 }
 
-const ActivationMessageComponent: React.FC<Props> = ({ setValue, setIsFocus}) => {
+const CancelActivationComponent: React.FC<Props> = ({ setValue, setIsFocus}) => {
     const dispatch = useAppDispatch()
     const id = useAppSelector(state => state.profileReducer.id)
 
     const { mutateAsync:cancelActivation, isLoading } = useMutation('cancel activation', (data: Pick<ActivateEmailParams, 'id'>) => SettingsService.cancelActivation(data.id),
         {
             onSuccess() {
-                notify('Activation was canceled successfully', 'success')
+                notify('Activation canceled successfully', 'success')
                 dispatch(setEmail(''))
                 setValue('email', '')
                 setIsFocus(false)
@@ -31,9 +31,10 @@ const ActivationMessageComponent: React.FC<Props> = ({ setValue, setIsFocus}) =>
     return(
         <>
             <hr />
-            <button disabled={isLoading} className={`${styles.cancel} rounded-lg py-2 px-10 text-lg font-medium duration-300 my-7 mx-auto block text-white`} onClick={() => cancelActivation({ id })}>Cancel</button>
+            <button disabled={isLoading} className={`${styles.cancel} rounded-lg py-2 px-10 text-lg font-medium duration-300 my-7 mx-auto block text-white`}
+                    onClick={() => cancelActivation({ id })}>Cancel</button>
         </>
     )
 }
 
-export const ActivationMessage = React.memo(ActivationMessageComponent)
+export const CancelActivation = React.memo(CancelActivationComponent)

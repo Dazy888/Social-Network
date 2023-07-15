@@ -42,7 +42,7 @@ const UploadBannerBtnComponent: React.FC<Props> = ({ setBannerLoading }) => {
     const { mutateAsync, isLoading } = useMutation('upload banner', (data: FormData) => ProfileService.uploadProfileImage(data),
         {
             onSuccess(res) {
-                notify('Profile image was changed successfully', 'success')
+                notify('Profile image changed successfully', 'success')
                 dispatch(setProfileImage(res))
             },
             onError: (): any => notify('Something went wrong, reload page and try again', 'error')
@@ -58,7 +58,7 @@ const UploadBannerBtnComponent: React.FC<Props> = ({ setBannerLoading }) => {
                     <i className={'fa-solid fa-camera mr-2'} />
                     <span>Upload photo</span>
                 </button>
-                <input ref={inputRef} disabled={isLoading} accept={'image/*'} className={'hidden'} type={'file'} />
+                <input ref={inputRef} disabled={isLoading} accept={'image/*'} className={'hidden'} onChange={changeListener} type={'file'} />
             </label>
         </div>
     )

@@ -13,11 +13,10 @@ const MainSectionComponent = () => {
     const aboutMe = useAppSelector(state => state.profileReducer.aboutMe)
     const skills = useAppSelector(state => state.profileReducer.skills)
     const hobbies = useAppSelector(state => state.profileReducer.hobbies)
-    const followers = useAppSelector(state => state.profileReducer.subscriptions.followers)
-    const following = useAppSelector(state => state.profileReducer.subscriptions.followings)
+    const subscriptions = useAppSelector(state => state.profileReducer.subscriptions)
 
-    const followingUsers = following.map((userId) => <UserAvatar key={v4()} id={userId}/>)
-    const followersUsers = followers.map((userId) => <UserAvatar key={v4()} id={userId}/>)
+    const followingUsers = subscriptions.followings.map((userId) => <UserAvatar key={v4()} id={userId}/>)
+    const followersUsers = subscriptions.followers.map((userId) => <UserAvatar key={v4()} id={userId}/>)
 
     return(
         <section id={styles.main} className={'grid gap-12 mt-14 text-white'}>

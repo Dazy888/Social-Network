@@ -5,7 +5,7 @@ import { getCookie } from "@/layouts/AuthLayout"
 
 export class AuthService {
     static registration(userName: string, pass: string) {
-        return $api.post('auth/registration', { userName, pass })
+        return $api.post('auth/register', { userName, pass })
             .then((res: AxiosResponse<SignUpResponse>) => res.data)
             .catch(err => { throw err.response.data.message })
     }
