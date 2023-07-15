@@ -50,7 +50,7 @@ const UserInfoComponent: React.FC<Pick<User, 'avatar' | 'name' | 'location'>> = 
     return(
         <div className={`${styles.user} absolute z-10 text-center text-white`}>
             <div className={'relative'}>
-                <img alt={'Avatar'} className={'rounded-full mb-3 object-cover'} src={avatar}/>
+                <img alt={'Avatar'} className={'rounded-full mb-3 object-cover'} src={avatar || 'https://storage.googleapis.com/social-network_dazy/default-avatar.webp'}/>
                 <label className={`z-10 block absolute right-2 bottom-1 rounded-full w-6 h-6`}>
                     <button onClick={clickHandler} className={'w-full h-full rounded-full'}>
                         <i className={'fa-solid fa-camera-retro text-xs'} />

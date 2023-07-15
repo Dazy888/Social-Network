@@ -30,7 +30,7 @@ const SignIn = () => {
 
     const { isLoading, mutateAsync:signIn } = useMutation('sign in', (data: IAuthForm) => AuthService.login(data.userName, data.pass),
         {
-            onSuccess: (res) => successfulEnter(router, dispatch, res.tokens, res.user, res.posts, res.subscriptions),
+            onSuccess: (res) => successfulEnter(router, dispatch, res.tokens, res.user, res.user.posts, res.user.subscriptions),
             onError: (err: string): any => notify(err, 'error')
         })
 

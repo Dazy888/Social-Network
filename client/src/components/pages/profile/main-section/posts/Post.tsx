@@ -30,7 +30,7 @@ const PostComponent: React.FC<Props> = ({ avatar, name, createdAt, text, postId,
         <div className={`${styles.post} w-full h-fit p-6 mb-7`}>
             <div className={`${styles['post__header']} flex justify-between mb-5 relative`}>
                 <div className={`${styles['post__user']} w-fit text-left flex justify-between items-center`}>
-                    <img className={'w-10 h-10 mr-3 rounded-full object-cover'} alt={'avatar'} src={avatar}/>
+                    <img className={'w-10 h-10 mr-3 rounded-full object-cover'} alt={'avatar'} src={avatar || 'https://storage.googleapis.com/social-network_dazy/default-avatar.webp'}/>
                     <div className={styles['post__information']}>
                         <h3 className={'text-base font-medium'}>{name}</h3>
                         <p className={'text-xs'}>{createdAt}</p>
