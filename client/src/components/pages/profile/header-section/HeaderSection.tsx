@@ -21,7 +21,7 @@ const HeaderSectionComponent: React.FC<Props> = ({ name, avatar, location, forVi
     return(
         <section id={styles.header} className={'w-full h-fit relative'}>
             <Banner isLoading={isBannerLoading} src={banner} />
-            <UserInfo {...{ name, avatar, location }} />
+            <UserInfo {...{ name, avatar, location, forView }} />
             <Tile subscriptionBtn={subscriptionBtn} />
             {!forView && <Settings setBannerLoading={setBannerLoading} /> }
             {isBannerLoading && <PulseLoader className={`absolute ${styles['banner-loader']}`} color={'#f92552'} />}

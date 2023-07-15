@@ -6,9 +6,11 @@ export interface PublicUserData extends Omit<User, 'email' | 'isActivated' | 'id
     subscriptions: Subscriptions
 }
 
-export type IUserPreview = Pick<User, 'id' | 'name' | 'location' | 'avatar'>
+export interface IUserPreview extends Pick<User, 'name' | 'location' | 'avatar'>{
+    userId: string
+}
 
 export interface UsersResponse {
-    usersData: IUserPreview[],
+    profiles: IUserPreview[],
     length: number
 }

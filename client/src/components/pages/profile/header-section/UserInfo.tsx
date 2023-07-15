@@ -3,12 +3,20 @@ import { useMutation } from "react-query"
 import styles from "@/styles/Profile.module.scss"
 import { User } from "@/models/auth.models"
 import { useAppDispatch, useAppSelector } from "@/hooks/redux"
+// HTTP Service
 import { ProfileService } from "@/services/profile.service"
+// Alert
 import { notify } from "@/components/pages/auth/form/AuthForm"
+// Store
 import { setProfileImage } from "@/store/reducers/ProfileSlice"
+// Loader
 import { PulseLoader } from "react-spinners"
 
-const UserInfoComponent: React.FC<Pick<User, 'avatar' | 'name' | 'location'>> = ({ avatar, name, location}) => {
+interface Props extends Pick<User, 'avatar' | 'name' | 'location'> {
+    forView: boolean
+}
+
+const UserInfoComponent: React.FC<Props> = ({ avatar, name, location, forView}) => {
     const inputRef: RefObject<HTMLInputElement> = useRef(null)
     const dispatch = useAppDispatch()
 
@@ -51,12 +59,14 @@ const UserInfoComponent: React.FC<Pick<User, 'avatar' | 'name' | 'location'>> = 
         <div className={`${styles.user} absolute z-10 text-center text-white`}>
             <div className={'relative'}>
                 <img alt={'Avatar'} className={'rounded-full mb-3 object-cover'} src={avatar || 'https://storage.googleapis.com/social-network_dazy/default-avatar.webp'}/>
-                <label className={`z-10 block absolute right-2 bottom-1 rounded-full w-6 h-6`}>
-                    <button onClick={clickHandler} className={'w-full h-full rounded-full'}>
-                        <i className={'fa-solid fa-camera-retro text-xs'} />
-                    </button>
-                    <input ref={inputRef} disabled={isLoading} accept={'image/*'} className={'hidden'} type={'file'} onChange={(e) => changeListener(e)}/>
-                </label>
+                { !forView &&
+                    <label className={`z-10 block absolute right-2 bottom-1 rounded-full w-6 h-6`}>
+                        <button onClick={clickHandler} className={'w-full h-full rounded-full'}>
+                            <i className={'fa-solid fa-camera-retro text-xs'} />
+                        </button>
+                        <input ref={inputRef} disabled={isLoading} accept={'image/*'} className={'hidden'} type={'file'} onChange={(e) => changeListener(e)}/>
+                    </label>
+                }
                 {isLoading && <div className={`w-full h-full absolute top-0 ${styles['loader-background']}`}></div>}
                 {isLoading && <PulseLoader className={`absolute z-10 ${styles['avatar-loader']}`} color={'#f92552'} />}
             </div>
