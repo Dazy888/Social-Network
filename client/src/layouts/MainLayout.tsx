@@ -8,6 +8,7 @@ import { LayoutProps } from "@/models/layouts.models"
 import styles from '@/styles/MainLayout.module.scss'
 // Components
 import { Header } from "@/components/layouts/main/header/Header"
+import { Loader } from "@/components/common/Loader"
 // Service
 import { AuthService } from "@/services/auth.service"
 // Cookie functions
@@ -31,8 +32,8 @@ const MainLayoutComponent: React.FC<LayoutProps> = ({ children, title }) => {
         {
             onSuccess(res) {
                 createCookie('accessToken', res.accessToken, 15 / (24 * 60))
-                dispatch(setUser({ ...res.user, posts: res.posts, subscriptions: res.subscriptions }))
-                dispatch(setSettingData({ email: res.user.email, isActivated: res.user.isActivated }))
+                dispatch(setUser({ ...res.user, posts: res.user.posts, subscriptions: res.user.subscriptions }))
+                dispatch(setSettingData({ email: res.user.email, isEmailActivated: res.user.isEmailActivated }))
             },
             onError: () => successfulLogout(router, dispatch)
         })
@@ -49,7 +50,7 @@ const MainLayoutComponent: React.FC<LayoutProps> = ({ children, title }) => {
             <div id={styles['app-wrapper']} className={'grid'}>
                 <Header />
                 <main className={'min-h-screen flex justify-center items-center'}>
-                    {!isLoading ? children : <div className={styles.loader}></div> }
+                    {!isLoading ? children : <Loader /> }
                 </main>
             </div>
         </>

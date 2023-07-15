@@ -11,6 +11,7 @@ import { notify } from "@/components/pages/auth/form/AuthForm"
 import { setProfileInfo } from "@/store/reducers/ProfileSlice"
 // Models
 import { ProfileInfo, SetProfileInfoProps } from "@/models/profile.models"
+import {Loader} from "@/components/common/Loader";
 
 const ModalFormComponent = () => {
     const dispatch = useAppDispatch()
@@ -52,7 +53,10 @@ const ModalFormComponent = () => {
                 <ProfileInput pattern={/^[A-Za-z0-9-_]+$/} isError={!!(errors.name?.message && touchedFields.name)} register={register} name={'name'} />
                 <ProfileInput pattern={/^[A-Za-z0-9,\-\s]+$/} isError={!!(errors.location?.message && touchedFields.location)} register={register} name={'location'} />
             </div>
-            <button type={'submit'} className={`block text-smd font-medium rounded-lg mx-auto py-2.5 px-5 text-white mt-10 ${styles.submit}`}>Submit</button>
+            { isLoading
+                ? <div className={'w-fit mx-auto mt-10'}><Loader /></div>
+                : <button type={'submit'} className={`block text-smd font-medium rounded-lg mx-auto py-2.5 px-5 text-white mt-10 ${styles.submit}`}>Submit</button>
+            }
         </form>
     )
 }

@@ -32,35 +32,33 @@ export class SettingsService {
             html:
                 `
                     <div>
-                        <h3>
+                        <p>
                             Dear user,
-                            <br/>
+                            <br/><br/>
                             Thank you for choosing our social network! We are happy to welcome you to our community.
                             <br/>
-                            To activate your account, you need to verify your email address by following the link below:
-                            <br/>
-                            <a href="${activationLink}">${activationLink}</a>
+                            To activate your account, you need to verify your email address by following the link below: <a href="${activationLink}">${activationLink}</a>
                             <br/>
                             If you have not registered on our site, please ignore this email.
                             <br/>
                             If you have any questions or need additional assistance, please do not hesitate to contact our support team.
-                            <br/>
+                            <br/><br/>
                             With best regards,
                             <br/>
                             The team of our social network
-                        </h3>
+                        </p>
                     </div>
                 `
         })
     }
 
     async activateEmail(activationLink: string) {
-        const user = await this.userModel.findOne({ activationLink })
+        const user: UserDocument = await this.userModel.findOne({ activationLink })
         if (!user) throw new BadRequestException('Invalid activation link')
-        await this.userModel.findOneAndUpdate({ activationLink }, { isActivated: true })
+        await this.userModel.findOneAndUpdate({ id: user.id }, { isEmailActivated: true })
     }
 
     async cancelEmailActivation(_id: string) {
-        await this.userModel.findOneAndUpdate({ _id }, { email: '', activationLink: '' })
+        await this.userModel.findOneAndUpdate({ _id }, { email: null, activationLink: null })
     }
 }

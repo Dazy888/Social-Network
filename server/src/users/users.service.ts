@@ -21,7 +21,7 @@ export class UsersService {
     }
 
     async getUser(userId: string) {
-        const profile: ProfileDocument = await this.profileModel.findOne({ userId }, { name: 1, location: 1, avatar: 1, banner: 1, aboutMe: 1, skills: 1, hobbies: 1, _id: 0 })
+        const profile: ProfileDocument = await this.profileModel.findOne({ userId }, { name: 1, location: 1, avatar: 1, banner: 1, aboutMe: 1, skills: 1, hobbies: 1, _id: 0 }).lean()
         const posts: PostDocument[] = await this.postModel.find({ userId })
         const followers: SubscriptionDocument[] = await this.subscriptionsModel.find({ followedUserId: userId }, { userId: 1, _id: 0 })
         const followings: SubscriptionDocument[] = await this.subscriptionsModel.find({ userId }, { followedUserId: 1, _id: 0 })

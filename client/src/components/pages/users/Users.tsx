@@ -4,7 +4,9 @@ import { v4 } from "uuid"
 import styles from "@/styles/Users.module.scss"
 import ReactPaginate from "react-paginate"
 import { IUserPreview } from "@/models/users.models"
+// Alert
 import { notify } from "@/components/pages/auth/form/AuthForm"
+// Components
 import { UserPreview } from "@/components/pages/users/User"
 
 interface Props {
@@ -54,7 +56,7 @@ const UsersListComponent: React.FC<Props> = ({ setSkip, refetch, users, length, 
         refetch()
     }
 
-    const usersElem = users.map((user) => <UserPreview location={user.location} avatar={user.avatar} name={user.name} id={user.id} key={v4()} />)
+    const usersElem = users.map((user) => <UserPreview location={user.location} avatar={user.avatar} name={user.name} id={user.userId} key={v4()} />)
     const usersLength = usersElem.length
 
     useEffect(() => {
@@ -67,7 +69,7 @@ const UsersListComponent: React.FC<Props> = ({ setSkip, refetch, users, length, 
         }
 
         updateGridCols()
-    }, [windowWidth, usersLength]);
+    }, [windowWidth, usersLength])
 
     return(
         <div className={'pt-20'}>

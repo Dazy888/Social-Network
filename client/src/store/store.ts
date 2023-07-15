@@ -2,9 +2,8 @@ import { combineReducers } from "redux"
 import { configureStore } from "@reduxjs/toolkit"
 import { profileReducer } from "@/store/reducers/ProfileSlice"
 import { settingsReducer } from "@/store/reducers/SettingsSlice"
-import { usersReducer } from "@/store/reducers/UsersSlice"
 
-const rootReducer = combineReducers({ profileReducer, settingsReducer, usersReducer })
+const rootReducer = combineReducers({ profileReducer, settingsReducer })
 
 export const store = configureStore({ reducer: rootReducer })
 

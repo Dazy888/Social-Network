@@ -11,8 +11,8 @@ export class Profile {
     @Prop()
     name: string
 
-    @Prop({ default: null })
-    location: string | null
+    @Prop({ default: 'Nowhere' })
+    location: string
 
     @Prop({ default: null })
     banner: string | null
@@ -20,14 +20,14 @@ export class Profile {
     @Prop({ default: null })
     avatar: string | null
 
-    @Prop({ default: null })
-    aboutMe: string | null
+    @Prop({ default: 'Tell about yourself here.' })
+    aboutMe: string
 
-    @Prop({ default: null })
-    skills: string | null
+    @Prop({ default: 'Tell people about your hobbies here.' })
+    hobbies: string
 
-    @Prop({ default: null })
-    hobbies: string | null
+    @Prop({ default: 'Write your skills here.' })
+    skills: string
 }
 
 export const ProfileSchema = SchemaFactory.createForClass(Profile)

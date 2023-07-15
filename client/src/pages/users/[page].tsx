@@ -7,6 +7,7 @@ import { IUserPreview } from "@/models/users.models"
 // Components
 import { MainLayout } from "@/layouts/MainLayout"
 import { UsersList } from "@/components/pages/users/Users"
+import { Loader } from "@/components/common/Loader"
 
 const Users = () => {
     const [users, setUsers] = useState<IUserPreview[]>([])
@@ -18,7 +19,7 @@ const Users = () => {
     const { refetch, isLoading } = useQuery('get users', () => UsersService.getUsers(skip, id), {
         onSuccess(res) {
             setLength(res.length)
-            setUsers(res.usersData)
+            setUsers(res.profiles)
         },
         onError: (err: string) => notify(err, 'error'),
         enabled: false
@@ -30,7 +31,7 @@ const Users = () => {
 
     return (
         <MainLayout title={'Users'}>
-            { !isLoading && <UsersList {...{ isLoading, users, length, setSkip, refetch }} /> }
+            {isLoading ? <Loader /> : <UsersList {...{ isLoading, users, length, setSkip, refetch }} />}
         </MainLayout>
     )
 }

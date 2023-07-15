@@ -17,7 +17,7 @@ export interface Subscriptions {
 
 export interface User {
     id: string
-    isActivated: boolean
+    isEmailActivated: boolean
     email: string | null
     name: string
     location: string
@@ -28,19 +28,32 @@ export interface User {
     hobbies: string
 }
 
+export interface ExtendedUser {
+    id: string
+    isEmailActivated: boolean
+    email: string | null
+    name: string
+    location: string
+    banner: string
+    avatar: string
+    aboutMe: string
+    skills: string
+    hobbies: string
+    posts: IPost[]
+    subscriptions: Subscriptions
+}
+
 export interface SignUpResponse {
     tokens: Tokens
     user: User
 }
 
 export interface SignInResponse extends SignUpResponse {
-    posts: IPost[]
-    subscriptions: Subscriptions
+    tokens: Tokens
+    user: ExtendedUser
 }
 
 export interface RefreshResponse {
-    user: User
+    user: ExtendedUser
     accessToken: string
-    posts: IPost[]
-    subscriptions: Subscriptions
 }

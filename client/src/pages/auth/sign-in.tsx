@@ -19,7 +19,7 @@ export const successfulEnter = (router: NextRouter, dispatch: AppDispatch, token
     createCookie('accessToken', tokens.accessToken, 15 / (24 * 60))
 
     dispatch(setUser({ ...userData, posts, subscriptions: subscriptions }))
-    dispatch(setSettingData({ email: userData.email, isActivated: userData.isActivated }))
+    dispatch(setSettingData({ email: userData.email, isEmailActivated: userData.isEmailActivated }))
 
     router.push('/profile')
 }
@@ -30,7 +30,7 @@ const SignIn = () => {
 
     const { isLoading, mutateAsync:signIn } = useMutation('sign in', (data: IAuthForm) => AuthService.login(data.userName, data.pass),
         {
-            onSuccess: (res) => successfulEnter(router, dispatch, res.tokens, res.user, res.posts, res.subscriptions),
+            onSuccess: (res) => successfulEnter(router, dispatch, res.tokens, res.user, res.user.posts, res.user.subscriptions),
             onError: (err: string): any => notify(err, 'error')
         })
 
