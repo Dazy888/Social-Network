@@ -17,7 +17,7 @@ export interface Subscriptions {
 
 export interface User {
     id: string
-    isActivated: boolean
+    isEmailActivated: boolean
     email: string | null
     name: string
     location: string
@@ -30,7 +30,7 @@ export interface User {
 
 export interface ExtendedUser {
     id: string
-    isActivated: boolean
+    isEmailActivated: boolean
     email: string | null
     name: string
     location: string

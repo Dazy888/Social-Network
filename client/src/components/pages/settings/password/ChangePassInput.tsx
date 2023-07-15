@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import styles from '@/styles/Settings.module.scss'
 import { UseFormRegister, UseFormSetFocus } from "react-hook-form"
 import { IChangePass } from "@/models/settings.models"
@@ -11,10 +11,15 @@ interface Props {
     placeholder: string
     setFocus: UseFormSetFocus<IChangePass>
     value: string
+    isSuccess: boolean
 }
 
-const ChangePassInputComponent: React.FC<Props> = ({ isError, errorMessage, register, name, placeholder, value, setFocus }) => {
+const ChangePassInputComponent: React.FC<Props> = ({ isError, errorMessage, register, name, isSuccess, placeholder, value, setFocus }) => {
     const [isFocus, setIsFocus] = useState(false)
+
+    useEffect(() => {
+        if (isSuccess) setIsFocus(false)
+    }, [isSuccess])
 
     function blurHandler() {
         if (value) return

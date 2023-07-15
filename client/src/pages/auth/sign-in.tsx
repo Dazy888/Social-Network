@@ -19,7 +19,7 @@ export const successfulEnter = (router: NextRouter, dispatch: AppDispatch, token
     createCookie('accessToken', tokens.accessToken, 15 / (24 * 60))
 
     dispatch(setUser({ ...userData, posts, subscriptions: subscriptions }))
-    dispatch(setSettingData({ email: userData.email, isActivated: userData.isActivated }))
+    dispatch(setSettingData({ email: userData.email, isEmailActivated: userData.isEmailActivated }))
 
     router.push('/profile')
 }

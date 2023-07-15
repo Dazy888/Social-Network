@@ -38,7 +38,8 @@ export class ProfileService {
     }
 
     async getAvatar(userId: string) {
-        return this.profileModel.findOne({ userId }, { avatar: 1, _id: 0 })
+        const profile = await this.profileModel.findOne({ userId }, { avatar: 1, _id: 0 })
+        return profile.avatar
     }
 
     async updateProfileInfo(userId: string, name: string, location: string) {

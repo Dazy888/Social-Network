@@ -33,7 +33,7 @@ const MainLayoutComponent: React.FC<LayoutProps> = ({ children, title }) => {
             onSuccess(res) {
                 createCookie('accessToken', res.accessToken, 15 / (24 * 60))
                 dispatch(setUser({ ...res.user, posts: res.user.posts, subscriptions: res.user.subscriptions }))
-                dispatch(setSettingData({ email: res.user.email, isActivated: res.user.isActivated }))
+                dispatch(setSettingData({ email: res.user.email, isEmailActivated: res.user.isEmailActivated }))
             },
             onError: () => successfulLogout(router, dispatch)
         })

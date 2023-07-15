@@ -13,7 +13,7 @@ import { SubmitHandler, useForm } from "react-hook-form"
 // Components
 import { SettingsLayout } from "@/layouts/SettingsLayout"
 import { Title } from "@/components/pages/settings/Title"
-import { ActivationMessage } from "@/components/pages/settings/email/ActivationMessage"
+import { CancelActivation } from "@/components/pages/settings/email/CancelActivation"
 import { EmailInput } from "@/components/pages/settings/email/EmailInput"
 import { Loader } from "@/components/pages/settings/Loader"
 import { SubmitBtn } from "@/components/pages/settings/email/SubmitBtn"
@@ -24,13 +24,13 @@ const Email = () => {
 
     const id = useAppSelector(state => state.profileReducer.id)
     const email = useAppSelector(state => state.settingsReducer.email)
-    const isActivated = useAppSelector(state => state.settingsReducer.isActivated)
+    const isEmailActivated = useAppSelector(state => state.settingsReducer.isEmailActivated)
 
     const { isLoading, mutateAsync:activate} = useMutation('activate email', (data: ActivateEmailParams) => SettingsService.activateMail(data.email, data.id),
         {
             onSuccess(res) {
                 dispatch(setEmail(res))
-                notify('Activation link was successfully sent on your e-mail', 'success')
+                notify('Activation link successfully sent on your e-mail', 'success')
             },
             onError: (err: string): any => notify(err, 'error')
         }
@@ -44,18 +44,18 @@ const Email = () => {
         await activate({ email: data.email, id })
     }
 
-    const isInProcess = !isActivated && !!email
+    const isInProcess = !isEmailActivated && !!email
 
     return(
         <SettingsLayout title={'E-mail settings'}>
             <Title title={'E-mail Settings'}/>
             <hr className={'w-full h-px'}/>
             <form className={'py-10 px-6'} onSubmit={handleSubmit(onSubmit)}>
-                <EmailInput isStatic={isActivated || isInProcess} focusedClassName={isFocus ? styles.focused : ''} value={inputValue || email} {...{ register, setFocus, isInProcess, setIsFocus }} />
-                {!isActivated && <SubmitBtn loadingClassName={(isLoading || isInProcess) ? styles.loading : ''} disabled={isLoading || !!email} />}
+                <EmailInput isStatic={isEmailActivated || isInProcess} focusedClassName={isFocus ? styles.focused : ''} value={inputValue || email} {...{ register, setFocus, isInProcess, setIsFocus }} />
+                {!isEmailActivated && <SubmitBtn loadingClassName={(isLoading || isInProcess) ? styles.loading : ''} disabled={isLoading || !!email} />}
                 {isLoading && <Loader />}
             </form>
-            {isInProcess && <ActivationMessage {...{ setIsFocus, setValue }} />}
+            {isInProcess && <CancelActivation {...{ setIsFocus, setValue }} />}
         </SettingsLayout>
     )
 }
