@@ -20,7 +20,7 @@ export async function successfulLogout(router: any, dispatch: any) {
     createCookie('refreshToken', '', -1)
     createCookie('accessToken', '', -1)
     await router.push('/auth/sign-in')
-    dispatch(resetUser(null))
+    dispatch(resetUser())
 }
 
 const MainLayoutComponent: React.FC<LayoutProps> = ({ children, title }) => {
