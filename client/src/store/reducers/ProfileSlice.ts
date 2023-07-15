@@ -47,7 +47,7 @@ export const profileSlice = createSlice({
             state.posts = action.payload.posts
             state.subscriptions = action.payload.subscriptions
         },
-        resetUser(state, action) {
+        resetUser(state) {
             state.id = ''
             state.banner = ''
             state.avatar = ''
