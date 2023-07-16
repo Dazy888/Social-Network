@@ -1,4 +1,5 @@
-This is a Social Network
+## Social Network project
+**Author:** Davyd Hutsenko
 
 ## Getting Started
 
@@ -45,14 +46,18 @@ npm run start:dev
 yarn start:dev
 ```
 
-API documentation can be accessed on http://localhost:5000
+[//]: # (API documentation can be accessed on http://localhost:5000)
 
-## Technology stack
+## Description
 
-Front-end: NextJS(TypeScript) + Redux, React Query, React-Hook-Form, Tailwind
+Welcome to our modern and exciting social network - an innovative space for communication, exchanging ideas, and making new friends. In our project, we strive to provide you with cutting-edge technologies to make your social experience comfortable and enjoyable.
 
-Back-end: NodeJS + Express, MongoDB, Typescript, NestJS  
+On the frontend, we utilize powerful Next.js for fast and seamless page loading, TypeScript - a strongly-typed programming language, Redux-Toolkit for state management, and React-Hook-Form and React-Query for complete control over forms and queries. Our goal is to ensure a pleasant and reliable user experience in our environment.
 
-## Functionality
+With a robust backend based on Nest.js, we guarantee the security and stability of your account. Utilizing Google Cloud Platform and MongoDB allows us to offer high availability and reliability for our services. We deeply believe in the importance of safeguarding your privacy and ensure the protection of your data.
 
-You can upload an avatar and banner, change name and location, write a few words about yourself, your skills and hobbies, create posts with text, e-mail activation available, also you could change password and follow other people  
+You'll have access to a range of exciting features in our social network. Customize your profile text, add captivating text-based posts, make new friends, and keep track of their activities. Uploading your favorite photos will add a special layer of individuality to your profile.
+
+Our social network offers an integrated authorization system using JWT tokens, which keeps your personal data secure. Easily change your name, location, and password at your convenience. Follow users whose posts interest you and receive updates on their activities.
+
+Our mission is to create a modern, efficient, and welcoming environment for you and your communication needs. Join us now and create your unique profile in our social network, where you'll find new acquaintances, engaging discussions, and unforgettable emotions!
