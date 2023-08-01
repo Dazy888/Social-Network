@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: false,
+const withPWA = require('next-pwa')({
+  dest: 'public/manifest'
+})
+
+const nextConfig = withPWA({
   swcMinify: true,
   async headers() {
     return [
@@ -14,7 +17,7 @@ const nextConfig = {
         ]
       }
     ]
-  }
-}
+  },
+})
 
 module.exports = nextConfig
