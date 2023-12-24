@@ -11,23 +11,22 @@ export class Profile {
     @Prop()
     name: string
 
-    @Prop({ default: 'Nowhere' })
+    @Prop()
     location: string
 
-    @Prop({ default: null })
+    @Prop()
     banner: string | null
 
-    @Prop({ default: null })
+    @Prop()
     avatar: string | null
 
-    @Prop({ default: 'Tell about yourself here.' })
-    aboutMe: string
+    @Prop()
+    aboutUserText: string
 
-    @Prop({ default: 'Tell people about your hobbies here.' })
-    hobbies: string
+    @Prop()
+    userHobbiesText: string
 
-    @Prop({ default: 'Write your skills here.' })
-    skills: string
+    @Prop()
+    userSkillsText: string
 }
-
 export const ProfileSchema = SchemaFactory.createForClass(Profile)

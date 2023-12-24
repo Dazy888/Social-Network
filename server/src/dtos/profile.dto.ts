@@ -1,29 +1,21 @@
-export type ProfileIntroFields = 'aboutMe' | 'skills' | 'hobbies'
 export type ImageFields = 'avatar' | 'banner'
 
-export class CreatePostDto {
-    id: string
+export class CreatePostDTO {
+    userId: string
     text: string
 }
 
-export class SetProfileInfoDto {
-    id: string
-    name: string
-    location: string
-}
-
-export class SetProfileIntroDto {
-    id: string
-    field: ProfileIntroFields
-    text: string
-}
-
-export class SetProfileImageDto {
-    id: string
+export class SetProfileImageDTO {
+    userId: string
     field: ImageFields
 }
 
-export class FollowDto {
-    authorizedUserId: string
-    openedUserId: string
+export interface UpdateUserDTO {
+    name: string
+    location: string
+    banner: string | null
+    avatar: string | null
+    aboutUserText: string
+    userHobbiesText: string
+    userSkillsText: string
 }

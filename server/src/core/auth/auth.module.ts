@@ -7,7 +7,7 @@ import { UserSchema } from "../../schemas/user.schema"
 import { TokenSchema } from "../../schemas/token.schema"
 import { PostSchema } from "../../schemas/post.schema"
 import { ProfileSchema } from "../../schemas/profile.schema"
-import { SubscriptionSchema } from "../../schemas/subscription.schema"
+import { FollowSchema } from "../../schemas/follow.schema"
 
 @Module({
     imports: [MongooseModule.forFeature([
@@ -29,7 +29,7 @@ import { SubscriptionSchema } from "../../schemas/subscription.schema"
         },
         {
             name: 'Subscription',
-            schema: SubscriptionSchema
+            schema: FollowSchema
         }
     ])],
     controllers: [AuthController],

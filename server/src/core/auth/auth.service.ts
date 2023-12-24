@@ -8,7 +8,7 @@ import { UserDocument } from "../../schemas/user.schema"
 import { TokenDocument } from "../../schemas/token.schema"
 import { PostDocument } from "../../schemas/post.schema"
 import { ProfileDocument } from "../../schemas/profile.schema"
-import { SubscriptionDocument } from "../../schemas/subscription.schema"
+import { SubscriptionDocument } from "../../schemas/follow.schema"
 
 export const validateToken = (token: string, secret: string) => jwt.verify(token, secret)
 

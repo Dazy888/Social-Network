@@ -5,7 +5,7 @@ import { Model } from "mongoose"
 import { UserDocument } from "../../schemas/user.schema"
 import { PostDocument } from "../../schemas/post.schema"
 import { ProfileDocument } from "../../schemas/profile.schema"
-import { SubscriptionDocument } from "../../schemas/subscription.schema"
+import { SubscriptionDocument } from "../../schemas/follow.schema"
 
 @Injectable()
 export class UsersService {
