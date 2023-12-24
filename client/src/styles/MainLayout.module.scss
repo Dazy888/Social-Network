@@ -121,11 +121,9 @@ $purple: rebeccapurple;
 }
 
 @media screen and (max-width: 425px) {
-  #app-wrapper header {
-    .logo {
-      width: 45px;
-      height: 45px;
-    }
+  #app-wrapper header .logo {
+    width: 45px;
+    height: 45px;
   }
 }
 
