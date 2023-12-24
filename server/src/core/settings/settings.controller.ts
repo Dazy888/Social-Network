@@ -4,7 +4,7 @@ import { Request, Response } from 'express'
 import { Body, Controller, Get, Param, Post, Put, Res, Headers, Delete, Req } from '@nestjs/common'
 import { checkAccessToken } from "../profile/profile.controller"
 import { SettingsService } from "./settings.service"
-import { ActivateEmailDto, ChangePassDto } from "./dtos/settings.dtos"
+import { ActivateEmailDto, ChangePassDto } from "../../dtos/settings.dto"
 
 dotenv.config()
 

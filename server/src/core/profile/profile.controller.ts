@@ -5,7 +5,7 @@ import { ProfileService } from "./profile.service"
 import { checkToken } from "../auth/auth.controller"
 import { validateToken } from "../auth/auth.service"
 // DTOs
-import { CreatePostDto, FollowDto, SetProfileImageDto, SetProfileInfoDto, SetProfileIntroDto } from "./dtos/profile.dtos"
+import { CreatePostDto, FollowDto, SetProfileImageDto, SetProfileInfoDto, SetProfileIntroDto } from "../../dtos/profile.dto"
 
 export function checkAccessToken(authorization: string) {
     const accessToken = authorization.split(' ')[1]

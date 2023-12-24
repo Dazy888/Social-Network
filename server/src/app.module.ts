@@ -5,14 +5,21 @@ import { ConfigModule } from "@nestjs/config"
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 // Modules
-import { AuthModule } from './auth/auth.module'
-import { ProfileModule } from './profile/profile.module'
-import { SettingsModule } from './settings/settings.module'
-import { UsersModule } from "./users/users.module"
+import { AuthModule } from 'authModule'
+import { ProfileModule } from './core/profile/profile.module'
+import { SettingsModule } from './core/settings/settings.module'
+import { UsersModule } from "./core/users/users.module"
 
 @Module({
   imports: [
-      ConfigModule.forRoot({ isGlobal: true }), AuthModule, ProfileModule, SettingsModule, UsersModule, MongooseModule.forRoot(process.env.DB_URL),
+      ConfigModule.forRoot({
+          isGlobal: true
+      }),
+      AuthModule,
+      ProfileModule,
+      SettingsModule,
+      UsersModule,
+      MongooseModule.forRoot(process.env.DB_URL),
       MailerModule.forRoot(
           {
               transport: {
@@ -29,5 +36,4 @@ import { UsersModule } from "./users/users.module"
   controllers: [AppController],
   providers: [AppService]
 })
-
 export class AppModule {}

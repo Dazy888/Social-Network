@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common'
 import { InjectModel } from "@nestjs/mongoose"
 import { Model } from "mongoose"
 // Schemas
-import { UserDocument } from "../schemas/user.schema"
-import { PostDocument } from "../schemas/post.schema"
-import { ProfileDocument } from "../schemas/profile.schema"
-import { SubscriptionDocument } from "../schemas/subscription.schema"
+import { UserDocument } from "../../schemas/user.schema"
+import { PostDocument } from "../../schemas/post.schema"
+import { ProfileDocument } from "../../schemas/profile.schema"
+import { SubscriptionDocument } from "../../schemas/subscription.schema"
 
 @Injectable()
 export class UsersService {
