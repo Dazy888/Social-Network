@@ -10,11 +10,24 @@ import { FollowSchema } from "../../schemas/follow.schema"
 
 @Module({
   imports: [MongooseModule.forFeature([
-      { name: 'User', schema: UserSchema }, { name: 'Profile', schema: ProfileSchema }, { name: 'Post', schema: PostSchema },
-      { name: 'Subscriptions', schema: FollowSchema }
+      {
+          name: 'User',
+          schema: UserSchema
+      },
+      {
+          name: 'Profile',
+          schema: ProfileSchema
+      },
+      {
+          name: 'Post',
+          schema: PostSchema
+      },
+      {
+          name: 'Follow',
+          schema: FollowSchema
+      }
   ])],
   providers: [UsersService],
   controllers: [UsersController]
 })
-
 export class UsersModule {}
