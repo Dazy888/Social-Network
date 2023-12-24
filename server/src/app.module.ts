@@ -9,6 +9,7 @@ import { AuthModule } from 'authModule'
 import { ProfileModule } from './core/profile/profile.module'
 import { SettingsModule } from './core/settings/settings.module'
 import { UsersModule } from "./core/users/users.module"
+import { FollowModule } from "./core/follows/follow.module"
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { UsersModule } from "./core/users/users.module"
       ProfileModule,
       SettingsModule,
       UsersModule,
+      FollowModule,
       MongooseModule.forRoot(process.env.DB_URL),
       MailerModule.forRoot(
           {
