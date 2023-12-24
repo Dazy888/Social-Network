@@ -8,7 +8,7 @@ import { UserDocument } from "../../schemas/user.schema"
 import { TokenDocument } from "../../schemas/token.schema"
 import { PostDocument } from "../../schemas/post.schema"
 import { ProfileDocument } from "../../schemas/profile.schema"
-import { SubscriptionDocument } from "../../schemas/follow.schema"
+import { FollowDocument } from "../../schemas/follow.schema"
 
 export const validateToken = (token: string, secret: string) => jwt.verify(token, secret)
 
@@ -19,7 +19,7 @@ export class AuthService {
         @InjectModel('Token') private tokenModel: Model<TokenDocument>,
         @InjectModel('Post') private postModel: Model<PostDocument>,
         @InjectModel('Profile') private profileModel: Model<ProfileDocument>,
-        @InjectModel('Subscription') private subscriptionModel: Model<SubscriptionDocument>
+        @InjectModel('Follow') private followModel: Model<FollowDocument>
     ) {}
 
     generateTokens(payload: any) {
@@ -45,13 +45,13 @@ export class AuthService {
 
         const hashedPassword = await bcrypt.hash(pass, 10)
 
-        const { id, isEmailActivated, email }: UserDocument = await this.userModel.create({
+        const { id, activatedEmail, email }: UserDocument = await this.userModel.create({
             username,
             pass: hashedPassword
         })
 
         const userNumber = Math.floor(Math.random() * 10000)
-        const { name, location, banner, avatar, aboutMe, skills, hobbies }: ProfileDocument = await this.profileModel.create({
+        const { name, location, banner, avatar, aboutUserText, userSkillsText, userHobbiesText }: ProfileDocument = await this.profileModel.create({
             name: `User_${userNumber}`,
             userId: id
         })
@@ -63,15 +63,15 @@ export class AuthService {
             tokens,
             user: {
                 id,
-                isEmailActivated,
+                activatedEmail,
                 email,
                 name,
                 location,
                 banner,
                 avatar,
-                aboutMe,
-                skills,
-                hobbies,
+                aboutUserText,
+                userSkillsText,
+                userHobbiesText,
             }
         }
     }
@@ -79,11 +79,11 @@ export class AuthService {
     async getUserData(id: string) {
         const profile: ProfileDocument = await this.profileModel.findOne({ userId: id })
         const posts: PostDocument[] = await this.postModel.find({ userId: id })
-        const followers = await this.subscriptionModel.find({ followedUserId: id })
-        const followings = await this.subscriptionModel.find({ userId: id })
+        const followers = await this.followModel.find({ followedUserId: id })
+        const followings = await this.followModel.find({ userId: id })
 
-        const followersIds = followers.map((follower) => follower.userId)
-        const followingsIds = followings.map((following) => following.followedUserId)
+        const followersIds = followers.map((follower) => follower.followerId)
+        const followingsIds = followings.map((following) => following.followeeId)
 
         return {
             id,
@@ -97,7 +97,7 @@ export class AuthService {
     }
 
     async signIn(username: string, pass: string) {
-        const { id, isEmailActivated, email, pass:currentPass }: UserDocument | null = await this.userModel.findOne({ username })
+        const { id, activatedEmail, email, password:currentPass }: UserDocument | null = await this.userModel.findOne({ username })
         if (!id) throw new UnauthorizedException('Invalid name or password')
 
         const isPassEquals = await bcrypt.compare(pass, currentPass)
@@ -111,7 +111,7 @@ export class AuthService {
             tokens,
             user: {
                 ...userData,
-                isEmailActivated,
+                activatedEmail,
                 email
             }
         }
@@ -135,14 +135,14 @@ export class AuthService {
             }
         })
 
-        const { isEmailActivated, email }: UserDocument = await this.userModel.findOne({ id })
+        const { activatedEmail, email }: UserDocument = await this.userModel.findOne({ id })
         const userData = await this.getUserData(id)
 
         return {
             accessToken: jwt.sign({ id }, process.env.JWT_ACCESS_SECRET, { expiresIn: '15m' }),
             user: {
                 ...userData,
-                isEmailActivated,
+                activatedEmail,
                 email
             }
         }
