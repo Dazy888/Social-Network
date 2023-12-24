@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Post, Put, Param, Get, UseInterceptors, UploadedFile } from '@nestjs/common'
+import {Body, Controller, Delete, Post, Put, Param, Get, UseInterceptors, UploadedFile, Patch} from '@nestjs/common'
 import { FileInterceptor } from "@nestjs/platform-express"
 import { ProfileService } from "./profile.service"
 // DTOs
@@ -12,9 +12,9 @@ import {
 export class ProfileController {
     constructor(private readonly profileService: ProfileService) {}
 
-    @Put('update/:id')
-    updateUser(@Body() body: UpdateUserDTO, @Param('id') id: string) {
-        return this.profileService.updateUser(body, id)
+    @Put('update/:userId')
+    updateUser(@Body() body: UpdateUserDTO, @Param('userId') userId: string) {
+        return this.profileService.updateUser(body, userId)
     }
 
     @Post('post/create')
@@ -32,7 +32,7 @@ export class ProfileController {
         return this.profileService.getAvatar(userId)
     }
 
-    @Put('updateImage')
+    @Patch('update-image')
     @UseInterceptors(FileInterceptor('image'))
     updateProfileImage(@Body() body: SetProfileImageDTO, @UploadedFile() image: Express.Multer.File) {
         return this.profileService.updateProfileImage(body.userId, image, body.field)

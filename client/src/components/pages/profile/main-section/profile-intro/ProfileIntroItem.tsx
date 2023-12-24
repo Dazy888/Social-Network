@@ -53,8 +53,9 @@ const InformationItemComponent: React.FC<Props> = ({ currentText, title, forView
         await changeProfileIntro()
     }
 
-    const { mutateAsync:setProfileIntroField } = useMutation('set profile intro', (data: MutateProfileIntro) => ProfileService.setProfileIntro(data.text, data.field, data.id),
-        {
+    const {
+        mutateAsync:setProfileIntroField
+    } = useMutation('set profile intro', (data: MutateProfileIntro) => ProfileService.setProfileIntro(data.text, data.field, data.id), {
             onSuccess: (res): any => dispatch(setProfileIntro({ text: res.text, field: res.field })),
             onError: (err: string): any => notify(err, 'error')
         }

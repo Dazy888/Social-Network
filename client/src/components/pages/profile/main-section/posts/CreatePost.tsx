@@ -17,15 +17,16 @@ const CreatePostComponent: React.FC<PropsCreationProps> = ({ setIsCreatingPost }
 
     const id = useAppSelector(state => state.profileReducer.id)
 
-    const { mutateAsync:addPost } = useMutation('add post', (data: TextProps) => ProfileService.addPost(data.text, data.id),
-        {
+    const {
+        mutateAsync:addPost
+    } = useMutation('add post', (data: TextProps) => ProfileService.createPost(data), {
             onSuccess: (res): any => dispatch(addUserPost(res)),
             onError: (err: string): any => notify(err, 'error')
         }
     )
 
     const addNewPost = async () => {
-        await addPost({ text: textareaRef.current?.value || '', id })
+        await addPost({ text: textareaRef.current?.value || '', userId: id })
         setIsCreatingPost(false)
     }
 
