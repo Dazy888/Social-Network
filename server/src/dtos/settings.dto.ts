@@ -1,10 +1,10 @@
-export class ChangePassDto {
-    id: string
+export interface ChangePassDto {
+    userId: string
     currentPass: string
     newPass: string
 }
 
 export class ActivateEmailDto {
-    id: string
+    userId: string
     email: string
 }

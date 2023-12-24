@@ -9,7 +9,7 @@ import { AuthModule } from 'authModule'
 import { ProfileModule } from './core/profile/profile.module'
 import { SettingsModule } from './core/settings/settings.module'
 import { UsersModule } from "./core/users/users.module"
-import { FollowModule } from "./core/follows/follow.module"
+import { FollowModule } from "./core/follow/follow.module"
 
 @Module({
   imports: [

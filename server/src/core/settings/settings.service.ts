@@ -2,7 +2,7 @@ import * as dotenv from "dotenv"
 import * as bcrypt from "bcrypt"
 import { Model } from "mongoose"
 import { MailerService } from "@nestjs-modules/mailer"
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common'
 import { InjectModel } from "@nestjs/mongoose"
 import { UserDocument } from "../../schemas/user.schema"
 
@@ -12,19 +12,22 @@ dotenv.config()
 export class SettingsService {
     constructor(@InjectModel('User') private userModel: Model<UserDocument>, private readonly mailerService: MailerService) {}
 
-    async changePass(currentPass: string, newPass: string, _id: string) {
-        const user: UserDocument = await this.userModel.findOne({ _id })
+    async changePass(currentPass: string, newPass: string, userId: string) {
+        const user = await this.userModel.findById(userId)
+        if (!user) throw new NotFoundException('User not found')
 
-        const isPassEquals = await bcrypt.compare(currentPass, user.pass)
-        if (!isPassEquals) throw new BadRequestException('Wrong password')
+        const isPassEquals = await bcrypt.compare(currentPass, user.password)
+        if (!isPassEquals) throw new UnauthorizedException('Wrong password')
 
-        await this.userModel.findOneAndUpdate({ _id }, { pass: await bcrypt.hash(newPass, 10) })
+        user.password = await bcrypt.hash(newPass, 10)
+        await user.save()
     }
 
-    async sendMail(email: string, activationLink: string, _id: string) {
-        if (await this.userModel.findOne({ email })) throw new BadRequestException('This e-mail is already taken, try another one')
+    async sendMail(email: string, activationLink: string, userId: string) {
+        const user = await this.userModel.findOne({ email })
+        if (user) throw new BadRequestException('This e-mail already taken, try another one')
 
-        await this.userModel.findOneAndUpdate({ _id }, { email, activationLink })
+        await this.userModel.findOneAndUpdate({ _id: userId }, { email, activationLink })
         await this.mailerService.sendMail({
             from: process.env.SMTP_USER,
             to: email,
@@ -58,7 +61,7 @@ export class SettingsService {
         await this.userModel.findOneAndUpdate({ id: user.id }, { isEmailActivated: true })
     }
 
-    async cancelEmailActivation(_id: string) {
-        await this.userModel.findOneAndUpdate({ _id }, { email: null, activationLink: null })
+    async cancelEmailActivation(userId: string) {
+        await this.userModel.findOneAndUpdate({ _id: userId }, { email: null, activationLink: null })
     }
 }
