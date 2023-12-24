@@ -28,13 +28,20 @@ const SignIn = () => {
     const router = useRouter()
     const dispatch = useAppDispatch()
 
-    const { isLoading, mutateAsync:signIn } = useMutation('sign in', (data: IAuthForm) => AuthService.login(data.userName, data.pass),
+    const {
+        isLoading,
+        mutateAsync:signIn
+    } = useMutation('sign in', (data: IAuthForm) => AuthService.signIn(data),
         {
             onSuccess: (res) => successfulEnter(router, dispatch, res.tokens, res.user, res.user.posts, res.user.subscriptions),
             onError: (err: string): any => notify(err, 'error')
         })
 
-    return <AuthPage title={'in'} isLoading={isLoading} signAction={signIn}><></></AuthPage>
+    return (
+        <AuthPage title={'in'} isLoading={isLoading} signAction={signIn}>
+            <></>
+        </AuthPage>
+    )
 }
 
 export default React.memo(SignIn)

@@ -1,26 +1,26 @@
 import { $api } from "@/http"
 import { AxiosResponse } from "axios"
-import { RefreshResponse, SignInResponse, SignUpResponse } from "@/models/auth.models"
+import { IAuthForm, RefreshResponse, SignInResponse, SignUpResponse } from "@/models/auth.models"
 import { getCookie } from "@/layouts/AuthLayout"
 
 export class AuthService {
-    static registration(userName: string, pass: string) {
-        return $api.post('auth/register', { userName, pass })
+    static async signUp(data: IAuthForm) {
+        return $api.post('auth/sign-up', data)
             .then((res: AxiosResponse<SignUpResponse>) => res.data)
             .catch(err => { throw err.response.data.message })
     }
 
-    static login(userName: string, pass: string) {
-        return $api.post('auth/login', { userName, pass, })
+    static async signIn(data: IAuthForm) {
+        return $api.post('auth/sign-in', data)
             .then((res: AxiosResponse<SignInResponse>) => res.data)
             .catch(err => { throw err.response.data.message })
     }
 
-    static async logout() {
+    static async signOut() {
         await $api.delete(`auth/logout/${getCookie('refreshToken')}`)
     }
 
-    static refresh() {
+    static async refresh() {
         return $api.get(`auth/refresh/${getCookie('refreshToken')}`)
             .then((res: AxiosResponse<RefreshResponse>) => res.data)
             .catch(err => { throw err.response.data.message })
