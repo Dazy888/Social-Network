@@ -9,8 +9,12 @@ $blue: #1A73E8;
 
 .auth {
   width: 450px;
-  min-height: 400px;
+  height: fit-content;
   background: white;
+
+  .disabled {
+    color: grey;
+  }
 
   a {
     color: $blue;

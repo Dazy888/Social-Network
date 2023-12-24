@@ -47,7 +47,7 @@ export class AuthService {
 
         const { id, activatedEmail, email }: UserDocument = await this.userModel.create({
             username,
-            pass: hashedPassword
+            password: hashedPassword
         })
 
         const userNumber = Math.floor(Math.random() * 10000)

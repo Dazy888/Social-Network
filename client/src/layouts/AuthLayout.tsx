@@ -38,7 +38,7 @@ const AuthLayout: React.FC<Props> = ({ title, signAction, isLoading}) => {
             <Head>
                 <title>Sign {title}</title>
             </Head>
-            <div className={`${styles['auth-wrapper']} flex-center w-full min-h-screen`}>
+            <div className={`${styles['auth-wrapper']} flex justify-center py-72 w-full min-h-screen`}>
                 <div className={`${styles['auth']} rounded-lg p-8`}>
                     <Title title={title} />
                     <AuthForm {...{ signAction, isLoading, title }} />

@@ -15,13 +15,13 @@ import { setUser } from "@/store/reducers/ProfileSlice"
 import { setSettingData } from "@/store/reducers/SettingsSlice"
 
 export const successfulEnter = (router: NextRouter, dispatch: AppDispatch, tokens: Tokens, userData: User, posts: IPost[] | [], subscriptions: Subscriptions) => {
-    createCookie('refreshToken', tokens.refreshToken, 30)
-    createCookie('accessToken', tokens.accessToken, 15 / (24 * 60))
-
-    dispatch(setUser({ ...userData, posts, subscriptions: subscriptions }))
-    dispatch(setSettingData({ email: userData.email, isEmailActivated: userData.isEmailActivated }))
-
-    router.push('/profile')
+    // createCookie('refreshToken', tokens.refreshToken, 30)
+    // createCookie('accessToken', tokens.accessToken, 15 / (24 * 60))
+    //
+    // dispatch(setUser({ ...userData, posts, subscriptions: subscriptions }))
+    // dispatch(setSettingData({ email: userData.email, isEmailActivated: userData.isEmailActivated }))
+    //
+    // router.push('/profile')
 }
 
 const SignIn = () => {

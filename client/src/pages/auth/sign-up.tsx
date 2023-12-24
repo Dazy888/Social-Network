@@ -15,11 +15,23 @@ const SignUp = () => {
     const router = useRouter()
     const dispatch = useAppDispatch()
 
-    const {
-        isLoading,
-        mutateAsync:signUp
-    } = useMutation('sign up', (data: IAuthForm) => AuthService.signUp(data), {
-            onSuccess: (res) => successfulEnter(router, dispatch, res.tokens, res.user, [], { followers: [], followings: [] }),
+    const mutationKey = 'sign up'
+    const mutationFunc = (data: IAuthForm) => AuthService.signUp(data)
+
+    const {isLoading, mutateAsync:signUp} = useMutation(mutationKey, mutationFunc, {
+            onSuccess: (res) => {
+                successfulEnter(
+                    router,
+                    dispatch,
+                    res.tokens,
+                    res.user,
+                    [],
+                    {
+                        followers: [],
+                        followings: []
+                    }
+                )
+            },
             onError: (err: string): any => notify(err, 'warning')
         })
 
