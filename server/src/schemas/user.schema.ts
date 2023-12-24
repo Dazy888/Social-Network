@@ -6,19 +6,18 @@ export type UserDocument = User & Document
 @Schema({ timestamps: true })
 export class User {
     @Prop()
-    userName: string
+    username: string
 
     @Prop()
-    pass: string
+    password: string
 
     @Prop({ default: false })
-    isEmailActivated: boolean
+    activatedEmail: boolean
 
     @Prop({ default: null })
-    activationLink: string | null
+    emailActivationLink: string | null
 
     @Prop({ default: null })
     email: string | null
 }
-
 export const UserSchema = SchemaFactory.createForClass(User)

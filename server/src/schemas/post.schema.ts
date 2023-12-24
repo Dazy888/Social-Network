@@ -11,5 +11,4 @@ export class Post {
     @Prop()
     text: string
 }
-
 export const PostSchema = SchemaFactory.createForClass(Post)

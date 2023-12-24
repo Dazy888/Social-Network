@@ -11,5 +11,4 @@ export class Token {
     @Prop()
     refreshToken: string
 }
-
 export const TokenSchema = SchemaFactory.createForClass(Token)
