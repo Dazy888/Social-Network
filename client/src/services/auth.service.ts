@@ -25,4 +25,10 @@ export class AuthService {
             .then((res: AxiosResponse<RefreshResponse>) => res.data)
             .catch(err => { throw err.response.data.message })
     }
+
+    static async recoverPass() {
+        return $api.post(`auth/recover-pass`)
+            .then((res: AxiosResponse<RefreshResponse>) => res.data)
+            .catch(err => { throw err.response.data.message })
+    }
 }

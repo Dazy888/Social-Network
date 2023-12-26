@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import styles from '@/styles/Auth.module.scss'
 // Models
-import { IAuthForm}  from "@/models/auth.models"
+import { Action, IAuthForm } from "@/models/auth.models"
 import ReCAPTCHA from "react-google-recaptcha"
 // Components
 import { SubmitBtn } from "@/components/pages/auth/form/SubmitBtn"
@@ -17,9 +17,10 @@ interface Props {
     title: string
     isLoading: boolean
     signAction: (data: IAuthForm) => void
+    action: Action
 }
 
-const AuthFormComponent: React.FC<Props> = ({ title, signAction, isLoading }) => {
+const AuthFormComponent: React.FC<Props> = ({ title, signAction, isLoading, action }) => {
     const reRef: any = useRef<ReCAPTCHA>()
     const [captchaToken, setCaptchaToken] = useState<string | null>('')
 
@@ -49,7 +50,7 @@ const AuthFormComponent: React.FC<Props> = ({ title, signAction, isLoading }) =>
                            patternValue={/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,15}$/}
                 />
             </div>
-            { (title === 'up')
+            { (action === 'signUp')
                 &&  <PassRequirements isMinLength={pass?.length > 7} isOneDigit={/\d/g.test(pass)} isUppLetter={/[A-Z]/g.test(pass)}
                                       className={styles['pass-requirement']} isLowLetter={/[a-z]/g.test(pass || '')}
                                       isSpecialCharacter={/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/g.test(pass)}
@@ -59,7 +60,7 @@ const AuthFormComponent: React.FC<Props> = ({ title, signAction, isLoading }) =>
                        onChange={(value) => setCaptchaToken(value)}
             />
             <div className={`flex justify-between items-center ${styles.submit}`}>
-                {title == 'in' && <Link className={'relative pb-1'} href={'/'}>Forgot password?</Link>}
+                { (action == 'signIn') && <Link className={'relative pb-1'} href={'/auth/pass-recover'}>Forgot password?</Link> }
                 <SubmitBtn isLoading={isLoading} value={title}/>
             </div>
         </form>

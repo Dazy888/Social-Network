@@ -1,17 +1,17 @@
 import React, { useState } from "react"
 import { UseFormRegister, UseFormSetFocus } from "react-hook-form"
-import { IAuthForm } from "@/models/auth.models"
+import {IAuthForm, IRecoverForm} from "@/models/auth.models"
 import styles from '@/styles/Auth.module.scss'
 
 interface Props {
-    register: UseFormRegister<IAuthForm>
-    name: 'username' | 'pass'
-    patternValue: RegExp
+    register: any
+    name: 'username' | 'pass' | 'email'
+    patternValue?: RegExp
     minLength: number
     placeholder: string
-    type: 'text' | 'password'
+    type: 'text' | 'password' | 'email'
     value: string
-    setFocus: UseFormSetFocus<IAuthForm>
+    setFocus: any
     errorMessage?: string
     isError?: boolean
     maxLength?: number

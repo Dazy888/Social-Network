@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 import styles from '@/styles/Auth.module.scss'
 import { AuthForm } from "@/components/pages/auth/form/AuthForm"
 // Models
-import { IAuthForm } from "@/models/auth.models"
+import {Action, IAuthForm} from "@/models/auth.models"
 import { LayoutProps } from "@/models/layouts.models"
 // Components
 import { Title } from "@/components/pages/auth/title/Title"
@@ -22,11 +22,10 @@ export const createCookie = (name: string, value: string, days: number) => {
 }
 
 interface Props extends LayoutProps {
-    isLoading: boolean
-    signAction: (data: IAuthForm) => void
+    action: Action
 }
 
-const AuthLayout: React.FC<Props> = ({ title, signAction, isLoading}) => {
+const AuthLayout: React.FC<Props> = ({ title, children, action }) => {
     const router = useRouter()
 
     useEffect(() => {
@@ -36,12 +35,12 @@ const AuthLayout: React.FC<Props> = ({ title, signAction, isLoading}) => {
     return(
         <>
             <Head>
-                <title>Sign {title}</title>
+                <title>{title}</title>
             </Head>
             <div className={`${styles['auth-wrapper']} flex justify-center py-72 w-full min-h-screen`}>
                 <div className={`${styles['auth']} rounded-lg p-8`}>
-                    <Title title={title} />
-                    <AuthForm {...{ signAction, isLoading, title }} />
+                    <Title title={title} action={action} />
+                    {children}
                 </div>
             </div>
         </>

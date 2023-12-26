@@ -3,7 +3,7 @@ import { NextRouter, useRouter } from "next/router"
 import { useMutation } from "react-query"
 import { AuthService } from "@/services/auth.service"
 import { useAppDispatch } from "@/hooks/redux"
-import { notify } from "@/components/pages/auth/form/AuthForm"
+import {AuthForm, notify} from "@/components/pages/auth/form/AuthForm"
 // Models
 import { IAuthForm, Subscriptions, Tokens, User } from "@/models/auth.models"
 import { IPost } from "@/models/profile.models"
@@ -15,13 +15,13 @@ import { setUser } from "@/store/reducers/ProfileSlice"
 import { setSettingData } from "@/store/reducers/SettingsSlice"
 
 export const successfulEnter = (router: NextRouter, dispatch: AppDispatch, tokens: Tokens, userData: User, posts: IPost[] | [], subscriptions: Subscriptions) => {
-    // createCookie('refreshToken', tokens.refreshToken, 30)
-    // createCookie('accessToken', tokens.accessToken, 15 / (24 * 60))
-    //
-    // dispatch(setUser({ ...userData, posts, subscriptions: subscriptions }))
-    // dispatch(setSettingData({ email: userData.email, isEmailActivated: userData.isEmailActivated }))
-    //
-    // router.push('/profile')
+    createCookie('refreshToken', tokens.refreshToken, 30)
+    createCookie('accessToken', tokens.accessToken, 15 / (24 * 60))
+
+    dispatch(setUser({ ...userData, posts, subscriptions: subscriptions }))
+    dispatch(setSettingData({ email: userData.email, isEmailActivated: userData.isEmailActivated }))
+
+    router.push('/profile')
 }
 
 const SignIn = () => {
@@ -29,8 +29,7 @@ const SignIn = () => {
     const dispatch = useAppDispatch()
 
     const {
-        isLoading,
-        mutateAsync:signIn
+        isLoading, mutateAsync:signIn
     } = useMutation('sign in', (data: IAuthForm) => AuthService.signIn(data),
         {
             onSuccess: (res) => successfulEnter(router, dispatch, res.tokens, res.user, res.user.posts, res.user.subscriptions),
@@ -38,8 +37,8 @@ const SignIn = () => {
         })
 
     return (
-        <AuthPage title={'in'} isLoading={isLoading} signAction={signIn}>
-            <></>
+        <AuthPage title={'Sign in'} action={'signIn'}>
+            <AuthForm signAction={signIn} title={'Sign in'} isLoading={isLoading} action={'signIn'} />
         </AuthPage>
     )
 }

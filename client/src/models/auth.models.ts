@@ -1,8 +1,14 @@
 import { IPost } from "@/models/profile.models"
 
+export type Action = 'signIn' | 'signUp'
+
 export interface IAuthForm {
     username: string
     pass: string
+}
+
+export interface IRecoverForm {
+    email: string
 }
 
 export interface Tokens {
@@ -48,7 +54,7 @@ export interface SignUpResponse {
     user: User
 }
 
-export interface SignInResponse extends SignUpResponse {
+export interface SignInResponse {
     tokens: Tokens
     user: ExtendedUser
 }
