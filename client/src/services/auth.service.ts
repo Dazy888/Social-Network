@@ -1,6 +1,6 @@
 import { $api } from "@/http"
 import { AxiosResponse } from "axios"
-import { IAuthForm, RefreshResponse, SignInResponse, SignUpResponse } from "@/models/auth.models"
+import {IAuthForm, IRecoverForm, RefreshResponse, SignInResponse, SignUpResponse} from "@/models/auth.models"
 import { getCookie } from "@/layouts/AuthLayout"
 
 export class AuthService {
@@ -26,8 +26,8 @@ export class AuthService {
             .catch(err => { throw err.response.data.message })
     }
 
-    static async recoverPass() {
-        return $api.post(`auth/recover-pass`)
+    static async recoverPass(data: IRecoverForm) {
+        return $api.post(`auth/recover-pass`, data)
             .then((res: AxiosResponse<RefreshResponse>) => res.data)
             .catch(err => { throw err.response.data.message })
     }

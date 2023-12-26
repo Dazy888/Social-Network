@@ -9,6 +9,8 @@ import { TokenDocument } from "../../schemas/token.schema"
 import { PostDocument } from "../../schemas/post.schema"
 import { ProfileDocument } from "../../schemas/profile.schema"
 import { FollowDocument } from "../../schemas/follow.schema"
+import { MailerService } from "@nestjs-modules/mailer"
+import {v4} from "uuid";
 
 export const validateToken = (token: string, secret: string) => jwt.verify(token, secret)
 
@@ -19,7 +21,8 @@ export class AuthService {
         @InjectModel('Token') private tokenModel: Model<TokenDocument>,
         @InjectModel('Post') private postModel: Model<PostDocument>,
         @InjectModel('Profile') private profileModel: Model<ProfileDocument>,
-        @InjectModel('Follow') private followModel: Model<FollowDocument>
+        @InjectModel('Follow') private followModel: Model<FollowDocument>,
+        private readonly mailerService: MailerService
     ) {}
 
     generateTokens(payload: any) {
@@ -146,5 +149,42 @@ export class AuthService {
                 email
             }
         }
+    }
+
+    async recoverPass(email: string) {
+        const user: any = this.userModel.findOne({ email })
+        if (user) {
+            await this.sendRecoveryEmail(email, `${process.env.API_URL}/api/settings/pass-recovering/${v4()}`, user.id)
+        } else {
+            throw new BadRequestException('There is no user with this e-mail')
+        }
+    }
+
+    async sendRecoveryEmail(email: string, passRecoveryLink: string, userId: string) {
+        await this.userModel.findOneAndUpdate({ _id: userId }, { passRecoveryLink })
+        await this.mailerService.sendMail({
+            from: process.env.SMTP_USER,
+            to: email,
+            subject: 'Recovery link',
+            html:
+                `
+                    <div>
+                        <p>
+                            Dear user,
+                            <br/><br/>
+                            To recover your password, you need to follow the link below: <a href="${passRecoveryLink}">${passRecoveryLink}</a>
+                            <br/>
+                            With best regards,
+                            <br/>
+                            The team of our social network
+                        </p>
+                    </div>
+                `
+        })
+    }
+
+    async passRecovering(passRecoveryLink: string) {
+        const user: UserDocument = await this.userModel.findOne({ passRecoveryLink })
+        if (!user) throw new BadRequestException('Invalid activation link')
     }
 }

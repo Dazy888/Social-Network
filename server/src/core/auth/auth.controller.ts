@@ -1,6 +1,7 @@
-import { Body, Controller, Post, Get, Param, UnauthorizedException, Delete } from '@nestjs/common'
-import { AuthDto } from "../../dtos/auth.dto"
+import {Body, Controller, Post, Get, Param, UnauthorizedException, Delete, Res, Req} from '@nestjs/common'
+import {AuthDto, RecoverPassDTO} from "../../dtos/auth.dto"
 import { AuthService} from "./auth.service"
+import {Request, Response} from "express";
 
 export function checkToken(token: string) {
     if (!token) throw new UnauthorizedException('User is not authorized')
@@ -30,5 +31,16 @@ export class AuthController {
     refresh(@Param('refreshToken') refreshToken: string) {
         checkToken(refreshToken)
         return this.authService.refresh(refreshToken)
+    }
+
+    @Post('recover-pass')
+    recoverPass(@Body() body: RecoverPassDTO) {
+        return this.authService.recoverPass(body.email)
+    }
+
+    @Get('/pass-recovering')
+    async passRecovering(@Res({ passthrough: true }) res: Response, @Req() req: Request) {
+        await this.authService.passRecovering(`https://${req.get('host')}${req.originalUrl}`)
+        res.redirect(`${process.env.CLIENT_URL}/auth/new-pass`)
     }
 }

@@ -7,8 +7,8 @@ interface Props {
     register: any
     name: 'username' | 'pass' | 'email'
     patternValue?: RegExp
-    minLength: number
-    placeholder: string
+    minLength?: number
+    placeholder?: string
     type: 'text' | 'password' | 'email'
     value: string
     setFocus: any
@@ -20,7 +20,7 @@ interface Props {
 const AuthInputComponent: React.FC<Props> = (props) => {
     const {
         isError, errorMessage, register, patternValue, setFocus,
-        maxLength, value, minLength, name, placeholder, type
+        maxLength = 10000, value, minLength = 0, name, placeholder, type
     } = props
 
     const [showPassword, setShowPassword] = useState(false)
