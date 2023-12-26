@@ -32,10 +32,8 @@ const AuthFormComponent: React.FC<Props> = ({ title, signAction, isLoading }) =>
     const pass = watch('pass')
 
     const onSubmit: SubmitHandler<IAuthForm> = async (data) => {
-        const token = await reRef.current.execute()
         if (isLoading) notify('Too many requests', 'warning')
-        // if (!captchaToken) return notify('Please confirm that you are not a robot', 'warning')
-
+        if (!captchaToken) return notify('Please confirm that you are not a robot', 'warning')
         signAction(data)
     }
     
@@ -57,11 +55,13 @@ const AuthFormComponent: React.FC<Props> = ({ title, signAction, isLoading }) =>
                                       isSpecialCharacter={/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/g.test(pass)}
                     />
             }
-            <div className={`flex justify-between items-center mt-10 ${styles.submit}`}>
+            <ReCAPTCHA ref={reRef} sitekey={'6Leond0hAAAAAOCUq2naPPzgveoMehWQmYG4Vabt'} size={'normal'} className={styles.captcha}
+                       onChange={(value) => setCaptchaToken(value)}
+            />
+            <div className={`flex justify-between items-center ${styles.submit}`}>
                 {title == 'in' && <Link className={'relative pb-1'} href={'/'}>Forgot password?</Link>}
                 <SubmitBtn isLoading={isLoading} value={title}/>
             </div>
-            <ReCAPTCHA ref={reRef} sitekey={'6Leond0hAAAAAOCUq2naPPzgveoMehWQmYG4Vabt'} size={'invisible'} onChange={(value) => setCaptchaToken(value)} />
         </form>
     )
 } 

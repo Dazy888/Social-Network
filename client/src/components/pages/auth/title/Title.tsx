@@ -11,7 +11,7 @@ export const Title: React.FC<Props> = ({ title }) => (
         <p className={'text-sm pl-0.5 mt-1'}>
             {(title === 'in')
                 ? <Subtitle question={'New user'} linkText={'Create an account'} path={'up'} />
-                : <Subtitle question={'Already have an account'} linkText={'Login'} path={'in'} />}
+                : <Subtitle question={'Already have an account'} linkText={'Sign in'} path={'in'} />}
         </p>
     </div>
 )

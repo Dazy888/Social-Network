@@ -41,7 +41,7 @@ export class AuthService {
 
     async signUp(username: string, pass: string) {
         const existingUser: UserDocument | null = await this.userModel.findOne({ username })
-        if (existingUser) throw new BadRequestException('User with that name already exists')
+        if (existingUser) throw new BadRequestException('User with this name already exists')
 
         const hashedPassword = await bcrypt.hash(pass, 10)
 
@@ -97,22 +97,22 @@ export class AuthService {
     }
 
     async signIn(username: string, pass: string) {
-        const { id, activatedEmail, email, password:currentPass }: UserDocument | null = await this.userModel.findOne({ username })
-        if (!id) throw new UnauthorizedException('Invalid name or password')
+        const user: UserDocument | null = await this.userModel.findOne({ username })
+        if (!user) throw new UnauthorizedException('Invalid username or password')
 
-        const isPassEquals = await bcrypt.compare(pass, currentPass)
+        const isPassEquals = await bcrypt.compare(pass, user.password)
         if (!isPassEquals) throw new UnauthorizedException('Invalid username or password')
 
-        const tokens = this.generateTokens({ id })
-        await this.saveToken(id, tokens.refreshToken)
+        const tokens = this.generateTokens({...user})
+        await this.saveToken(user.id, tokens.refreshToken)
 
-        const userData = await this.getUserData(id)
+        const userData = await this.getUserData(user.id)
         return {
             tokens,
             user: {
                 ...userData,
-                activatedEmail,
-                email
+                activatedEmail: user.activatedEmail,
+                email: user.email
             }
         }
     }
