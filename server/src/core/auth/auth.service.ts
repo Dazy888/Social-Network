@@ -2,7 +2,7 @@ import * as bcrypt from 'bcrypt'
 import * as jwt from "jsonwebtoken"
 import { Model } from "mongoose"
 import { InjectModel } from "@nestjs/mongoose"
-import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common"
+import {BadRequestException, Injectable, NotFoundException, UnauthorizedException} from "@nestjs/common"
 // Schemas
 import { UserDocument } from "../../schemas/user.schema"
 import { TokenDocument } from "../../schemas/token.schema"
@@ -152,9 +152,9 @@ export class AuthService {
     }
 
     async recoverPass(email: string) {
-        const user: any = this.userModel.findOne({ email })
+        const user: any = await this.userModel.findOne({ email, activatedEmail: true })
         if (user) {
-            await this.sendRecoveryEmail(email, `${process.env.API_URL}/api/settings/pass-recovering/${v4()}`, user.id)
+            await this.sendRecoveryEmail(email, `${process.env.API_URL}/auth/new-pass/${v4()}`, user.id)
         } else {
             throw new BadRequestException('There is no user with this e-mail')
         }
@@ -183,8 +183,13 @@ export class AuthService {
         })
     }
 
-    async passRecovering(passRecoveryLink: string) {
-        const user: UserDocument = await this.userModel.findOne({ passRecoveryLink })
-        if (!user) throw new BadRequestException('Invalid activation link')
+    async changePass(recoveryLink, newPass) {
+        const user = await this.userModel.findOne({ recoveryLink })
+        if (user) {
+            user.password = await bcrypt.hash(newPass, 10)
+            await user.save()
+        } else {
+            throw new UnauthorizedException('Invalid link')
+        }
     }
 }

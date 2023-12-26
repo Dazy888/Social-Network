@@ -1,5 +1,5 @@
-import {Body, Controller, Post, Get, Param, UnauthorizedException, Delete, Res, Req} from '@nestjs/common'
-import {AuthDto, RecoverPassDTO} from "../../dtos/auth.dto"
+import {Body, Controller, Post, Get, Param, UnauthorizedException, Delete, Res, Req, Patch} from '@nestjs/common'
+import {AuthDto, RecoverPassDTO, SetNewPassDTO} from "../../dtos/auth.dto"
 import { AuthService} from "./auth.service"
 import {Request, Response} from "express";
 
@@ -38,9 +38,9 @@ export class AuthController {
         return this.authService.recoverPass(body.email)
     }
 
-    @Get('/pass-recovering')
-    async passRecovering(@Res({ passthrough: true }) res: Response, @Req() req: Request) {
-        await this.authService.passRecovering(`https://${req.get('host')}${req.originalUrl}`)
-        res.redirect(`${process.env.CLIENT_URL}/auth/new-pass`)
+    @Patch('/set-new-pass')
+    async passRecovering(@Body() body: SetNewPassDTO, @Res({ passthrough: true }) res: Response) {
+        return this.authService.changePass(body.recoveryLink, body.newPass)
+        res.redirect(`${process.env.CLIENT_URL}/auth/sign-in`)
     }
 }
