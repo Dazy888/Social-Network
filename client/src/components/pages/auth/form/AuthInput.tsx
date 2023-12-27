@@ -5,7 +5,7 @@ import styles from '@/styles/Auth.module.scss'
 
 interface Props {
     register: any
-    name: 'username' | 'pass' | 'email'
+    name: any
     patternValue?: RegExp
     minLength?: number
     placeholder?: string

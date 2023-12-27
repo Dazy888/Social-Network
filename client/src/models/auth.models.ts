@@ -11,6 +11,11 @@ export interface IRecoverForm {
     email: string
 }
 
+export interface INewPassForm {
+    newPass: string
+    confirmPass: string
+}
+
 export interface Tokens {
     accessToken: string
     refreshToken: string
@@ -62,4 +67,9 @@ export interface SignInResponse {
 export interface RefreshResponse {
     user: ExtendedUser
     accessToken: string
+}
+
+export interface SetNewPassDTO {
+    newPass: string
+    recoveryLink: string
 }

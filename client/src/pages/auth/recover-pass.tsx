@@ -34,7 +34,7 @@ const RecoverPass = () => {
     )
 
     const onSubmit: SubmitHandler<IRecoverForm> = async (data) => {
-        if (isLoading) notify('Too many requests', 'warning')
+        if (isLoading) return notify('Too many requests', 'warning')
         await recoverPass(data)
     }
 

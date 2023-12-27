@@ -33,7 +33,7 @@ const AuthFormComponent: React.FC<Props> = ({ title, signAction, isLoading, acti
     const pass = watch('pass')
 
     const onSubmit: SubmitHandler<IAuthForm> = async (data) => {
-        if (isLoading) notify('Too many requests', 'warning')
+        if (isLoading) return notify('Too many requests', 'warning')
         if (!captchaToken) return notify('Please confirm that you are not a robot', 'warning')
         signAction(data)
     }
