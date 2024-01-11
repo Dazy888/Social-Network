@@ -1,44 +1,34 @@
-import React, {useRef, useState} from "react"
+import React from "react"
+import Head from "next/head"
 import { useRouter } from "next/router"
 import { useMutation } from "react-query"
 import { useAppDispatch } from "@/hooks/redux"
-import { successfulEnter } from "@/pages/auth/sign-in"
 import { notify } from "@/components/pages/auth/form/AuthForm"
+import { SubmitHandler, useForm } from "react-hook-form"
 // Models
-import {IAuthForm, INewPassForm} from "@/models/auth.models"
+import { INewPassForm, SetNewPassDTO } from "@/models/auth.models"
 // Service
 import { AuthService } from "@/services/auth.service"
+// Styles
+import styles from "@/styles/Auth.module.scss"
 // Components
-import styles from "@/styles/Auth.module.scss";
-import {AuthInput} from "@/components/pages/auth/form/AuthInput";
-import {PassRequirements} from "@/components/common/PassRequirements";
-import ReCAPTCHA from "react-google-recaptcha";
-import {SubmitBtn} from "@/components/pages/auth/form/SubmitBtn";
-import Head from "next/head";
-import {SubmitHandler, useForm} from "react-hook-form";
+import { AuthInput } from "@/components/pages/auth/form/AuthInput"
+import { PassRequirements } from "@/components/common/PassRequirements"
+import { SubmitBtn } from "@/components/pages/auth/form/SubmitBtn"
 
 const NewPass = () => {
     const router = useRouter()
     const dispatch = useAppDispatch()
 
-    const mutationKey = 'sign up'
-    const mutationFunc = (data: IAuthForm) => AuthService.signUp(data)
-
-    const {isLoading, mutateAsync:signUp} = useMutation(mutationKey, mutationFunc, {
+    const mutationFunc = (data: SetNewPassDTO) => AuthService.setNewPass(data)
+    const {isLoading, mutateAsync:setNewPass} = useMutation('set new pass', mutationFunc, {
         onSuccess: (res) => {
-            successfulEnter(
-                router,
-                dispatch,
-                res.tokens,
-                res.user,
-                [],
-                {
-                    followers: [],
-                    followings: []
-                }
-            )
+            notify('Password successfully changed', 'success')
+            setTimeout(() => {
+                router.push('/auth/sign-in')
+            }, 1000)
         },
-        onError: (err: string): any => notify(err, 'warning')
+        onError: (err: string): any => notify(err, 'error')
     })
 
     const {
@@ -52,7 +42,10 @@ const NewPass = () => {
     const onSubmit: SubmitHandler<INewPassForm> = async (data) => {
         if (isLoading) return notify('Too many requests', 'warning')
         if (confirmPass !== newPass) return notify(`Passwords don't match`, 'warning')
-        signUp(data)
+        setNewPass({
+            newPass: data.newPass,
+            recoveryLink: window.location.href
+        })
     }
 
     return (

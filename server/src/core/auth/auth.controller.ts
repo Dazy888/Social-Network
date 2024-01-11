@@ -38,9 +38,8 @@ export class AuthController {
         return this.authService.recoverPass(body.email)
     }
 
-    @Patch('/set-new-pass')
-    async passRecovering(@Body() body: SetNewPassDTO, @Res({ passthrough: true }) res: Response) {
-        return this.authService.changePass(body.recoveryLink, body.newPass)
-        res.redirect(`${process.env.CLIENT_URL}/auth/sign-in`)
+    @Patch('set-new-pass')
+    async passRecovering(@Body() body: SetNewPassDTO) {
+        await this.authService.changePass(body.recoveryLink, body.newPass)
     }
 }

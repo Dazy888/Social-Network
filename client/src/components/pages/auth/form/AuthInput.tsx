@@ -1,6 +1,4 @@
 import React, { useState } from "react"
-import { UseFormRegister, UseFormSetFocus } from "react-hook-form"
-import {IAuthForm, IRecoverForm} from "@/models/auth.models"
 import styles from '@/styles/Auth.module.scss'
 
 interface Props {
@@ -45,7 +43,7 @@ const AuthInputComponent: React.FC<Props> = (props) => {
     return(
         <div className={`${styles['input-container']} w-full rounded-full relative mx-auto`} onBlur={blurHandler}>
             {(isError) && <span className={`${styles.error} text-sm absolute`}>Invalid value</span>}
-            <input required {...{ minLength, maxLength }} type={(name === 'pass') ? passType : type} onFocus={() => setIsFocused(true)}
+            <input required {...{ minLength, maxLength }} type={(type === 'password') ? passType : type} onFocus={() => setIsFocused(true)}
                    className={`${(isError) ? 'red-border' : ''} ${showPassword ? styles['show-password'] : styles['hide-password']} w-full rounded-full py-4 pl-4`}
                    {...(register(name, {
                            pattern: {

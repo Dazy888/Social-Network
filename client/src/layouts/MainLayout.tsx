@@ -35,7 +35,8 @@ const MainLayoutComponent: React.FC<LayoutProps> = ({ children, title }) => {
                 dispatch(setUser({ ...res.user, posts: res.user.posts, subscriptions: res.user.subscriptions }))
                 dispatch(setSettingData({ email: res.user.email, isEmailActivated: res.user.isEmailActivated }))
             },
-            onError: () => successfulLogout(router, dispatch)
+            onError: () => successfulLogout(router, dispatch),
+            retry: false
         })
 
     useEffect(() => {

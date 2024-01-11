@@ -14,7 +14,7 @@ import { IRecoverForm } from "@/models/auth.models"
 // Services
 import { AuthService } from "@/services/auth.service"
 
-const RecoverPass = () => {
+const PassRecover = () => {
     const [mailSent, setMailSent] = useState<boolean>(false)
 
     const {
@@ -50,8 +50,9 @@ const RecoverPass = () => {
                     </div>
                     <div className={`${mailSent ? 'flex-center' : ''} mt-32`}>
                         { mailSent
-                            ?   <div className={'flex items-center'}>
-                                    <h3 className={'mr-3 text-xl'}>Mail has been sent</h3> <i className={'fa-solid fa-circle-check'} style={ { color: '#00b894' } } />
+                            ?   <div className={'flex items-center flex-col text-center'}>
+                                    <h3 className={'text-xl mb-1'}>A recovery link has been sent to your email</h3>
+                                    {/*<i className={'fa-solid fa-circle-check'} style={ { color: '#00b894' } } />*/}
                                 </div>
                             :   <form onSubmit={handleSubmit(onSubmit)}>
                                     <div className={`grid gap-7 mt-10 ${styles['inputs'] || ''}`}>
@@ -71,4 +72,4 @@ const RecoverPass = () => {
     )
 }
 
-export default React.memo(RecoverPass)
+export default React.memo(PassRecover)

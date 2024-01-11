@@ -183,10 +183,11 @@ export class AuthService {
         })
     }
 
-    async changePass(recoveryLink, newPass) {
-        const user = await this.userModel.findOne({ recoveryLink })
+    async changePass(recoveryLink: string, newPass: string) {
+        const user = await this.userModel.findOne({ passRecoveryLink: recoveryLink })
         if (user) {
             user.password = await bcrypt.hash(newPass, 10)
+            user.passRecoveryLink = null
             await user.save()
         } else {
             throw new UnauthorizedException('Invalid link')

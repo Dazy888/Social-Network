@@ -40,7 +40,7 @@ export class AuthService {
     }
 
     static async setNewPass(data: SetNewPassDTO) {
-        return $api.post(`auth/set-new-pass`, data)
+        return $api.patch(`auth/set-new-pass`, data)
             .then((res) => res.data)
             .catch(err => { throw err.response.data.message })
     }
