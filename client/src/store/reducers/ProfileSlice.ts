@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { IPost, ProfileInfo, ProfileIntro, SetProfileImageParams } from "@/models/profile.models"
+import {IPost, ProfileInfo, ProfileIntro, SetProfileImageParams, SetUserDTO} from "@/models/profile.models"
 import { Subscriptions } from "@/models/auth.models"
 
 interface ProfileState {
@@ -35,15 +35,15 @@ export const profileSlice = createSlice({
     name: 'profile',
     initialState,
     reducers: {
-        setUser(state, action: PayloadAction<ProfileState>) {
+        setUser(state, action: PayloadAction<SetUserDTO>) {
             state.id = action.payload.id
-            state.banner = action.payload.banner
-            state.avatar = action.payload.avatar
-            state.name = action.payload.name
-            state.location = action.payload.location
-            state.aboutMe = action.payload.aboutMe
-            state.hobbies = action.payload.hobbies
-            state.skills = action.payload.skills
+            state.banner = action.payload.profile.banner
+            state.avatar = action.payload.profile.avatar
+            state.name = action.payload.profile.name
+            state.location = action.payload.profile.location
+            state.aboutMe = action.payload.profile.aboutUserText
+            state.hobbies = action.payload.profile.userHobbiesText
+            state.skills = action.payload.profile.userSkillsText
             state.posts = action.payload.posts
             state.subscriptions = action.payload.subscriptions
         },
@@ -81,7 +81,8 @@ export const profileSlice = createSlice({
     }
 })
 
-export const { setUser,  deletePost, addUserPost, setProfileIntro,
-    setProfileImage, setProfileInfo, resetUser
+export const { setUser,  deletePost, addUserPost,
+    setProfileIntro, setProfileImage, setProfileInfo,
+    resetUser
 } = profileSlice.actions
 export const profileReducer = profileSlice.reducer

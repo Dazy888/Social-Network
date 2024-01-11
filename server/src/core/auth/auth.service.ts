@@ -2,7 +2,7 @@ import * as bcrypt from 'bcrypt'
 import * as jwt from "jsonwebtoken"
 import { Model } from "mongoose"
 import { InjectModel } from "@nestjs/mongoose"
-import {BadRequestException, Injectable, NotFoundException, UnauthorizedException} from "@nestjs/common"
+import {BadRequestException, Injectable, UnauthorizedException} from "@nestjs/common"
 // Schemas
 import { UserDocument } from "../../schemas/user.schema"
 import { TokenDocument } from "../../schemas/token.schema"
@@ -106,7 +106,7 @@ export class AuthService {
         const isPassEquals = await bcrypt.compare(pass, user.password)
         if (!isPassEquals) throw new UnauthorizedException('Invalid username or password')
 
-        const tokens = this.generateTokens({...user})
+        const tokens = this.generateTokens({ id: user.id })
         await this.saveToken(user.id, tokens.refreshToken)
 
         const userData = await this.getUserData(user.id)

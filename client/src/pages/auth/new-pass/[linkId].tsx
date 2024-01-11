@@ -2,7 +2,6 @@ import React from "react"
 import Head from "next/head"
 import { useRouter } from "next/router"
 import { useMutation } from "react-query"
-import { useAppDispatch } from "@/hooks/redux"
 import { notify } from "@/components/pages/auth/form/AuthForm"
 import { SubmitHandler, useForm } from "react-hook-form"
 // Models
@@ -18,7 +17,6 @@ import { SubmitBtn } from "@/components/pages/auth/form/SubmitBtn"
 
 const NewPass = () => {
     const router = useRouter()
-    const dispatch = useAppDispatch()
 
     const mutationFunc = (data: SetNewPassDTO) => AuthService.setNewPass(data)
     const {isLoading, mutateAsync:setNewPass} = useMutation('set new pass', mutationFunc, {
@@ -42,7 +40,8 @@ const NewPass = () => {
     const onSubmit: SubmitHandler<INewPassForm> = async (data) => {
         if (isLoading) return notify('Too many requests', 'warning')
         if (confirmPass !== newPass) return notify(`Passwords don't match`, 'warning')
-        setNewPass({
+
+        await setNewPass({
             newPass: data.newPass,
             recoveryLink: window.location.href
         })
