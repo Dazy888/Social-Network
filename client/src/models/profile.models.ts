@@ -55,9 +55,9 @@ export interface UpdateProfileDTO {
     location: string
     banner: string | null
     avatar: string | null
-    aboutUserText: string
-    userHobbiesText: string
-    userSkillsText: string
+    aboutUserText: string | null
+    userHobbiesText: string | null
+    userSkillsText: string | null
 }
 
 export interface SetUserDTO {
