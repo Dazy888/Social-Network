@@ -10,8 +10,8 @@ interface ProfileState {
 }
 
 const defaultProfile = {
-    banner: null,
-    avatar: null,
+    banner: '',
+    avatar: '',
     name: null,
     location: null,
     aboutUserText: null,
