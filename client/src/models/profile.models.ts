@@ -50,14 +50,14 @@ export interface SetProfileImageParams {
 }
 
 export interface UpdateProfileDTO {
-    userId: string
-    name: string
-    location: string
-    banner: string | null
-    avatar: string | null
-    aboutUserText: string | null
-    userHobbiesText: string | null
-    userSkillsText: string | null
+    userId?: string
+    name?: string
+    location?: string
+    banner?: string | null
+    avatar?: string | null
+    aboutUserText?: string | null
+    userHobbiesText?: string | null
+    userSkillsText?: string | null
 }
 
 export interface SetUserDTO {
