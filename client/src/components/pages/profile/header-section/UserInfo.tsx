@@ -1,7 +1,7 @@
 import React, { ChangeEvent, RefObject, useRef } from "react"
 import { useMutation } from "react-query"
 import styles from "@/styles/Profile.module.scss"
-import { User } from "@/models/auth.models"
+import {IUserProfile, User} from "@/models/auth.models"
 import { useAppDispatch, useAppSelector } from "@/hooks/redux"
 // HTTP Service
 import { ProfileService } from "@/services/profile.service"
@@ -12,7 +12,7 @@ import { setProfileImage } from "@/store/reducers/ProfileSlice"
 // Loader
 import { PulseLoader } from "react-spinners"
 
-interface Props extends Pick<User, 'avatar' | 'name' | 'location'> {
+interface Props extends Pick<IUserProfile, 'avatar' | 'name' | 'location'> {
     forView: boolean
 }
 

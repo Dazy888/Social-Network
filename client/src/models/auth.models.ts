@@ -39,24 +39,28 @@ export interface User {
     hobbies: string
 }
 
+export interface IUserProfile {
+    name: string | null
+    location: string | null
+    banner: string | null
+    avatar: string | null
+    aboutUserText: string | null
+    userHobbiesText: string | null
+    userSkillsText: string | null
+}
+
 export interface ExtendedUser {
-    id: string
-    isEmailActivated: boolean
+    activatedEmail: boolean
     email: string | null
-    name: string
-    location: string
-    banner: string
-    avatar: string
-    aboutMe: string
-    skills: string
-    hobbies: string
+    id: string
+    profile: IUserProfile
     posts: IPost[]
     subscriptions: Subscriptions
 }
 
 export interface SignUpResponse {
     tokens: Tokens
-    user: User
+    user: ExtendedUser
 }
 
 export interface SignInResponse {

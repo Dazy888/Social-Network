@@ -5,7 +5,7 @@ import { AuthService } from "@/services/auth.service"
 import { useAppDispatch } from "@/hooks/redux"
 import {AuthForm, notify} from "@/components/pages/auth/form/AuthForm"
 // Models
-import { IAuthForm, Subscriptions, Tokens, User } from "@/models/auth.models"
+import {ExtendedUser, IAuthForm, Subscriptions, Tokens, User} from "@/models/auth.models"
 import { IPost } from "@/models/profile.models"
 import { AppDispatch } from "@/store/store"
 // Components
@@ -14,12 +14,19 @@ import { AuthPage, createCookie } from "@/layouts/AuthLayout"
 import { setUser } from "@/store/reducers/ProfileSlice"
 import { setSettingData } from "@/store/reducers/SettingsSlice"
 
-export const successfulEnter = (router: NextRouter, dispatch: AppDispatch, tokens: Tokens, userData: User, posts: IPost[] | [], subscriptions: Subscriptions) => {
+export const successfulEnter = (router: NextRouter, dispatch: AppDispatch, tokens: Tokens, userData: ExtendedUser, posts: IPost[] | [], subscriptions: Subscriptions) => {
     createCookie('refreshToken', tokens.refreshToken, 30)
     createCookie('accessToken', tokens.accessToken, 15 / (24 * 60))
 
-    dispatch(setUser({ ...userData, posts, subscriptions: subscriptions }))
-    dispatch(setSettingData({ email: userData.email, isEmailActivated: userData.isEmailActivated }))
+    dispatch(setUser({
+        ...userData,
+        posts, subscriptions: subscriptions
+    }))
+
+    dispatch(setSettingData({
+        email: userData.email,
+        activatedEmail: userData.activatedEmail
+    }))
 
     router.push('/profile')
 }

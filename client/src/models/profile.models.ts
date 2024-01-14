@@ -1,4 +1,4 @@
-import { Subscriptions } from "@/models/auth.models"
+import {IUserProfile, Subscriptions} from "@/models/auth.models"
 
 export type SubscriptionFunc = ({ authorizedUserId, openedUserId }: SubscriptionFuncParams) => void
 
@@ -62,15 +62,7 @@ export interface UpdateProfileDTO {
 
 export interface SetUserDTO {
     id: string
-    profile: {
-        banner: string
-        avatar: string
-        name: string
-        location: string
-        aboutUserText: string
-        userHobbiesText: string
-        userSkillsText: string
-    }
+    profile: IUserProfile
     posts: IPost[]
     subscriptions: Subscriptions
 }

@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 interface SettingsState {
     email: string | null
-    isEmailActivated: boolean
+    activatedEmail: boolean
 }
 
 let initialState: SettingsState = {
     email: '',
-    isEmailActivated: false
+    activatedEmail: false
 }
 
 export const settingsSlice = createSlice({
@@ -16,7 +16,7 @@ export const settingsSlice = createSlice({
     reducers: {
         setSettingData(state, action: PayloadAction<SettingsState>) {
             state.email = action.payload.email
-            state.isEmailActivated = action.payload.isEmailActivated
+            state.activatedEmail = action.payload.activatedEmail
         },
         setEmail(state, action: PayloadAction<string>) {
             state.email = action.payload

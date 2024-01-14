@@ -1,29 +1,27 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import {IPost, ProfileInfo, ProfileIntro, SetProfileImageParams, SetUserDTO} from "@/models/profile.models"
-import { Subscriptions } from "@/models/auth.models"
+import { IPost, ProfileInfo, ProfileIntro, SetProfileImageParams, SetUserDTO } from "@/models/profile.models"
+import { IUserProfile, Subscriptions } from "@/models/auth.models"
 
 interface ProfileState {
     id: string,
-    banner: string,
-    avatar: string,
-    name: string,
-    location: string,
-    aboutMe: string,
-    hobbies: string,
-    skills: string,
+    profile: IUserProfile
     posts: IPost[],
     subscriptions: Subscriptions
 }
 
+const defaultProfile = {
+    banner: null,
+    avatar: null,
+    name: null,
+    location: null,
+    aboutUserText: null,
+    userHobbiesText: null,
+    userSkillsText: null,
+}
+
 let initialState: ProfileState = {
     id: '',
-    banner: '',
-    avatar: '',
-    name: '',
-    location: '',
-    aboutMe: '',
-    hobbies: '',
-    skills: '',
+    profile: defaultProfile,
     posts: [],
     subscriptions: {
         followers: [],
@@ -37,25 +35,13 @@ export const profileSlice = createSlice({
     reducers: {
         setUser(state, action: PayloadAction<SetUserDTO>) {
             state.id = action.payload.id
-            state.banner = action.payload.profile.banner
-            state.avatar = action.payload.profile.avatar
-            state.name = action.payload.profile.name
-            state.location = action.payload.profile.location
-            state.aboutMe = action.payload.profile.aboutUserText
-            state.hobbies = action.payload.profile.userHobbiesText
-            state.skills = action.payload.profile.userSkillsText
+            state.profile = action.payload.profile
             state.posts = action.payload.posts
             state.subscriptions = action.payload.subscriptions
         },
         resetUser(state) {
             state.id = ''
-            state.banner = ''
-            state.avatar = ''
-            state.name = ''
-            state.location = ''
-            state.aboutMe = ''
-            state.hobbies = ''
-            state.skills = ''
+            state.profile = defaultProfile
             state.posts = []
             state.subscriptions = {
                 followers: [],
@@ -63,14 +49,14 @@ export const profileSlice = createSlice({
             }
         },
         setProfileIntro(state, action: PayloadAction<ProfileIntro>) {
-            state[action.payload.field] = action.payload.text
+            state.profile[action.payload.field] = action.payload.text
         },
         setProfileInfo(state, action: PayloadAction<ProfileInfo>) {
-            state.name = action.payload.name
-            state.location = action.payload.location
+            state.profile.name = action.payload.name
+            state.profile.location = action.payload.location
         },
         setProfileImage(state, action: PayloadAction<SetProfileImageParams>) {
-            state[action.payload.field] = action.payload.src
+            state.profile[action.payload.field] = action.payload.src
         },
         addUserPost(state, action: PayloadAction<IPost>) {
             state.posts = [...state.posts, action.payload]

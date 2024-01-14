@@ -11,16 +11,16 @@ export class User {
     @Prop()
     password: string
 
-    @Prop()
+    @Prop({ default: false })
     activatedEmail: boolean
 
-    @Prop()
+    @Prop({ default: null })
     emailActivationLink: string | null
 
-    @Prop()
+    @Prop({ default: null })
     email: string | null
 
-    @Prop()
+    @Prop({ default: null })
     passRecoveryLink: string | null
 }
 export const UserSchema = SchemaFactory.createForClass(User)

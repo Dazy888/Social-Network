@@ -43,10 +43,10 @@ export const getPostsElements = (posts: IPost[], avatar: string, name: string, f
 }
 
 const Profile = () => {
-    const banner = useAppSelector(state => state.profileReducer.banner)
-    const avatar = useAppSelector(state => state.profileReducer.avatar)
-    const name = useAppSelector(state => state.profileReducer.name)
-    const location = useAppSelector(state => state.profileReducer.location)
+    const banner = useAppSelector(state => state.profileReducer.profile.banner)
+    const avatar = useAppSelector(state => state.profileReducer.profile.avatar)
+    const name = useAppSelector(state => state.profileReducer.profile.name)
+    const location = useAppSelector(state => state.profileReducer.profile.location)
 
     return(
         <MainLayout title={'Profile'}>
