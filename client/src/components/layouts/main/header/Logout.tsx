@@ -11,7 +11,7 @@ const LogoutComponent = () => {
     const dispatch = useAppDispatch()
     const router = useRouter()
 
-    const avatar = useAppSelector(state => state.profileReducer.avatar)
+    const avatar = useAppSelector(state => state.profileReducer.profile.avatar)
 
     const { refetch:logout } = useQuery('logout', () => AuthService.signOut(),
         {

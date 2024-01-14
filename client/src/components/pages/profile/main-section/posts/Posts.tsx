@@ -8,8 +8,8 @@ import { CreatePostBtn } from "@/components/pages/profile/main-section/posts/Cre
 const PostsComponent = () => {
     const [isCreatingPost, setIsCreatingPost] = useState(false)
 
-    const avatar = useAppSelector(state => state.profileReducer.avatar)
-    const name = useAppSelector(state => state.profileReducer.name)
+    const avatar = useAppSelector(state => state.profileReducer.profile.avatar)
+    const name = useAppSelector(state => state.profileReducer.profile.name)
     const posts = useAppSelector(state => state.profileReducer.posts)
     const postsElements = getPostsElements(posts, avatar, name, false)
 

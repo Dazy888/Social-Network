@@ -17,15 +17,15 @@ const ModalFormComponent = () => {
     const dispatch = useAppDispatch()
 
     const id = useAppSelector(state => state.profileReducer.id)
-    const currentName = useAppSelector(state => state.profileReducer.name)
-    const currentLocation = useAppSelector(state => state.profileReducer.location)
+    const currentName = useAppSelector(state => state.profileReducer.profile.name)
+    const currentLocation = useAppSelector(state => state.profileReducer.profile.location)
 
     useEffect(() => {
-        setValue('name', currentName)
-        setValue('location', currentLocation)
+        setValue('name', currentName || '')
+        setValue('location', currentLocation || '')
     }, [currentName, currentLocation])
 
-    const { mutateAsync, isLoading } = useMutation('set profile info', (data: SetProfileInfoProps) => ProfileService.updateProfileInfo(data),
+    const { mutateAsync, isLoading } = useMutation('set profile info', (data: SetProfileInfoProps) => ProfileService.updateProfile(data, data.id),
         {
             onSuccess(res) {
                 notify('Profile info was changed successfully', 'success')
