@@ -24,7 +24,7 @@ export class AuthService {
     }
 
     static async signOut() {
-        await $api.delete(`auth/logout/${getCookie('refreshToken')}`)
+        await $api.delete(`auth/sign-out/${getCookie('refreshToken')}`)
     }
 
     static async refresh() {

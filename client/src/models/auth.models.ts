@@ -28,7 +28,7 @@ export interface Subscriptions {
 
 export interface User {
     id: string
-    isEmailActivated: boolean
+    activatedEmail: boolean
     email: string | null
     name: string
     location: string
