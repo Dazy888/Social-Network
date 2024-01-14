@@ -7,10 +7,8 @@ interface Props {
     path: 'in' | 'up'
 }
 
-const SubtitleComponent: React.FC<Props> = ({ linkText, question, path}) => (
+export const Subtitle: React.FC<Props> = ({ linkText, question, path}) => (
     <>
         {question}? <Link className={'relative'} href={`/auth/sign-${path}`}>{linkText} here</Link>
     </>
 )
-
-export const Subtitle = React.memo(SubtitleComponent)

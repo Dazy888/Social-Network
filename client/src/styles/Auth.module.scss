@@ -7,10 +7,19 @@ $blue: #1A73E8;
   background: $grey;
 }
 
+.captcha {
+  margin: 40px 0;
+}
+
 .auth {
   width: 450px;
-  min-height: 400px;
+  height: fit-content;
+  min-height: 630px;
   background: white;
+
+  .disabled {
+    color: grey;
+  }
 
   a {
     color: $blue;

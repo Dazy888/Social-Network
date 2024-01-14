@@ -24,9 +24,9 @@ const Email = () => {
 
     const id = useAppSelector(state => state.profileReducer.id)
     const email = useAppSelector(state => state.settingsReducer.email)
-    const isEmailActivated = useAppSelector(state => state.settingsReducer.isEmailActivated)
+    const activatedEmail = useAppSelector(state => state.settingsReducer.activatedEmail)
 
-    const { isLoading, mutateAsync:activate} = useMutation('activate email', (data: ActivateEmailParams) => SettingsService.activateMail(data.email, data.id),
+    const { isLoading, mutateAsync:activate} = useMutation('activate email', (data: ActivateEmailParams) => SettingsService.activateMail(data),
         {
             onSuccess(res) {
                 dispatch(setEmail(res))
@@ -44,15 +44,15 @@ const Email = () => {
         await activate({ email: data.email, id })
     }
 
-    const isInProcess = !isEmailActivated && !!email
+    const isInProcess = !activatedEmail && !!email
 
     return(
         <SettingsLayout title={'E-mail settings'}>
             <Title title={'E-mail Settings'}/>
             <hr className={'w-full h-px'}/>
             <form className={'py-10 px-6'} onSubmit={handleSubmit(onSubmit)}>
-                <EmailInput isStatic={isEmailActivated || isInProcess} focusedClassName={isFocus ? styles.focused : ''} value={inputValue || email} {...{ register, setFocus, isInProcess, setIsFocus }} />
-                {!isEmailActivated && <SubmitBtn loadingClassName={(isLoading || isInProcess) ? styles.loading : ''} disabled={isLoading || !!email} />}
+                <EmailInput isStatic={activatedEmail || isInProcess} focusedClassName={isFocus ? styles.focused : ''} value={inputValue || email} {...{ register, setFocus, isInProcess, setIsFocus }} />
+                {!activatedEmail && <SubmitBtn loadingClassName={(isLoading || isInProcess) ? styles.loading : ''} disabled={isLoading || !!email} />}
                 {isLoading && <Loader />}
             </form>
             {isInProcess && <CancelActivation {...{ setIsFocus, setValue }} />}

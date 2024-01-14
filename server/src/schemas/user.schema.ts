@@ -19,5 +19,8 @@ export class User {
 
     @Prop({ default: null })
     email: string | null
+
+    @Prop({ default: null })
+    passRecoveryLink: string | null
 }
 export const UserSchema = SchemaFactory.createForClass(User)

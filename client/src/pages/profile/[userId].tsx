@@ -20,8 +20,8 @@ import { SubscriptionBtn } from "@/components/pages/profile/header-section/Subsc
 import { HeaderSection } from "@/components/pages/profile/header-section/HeaderSection"
 import { Loader } from "@/components/common/Loader"
 // Services
-import { ProfileService } from "@/services/profile.service"
 import { UsersService } from "@/services/users.service"
+import { FollowService } from "@/services/follow.service"
 
 const UserProfile = () => {
     const router = useRouter()
@@ -56,7 +56,7 @@ const UserProfile = () => {
     const followingUsers = openedUser?.subscriptions.followings.map((id: string) => <UserAvatar key={v4()} id={id}/>)
     const followersUsers = openedUser?.subscriptions.followers.map((id: string) => <UserAvatar key={v4()} id={id}/>)
 
-    const { isLoading:isFollowing, mutateAsync:follow } = useMutation('follow', (data: SubscriptionParams) => ProfileService.follow(data.authorizedUserId, data.openedUserId), {
+    const { isLoading:isFollowing, mutateAsync:follow } = useMutation('follow', (data: SubscriptionParams) => FollowService.follow(data.authorizedUserId, data.openedUserId), {
         onSuccess: () => {
             setOpenedUser((prevState) => {
                 return {
@@ -71,7 +71,7 @@ const UserProfile = () => {
         onError: (err: string): any => notify(err, 'error')
     })
 
-    const { isLoading:isUnfollowing, mutateAsync:unfollow } = useMutation('unfollow', (data: SubscriptionParams) => ProfileService.unfollow(data.authorizedUserId), {
+    const { isLoading:isUnfollowing, mutateAsync:unfollow } = useMutation('unfollow', (data: SubscriptionParams) => FollowService.unfollow(data.authorizedUserId, data.openedUserId), {
         onSuccess: () => {
             setOpenedUser((prevState) => {
                 return {

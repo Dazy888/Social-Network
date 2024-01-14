@@ -17,7 +17,7 @@ import { Loader } from "@/components/pages/settings/Loader"
 const Password = () => {
     const id = useAppSelector(state => state.profileReducer.id)
 
-    const { mutateAsync, isLoading, isSuccess } = useMutation('set pass', (data: ChangePassParams) => SettingsService.changePassword(data.currentPass, data.newPass, data.id),
+    const { mutateAsync, isLoading, isSuccess } = useMutation('set pass', (data: ChangePassParams) => SettingsService.changePass(data),
         {
             onSuccess() {
                 notify('Password changed successfully', 'success')

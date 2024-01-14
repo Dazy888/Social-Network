@@ -1,3 +1,5 @@
+import {IUserProfile, Subscriptions} from "@/models/auth.models"
+
 export type SubscriptionFunc = ({ authorizedUserId, openedUserId }: SubscriptionFuncParams) => void
 
 interface SubscriptionFuncParams {
@@ -14,7 +16,7 @@ export interface IPost {
 
 export interface TextProps {
     text: string
-    id: string
+    userId: string
 }
 
 export interface SubscriptionParams {
@@ -26,7 +28,7 @@ export interface DeletePostParams {
     postId: string
 }
 
-export type ProfileIntroFields = 'aboutMe' | 'skills' | 'hobbies'
+export type ProfileIntroFields = 'aboutUserText' | 'userSkillsText' | 'userHobbiesText'
 
 export interface ProfileIntro {
     text: string
@@ -45,4 +47,22 @@ export interface SetProfileInfoProps extends ProfileInfo {
 export interface SetProfileImageParams {
     field: 'avatar' | 'banner'
     src: string
+}
+
+export interface UpdateProfileDTO {
+    userId?: string
+    name?: string
+    location?: string
+    banner?: string | null
+    avatar?: string | null
+    aboutUserText?: string | null
+    userHobbiesText?: string | null
+    userSkillsText?: string | null
+}
+
+export interface SetUserDTO {
+    id: string
+    profile: IUserProfile
+    posts: IPost[]
+    subscriptions: Subscriptions
 }

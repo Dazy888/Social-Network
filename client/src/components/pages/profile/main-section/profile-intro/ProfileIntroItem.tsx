@@ -17,14 +17,15 @@ interface MutateProfileIntro extends ProfileIntro {
 }
 
 interface Props {
-    currentText: string
+    currentText: string | null
     title: string
     field: ProfileIntroFields
+    placeholder: string
     id?: string
     forView?: boolean
 }
 
-const InformationItemComponent: React.FC<Props> = ({ currentText, title, forView, id = '', field }) => {
+const InformationItemComponent: React.FC<Props> = ({ currentText, title, forView, id = '', field, placeholder }) => {
     const dispatch = useAppDispatch()
     const [isEditable, setIsEditable] = useState(false)
 
@@ -33,7 +34,7 @@ const InformationItemComponent: React.FC<Props> = ({ currentText, title, forView
 
     function startEditing() {
         setIsEditable(true)
-        setValue('text', currentText)
+        setValue('text', currentText || '')
         setFocus('text')
     }
 
@@ -53,8 +54,15 @@ const InformationItemComponent: React.FC<Props> = ({ currentText, title, forView
         await changeProfileIntro()
     }
 
-    const { mutateAsync:setProfileIntroField } = useMutation('set profile intro', (data: MutateProfileIntro) => ProfileService.setProfileIntro(data.text, data.field, data.id),
-        {
+    function updateProfileFunc(data: MutateProfileIntro) {
+        const mutateData: any = {
+            [data.field]: data.text
+        }
+
+        return ProfileService.updateProfile(mutateData, data.id)
+    }
+
+    const { mutateAsync:setProfileIntroField} = useMutation('update profile', updateProfileFunc, {
             onSuccess: (res): any => dispatch(setProfileIntro({ text: res.text, field: res.field })),
             onError: (err: string): any => notify(err, 'error')
         }
@@ -75,7 +83,7 @@ const InformationItemComponent: React.FC<Props> = ({ currentText, title, forView
                     </button>
                 }
             </div>
-            {isEditable ? <TextArea register={register} /> : <p className={'text-sm tracking-wide'}>{currentText}</p>}
+            { isEditable ? <TextArea register={register} placeholder={placeholder} /> : <p className={'text-sm tracking-wide'}>{currentText}</p> }
         </div>
     )
 }

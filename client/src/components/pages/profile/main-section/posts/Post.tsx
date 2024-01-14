@@ -8,8 +8,8 @@ import { useAppDispatch } from "@/hooks/redux"
 import { notify } from "@/components/pages/auth/form/AuthForm"
 
 interface Props {
-    avatar: string
-    name: string
+    avatar: string | null
+    name: string | null
     createdAt: string | undefined
     text: string
     postId: string

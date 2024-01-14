@@ -1,8 +1,19 @@
 import { IPost } from "@/models/profile.models"
 
+export type Action = 'signIn' | 'signUp'
+
 export interface IAuthForm {
-    userName: string
+    username: string
     pass: string
+}
+
+export interface IRecoverForm {
+    email: string
+}
+
+export interface INewPassForm {
+    newPass: string
+    confirmPass: string
 }
 
 export interface Tokens {
@@ -17,7 +28,7 @@ export interface Subscriptions {
 
 export interface User {
     id: string
-    isEmailActivated: boolean
+    activatedEmail: boolean
     email: string | null
     name: string
     location: string
@@ -28,27 +39,31 @@ export interface User {
     hobbies: string
 }
 
+export interface IUserProfile {
+    name: string | null
+    location: string | null
+    banner: string | null
+    avatar: string | null
+    aboutUserText: string | null
+    userHobbiesText: string | null
+    userSkillsText: string | null
+}
+
 export interface ExtendedUser {
-    id: string
-    isEmailActivated: boolean
+    activatedEmail: boolean
     email: string | null
-    name: string
-    location: string
-    banner: string
-    avatar: string
-    aboutMe: string
-    skills: string
-    hobbies: string
+    id: string
+    profile: IUserProfile
     posts: IPost[]
     subscriptions: Subscriptions
 }
 
 export interface SignUpResponse {
     tokens: Tokens
-    user: User
+    user: ExtendedUser
 }
 
-export interface SignInResponse extends SignUpResponse {
+export interface SignInResponse {
     tokens: Tokens
     user: ExtendedUser
 }
@@ -56,4 +71,9 @@ export interface SignInResponse extends SignUpResponse {
 export interface RefreshResponse {
     user: ExtendedUser
     accessToken: string
+}
+
+export interface SetNewPassDTO {
+    newPass: string
+    recoveryLink: string
 }

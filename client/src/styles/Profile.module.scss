@@ -14,10 +14,6 @@ $red: #e74c3c;
       background: white;
       box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
 
-      .modal__loader {
-
-      }
-
       @keyframes rotateCloseBtn {
         0% { rotate: 0deg }
         20% { rotate: -10deg }
@@ -354,10 +350,8 @@ $red: #e74c3c;
           }
         }
 
-        .post__information {
-          p {
-            color: $grey;
-          }
+        .post__information p {
+          color: $grey;
         }
       }
 

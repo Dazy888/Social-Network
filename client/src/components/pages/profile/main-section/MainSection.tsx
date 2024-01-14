@@ -10,9 +10,9 @@ import { Posts } from "@/components/pages/profile/main-section/posts/Posts"
 
 const MainSectionComponent = () => {
     const id = useAppSelector(state => state.profileReducer.id)
-    const aboutMe = useAppSelector(state => state.profileReducer.aboutMe)
-    const skills = useAppSelector(state => state.profileReducer.skills)
-    const hobbies = useAppSelector(state => state.profileReducer.hobbies)
+    const aboutMe = useAppSelector(state => state.profileReducer.profile.aboutUserText)
+    const skills = useAppSelector(state => state.profileReducer.profile.userSkillsText)
+    const hobbies = useAppSelector(state => state.profileReducer.profile.userHobbiesText)
     const subscriptions = useAppSelector(state => state.profileReducer.subscriptions)
 
     const followingUsers = subscriptions.followings.map((userId) => <UserAvatar key={v4()} id={userId}/>)

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { useRouter } from "next/router"
 import Head from "next/head"
 import { useDispatch } from "react-redux"
@@ -31,16 +31,23 @@ const MainLayoutComponent: React.FC<LayoutProps> = ({ children, title }) => {
     const { refetch:refresh, isLoading } = useQuery('refresh', () => AuthService.refresh(),
         {
             onSuccess(res) {
-                createCookie('accessToken', res.accessToken, 15 / (24 * 60))
-                dispatch(setUser({ ...res.user, posts: res.user.posts, subscriptions: res.user.subscriptions }))
-                dispatch(setSettingData({ email: res.user.email, isEmailActivated: res.user.isEmailActivated }))
-            },
-            onError: () => successfulLogout(router, dispatch)
-        })
+                const { accessToken, user } = res
+                createCookie('accessToken', accessToken, 15 / (24 * 60))
 
-    useEffect(() => {
-        setInterval(() => refresh(), 900000)
-    }, [])
+                dispatch(setUser({
+                    ...user,
+                    posts: res.user.posts,
+                    subscriptions: res.user.subscriptions
+                }))
+
+                dispatch(setSettingData({
+                    email: user.email,
+                    activatedEmail: user.activatedEmail
+                }))
+            },
+            onError: () => successfulLogout(router, dispatch),
+            // retry: false
+        })
 
     return(
         <>

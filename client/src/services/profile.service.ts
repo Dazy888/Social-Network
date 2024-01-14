@@ -1,53 +1,35 @@
 import { $api } from "@/http"
 import { AxiosResponse } from "axios"
-import { IPost, ProfileIntroFields, SetProfileImageParams, SetProfileInfoProps } from "@/models/profile.models"
+import { IPost, SetProfileImageParams, TextProps, UpdateProfileDTO } from "@/models/profile.models"
 
 export class ProfileService {
-    static setProfileIntro(text: string, field: ProfileIntroFields, id: string) {
-        return $api.put('profile/updateIntro', { text, field, id })
-            .then(() => ({ text, field }))
+    static async updateProfile(data: UpdateProfileDTO, userId: string) {
+        return $api.put(`profile/update/${userId}`, data)
+            .then((res) => res.data)
             .catch(err => { throw err.response.data.message })
     }
 
-    static addPost(text: string, id: string) {
-        return $api.post('profile/post', { text, id })
+    static async createPost(data: TextProps) {
+        return $api.post('profile/post/create', data)
             .then((res: AxiosResponse<IPost>) => res.data)
             .catch(err => { throw err.response.data.message })
     }
 
-    static deletePost(postId: string) {
-        return $api.delete(`profile/post/${postId}`)
-            .then(() => postId)
+    static async deletePost(id: string) {
+        return $api.delete(`profile/post/delete/${id}`)
+            .then(() => id)
             .catch(err => { throw err.response.data.message })
     }
 
-    static getAvatar(id: string) {
+    static async getAvatar(id: string) {
         return $api.get(`profile/avatar/${id}`)
             .then((res: AxiosResponse<string>) => res.data)
             .catch(err => { throw err.response.data.message })
     }
 
-    static async updateProfileInfo(data: SetProfileInfoProps) {
-        return $api.put('profile/updateProfileInfo', data)
-            .then(() => ({ name: data.name, location: data.location }))
-            .catch(err => { throw err.response.data.message })
-    }
-
     static async uploadProfileImage(data: FormData) {
-        return $api.put('profile/updateImage', data)
+        return $api.patch('profile/update-image', data)
             .then((res: AxiosResponse<SetProfileImageParams>) => res.data)
-            .catch(err => { throw err.response.data.message })
-    }
-
-    static follow(authorizedUserId: string, openedUserId: string) {
-        return $api.put('profile/follow', { authorizedUserId, openedUserId })
-            .then((res) => res.data)
-            .catch(err => { throw err.response.data.message })
-    }
-
-    static unfollow(authorizedUserId: string) {
-        return $api.delete(`profile/unfollow/${authorizedUserId}`)
-            .then((res) => res.data)
             .catch(err => { throw err.response.data.message })
     }
 }

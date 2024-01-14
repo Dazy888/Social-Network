@@ -28,7 +28,7 @@ import { FollowSchema } from "../../schemas/follow.schema"
             schema: PostSchema
         },
         {
-            name: 'Subscription',
+            name: 'Follow',
             schema: FollowSchema
         }
     ])],
