@@ -10,7 +10,7 @@ import { HeaderSection } from "@/components/pages/profile/header-section/HeaderS
 import { MainSection } from "@/components/pages/profile/main-section/MainSection"
 import { Loader } from "@/components/common/Loader"
 
-export const getPostsElements = (posts: IPost[], avatar: string | null, name: string | null, forView: boolean) => {
+export const getPostsElements = (posts: IPost[], avatar: string, name: string | null, forView: boolean) => {
     return [...posts].reverse().map(({ _id, text, createdAt}) => {
         const date = Math.abs(new Date().getTime() - new Date(createdAt).getTime())
         const minutes = Math.round(date / 1000 / 60)

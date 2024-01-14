@@ -14,10 +14,10 @@ export class Profile {
     @Prop({ default: null })
     location: string | null
 
-    @Prop({ default: null })
+    @Prop({ default: 'https://storage.googleapis.com/social-network_dazy/profiles/banners/default-banner.webp' })
     banner: string | null
 
-    @Prop({ default: null })
+    @Prop({ default: 'https://storage.googleapis.com/social-network_dazy/profiles/avatars/default-avatar.webp' })
     avatar: string | null
 
     @Prop({ default: null })
