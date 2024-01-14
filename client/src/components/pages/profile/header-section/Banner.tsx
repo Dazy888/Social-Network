@@ -3,7 +3,7 @@ import styles from "@/styles/Profile.module.scss"
 
 interface Props {
     isLoading: boolean
-    src: string | null
+    src: string
 }
 
 const BannerComponent: React.FC<Props> = ({ src, isLoading }) => (
