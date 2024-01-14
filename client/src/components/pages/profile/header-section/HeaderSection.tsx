@@ -7,8 +7,8 @@ import { Tile } from "@/components/pages/profile/header-section/Tile"
 import { Settings } from "@/components/pages/profile/header-section/settings/Settings"
 
 interface Props {
-    banner: string | null
-    avatar: string | null
+    banner: string
+    avatar: string
     name: string | null
     location: string | null
     forView: boolean

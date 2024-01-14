@@ -42,8 +42,8 @@ export interface User {
 export interface IUserProfile {
     name: string | null
     location: string | null
-    banner: string | null
-    avatar: string | null
+    banner: string
+    avatar: string
     aboutUserText: string | null
     userHobbiesText: string | null
     userSkillsText: string | null

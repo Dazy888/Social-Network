@@ -27,7 +27,7 @@ const LogoutComponent = () => {
 
     return(
         <div className={`${styles.logout} flex items-center cursor-pointer overflow-hidden relative duration-300`}>
-            <img alt={'Avatar'} src={avatar || 'https://storage.googleapis.com/social-network_dazy/profiles/avatars/default-avatar.webp'} className={'w-12 h-12 rounded-full object-cover'}/>
+            <img alt={'Avatar'} src={avatar} className={'w-12 h-12 rounded-full object-cover'} />
             <button className={'text-lg absolute text-white duration-300'} onClick={() => logout()}>Logout</button>
         </div>
     )
