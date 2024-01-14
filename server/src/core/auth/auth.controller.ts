@@ -1,11 +1,13 @@
-import {Body, Controller, Post, Get, Param, UnauthorizedException, Delete, Res, Req, Patch} from '@nestjs/common'
-import {AuthDto, RecoverPassDTO, SetNewPassDTO} from "../../dtos/auth.dto"
+import { Body, Controller, Post, Get, Param, UnauthorizedException, Delete, Patch } from '@nestjs/common'
+import { AuthDto, GoogleSignInDTO, RecoverPassDTO, SetNewPassDTO } from "../../dtos/auth.dto"
 import { AuthService} from "./auth.service"
-import {Request, Response} from "express";
+import { OAuth2Client } from "google-auth-library"
 
 export function checkToken(token: string) {
     if (!token) throw new UnauthorizedException('User is not authorized')
 }
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET)
 
 @Controller('auth')
 export class AuthController {
@@ -19,6 +21,17 @@ export class AuthController {
     @Post('sign-in')
     signIn(@Body() body: AuthDto) {
         return this.authService.signIn(body.username, body.pass)
+    }
+
+    @Post('google/sign-in')
+    async googleSignIn(@Body() body: GoogleSignInDTO) {
+        const ticket = await client.verifyIdToken({
+            idToken: body.credential,
+            audience: process.env.GOOGLE_CLIENT_ID
+        })
+
+        const payload = ticket.getPayload()
+        return this.authService.googleSignIn(payload)
     }
 
     @Delete('sign-out/:refreshToken')

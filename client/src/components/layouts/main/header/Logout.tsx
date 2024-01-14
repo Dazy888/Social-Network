@@ -6,6 +6,7 @@ import { successfulLogout } from "@/layouts/MainLayout"
 import { notify } from "@/components/pages/auth/form/AuthForm"
 import { useAppDispatch, useAppSelector } from "@/hooks/redux"
 import styles from "@/styles/MainLayout.module.scss"
+import { googleLogout } from "@react-oauth/google"
 
 const LogoutComponent = () => {
     const dispatch = useAppDispatch()
@@ -15,7 +16,10 @@ const LogoutComponent = () => {
 
     const { refetch:logout } = useQuery('logout', () => AuthService.signOut(),
         {
-            onSuccess: () => successfulLogout(router, dispatch),
+            onSuccess: () => {
+                successfulLogout(router, dispatch)
+                googleLogout()
+            },
             onError: () => notify('Logout has failed, try again', 'error'),
             enabled: false
         }

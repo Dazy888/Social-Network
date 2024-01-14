@@ -11,6 +11,8 @@ import { ProfileDocument } from "../../schemas/profile.schema"
 import { FollowDocument } from "../../schemas/follow.schema"
 import { MailerService } from "@nestjs-modules/mailer"
 import {v4} from "uuid";
+import {Request} from "express";
+import {TokenPayload} from "google-auth-library";
 
 export const validateToken = (token: string, secret: string) => jwt.verify(token, secret)
 
@@ -54,7 +56,7 @@ export class AuthService {
         })
 
         const userNumber = Math.floor(Math.random() * 10000)
-        const { name, location, banner, avatar, aboutUserText, userSkillsText, userHobbiesText }: ProfileDocument = await this.profileModel.create({
+        const profile = await this.profileModel.create({
             name: `User_${userNumber}`,
             userId: id
         })
@@ -68,13 +70,7 @@ export class AuthService {
                 id,
                 activatedEmail,
                 email,
-                name,
-                location,
-                banner,
-                avatar,
-                aboutUserText,
-                userSkillsText,
-                userHobbiesText,
+                ...profile
             }
         }
     }
@@ -105,6 +101,24 @@ export class AuthService {
 
         const isPassEquals = await bcrypt.compare(pass, user.password)
         if (!isPassEquals) throw new UnauthorizedException('Invalid username or password')
+
+        const tokens = this.generateTokens({ id: user.id })
+        await this.saveToken(user.id, tokens.refreshToken)
+
+        const userData = await this.getUserData(user.id)
+        return {
+            tokens,
+            user: {
+                ...userData,
+                activatedEmail: user.activatedEmail,
+                email: user.email
+            }
+        }
+    }
+
+    async googleSignIn(payload: TokenPayload) {
+        const user: UserDocument | null = await this.userModel.findOne({ email: payload.email })
+        if (!user) throw new UnauthorizedException('Invalid credentials')
 
         const tokens = this.generateTokens({ id: user.id })
         await this.saveToken(user.id, tokens.refreshToken)

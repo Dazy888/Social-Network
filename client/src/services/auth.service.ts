@@ -1,14 +1,8 @@
 import { $api } from "@/http"
 import { AxiosResponse } from "axios"
-import {
-    IAuthForm,
-    IRecoverForm,
-    RefreshResponse,
-    SetNewPassDTO,
-    SignInResponse,
-    SignUpResponse
-} from "@/models/auth.models"
+import { IAuthForm, IRecoverForm, RefreshResponse, SetNewPassDTO, SignInResponse, SignUpResponse } from "@/models/auth.models"
 import { getCookie } from "@/layouts/AuthLayout"
+import { CredentialResponse } from "@react-oauth/google"
 
 export class AuthService {
     static async signUp(data: IAuthForm) {
@@ -19,6 +13,12 @@ export class AuthService {
 
     static async signIn(data: IAuthForm) {
         return $api.post('auth/sign-in', data)
+            .then((res: AxiosResponse<SignInResponse>) => res.data)
+            .catch(err => { throw err.response.data.message })
+    }
+
+    static async googleSignIn(data: CredentialResponse) {
+        return $api.post('auth/google/sign-in', data)
             .then((res: AxiosResponse<SignInResponse>) => res.data)
             .catch(err => { throw err.response.data.message })
     }

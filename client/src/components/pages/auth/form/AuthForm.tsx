@@ -10,6 +10,7 @@ import ReCAPTCHA from "react-google-recaptcha"
 import { SubmitBtn } from "@/components/pages/auth/form/SubmitBtn"
 import { AuthInput } from "@/components/pages/auth/form/AuthInput"
 import { PassRequirements } from "@/components/common/PassRequirements"
+import { GoogleBtn } from "@/components/pages/auth/form/GoogleBtn"
 
 export const notify = (text: string, type: 'error' | 'success' | 'warning') => toast(text, { type })
 
@@ -60,9 +61,10 @@ const AuthFormComponent: React.FC<Props> = ({ title, signAction, isLoading, acti
                        onChange={(value) => setCaptchaToken(value)}
             />
             <div className={`flex justify-between items-center ${styles.submit}`}>
-                { (action == 'signIn') && <Link className={'relative pb-1'} href={'/auth/pass-recover'}>Forgot password?</Link> }
+                { (action === 'signIn') && <Link className={'relative pb-1'} href={'/auth/pass-recover'}>Forgot password?</Link> }
                 <SubmitBtn isLoading={isLoading} value={title}/>
             </div>
+            { action === 'signIn' && <GoogleBtn text={action === 'signIn' ? 'signin_with' : 'signup_with'} context={action === 'signIn' ? 'signin' : 'signup'} /> }
         </form>
     )
 } 

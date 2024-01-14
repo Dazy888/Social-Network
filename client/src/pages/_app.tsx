@@ -8,6 +8,7 @@ import { store } from "@/store/store"
 import '@/styles/main.scss'
 import '@/styles/reset.scss'
 import 'react-toastify/dist/ReactToastify.css';
+import { GoogleOAuthProvider } from "@react-oauth/google"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -16,13 +17,15 @@ const queryClient = new QueryClient({
 })
 
 const App: React.FC<AppProps> = ({ Component, pageProps }) => (
-    <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
-            <Component {...pageProps} />
-        </Provider>
-        <Analytics />
-        <ToastContainer />
-    </QueryClientProvider>
+    <GoogleOAuthProvider clientId="392153644728-453pjkpt0d6e14lc2jri8e7sf8i1pr0s.apps.googleusercontent.com">
+        <QueryClientProvider client={queryClient}>
+            <Provider store={store}>
+                <Component {...pageProps} />
+            </Provider>
+            <Analytics />
+            <ToastContainer />
+        </QueryClientProvider>
+    </GoogleOAuthProvider>
 )
 
 export default React.memo(App)
