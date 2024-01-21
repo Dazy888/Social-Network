@@ -6,7 +6,7 @@ import { ProfileInfo } from "@/models/profile.models"
 interface Props {
     isError: boolean
     register: UseFormRegister<ProfileInfo>
-    name: 'name' | 'location'
+    name: 'name'
     pattern: RegExp
     className?: string
 }

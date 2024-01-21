@@ -4054,6 +4054,14 @@ react-async-script@^1.1.1:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
+react-google-autocomplete@^2.7.3:
+  version "2.7.3"
+  resolved "https://registry.npmjs.org/react-google-autocomplete/-/react-google-autocomplete-2.7.3.tgz"
+  integrity sha512-Nm+7/VDe7/NDWb8p/a39is7ktNqt5bNqAOoQv2Ev/XkuEvjsRk08VAPFmXUH03xKuM8IUuDrk2Lwfge44YEj6Q==
+  dependencies:
+    lodash.debounce "^4.0.8"
+    prop-types "^15.5.0"
+
 react-google-recaptcha@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npmjs.org/react-google-recaptcha/-/react-google-recaptcha-2.1.0.tgz"

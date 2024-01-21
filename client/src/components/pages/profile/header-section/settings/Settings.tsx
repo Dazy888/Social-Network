@@ -14,7 +14,7 @@ const SettingsComponent: React.FC<Props> = ({ setBannerLoading }) => {
     return(
         <>
             <SettingsBtn setIsModal={setIsModal} />
-            {isModal && <Modal setIsModal={setIsModal} />}
+            { isModal && <Modal setIsModal={setIsModal} /> }
             <UploadBannerBtn setBannerLoading={setBannerLoading} />
         </>
     )

@@ -37,11 +37,16 @@ export interface ProfileIntro {
 
 export interface ProfileInfo {
     name: string
+}
+
+export interface SetProfileInfoDTO {
+    name: string
     location: string
 }
 
 export interface SetProfileInfoProps extends ProfileInfo {
     id: string
+    location: string
 }
 
 export interface SetProfileImageParams {

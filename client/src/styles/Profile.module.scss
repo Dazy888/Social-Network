@@ -53,6 +53,7 @@ $red: #e74c3c;
       }
 
       .submit {
+        width: 100px;
         background: rgba(102, 51, 153, 1);
         transition: 200ms;
 
@@ -87,6 +88,11 @@ $red: #e74c3c;
       img {
         width: 110px;
         height: 110px;
+      }
+
+      label {
+        bottom: 2px;
+        right: 20%;
       }
 
       button {
