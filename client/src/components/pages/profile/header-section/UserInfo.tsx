@@ -1,9 +1,10 @@
 import React, { ChangeEvent, RefObject, useRef } from "react"
 import { useMutation } from "react-query"
-import styles from "@/styles/Profile.module.scss"
-import {IUserProfile, User} from "@/models/auth.models"
+import { IUserProfile } from "@/models/auth.models"
 import { useAppDispatch, useAppSelector } from "@/hooks/redux"
-// HTTP Service
+// Styles
+import styles from "@/styles/Profile.module.scss"
+// Service
 import { ProfileService } from "@/services/profile.service"
 // Alert
 import { notify } from "@/components/pages/auth/form/AuthForm"
@@ -58,9 +59,9 @@ const UserInfoComponent: React.FC<Props> = ({ avatar, name, location, forView}) 
     return(
         <div className={`${styles.user} absolute z-10 text-center text-white`}>
             <div className={'relative'}>
-                <img alt={'Avatar'} className={'rounded-full mb-3 object-cover'} src={avatar} />
+                <img alt={'Avatar'} className={'rounded-full mb-3 object-cover mx-auto'} src={avatar} />
                 { !forView &&
-                    <label className={`z-10 block absolute right-2 bottom-1 rounded-full w-6 h-6`}>
+                    <label className={`z-10 block absolute rounded-full w-6 h-6`}>
                         <button onClick={clickHandler} className={'w-full h-full rounded-full'}>
                             <i className={'fa-solid fa-camera-retro text-xs'} />
                         </button>

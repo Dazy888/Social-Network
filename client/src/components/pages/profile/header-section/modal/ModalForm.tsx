@@ -1,20 +1,26 @@
-import React, { useEffect } from "react"
-import { useAppDispatch, useAppSelector}  from "@/hooks/redux"
+import React, { useEffect, useRef } from "react"
+import { useAppDispatch, useAppSelector }  from "@/hooks/redux"
 import { useMutation } from "react-query"
-import styles from "@/styles/Profile.module.scss"
-import { ProfileInput } from "@/components/pages/profile/header-section/modal/ProfileInput"
-import { ProfileService } from "@/services/profile.service"
 import { SubmitHandler, useForm } from "react-hook-form"
+// Styles
+import styles from "@/styles/Profile.module.scss"
+// Service
+import { ProfileService } from "@/services/profile.service"
 // Alert
 import { notify } from "@/components/pages/auth/form/AuthForm"
 // Store
 import { setProfileInfo } from "@/store/reducers/ProfileSlice"
 // Models
 import { ProfileInfo, SetProfileInfoProps } from "@/models/profile.models"
-import {Loader} from "@/components/common/Loader";
+// Components
+import Autocomplete from "react-google-autocomplete"
+import { ProfileInput } from "@/components/pages/profile/header-section/modal/ProfileInput"
+import { ClipLoader } from "react-spinners"
 
 const ModalFormComponent = () => {
     const dispatch = useAppDispatch()
+
+    const placeRef: any = useRef()
 
     const id = useAppSelector(state => state.profileReducer.id)
     const currentName = useAppSelector(state => state.profileReducer.profile.name)
@@ -22,28 +28,36 @@ const ModalFormComponent = () => {
 
     useEffect(() => {
         setValue('name', currentName || '')
-        setValue('location', currentLocation || '')
+        placeRef.current?.setAttribute('value', currentLocation || '')
     }, [currentName, currentLocation])
 
     const { mutateAsync, isLoading } = useMutation('set profile info', (data: SetProfileInfoProps) => ProfileService.updateProfile(data, data.id),
         {
-            onSuccess(res) {
-                notify('Profile info was changed successfully', 'success')
-                dispatch(setProfileInfo(res))
+            onSuccess: (res) => {
+                const data = {
+                    name: getValues('name'),
+                    location: placeRef.current?.value
+                }
+
+                dispatch(setProfileInfo(data))
+                notify('Profile info successfully', 'success')
             },
             onError: (): any => notify('Something went wrong, reload page and try again', 'error')
         }
     )
 
-    const { handleSubmit, register, setValue, reset,
-        formState: { errors, touchedFields, dirtyFields},
+    const {
+        handleSubmit, register, setValue, reset,
+        formState: { errors, touchedFields}, getValues
     } = useForm<ProfileInfo>({ mode: 'onChange' })
 
     const onSubmit: SubmitHandler<ProfileInfo> = async (data) => {
-        if (isLoading) return notify('Your request is handling, try later', 'warning')
-        if (Object.keys(dirtyFields).length === 0) return notify(`You didn't make any changes`, 'warning')
+        await mutateAsync({
+            id,
+            name: data.name,
+            location: placeRef.current?.value
+        })
 
-        await mutateAsync({ id, name: data.name, location: data.location })
         reset({})
     }
 
@@ -51,12 +65,13 @@ const ModalFormComponent = () => {
         <form className={`py-10 px-6 ${styles['profile-settings']}`} onSubmit={handleSubmit(onSubmit)}>
             <div className={'grid gap-8'}>
                 <ProfileInput pattern={/^[A-Za-z0-9-_]+$/} isError={!!(errors.name?.message && touchedFields.name)} register={register} name={'name'} />
-                <ProfileInput pattern={/^[A-Za-z0-9,\-\s]+$/} isError={!!(errors.location?.message && touchedFields.location)} register={register} name={'location'} />
+                <Autocomplete apiKey={'AIzaSyDCP084TfkesJzl_npzhGXErK3nwXCVWSE'} className={'rounded-lg pl-3 py-2'} ref={placeRef as any} />
             </div>
-            { isLoading
-                ? <div className={'w-fit mx-auto mt-10'}><Loader /></div>
-                : <button type={'submit'} className={`block text-smd font-medium rounded-lg mx-auto py-2.5 px-5 text-white mt-10 ${styles.submit}`}>Submit</button>
-            }
+            <button className={`block text-smd font-medium rounded-lg mx-auto py-2.5 px-5 text-white mt-10 ${styles.submit}`} type={'submit'}
+                    disabled={isLoading}
+            >
+                { isLoading ? <ClipLoader color={'#FFFF'} size={13} /> : 'Submit' }
+            </button>
         </form>
     )
 }
