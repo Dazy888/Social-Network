@@ -4,10 +4,13 @@ import { Provider } from "react-redux"
 import { Analytics } from '@vercel/analytics/react'
 import { ToastContainer } from "react-toastify"
 import { QueryClient, QueryClientProvider } from "react-query"
+// Store
 import { store } from "@/store/store"
+// Styles
 import '@/styles/main.scss'
 import '@/styles/reset.scss'
 import 'react-toastify/dist/ReactToastify.css'
+// Google Auth
 import { GoogleOAuthProvider } from "@react-oauth/google"
 
 const queryClient = new QueryClient({

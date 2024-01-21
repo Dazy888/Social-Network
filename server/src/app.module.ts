@@ -5,7 +5,7 @@ import { ConfigModule } from "@nestjs/config"
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 // Modules
-import { AuthModule } from 'authModule'
+import { AuthModule } from './core/auth/auth.module'
 import { ProfileModule } from './core/profile/profile.module'
 import { SettingsModule } from './core/settings/settings.module'
 import { UsersModule } from "./core/users/users.module"
