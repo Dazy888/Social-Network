@@ -15,7 +15,7 @@ export class SettingsController {
 
     @Post('/activate-email')
     sendMail(@Body() data: ActivateEmailDto) {
-        return this.settingsService.sendMail(data.email, `${process.env.API_URL}/api/settings/activateEmail/${v4()}`, data.userId)
+        return this.settingsService.sendMail(data.email, `${process.env.API_URL}/api/settings/activate-email/${v4()}`, data.userId)
     }
 
     @Delete('/cancel-email-activation/:userId')
@@ -23,9 +23,9 @@ export class SettingsController {
         return this.settingsService.cancelEmailActivation(userId)
     }
 
-    @Get('/activate-email')
+    @Get('/activate-email/:id')
     async activate(@Res({ passthrough: true }) res: Response, @Req() req: Request) {
-        await this.settingsService.activateEmail(`https://${req.get('host')}${req.originalUrl}`)
+        await this.settingsService.activateEmail(`${process.env.API_URL}${req.originalUrl}`)
         res.redirect(`${process.env.CLIENT_URL}/settings/email`)
     }
 }

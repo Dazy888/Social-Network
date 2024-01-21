@@ -70,16 +70,18 @@ export class AuthService {
                 id,
                 activatedEmail,
                 email,
-                ...profile
+                profile
             }
         }
     }
 
     async getUserData(id: string) {
         const profile: ProfileDocument = await this.profileModel.findOne({ userId: id })
+
         const posts: PostDocument[] = await this.postModel.find({ userId: id })
-        const followers = await this.followModel.find({ followedUserId: id })
-        const followings = await this.followModel.find({ userId: id })
+
+        const followers = await this.followModel.find({ followeeId: id })
+        const followings = await this.followModel.find({ followerId: id })
 
         const followersIds = followers.map((follower) => follower.followerId)
         const followingsIds = followings.map((following) => following.followeeId)
@@ -152,7 +154,7 @@ export class AuthService {
             }
         })
 
-        const { activatedEmail, email }: UserDocument = await this.userModel.findOne({ id })
+        const { activatedEmail, email }: UserDocument = await this.userModel.findOne({ _id: id })
         const userData = await this.getUserData(id)
 
         return {
@@ -168,7 +170,7 @@ export class AuthService {
     async recoverPass(email: string) {
         const user: any = await this.userModel.findOne({ email, activatedEmail: true })
         if (user) {
-            await this.sendRecoveryEmail(email, `${process.env.API_URL}/auth/new-pass/${v4()}`, user.id)
+            await this.sendRecoveryEmail(email, `${process.env.CLIENT_URL}/auth/new-pass/${v4()}`, user.id)
         } else {
             throw new BadRequestException('There is no user with this e-mail')
         }
@@ -197,8 +199,8 @@ export class AuthService {
         })
     }
 
-    async changePass(recoveryLink: string, newPass: string) {
-        const user = await this.userModel.findOne({ passRecoveryLink: recoveryLink })
+    async changePass(passRecoveryLink: string, newPass: string) {
+        const user = await this.userModel.findOne({ passRecoveryLink })
         if (user) {
             user.password = await bcrypt.hash(newPass, 10)
             user.passRecoveryLink = null

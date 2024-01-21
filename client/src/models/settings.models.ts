@@ -11,10 +11,10 @@ export interface IChangePass {
 export interface ChangePassParams {
     currentPass: string
     newPass: string
-    id: string
+    userId: string
 }
 
 export interface ActivateEmailParams {
     email: string
-    id: string
+    userId: string
 }

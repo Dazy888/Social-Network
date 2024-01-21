@@ -19,7 +19,7 @@ const NewPass = () => {
     const router = useRouter()
 
     const mutationFunc = (data: SetNewPassDTO) => AuthService.setNewPass(data)
-    const {isLoading, mutateAsync:setNewPass} = useMutation('set new pass', mutationFunc, {
+    const { isLoading, mutateAsync:setNewPass} = useMutation('set new pass', mutationFunc, {
         onSuccess: (res) => {
             notify('Password successfully changed', 'success')
             setTimeout(() => {

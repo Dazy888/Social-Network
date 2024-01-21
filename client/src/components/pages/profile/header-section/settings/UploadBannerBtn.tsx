@@ -22,7 +22,7 @@ const UploadBannerBtnComponent: React.FC<Props> = ({ setBannerLoading }) => {
 
             if (file) {
                 let data = new FormData()
-                data.append('id', id)
+                data.append('userId', id)
                 data.append('image', file)
                 data.append('field', 'banner')
 

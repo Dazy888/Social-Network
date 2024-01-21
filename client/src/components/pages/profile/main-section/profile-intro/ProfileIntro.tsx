@@ -15,8 +15,8 @@ const ProfileIntroComponent: React.FC<Props> = ({ aboutMe, hobbies, skills, forV
         <h3 className={'text-lg font-medium'}>Profile intro</h3>
         <hr className={'w-full h-0.5'}/>
         <ProfileIntroItem {...{ id, forView }} title={'About me'} field={'aboutUserText'} currentText={aboutMe} placeholder={'Tell about yourself here.'} />
-        <ProfileIntroItem {...{ id, forView }} title={'Hobbies'} field={'userSkillsText'} currentText={hobbies} placeholder={'Tell people about your hobbies here.'} />
-        <ProfileIntroItem {...{ id, forView }} title={'Skills'} field={'userHobbiesText'} currentText={skills} placeholder={'Write your skills here.'} />
+        <ProfileIntroItem {...{ id, forView }} title={'Hobbies'} field={'userHobbiesText'} currentText={hobbies} placeholder={'Tell people about your hobbies here.'} />
+        <ProfileIntroItem {...{ id, forView }} title={'Skills'} field={'userSkillsText'} currentText={skills} placeholder={'Write your skills here.'} />
     </article>
 )
 

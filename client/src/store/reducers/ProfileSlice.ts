@@ -74,7 +74,8 @@ export const profileSlice = createSlice({
     }
 })
 
-export const { setUser,  deletePost, addUserPost,
+export const {
+    setUser,  deletePost, addUserPost,
     setProfileIntro, setProfileImage, setProfileInfo,
     resetUser
 } = profileSlice.actions

@@ -20,7 +20,8 @@ export const successfulEnter = (router: NextRouter, dispatch: AppDispatch, token
 
     dispatch(setUser({
         ...userData,
-        posts, subscriptions: subscriptions
+        posts,
+        subscriptions: subscriptions
     }))
 
     dispatch(setSettingData({
