@@ -19,7 +19,12 @@ export class ProfileService {
         @InjectModel('Profile') private profileModel: Model<ProfileDocument>,
         @InjectModel('Post') private postModel: Model<PostDocument>,
     ) {
-        this.storage = new Storage({ projectId: process.env.CLOUD_STORAGE_ID, keyFilename: path.join(__dirname, '..', '..', 'src', 'config', 'key.json') })
+        this.storage = new Storage({
+            projectId: process.env.CLOUD_STORAGE_ID,
+            // keyFilename: path.join(__dirname, '..', '..', 'src', 'config', 'key.json')
+            keyFilename: './src/config/key.json'
+        })
+
         this.bucketName = process.env.CLOUD_BUCKET_NAME;
     }
 

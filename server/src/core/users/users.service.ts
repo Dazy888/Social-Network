@@ -24,15 +24,16 @@ export class UsersService {
             }
         }
 
-        const projection = {
-            userId: 1,
-            name: 1,
-            location: 1,
-            avatar: 1,
-            _id: 0
-        }
+        // const projection = {
+        //     userId: 1,
+        //     name: 1,
+        //     location: 1,
+        //     avatar: 1,
+        //     _id: 0
+        // }
 
-        const profiles: ProfileDocument[] = await this.profileModel.find(filter, projection).skip(skip).limit(20).lean()
+        // const profiles: ProfileDocument[] = await this.profileModel.find(filter, projection).skip(skip).limit(20).lean()
+        const profiles: ProfileDocument[] = await this.profileModel.find(filter).skip(skip).limit(20)
         return {
             profiles,
             length
@@ -52,9 +53,15 @@ export class UsersService {
         }
 
         const profile: ProfileDocument = await this.profileModel.findOne({ userId }, projection).lean()
+        // const profile: ProfileDocument = await this.profileModel.findOne({ userId })
+
         const posts: PostDocument[] = await this.postModel.find({ userId })
-        const followers: FollowDocument[] = await this.followModel.find({ followeeId: userId })
-        const followings: FollowDocument[] = await this.followModel.find({ userId })
+
+        const followers = await this.followModel.find({ followeeId: userId })
+        const followings = await this.followModel.find({ followerId: userId })
+
+        // const followers: FollowDocument[] = await this.followModel.find({ followeeId: userId })
+        // const followings: FollowDocument[] = await this.followModel.find({ userId })
 
         const followersId = followers.map((follower) => follower.followerId)
         const followingsId = followings.map((following) => following.followeeId)

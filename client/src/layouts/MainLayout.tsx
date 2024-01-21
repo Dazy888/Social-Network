@@ -34,6 +34,8 @@ const MainLayoutComponent: React.FC<LayoutProps> = ({ children, title }) => {
                 const { accessToken, user } = res
                 createCookie('accessToken', accessToken, 15 / (24 * 60))
 
+                console.log(user)
+
                 dispatch(setUser({
                     ...user,
                     posts: res.user.posts,

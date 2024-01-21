@@ -15,7 +15,7 @@ import { PassRequirements } from "@/components/common/PassRequirements"
 import { Loader } from "@/components/pages/settings/Loader"
 
 const Password = () => {
-    const id = useAppSelector(state => state.profileReducer.id)
+    const userId = useAppSelector(state => state.profileReducer.id)
 
     const { mutateAsync, isLoading, isSuccess } = useMutation('set pass', (data: ChangePassParams) => SettingsService.changePass(data),
         {
@@ -38,7 +38,11 @@ const Password = () => {
     const onSubmit: SubmitHandler<IChangePass> = async (data) => {
         if (isLoading) return notify('Too many requests, try later', 'warning')
         if (data.confirmPass !== data.newPass) return notify(`Passwords don't match`, 'warning')
-        await mutateAsync({ currentPass: data.currentPass, newPass: data.newPass, id })
+        await mutateAsync({
+            currentPass: data.currentPass,
+            newPass: data.newPass,
+            userId
+        })
     }
 
     return(

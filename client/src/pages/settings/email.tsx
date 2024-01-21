@@ -22,7 +22,7 @@ const Email = () => {
     const dispatch = useAppDispatch()
     const [isFocus, setIsFocus] = useState(false)
 
-    const id = useAppSelector(state => state.profileReducer.id)
+    const userId = useAppSelector(state => state.profileReducer.id)
     const email = useAppSelector(state => state.settingsReducer.email)
     const activatedEmail = useAppSelector(state => state.settingsReducer.activatedEmail)
 
@@ -41,7 +41,7 @@ const Email = () => {
 
     const onSubmit: SubmitHandler<IActivate> = async (data) => {
         if (isLoading) return notify('Your request is handling', 'warning')
-        await activate({ email: data.email, id })
+        await activate({ email: data.email, userId })
     }
 
     const isInProcess = !activatedEmail && !!email
@@ -51,9 +51,11 @@ const Email = () => {
             <Title title={'E-mail Settings'}/>
             <hr className={'w-full h-px'}/>
             <form className={'py-10 px-6'} onSubmit={handleSubmit(onSubmit)}>
-                <EmailInput isStatic={activatedEmail || isInProcess} focusedClassName={isFocus ? styles.focused : ''} value={inputValue || email} {...{ register, setFocus, isInProcess, setIsFocus }} />
-                {!activatedEmail && <SubmitBtn loadingClassName={(isLoading || isInProcess) ? styles.loading : ''} disabled={isLoading || !!email} />}
-                {isLoading && <Loader />}
+                <EmailInput isStatic={activatedEmail || isInProcess} focusedClassName={isFocus ? styles.focused : ''} value={inputValue || email}
+                            {...{ register, setFocus, isInProcess, setIsFocus }}
+                />
+                { !activatedEmail && <SubmitBtn loadingClassName={(isLoading || isInProcess) ? styles.loading : ''} disabled={isLoading || !!email} /> }
+                { isLoading && <Loader /> }
             </form>
             {isInProcess && <CancelActivation {...{ setIsFocus, setValue }} />}
         </SettingsLayout>

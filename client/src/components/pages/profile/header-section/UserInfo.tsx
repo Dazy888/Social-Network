@@ -29,7 +29,7 @@ const UserInfoComponent: React.FC<Props> = ({ avatar, name, location, forView}) 
 
             if (file) {
                 let data = new FormData()
-                data.append('id', id)
+                data.append('userId', id)
                 data.append('image', file)
                 data.append('field', 'avatar')
 
@@ -68,8 +68,8 @@ const UserInfoComponent: React.FC<Props> = ({ avatar, name, location, forView}) 
                         <input ref={inputRef} disabled={isLoading} accept={'image/*'} className={'hidden'} type={'file'} onChange={(e) => changeListener(e)}/>
                     </label>
                 }
-                {isLoading && <div className={`w-full h-full absolute top-0 ${styles['loader-background']}`}></div>}
-                {isLoading && <PulseLoader className={`absolute z-10 ${styles['avatar-loader']}`} color={'#f92552'} />}
+                { isLoading && <div className={`absolute top-0 ${styles['loader-background']}`}></div> }
+                { isLoading && <PulseLoader className={`absolute z-10 ${styles['avatar-loader']}`} color={'#f92552'} /> }
             </div>
             <h2 className={'text-2xl font-medium mb-1.5'}>{name}</h2>
             <p className={'tracking-wide'}>{location}</p>

@@ -53,8 +53,8 @@ const UserProfile = () => {
         if (openedUserId) getUser()
     }, [openedUserId])
 
-    const followingUsers = openedUser?.subscriptions.followings.map((id: string) => <UserAvatar key={v4()} id={id}/>)
-    const followersUsers = openedUser?.subscriptions.followers.map((id: string) => <UserAvatar key={v4()} id={id}/>)
+    const followingUsers = openedUser?.subscriptions.followings.map((id: string) => <UserAvatar key={v4()} id={id} />)
+    const followersUsers = openedUser?.subscriptions.followers.map((id: string) => <UserAvatar key={v4()} id={id} />)
 
     const { isLoading:isFollowing, mutateAsync:follow } = useMutation('follow', (data: SubscriptionParams) => FollowService.follow(data.authorizedUserId, data.openedUserId), {
         onSuccess: () => {
