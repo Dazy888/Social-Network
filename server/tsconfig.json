@@ -15,11 +15,7 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false,
-    "baseUrl": ".",
-    "paths": {
-      "authModule": ["src/core/auth/auth.module"]
-    }
+    "noFallthroughCasesInSwitch": false
   },
   "include": ["src/**/*.ts", "config/*.json"]
 }

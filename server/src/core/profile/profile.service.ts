@@ -9,6 +9,7 @@ import { PostDocument } from "../../schemas/post.schema"
 import { ProfileDocument } from "../../schemas/profile.schema"
 // Types
 import { CreatePostDTO, ImageFields, UpdateUserDTO } from "../../dtos/profile.dto"
+// keyFilename: './src/config/key.json'
 
 @Injectable()
 export class ProfileService {
@@ -21,8 +22,7 @@ export class ProfileService {
     ) {
         this.storage = new Storage({
             projectId: process.env.CLOUD_STORAGE_ID,
-            // keyFilename: path.join(__dirname, '..', '..', 'src', 'config', 'key.json')
-            keyFilename: './src/config/key.json'
+            keyFilename: path.join(__dirname, '..', '..', '..', 'src', 'config', 'key.json')
         })
 
         this.bucketName = process.env.CLOUD_BUCKET_NAME;
